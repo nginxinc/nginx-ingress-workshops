@@ -1,49 +1,40 @@
-# NGINX Template Repository
-
-## How do I use this template?
-
-**DO NOT FORK** -- this template is meant to be used from the **[`Use this template`](https://github.com/nginxinc/template-repository/generate)** feature.
-
-1. Click on **[`Use this template`](https://github.com/nginxinc/template-repository/generate)**
-2. Give a name to your project
-3. Wait until the first run of CI finishes (Github Actions will process the template and commit to your new repo)
-4. Clone your new project and happy coding!
-
-**NOTE**: **WAIT** until the first CI run on GitHub Actions before cloning your new project.
-
-## What is included on this template?
-
-This template includes all the scaffolding you need to get started on a standards compliant NGINX repository:
-
-* Issue and PR templates
-* Contributing guidelines
-* Support guidelines
-* Security guidelines for reporting major vulnerabilities
-* Standard `.gitignore` with minimal defaults
-* NGINX Code of Conduct
-* Standard license for NGINX OSS projects
-* Changelog placeholder
-* Codeowners placeholder
-
----
-
-<!--  DELETE THE LINES ABOVE THIS AND WRITE YOUR PROJECT README BELOW -->
 
 # nginx_ingress_workshops
 
+This Repo is for the Nginx Ingress Controller Workshops.
+These are Hands on Labs Exercises.
+
+<br>
+
+Use the folder that matches your hosted Lab environment.
+
+- Plus - This is run as a UDF Class, hosted by F5 / Nginx employees.
+- OSS -  This is run as a UDF Class, hosted by F5 / Nginx employees.
+
 ## Requirements
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam elit turpis, varius et arcu elementum, viverra rhoncus sem. Aliquam nec sodales magna, et egestas enim. Mauris lobortis ultrices euismod. Pellentesque in arcu lacus. Mauris cursus laoreet nulla, ac vehicula est. Vestibulum eu mauris quis lorem consectetur aliquam ac nec quam. Vestibulum commodo pharetra mi, at bibendum neque faucibus ut. Mauris et tortor sed sem consectetur eleifend ut non magna. Praesent feugiat placerat nibh, varius viverra orci bibendum sed. Vestibulum dapibus ex ut pulvinar facilisis. Quisque sodales enim et augue tempor mattis. Suspendisse finibus congue felis, ac blandit ligula. Praesent condimentum ultrices odio quis semper. Nunc ultrices, nibh quis mattis pellentesque, elit nulla bibendum felis, quis dapibus erat turpis ac urna.
+These Workshops are hosted on various lab environments.  The basic requirements for a person to complete the Hands on Lab Exercises are as follows:
+
+- A kubernetes cluster - does not really matter which one, as long as it is relatively current.
+- Admin access to the cluster.
+- Nginx Ingress Controller software - you can use Nginx OSS for the OSS labs.  You can use NginxPlus for the Plus labs.  If you need a license for NginxPlus, you can access a 30-day free trial here:  < url >
+- A laptop or other computer to use as a client to the Lab environment.  Different environments have different client requirements, so read the "Client PC" requirements in the Lab Overview.
 
 ## Installation
 
-Duis sit amet sapien vel velit ornare vulputate. Nulla rutrum euismod risus ac efficitur. Curabitur in sagittis elit, a semper leo. Suspendisse malesuada aliquam velit, eu suscipit lorem vehicula at. Proin turpis lacus, semper in placerat in, accumsan non ipsum. Cras euismod, elit eget pretium laoreet, tortor nulla finibus tortor, nec hendrerit elit turpis ut eros. Quisque congue nisi id mauris molestie, eu condimentum dolor rutrum. Nullam eleifend elit ac lobortis tristique. Pellentesque nec tellus non mauris aliquet commodo a eu elit. Ut at feugiat metus, at tristique mauris. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae;
+The lab environment is pre-built with all the components needed to complete the Lab Exercises.  If you would like to run these lab exercises in your own k8s cluster environment, you will need to provide the following resources in your own test lab environment:
+
+- working k8s cluster, three node is probably the minimum size.
+- access to a private container registry, where container images can be stored and pulled.
+- an Nginx Ingress Controller image.  You can use the OSS image, or provide one with Plus from your build location, as describe here: https://docs.nginx.com/nginx-ingress-controller/installation/pulling-ingress-controller-image/.
+- a client PC to use for access to the cluster
+- A load balancer service running to expose your cluster to external traffic.
 
 ## Usage
 
-Maecenas at vehicula justo. Suspendisse posuere elementum elit vel posuere. Etiam quis pulvinar massa. Integer tempor semper risus, vitae maximus eros ullamcorper vitae. In egestas, ex vitae gravida sodales, ipsum dolor varius est, et cursus lorem dui a mi. Morbi faucibus ut nisi id faucibus. Sed quis ullamcorper ex. In et dolor id nunc interdum suscipit.
+The Lab Exercises and Guides are meant to be self-paced, but can easily be taught by an instructor to create an interactive learning environment.  Feedback about these workshops is valuable to ensure the content is accurate and relevant. 
 
-## Development
+## Feedback
 
 Read the [`CONTRIBUTING.md`](https://github.com/nginxinc/nginx-ingress-workshops/blob/main/CONTRIBUTING.md) file.
 

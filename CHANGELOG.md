@@ -1,5 +1,5 @@
 # Changelog
 
-## 1.0.0 (Month Date, Year)
+## 1.0.0 (Sept 23, 2022)
 
-Initial release of the NGINX template repository.
+Initial release of the NGINX ingress workshop.
