@@ -1,0 +1,68 @@
+#Example virtual server with routes for Bar Demo
+#
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: bar-vs
+spec:
+  host: bar.example.com
+  tls:
+    secret: cafe-secret
+    redirect:
+      enable: true   #Redirect from http > https
+      code: 301
+  upstreams:
+  - name: beer
+    service: beer-svc
+    port: 80
+    slow-start: 20s
+    healthCheck:
+      enable: true
+      path: /beer
+      interval: 20s
+      jitter: 3s
+      fails: 5
+      passes: 2
+      connect-timeout: 30s
+      read-timeout: 20s
+  - name: wine
+    service: wine-svc
+    port: 80
+    #lb-method: round_robin     You can set LB method here if you like
+    healthCheck:
+      enable: true
+      path: /wine
+      interval: 10s
+      jitter: 3s
+      fails: 3
+      passes: 2
+      connect-timeout: 30s
+      read-timeout: 20s
+  - name: cosmo
+    service: cosmo-svc
+    port: 80
+    #lb-method: round_robin
+    healthCheck:
+      enable: true
+      path: /cosmo
+      interval: 10s
+      jitter: 3s
+      fails: 3
+      passes: 2
+      connect-timeout: 30s
+      read-timeout: 20s
+  routes:
+  - path: /
+    action:
+      redirect:
+        url: https://bar.example.com/beer
+        code: 302
+  - path: /beer
+    action:
+      pass: beer
+  - path: /wine
+    action:
+      pass: wine
+  - path: /cosmo
+    action:
+      pass: cosmo

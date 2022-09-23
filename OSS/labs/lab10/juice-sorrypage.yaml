@@ -1,0 +1,40 @@
+# Juice Shop 502 Sorry page example for Juiceshop Demo
+#
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: juiceshop-vs
+  namespace: juice
+spec:
+  host: juiceshop.example.com
+  tls:
+    secret: juice-secret
+  upstreams:
+  - name: juiceshop
+    service: juiceshop-svc
+    port: 80
+    slow-start: 10s
+    healthCheck:
+      enable: true
+      path: /
+      interval: 5s
+      jitter: 3s
+      fails: 2
+      passes: 2
+      #port: 3000
+      connect-timeout: 15s
+      read-timeout: 5s
+  routes:
+  - path: /
+    action:
+      pass: juiceshop
+    errorPages:
+    - codes: [502]
+      return:
+        code: 200
+        type: application/json
+        body: |
+          {\"We apologize for the inconvenience.  Please try again in a few minutes, or call 1-888-JUICESHOP.\"}
+        headers:
+        - name: X-Debug-Original-Status
+          value: ${upstream_status}

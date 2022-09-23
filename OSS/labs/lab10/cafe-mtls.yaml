@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coffee-mtls
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: coffee-mtls
+  template:
+    metadata:
+      labels:
+        app: coffee-mtls
+    spec:
+      containers:
+      - name: coffee-mtls
+        image: nginxinc/ingress-demo
+        ports:
+        - containerPort: 443
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: coffee-mtls-svc
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+  - port: 443
+    targetPort: 443
+    protocol: TCP
+    name: https
+  selector:
+    app: coffee-mtls
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tea-mtls
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: tea-mtls
+  template:
+    metadata:
+      labels:
+        app: tea-mtls
+    spec:
+      containers:
+      - name: tea-mtls
+        image: nginxinc/ingress-demo
+        ports:
+        - containerPort: 443
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tea-mtls-svc
+  labels:
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+  - port: 443
+    targetPort: 443
+    protocol: TCP
+    name: https
+  selector:
+    app: tea-mtls

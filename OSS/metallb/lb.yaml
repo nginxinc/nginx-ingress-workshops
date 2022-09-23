@@ -1,0 +1,30 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: nginx-ingress
+    namespace: nginx-ingress
+  spec:
+    clusterIP: 10.98.133.36
+    externalTrafficPolicy: Local
+    healthCheckNodePort: 31396
+    ports:
+    - name: http
+      # nodePort: 31871
+      port: 80
+      protocol: TCP
+      targetPort: 80
+    - name: https
+      # nodePort: 32470
+      port: 443
+      protocol: TCP
+      targetPort: 443
+    selector:
+      app: nginx-ingress
+    sessionAffinity: None
+    type: LoadBalancer
+  status:
+    loadBalancer:
+      ingress:
+      - ip: 10.1.1.10
