@@ -1,0 +1,105 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: beer
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: beer
+  template:
+    metadata:
+      labels:
+        app: beer
+    spec:
+      containers:
+      - name: beer
+        image: nginxinc/ingress-demo
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: beer-svc
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
+  selector:
+    app: beer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wine
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: wine
+  template:
+    metadata:
+      labels:
+        app: wine
+    spec:
+      containers:
+      - name: wine
+        image: nginxinc/ingress-demo
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wine-svc
+  labels:
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
+  selector:
+    app: wine
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cosmo
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: cosmo
+  template:
+    metadata:
+      labels:
+        app: cosmo
+    spec:
+      containers:
+      - name: cosmo
+        image: nginxinc/ingress-demo
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cosmo-svc
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
+  selector:
+    app: cosmo
