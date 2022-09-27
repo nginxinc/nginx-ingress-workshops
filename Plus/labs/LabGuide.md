@@ -106,4 +106,4 @@ An excellent Prerequisite for taking this Workshop is the Nginx Basics Workshop,
 
 <br/>
 
-Click [Lab1: Workshop Lab Overview](../lab1/readme.md) to get started! 
+Click [Lab1: Workshop Lab Overview](lab1/readme.md) to get started! 
