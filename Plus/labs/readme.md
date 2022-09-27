@@ -1,4 +1,4 @@
-![Nginx KIC Workshop](media/kicworkshop-banner.png)
+![Nginx Ingress Workshop](media/nicworkshop-banner.png)
 
 # Nginx Plus Ingress Controller Workshop
 
@@ -6,7 +6,8 @@
 
 ## Welcome
 
-Welcome to the Nginx Plus Workshop for Kubernetes Ingress Controller (KIC)!
+Welcome to the Nginx Plus Workshop for NGINX Ingress Controller (NIC)!
+
 This Workshop will introduce Nginx Plus Ingress Controller with hands-on practice through self-paced lab exercises.
 
 You will learn how to configure an **`Nginx Plus Ingress Controller`**, deploy it on a Kubernetes cluster, configure advanced Nginx Plus features, loadtest it, scale it up and down and monitor it in realtime.  You will deploy new apps and services in your private cluster, terminate SSL, route HTTP traffic, configure redirects, set up healthchecks, and load balance traffic to running pods.
@@ -50,9 +51,9 @@ https://docs.nginx.com/nginx-ingress-controller/technical-specifications/
 <br/>
 
 ### Authors
-- Jason Williams - Sr. Product Management Engineer @ F5, Inc.
 - Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
-- Shouvik Dutta - Technical Solutions Architect @ F5, Inc.
+- Shouvik Dutta - Solutions Architect - Sales @ F5, Inc.
+- Jason Williams - Principle Product Management Engineer @ F5, Inc.
 
 -------------
 
