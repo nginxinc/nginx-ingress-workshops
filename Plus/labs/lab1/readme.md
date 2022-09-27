@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This Workshop is hosted in F5's Unified Demo Framework, and cloud-based lab environment.  Once you have logged into the UDF system, and deployed your lab resources, you will be ready to begin the exercises.
+This Workshop is hosted in F5's Unified Demo Framework, a cloud-based lab environment.  Once you have logged into the UDF system, and deployed your lab resources, you will be ready to begin the exercises.
 
 In this lab you will setup the workshop environment and prepare the Jumphost where you will be doing the labs from. You will be using the Microsoft `RDP protocol` to connect to an Ubuntu Desktop Jumphost.  It has `VisualStudio Code` editor with a built-in bash terminal with tools like `kubectl` and `curl` already loaded to be used by the student.
 
@@ -32,7 +32,7 @@ Locate the **`Ubuntu-Jumphost`** component and click on the **`ACCESS`** dropdow
 
    ![UDF Jumphost access](media/udf-jumphost-access.png)
 
-Click `WORKSHOP LAB GUIDE`, which should open the Lab Guide in a seperate tab.
+Click `WORKSHOP LAB GUIDE`, which should open this Lab Guide in a seperate tab.
      ![UDF lab guide](media/lab_guide.png)
      ![UDF lab guide](media/lab_guide_outline.png)
 
