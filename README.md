@@ -1,4 +1,4 @@
-![Nginx Ingress Workshop](Plus/labs/media/kicworkshop-banner.png)
+![Nginx Ingress Workshop](media/nicworkshop-banner.png)
 
 <br>
 
@@ -11,7 +11,7 @@ This Repo is for learning `Nginx Ingress Controller`, with Hands-on Lab Exercise
 
 <br>
 
-![Nginx Ingress Controller topology](Plus/labs/media/nic-topology.svg)
+![Nginx Ingress Controller topology](media/nic-topology.svg)
 
 <br/>
 
@@ -33,9 +33,13 @@ The student taking these Workshops should have basic and/or intermediate skills 
 
 <br>
 
+## Student and Environment Requirements
+
+</br>
+
 Nginx Ingress  |  Hands-On Labs
 :-------------------------:|:-------------------------:
-![](Plus/labs/media/nginx-ingress-icon.png)  |  ![](Plus/labs/media/developer-seated.svg)
+![](media/nginx-ingress-icon.png)  |  ![](media/developer-seated.svg)
 
 <br/>
 
@@ -59,23 +63,18 @@ It is important to select the proper environment and folder, as the initial setu
 
 <br>
 
-## Student and Environment Requirements
-
-</br>
-
 Nginx  |  Kubernetes  |  VisualStudio Code
 :-------------------------:|:-------------------------:|:-------------------------:
-![](OSS/labs/media/nginx-icon.png)  |  ![](Plus/labs/media/kubernetes-icon.png)   |  ![](Plus/labs/media/vs-code-icon.png)
+![](media/nginx-icon.png)  |  ![](media/kubernetes-icon.png)   |  ![](media/vs-code-icon.png)
 
 <br/>
 
-These Workshops are hosted on various lab environments.  The basic requirements for a person to complete the Hands on Lab Exercises are as follows:
+The requirements for a student to complete the Hands-on Lab Exercises are the following:
 
-- A Kubernetes cluster.
-- Admin access to the cluster.
+- A Kubernetes cluster, with Admin level access.
 - Nginx Ingress Controller software
-- - you can use Nginx Opensource for the OSS labs.  
-- - you can use NginxPlus for the Plus labs.  If you need a license for NginxPlus, you can access a 30-day free trial here:  https://www.nginx.com/free-trial-request-nginx-ingress-controller/
+- - you will use Nginx Opensource for the OSS labs.  
+- - you must use Nginx Plus for the Plus labs.  If you need a license for Nginx Plus, you can request a free 30-day trial here:  https://www.nginx.com/free-trial-request-nginx-ingress-controller/
 - A laptop or other computer to use as a client to the Lab environment.
 - Time:  Most of the workshops can be completed in 2-3 hours.  
 
@@ -83,9 +82,9 @@ These Workshops are hosted on various lab environments.  The basic requirements 
 
 ## Installation
 
-The F5/Nginx hosted UDF lab environments are pre-built with all the components needed to complete the Lab Exercises.  If you would like to run these lab exercises in your own k8s cluster environment, you will need to provide the following resources in your own test lab environment:
+The F5/Nginx hosted UDF lab environments are pre-built with all the components needed to complete the Lab Exercises.  If you would like to run these lab exercises in a different k8s cluster environment, the student will need to provide the following resources in the test lab environment:
 
-- working k8s cluster, three node minimum size.
+- working k8s cluster, three node minimum size, with admin level access.
 - access to a private container registry, where container images can be stored and pulled.
 - an Nginx Ingress Controller container image.  You can use the OSS image, or provide your own with Plus, as describe here: https://docs.nginx.com/nginx-ingress-controller/installation/pulling-ingress-controller-image/.
 - a client PC to use for access to the cluster.
@@ -94,13 +93,13 @@ The F5/Nginx hosted UDF lab environments are pre-built with all the components n
 
 <br>
 
-![Robot](Plus/labs/media/robot.svg)
+![Robot](media/robot.svg)
 
 <br>
 
 ## Usage
 
-The Lab Exercises and Guides are meant to be self-paced, but can easily be taught by an instructor to create an interactive learning environment.  In order to get the most out of these Labs, it is important to follow the Lab Guides as written, completing the Exercises in the order outlined.  Students are encouraged to ask questions and provide feedback. 
+The Lab Exercises and Guides are meant to be self-paced, but can easily be taught by an instructor to create an interactive learning environment.  In order to get the most out of these Labs, it is important to follow the Lab Guides as written, completing the Exercises in the order outlined.  Students are encouraged to ask questions and provide feedback.  Students assume all risk when using this content, per the licensing agreement.
 
 <br>
 

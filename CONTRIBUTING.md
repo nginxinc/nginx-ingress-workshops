@@ -18,6 +18,8 @@ Follow our [Installation Guide](https://github.com/nginxinc/nginx-ingress-worksh
 
 To report a bug, open an issue on GitHub with the label `bug` using the available bug report issue template. Please ensure the bug has not already been reported. **If the bug is a potential security vulnerability, please report using our security policy.**
 
+</br>
+
 ### Provide Feedback on a Lab Exercise
 
 To send us feedback, please create an issue on GitHub with the label `feedback` using the available feedback template.
