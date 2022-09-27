@@ -52,8 +52,8 @@ Learn how to plan and design your cluster for multiple tentants and teams. How d
 - Setting up a Grafana dashboard for NGINX Ingress Controller
 
 ### Authors
-- Jason Williams - Product Management Engineer @ F5, Inc.
-- Chris Akker - Technical Solutions Architect @ F5, Inc.
+- Jason Williams - Principle Product Management Engineer @ F5, Inc.
+- Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
 - Shouvik Dutta - Technical Solutions Architect @ F5, Inc.
 
 -------------

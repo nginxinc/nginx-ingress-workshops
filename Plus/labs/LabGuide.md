@@ -1,4 +1,4 @@
-![Nginx KIC](media/kicworkshop-banner.png)
+![Nginx NIC](media/nicworkshop-banner.png)
 
 <br/>
 
@@ -9,11 +9,10 @@
 
 ### Overview
 
-Welcome to the Nginx Plus Workshop for Kubernetes Ingress Controller (KIC)!
+Welcome to the Nginx Plus Workshop for NGINX Ingress Controller (NIC)!
 </br>
 
-This Workshop will introduce Nginx Plus Ingress Controller with hands-on
-practice through self-paced lab exercises.  You will learn how to deploy an Nginx Plus Ingress Controller on a Kubernetes cluster, configure basic and advanced Nginx Plus features; and then test it, and monitor it in realtime. 
+This Workshop will introduce Nginx Plus Ingress Controller with hands-on practice through self-paced lab exercises.  You will learn how to deploy an Nginx Plus Ingress Controller on a Kubernetes cluster, configure basic and advanced Nginx Plus features; and then test it, and monitor it in realtime. 
 
 <br/>
 
@@ -23,12 +22,9 @@ Nginx Plus Ingress  |  Hands-On Labs
 
 <br/>
 
-The Hands-On Lab Exercises are designed to build upon each other, adding
-additional services and features as you progress through them.  `It is important to complete the lab exercises in sequential order.`
+The Hands-On Lab Exercises are designed to build upon each other, adding additional services and features as you progress through them.  `It is important to complete the lab exercises in sequential order.`
 
-By the end of this Workshop, you will have a working, operational Nginx Plus
-Ingress Controller, with the skills to deploy and operate one for your
-Digital Enterprise Kubernetes projects.
+By the end of this Workshop, you will have a working, operational Nginx Plus Ingress Controller, with the skills to deploy and operate one for your Modern Application Kubernetes projects.
 
 <br/>
 
@@ -65,7 +61,7 @@ VisualStudio Code  |  Kubernetes  |  Nginx Plus
 
 <br/>
 
-An excellent Prerequisite for taking this Workshop is the Nginx Basics Workshop, also available from F5 Networks, as it provides a fundamental basics of Nginx Plus, on which the Nginx Plus Ingress Controller is built.  Please contact your Nginx Event Marketing team for information on additional Workshops.
+An excellent Prerequisite for taking this Workshop is the Nginx Basics Workshop, also available from F5 Inc., as it provides a fundamental basics of Nginx Plus, on which the Nginx Plus Ingress Controller is built.  Please contact your Nginx Event Marketing team for information on additional Workshops.
 
 </br>
 
@@ -104,9 +100,9 @@ An excellent Prerequisite for taking this Workshop is the Nginx Basics Workshop,
 <br/>
 
 ### Authors
-- Jason Williams - Product Management Engineer @ F5, Inc.
-- Chris Akker - Technical Solutions Architect @ F5, Inc.
+- Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
 - Shouvik Dutta - Technical Solutions Architect @ F5, Inc.
+- Jason Williams - Principle Product Management Engineer @ F5, Inc.
 
 <br/>
 

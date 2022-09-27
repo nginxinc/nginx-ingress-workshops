@@ -230,7 +230,7 @@ What happens if you try just plain  http://cafe.example.com? It should redirect 
   Example](https://github.com/nginxinc/kubernetes-ingress/tree/master/examples/complete-example)
 
 ### Authors
-- Chris Akker - Technical Solutions Architect @ F5, Inc.
+- Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
 - Shouvik Dutta - Technical Solutions Architect @ F5, Inc.
 
 -------------

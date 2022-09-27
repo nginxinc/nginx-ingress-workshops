@@ -120,7 +120,7 @@ The NGINX Ingress Controller is a pod running Nginx Plus under the hood, let's g
 - https://docs.nginx.com/nginx-ingress-controller/installation/installation-with-manifests/
 
 ### Authors
-- Chris Akker - Technical Solutions Architect @ F5, Inc.
+- Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
 - Shouvik Dutta - Technical Solutions Architect @ F5, Inc.
 
 -------------

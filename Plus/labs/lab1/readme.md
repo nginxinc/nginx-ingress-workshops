@@ -69,8 +69,9 @@ Click `WORKSHOP LAB GUIDE`, which should open the Lab Guide in a seperate tab.<b
 **This completes this Lab.**
 
 ### Authors
-- Chris Akker - Technical Solutions Architect @ F5, Inc.
+- Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
 - Shouvik Dutta - Technical Solutions Architect @ F5, Inc.
+
 
 -------------
 

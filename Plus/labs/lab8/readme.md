@@ -370,9 +370,10 @@ You can login to Grafana using the same admin/password credentials that you used
 - [Grafana NGINX Plus IC Dashboard](https://github.com/nginxinc/kubernetes-ingress/tree/master/grafana)
 
 ### Authors
-- Jason Williams - Product Management Engineer @ F5, Inc.
-- Chris Akker - Technical Solutions Architect @ F5, Inc.
+- Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
 - Shouvik Dutta - Technical Solutions Architect @ F5, Inc.
+- Jason Williams - Principle Product Management Engineer @ F5, Inc.
+
 
 -------------
 

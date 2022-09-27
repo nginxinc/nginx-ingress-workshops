@@ -209,7 +209,7 @@ You should also notice that Cafe is still running as before, adding the Bar serv
 - [Wrk Tool](https://github.com/wg/wrk)
 
 ### Authors
-- Chris Akker - Technical Solutions Architect @ F5, Inc.
+- Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
 - Shouvik Dutta - Technical Solutions Architect @ F5, Inc.
 
 -------------

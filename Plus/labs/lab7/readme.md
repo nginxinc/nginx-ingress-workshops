@@ -172,7 +172,7 @@ However, there are only **two** log variables with any useful data related to th
 - [NGINX Variables](http://nginx.org/en/docs/varindex.html)
 
 ### Authors
-- Chris Akker - Technical Solutions Architect @ F5, Inc.
+- Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
 - Shouvik Dutta - Technical Solutions Architect @ F5, Inc.
 
 -------------

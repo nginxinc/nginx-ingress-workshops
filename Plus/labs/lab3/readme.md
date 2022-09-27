@@ -85,7 +85,7 @@ The Nginx Ingress Controller is already running in this Workshop. You will be co
   Type](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer)
 
 ### Authors
-- Chris Akker - Technical Solutions Architect @ F5, Inc.
+- Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
 - Shouvik Dutta - Technical Solutions Architect @ F5, Inc.
 
 -------------

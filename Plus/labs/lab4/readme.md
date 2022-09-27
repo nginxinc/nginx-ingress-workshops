@@ -42,7 +42,7 @@ We will deploy a `Service` and a `VirtualServer` resource to provide access to t
 - [NGINX Plus Dashboard example](http://demo.nginx.com)
 
 ### Authors
-- Chris Akker - Technical Solutions Architect @ F5, Inc.
+- Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
 - Shouvik Dutta - Technical Solutions Architect @ F5, Inc.
 
 -------------
