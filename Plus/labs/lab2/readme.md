@@ -23,19 +23,19 @@ The Nginx Ingress Controller is already running in this workshop. You will be ch
    nginx-ingress-fd4b9f484-t5pb6   1/1     Running   1          12h
    ```
 
-1. Instead of remembering the unique pod name, `nginx-ingress-xxxxxx-xxxx`, we can store the Ingress Controller pod name into the `$KIC_POD_NAME` variable  to be used throughout the lab.
+1. Instead of remembering the unique pod name, `nginx-ingress-xxxxxx-yyyyy`, we can store the Ingress Controller pod name into the `$NIC` variable to be used throughout the lab.
 
-   **Note:** This variable is stored for the duration of the terminal session, and so if you close the terminal it will be lost. At any time you can refer back to this step to save the`$KIC_POD_NAME` variable once again
+   **Note:** This variable is stored for the duration of the terminal session, and so if you close the terminal it will be lost. At any time you can refer back to this step to save the`$NIC` variable again.
 
    **Note**: You must use the `kubectl` "`-n`", namespace switch, followed by namespace name, to see pods that are not in the default namespace.
 
    ```bash
-   export KIC_POD_NAME=$(kubectl get pods -n nginx-ingress -o jsonpath='{.items[0].metadata.name}')
+   export NIC=$(kubectl get pods -n nginx-ingress -o jsonpath='{.items[0].metadata.name}')
    ```
 
    Verify the variable is set correctly.
    ```bash
-   echo $KIC_POD_NAME
+   echo $NIC
    ```
    **Note:** If this command doesn't show the name of the pod then run the previous command again.
 
@@ -44,24 +44,24 @@ The Nginx Ingress Controller is already running in this workshop. You will be ch
 1. Inspect the details of the NGINX Ingress Controller pod using the `kubectl describe` command
 
    ```bash
-   kubectl describe pod $KIC_POD_NAME -n nginx-ingress
+   kubectl describe pod $NIC -n nginx-ingress
    ```
 
    **Note:** The IP address and TCP ports that are open on the Ingress (they should match the `lab2/nginx-plus-ingress.yaml` file, around lines `24-34`). We have the following Ports:
 
    * Port `80 and 443` for web/ssl traffic,
-   * Port `8081` for Readiness, 
+   * Port `8081` for Readiness Probe, 
    * Port `9000` for the Dashboard, and 
    * Port `9113` for Prometheus (You will see this in a later Lab)
 
    ![kubectl describe](media/kubectl_describe.png)
 
-## Check the KIC Nginx Plus Dashboard
+## Check the NIC Plus Dashboard
 
 1. Using Kubernetes [port-forwarding](https://kubernetes.io/docs/tasks/access-application-cluster/port-forward-access-application-cluster/), see if the dashboard is running on port `9000`. Using the VScode terminal pane, run the following `kubectl port-forward` command:
 
    ```bash
-   kubectl port-forward -n nginx-ingress $KIC_POD_NAME 9000:9000
+   kubectl port-forward -n nginx-ingress $NIC 9000:9000
    ```
 
 1. Now open Chrome web browser to view the NGINX Plus Dashboard, at [http://localhost:9000/dashboard.html](http://localhost:9000/dashboard.html). 
@@ -92,10 +92,10 @@ The NGINX Ingress Controller is a pod running Nginx Plus under the hood, let's g
 1. Use the VScode Terminal to enter a shell in the NGINX Ingress Controller pod by running the [`kubectl exec`](https://kubernetes.io/docs/tasks/debug-application-cluster/get-shell-running-container/) command 
 
    ```bash
-   kubectl exec -it $KIC_POD_NAME -n nginx-ingress -- /bin/bash
+   kubectl exec -it $NIC -n nginx-ingress -- /bin/bash
    ```
 
-1. Once inside a shell in the NGINX Ingress Controller pod,  run the following commands to inspect the root NGINX configuration
+1. Once inside a shell in the NGINX Ingress Controller pod, run the following commands to inspect the root NGINX configuration:
 
    ```bash
    cd /etc/nginx
@@ -121,7 +121,7 @@ The NGINX Ingress Controller is a pod running Nginx Plus under the hood, let's g
 
 ### Authors
 - Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
-- Shouvik Dutta - Technical Solutions Architect @ F5, Inc.
+- Shouvik Dutta - Solutions Architect - Sales @ F5, Inc.
 
 -------------
 Navigate to ([Lab3](../lab3/readme.md) | [Main Menu](../LabGuide.md))
