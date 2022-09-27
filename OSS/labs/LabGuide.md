@@ -1,4 +1,4 @@
-![Nginx NIC](media/nicworkshop-banner.png)
+![Nginx Ingress](media/nicossworkshop-banner.png)
 
 <br/>
 
@@ -7,9 +7,11 @@
 
 <br/>
 
-### Overview
-
 Welcome to the Nginx Workshop for Nginx Ingress Controller (NIC)!
+
+</br>
+
+## Overview
 
 </br>
 
