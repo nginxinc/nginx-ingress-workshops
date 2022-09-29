@@ -153,6 +153,10 @@ The `Server Zones` table contains the Virtual Servers statistics of the Ingress,
 ![http zones](media/lab5_http_zones.png) 
 ![httpupstreams](media/lab5_http_upstream.png)
 
+**Question:** Why the funny Upstreams name:  vs_default_cafe-vs_coffee ?
+
+**Answer:**  The name follows a standardized format of `vs_namespace_virtualserver-name_service`.
+
 <br/>
 
 ### Cafe App
@@ -212,7 +216,7 @@ What happens if you try just plain  http://cafe.example.com? It should redirect 
     <br/>
     <p>
     <strong>Hint:</strong> Check your <code>cafe-virtualserver.yaml</code> file.<br/>
-    <strong>Answer:</strong> Welcome to Nginx Plus KIC Workshop!!<br/>   
+    <strong>Answer:</strong> Welcome to Nginx Plus NIC Workshop!!<br/>   
     </p>
     </details><br/>
 

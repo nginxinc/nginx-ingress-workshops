@@ -17,8 +17,7 @@ The Nginx Ingress Controller is already running in this Workshop. You will be co
 
    - `LoadBalancer` Service
    - An External IP address 
-   - The Kubernetes Cluster IP subnet, used to assign IPs to Pods, including the
-     Ingress Controller
+   - The Kubernetes Cluster IP subnet, used to assign IPs to Pods, including the Ingress Controller
 
    ![Workshop Network Architecture](media/lab3_architecture.png)
 
@@ -26,8 +25,7 @@ The Nginx Ingress Controller is already running in this Workshop. You will be co
 
     ![loadbalancer.yaml](media/lab3_loadbalancer.png)
 
-    **IMPORTANT SECURITY NOTE:** In a real world deployment using a Cloud Provider, with a public IP address, this would expose your Ingress Controller to the open Internet with `NO PROTECTION` other than basic TCP port filters. Doing this in production would require Security/Firewall Protections, which
-    are not part of this lab exercise.
+    **IMPORTANT SECURITY NOTE:** In a real world deployment using a Cloud Provider, with a public IP address, this would expose your Ingress Controller to the open Internet with `NO PROTECTION` other than basic TCP port filters. Doing this in production would require Security/Firewall Protections, which are not part of this lab exercise.
 
 1. Confirm there is an `nginx-ingress` service with `TYPE: LoadBalancer`. Run the following command to get networking details of our pod:
 
@@ -79,7 +77,7 @@ The Nginx Ingress Controller is already running in this Workshop. You will be co
 
 
 ## References:  
-- [Nginx KIC LoadBalancer for cloud
+- [Nginx NIC LoadBalancer for cloud
   providers](https://docs.nginx.com/nginx-ingress-controller/installation/installation-with-manifests/#get-access-to-the-ingress-controller)
 - [Kubernetes LoadBalancer Service
   Type](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer)

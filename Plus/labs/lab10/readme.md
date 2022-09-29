@@ -56,7 +56,7 @@ Nginx Plus provides many options for active health checking of pods and services
 1. Quickly!! - checking further, look at the Ingress Controller logs, what do they show ?
 
     ```bash
-    kubectl logs -n nginx-ingress $KIC_POD_NAME --follow --tail=20
+    kubectl logs -n nginx-ingress $NIC --follow --tail=20
     ```
 
     **Detailed Explanation:**  The Dashboard shows all your juiceshop upstreams as Down, due to `Failed` healthchecks.  Your JuiceShop VirtualServer is running, but the website is now offline because the pods are in a `Failed` state.  Nginx `502 Bad Gateway` errors are an important sign that Nginx has `no upstreams available` to service the request.
@@ -73,7 +73,7 @@ Nginx Plus provides many options for active health checking of pods and services
     kubectl apply -f lab10/juice-health-good-vs.yaml
     ```
 
-1. Check your KIC Plus Dashboard again, with Health monitors now green, and your website is up and browser access is restored.  The connection errors in the Ingress log should have stopped as well.
+1. Check your NIC Plus Dashboard again, with Health monitors now green, and your website is up and browser access is restored.  The connection errors in the Ingress log should have stopped as well.
 
     ![Good Healthchecks](media/lab10_health_good.png) 
 
@@ -122,7 +122,7 @@ Nginx Plus provides many options for intercepting HTTP response errors and provi
 
 <br/>
 
-Next, you will use some of the extra RAM available in your Ingress Controller to provide caching of static images from the pods.  This will `improve` the customer experience by delivering images from the KIC's RAM, instead of waiting for the pods to deliver them.  
+Next, you will use some of the extra RAM available in your Ingress Controller to provide caching of static images from the pods.  This will `improve` the customer experience by delivering images from the NIC's RAM, instead of waiting for the pods to deliver them.  
 
 In the previous Enhanced Logging lab, you added the `cache status` variable - `$upstream_cache_status` - to the Nginx access log, so you can see the cache HITS, MISSES, and EXPIRED status in the access log. You will also insert a custom HTTP Header for X-Cache-Status, so we can see the Nginx cache Response Header values with Chrome Developer Tools.
 
@@ -143,7 +143,7 @@ Inspect `lab10/juice-cache-vs.yaml` file, lines 7-9.  Notice you are using an `h
     Monitor the Ingress Controller access log, watch for "HIT", "MISS", and "EXPIRED" entries, while you refresh the Juice Shop pages:
 
     ```bash
-    kubectl logs -n nginx-ingress $KIC_POD_NAME --follow --tail 50
+    kubectl logs -n nginx-ingress $NIC --follow --tail 50
     ```
 
     During refreshes, you should see some Cache "MISS" and "HIT" and "EXPIRED" log entries, it should be the last field of each log entry in the access log, as shown below.  (This `Cache Status logging variable` was added when you enabled Enhanced Logging in a previous exercise).
@@ -368,7 +368,7 @@ You have completed all the lab exercises in the workshop.  Do a final visual che
 During the Workshop, you learned the following Nginx, Ingress, and Kubernetes topics and completed the following lab exercises:
 
 1. Verify Nginx Ingress Controller is up and running.
-1. Configure access to the NginxPlus Dashboard for monitoring real-time statistics.
+1. Configure access to the Nginx Plus Dashboard for monitoring real-time statistics.
 1. Deploy the Café demo application for coffee/tea services.
 1. Add the Bar application and Virtual Server.
 1. Run a load test on your Ingress Controller and the Cafe application.

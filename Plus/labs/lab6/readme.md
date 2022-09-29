@@ -20,7 +20,7 @@ We will use a tool called [`wrk` ](https://github.com/wg/wrk) , runing in a dock
 
     ![open terminal](media/open-terminal.png)
 
-1. In the terminal window, run this command to start  load generation using `wrk` inside a docker container:
+1. In the terminal window, run this command to start load generation using `wrk` inside a docker container:
 
     ```bash
     docker run --rm williamyeh/wrk -t4 -c200 -d20m -H 'Host: cafe.example.com' --timeout 2s https://10.1.1.10/coffee
@@ -60,7 +60,7 @@ Coffee Break Time !! Let's scale the Coffee `Deployment`. In anticipation of a s
 
     How long did it take Kubernetes to add the new pods?  
 
-    Nginx Ingress will run Active healthchecks against the pods, and then begin routing traffic to the **five** new pods. Nginx Ingress Controller automatically discovers the new pods and immediately reconfigures it's upstream groups and route traffic to them once marked healthy (Pass the health checks).
+    Nginx Ingress will run Active healthchecks against all the pods, and then begin routing traffic to the **five** new pods. Nginx Ingress Controller automatically discovers the new pods and immediately reconfigures the Upstream groups and load balance traffic to them once marked healthy (After passing the health checks).
 
     Active healthchecks, DNS service Discovery and NGINX Plus reconfiguration API are Premium features of Nginx Plus, these features are used here, where the NGINX Ingress Controller uses the Nginx Plus API to automatically update the list Upstreams with newly discovered pods and begins to load balance them.  
 
@@ -93,9 +93,9 @@ Coffee Break Time !! Let's scale the Coffee `Deployment`. In anticipation of a s
    
    This is an important NGINX Plus feature. NGINX tracks each `pod`'s response time, and distributes more traffic to faster pods in the cluster.  
 
-    In today's Digital Experience production workloads, it is important to send customers' requests to the most reliable and performant `pod` (server).  NGINX Plus's `LeastTime - LastByte` Load Balancing algorithm allows you to handle more total requests, and, it adjusts automatically as pod performance and conditions in the Kubernetes cluster change minute by minute. 
+    In today's Modern Application production workloads, it is important to send customers' requests to the most reliable and performant `pod` (server).  NGINX Plus's `LeastTime - LastByte` Load Balancing algorithm allows you to handle more total requests, and, it adjusts automatically as pod performance and conditions in the Kubernetes cluster change minute by minute. 
     
-    **This yields a better customer experience, essential for today's modern digital experience workloads.** 
+    > **This yields a better customer experience, essential for today's modern digital experience workloads.** 
 
     **NOTE**: the Response time differential must be `> 20ms` between the pods, for NGINX to consider some pods faster than others. 
 
@@ -115,7 +115,9 @@ Coffee Break Time !! Let's scale the Coffee `Deployment`. In anticipation of a s
     
     > This results in **no dropped connections during configuration changes.**
 
-### Optional Lab Exercise1: 
+<br>
+
+### Optional Lab Exercise 1: 
 
 Try the same scale up, then scale down commands for the Cafe **Tea** `Deployment`. Does NGINX also send more traffic to the faster Tea pods? Set the tea pods back to **three** replicas when you are finished.
 
@@ -127,13 +129,15 @@ Try the same scale up, then scale down commands for the Cafe **Tea** `Deployment
     docker run --rm williamyeh/wrk -t4 -c200 -d15m -H 'Host: cafe.example.com' --timeout 2s https://10.1.1.10/tea
     ```
 
-### Optional Lab Exercise2: 
+### Optional Lab Exercise 2: 
 
 1. You can change the load balancing algorithm back to round-robin if you like, and check out the differences. Apply the following manifest to make that change:
 
     ```bash
     kubectl apply -f lab6/nginx-config-roundrobin.yaml
     ```
+
+<br>
 
 ## Host Based Routing
 
@@ -169,7 +173,7 @@ See the topological view of the new **beer** and **wine** applications
 
    ![beer and wine](media/beer-and-wine.png)
 
-1. Observe your KIC Plus Dashboard again on http://dashboard.example.com/dashboard.html
+1. Observe your NIC Plus Dashboard again on http://dashboard.example.com/dashboard.html
 
     **Questions:**
 

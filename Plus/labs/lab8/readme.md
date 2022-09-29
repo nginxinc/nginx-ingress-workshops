@@ -125,11 +125,11 @@ Here is a brief description of what these different tools and application provid
 
 <br/>
 
-Verify that NginxPlus KIC is enabled for exporting Prometheus statistics.  This requires 3 settings:
+Verify that NginxPlus NIC is enabled for exporting Prometheus statistics.  This requires 3 settings:
 
 - Prometheus `Annotations` are enabled
 - Port `9113` is open
-- The Plus command-line argument `- -enable-prometheus-metrics` is enabled, to allow the collection of the KIC's statistics on that port.
+- The Plus command-line argument `- -enable-prometheus-metrics` is enabled, to allow the collection of the NIC's statistics on that port.
 
 **!Bonus!** - These settings have already been enabled for you in this lab, but they are `not` enabled by default.  
 
@@ -137,13 +137,13 @@ To see these settings, inspect the `lab2/nginx-plus-ingress.yaml` file, lines 15
 
 Annotations | Port  | Plus Args
 :-------------------------:|:-------------------------:|:-------------------------:
-![kic prometheus settings](media/lab8_kic_prom_settings1.png) |![kic prometheus settings](media/lab8_kic_prom_settings2.png) |![kic prometheus settings](media/lab8_kic_prom_settings3.png)
+![NIC prometheus settings](media/lab8_nic_prom_settings1.png) |![NIC prometheus settings](media/lab8_nic_prom_settings2.png) |![NIC prometheus settings](media/lab8_nic_prom_settings3.png)
 
 
 1. Now verify this is enabled and working, using k8s port-forward:
 
     ```bash
-    kubectl port-forward -n nginx-ingress $KIC_POD_NAME 9113:9113
+    kubectl port-forward -n nginx-ingress $NIC 9113:9113
     ```
 
     Open Chrome, and navigate to http://localhost:9113/metrics.  You should see an HTML scraper page like this one:
@@ -151,13 +151,13 @@ Annotations | Port  | Plus Args
     ![scraper page1](media/lab8_scraper_page1.png)
     ![scraper page2](media/lab8_scraper_page2.png)
 
-    If you see an HTML page from NGINX KIC similar to the one above, you are good to go.  If you refresh this page several times, you will see that the stats are immediately updated.  Notice that there is a `# TYPE and # HELP` in the scraper page entries, which describes the data type and definition of each metric.
+    If you see an HTML page from NGINX NIC similar to the one above, you are good to go.  If you refresh this page several times, you will see that the stats are immediately updated.  Notice that there is a `# TYPE and # HELP` in the scraper page entries, which describes the data type and definition of each metric.
 
     <br>
 
     > It is important to point out, that the scraper page contains `all` of the NGINX Plus statistics that you see on the Dashboard, and a few extras.
 
-    >> **This rich set of metrics will provide a great data source for the monitoring and graphing of NGINX Plus KIC.**
+    >> **This rich set of metrics will provide a great data source for the monitoring and graphing of NGINX Plus NIC.**
 
     <br/>
 
@@ -202,7 +202,7 @@ Annotations | Port  | Plus Args
 
 1. Create a Prometheus graph showing the `nginxplus HTTP upstream response time` from the pods.  This should match the upstream response time values you see in the NGINX Plus Dashboard.
 
-    Can you find where the pod `CPU stats` are recorded ?  As you can see, there are hundreds of stats you can use to monitor NGINX KIC, k8s components, pods, and other resources.
+    Can you find where the pod `CPU stats` are recorded ?  As you can see, there are hundreds of stats you can use to monitor NGINX NIC, k8s components, pods, and other resources.
 
     Press `Control + C` to stop port-forward when you are finished.
 
@@ -293,7 +293,7 @@ You can login to Grafana using the same admin/password credentials that you used
 
     ![Add Prometheus DS](media/lab8_grafana_add_prometheus.png)
 
-1. Once `Prometheus` is added as a data source, in the Prometheus `settings` tab, update HTTP URL to `nginx-prometheus-server:80`.
+1. Once `Prometheus` is added as a data source, in the Prometheus `settings` tab, update the HTTP URL to `http://nginx-prometheus-server:80`.
 
     ![Update Prometheus URL](media/lab8_grafana_prometheus_ds.png)
 
@@ -301,7 +301,7 @@ You can login to Grafana using the same admin/password credentials that you used
 
 ### Import Grafana Custom Dashboards
 
-1. Now you should be ready to import the NGINX Dashboards for KIC from NGINX, Inc. From the left panel click on `Import` to add the dashboard:
+1. Now you should be ready to import the NGINX Dashboards for NIC from NGINX, Inc. From the left panel click on `Import` to add the dashboard:
 
     ![Grafana Import](media/lab8_grafana_imports.png)
 
@@ -341,11 +341,11 @@ You can login to Grafana using the same admin/password credentials that you used
 
 3. Next, from the `General` section, select the `NGINX Plus Ingress Controller` Dashboard.
 
-    ![grafana open KIC dashboard](media/lab8_grafana_open_KIC_dashboard.png)
+    ![grafana open NIC dashboard](media/lab8_grafana_open_nic_dashboard.png)
 
     This should open up the NginxPlus Grafana Dashboard. You can expand the sub-sections or adjust the time range and refresh time as needed.
 
-    ![grafana KIC dashboard](media/lab8_grafana_KIC_dashboard.png)
+    ![grafana NIC dashboard](media/lab8_grafana_nic_dashboard.png)
 
     If the graphs are blank or do not show much data, try restarting the loadtest tool from the previous lab, you should see some statistics being collected and graphed after a few minutes:
 

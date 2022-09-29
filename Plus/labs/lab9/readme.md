@@ -49,11 +49,11 @@ You will launch a new application, called `Juice Shop`, representing a modern on
 
     Open Chrome, navigate to (http://juiceshop.example.com).  Click around for a few minutes to explore the application.
 
-    Did you notice, how easy it was with Plus KIC, to launch a completely new application in just a few seconds?  With just 2 YAML manifest files - and `no IT tickets` required to do this?  Nginx KIC can perform the Layer7 Hostname and path routing for many different applications running in your k8s cluster.
+    Did you notice, how easy it was with Plus NIC, to launch a completely new application in just a few seconds?  With just 2 YAML manifest files - and `no IT tickets` required to do this?  Nginx NIC can perform the Layer7 Hostname and path routing for many different applications running in your k8s cluster.
 
     ![Juiceshop welcome page](media/lab9_juiceshop_welcome_page.png)
 
-1. Check the KIC Plus Dashboard, you should see a new JuiceShop HTTP Zone and Upstreams:
+1. Check the NIC Plus Dashboard, you should see a new JuiceShop HTTP Zone and Upstreams:
 
     ![Nginx Dashboard HTTP Zones](media/lab9_dashboard_httpzone.png)
 

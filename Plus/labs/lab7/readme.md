@@ -79,11 +79,11 @@ Next, let's scale the number of Ingress Controllers pods from one to **three**. 
 1. Let's take peek under the hood – check out the NGINX Plus Ingress Controller Configurations. Run the following commands to view the NGINX Configuration:
 
     ```bash
-    # Store the KIC Pod name in a variable
-    export KIC_POD_NAME=$(kubectl get pods -n nginx-ingress -o jsonpath='{.items[0].metadata.name}')
+    # Store the NIC Pod name in a variable
+    export NIC=$(kubectl get pods -n nginx-ingress -o jsonpath='{.items[0].metadata.name}')
 
     # Check the full Nginx config
-    kubectl exec -it $KIC_POD_NAME -n nginx-ingress -- nginx -T
+    kubectl exec -it $NIC -n nginx-ingress -- nginx -T
     ```
 
     **Inspect the output:** `nginx -T` prints out the entire Nginx configuration. Scroll up and down - do you see:
@@ -99,7 +99,7 @@ Next, let's scale the number of Ingress Controllers pods from one to **three**. 
 
 ## Enhanced Logging with NGINX Plus Ingress
 
-Let's add some additional fields to the Nginx Access Log, you need more data about the performance of the **coffee** and **tea** pods for Developers.  They are asking you to help fix an **"application too slow"** escalation ticket from the Marketing team. The "free coffee" campaign was popular but customer feedback was the website was too slow.
+The Marketing Team has open a P1 ticket, complaining about **slow website response time** during the Free Coffee promotion.  Let's add some additional fields to the Nginx Access Log, you need more data about the performance of the **coffee** and **tea** pods for Developers.  The free coffee campaign was quite popular but customer feedback was the website was too slow -arghh!
 
 For reference, this is the default Nginx Access Log format:
   
@@ -115,7 +115,7 @@ However, there are only **two** log variables with any useful data related to th
 1. Use the `kubectl log` command, to view the default Nginx Plus Ingress Controller Access log format:
 
     ```bash
-    kubectl logs $KIC_POD_NAME -n nginx-ingress --tail 10 --follow
+    kubectl logs $NIC -n nginx-ingress --tail 10 --follow
     ```
 
     ![Access logs](media/access-logs.png)
@@ -156,12 +156,14 @@ However, there are only **two** log variables with any useful data related to th
 1. Take a look at the **Enhanced** NGINX Access log format using the `kubectl log` command:
 
     ```bash
-    kubectl logs $KIC_POD_NAME -n nginx-ingress --tail 10 --follow
+    kubectl logs $NIC -n nginx-ingress --tail 10 --follow
     ```
 
     ![log tailing screenshot](media/access-log-enhanced.png)
 
 1. Type` Ctrl-C` to stop the log  `tail` when finished.
+
+   Hopefully, using this additional logging information will help pinpoint issues with various pods, and allow the Developers to improve the performance of their applications.
 
 
 **This completes this Lab.** 

@@ -56,4 +56,4 @@ spec:
       return:
         code: 200
         type: text/html
-        body: "Welcome to Nginx Plus KIC Workshop!!"
+        body: "Welcome to Nginx Plus NIC Workshop!!"
