@@ -1,10 +1,10 @@
-## Lab 10: Advanced Nginx Plus features with VirtualServer manifests
+## Lab 10: Advanced NGINX Plus features with VirtualServer manifests
 
 ## Learning Objectives 
 
 By the end of the lab, you will be able to: 
 
-* Enable and test some Nginx Plus features to control how Ingress Controller handles different situations and enables Enterprise features, like:
+* Enable and test some NGINX Plus features to control how Ingress Controller handles different situations and enables Enterprise features, like:
     - Active Healthchecks
     - Custom Error Pages
     - HTTP Caching
@@ -17,11 +17,11 @@ By the end of the lab, you will be able to:
 
 <br/>
 
-![Nginx Plus](media/nginxredplus.png)
+![NGINX Plus](media/nginxredplus.png)
 
 <br/>
 
-Nginx Plus provides many options for active health checking of pods and services.  You will enable some checks for URI paths, and set the interval and counts that meet the needs of the application.  A Community Ingress manifest has some limitations in defining a healthcheck. With an Nginx VirtualServer manifest, additional options can be configured for production workloads. 
+NGINX Plus provides many options for active health checking of pods and services.  You will enable some checks for URI paths, and set the interval and counts that meet the needs of the application.  A Community Ingress manifest has some limitations in defining a healthcheck. With an NGINX VirtualServer manifest, additional options can be configured for production workloads. 
 
 1. Inspect `lab10/juice-health-bad-vs.yaml` file, lines 17-25 for the healthchecks.  You will notice we have commented out the correct TCP port for the healthcheck of the backend pods.  What do you think will happen if you do not check the correct TCP port?
 
@@ -59,11 +59,11 @@ Nginx Plus provides many options for active health checking of pods and services
     kubectl logs -n nginx-ingress $NIC --follow --tail=20
     ```
 
-    **Detailed Explanation:**  The Dashboard shows all your juiceshop upstreams as Down, due to `Failed` healthchecks.  Your JuiceShop VirtualServer is running, but the website is now offline because the pods are in a `Failed` state.  Nginx `502 Bad Gateway` errors are an important sign that Nginx has `no upstreams available` to service the request.
+    **Detailed Explanation:**  The Dashboard shows all your juiceshop upstreams as Down, due to `Failed` healthchecks.  Your JuiceShop VirtualServer is running, but the website is now offline because the pods are in a `Failed` state.  NGINX `502 Bad Gateway` errors are an important sign that NGINX has `no upstreams available` to service the request.
 
     The Ingress Logs should show `[error] 97 ... 111: Connection refused` messages for the healthchecks on port 80 (but remember, the JuiceShop pods are running on port 3000!).
 
-    ![Nginx Error Logs](media/lab10_error_log.png) 
+    ![NGINX Error Logs](media/lab10_error_log.png) 
 
     Type Ctrl+C to stop the log tail when you are finished.
 
@@ -89,7 +89,7 @@ The Director of Customer Support has asked if you can stop the ugly HTTP 502 err
 
 So you will enable a `Sorry page` that gives customers a more friendly `Please try again later` message, with a Customer Support phone number to call if they need help.
 
-Nginx Plus provides many options for intercepting HTTP response errors and providing user-friendly error pages from web applications.  In this example, you will enable a simple error response page.
+NGINX Plus provides many options for intercepting HTTP response errors and providing user-friendly error pages from web applications.  In this example, you will enable a simple error response page.
 
 1. Inspect `lab10/juice-sorrypage.yaml` file, lines 30-40.  
     ![custom error](media/lab10_custom_error_yaml.png)
@@ -104,7 +104,7 @@ Nginx Plus provides many options for intercepting HTTP response errors and provi
 
     ![Sorry Page](media/lab10_sorry_page.png)
 
-    Notice we have modified this 502 Bad Gateway error page to be more customer friendly.  For production, you could further customize this page if a user encountered an error page from a pod.  If you check Chrome Developer Tools, you will see that we have also added a custom `Nginx Debug Header`, which shows what the original response error code was.
+    Notice we have modified this 502 Bad Gateway error page to be more customer friendly.  For production, you could further customize this page if a user encountered an error page from a pod.  If you check Chrome Developer Tools, you will see that we have also added a custom `NGINX Debug Header`, which shows what the original response error code was.
 
     ![Chrome Developer Tools](media/lab10_chrome_dev_tools.png)
 
@@ -114,19 +114,19 @@ Nginx Plus provides many options for intercepting HTTP response errors and provi
 
     <br/>
 
-### Nginx Caching
+### NGINX Caching
 
 <br/>
 
-![Nginx 2020](media/nginx-2020.png)
+![NGINX 2020](media/nginx-2020.png)
 
 <br/>
 
 Next, you will use some of the extra RAM available in your Ingress Controller to provide caching of static images from the pods.  This will `improve` the customer experience by delivering images from the NIC's RAM, instead of waiting for the pods to deliver them.  
 
-In the previous Enhanced Logging lab, you added the `cache status` variable - `$upstream_cache_status` - to the Nginx access log, so you can see the cache HITS, MISSES, and EXPIRED status in the access log. You will also insert a custom HTTP Header for X-Cache-Status, so we can see the Nginx cache Response Header values with Chrome Developer Tools.
+In the previous Enhanced Logging lab, you added the `cache status` variable - `$upstream_cache_status` - to the NGINX access log, so you can see the cache HITS, MISSES, and EXPIRED status in the access log. You will also insert a custom HTTP Header for X-Cache-Status, so we can see the NGINX cache Response Header values with Chrome Developer Tools.
 
-Inspect `lab10/juice-cache-vs.yaml` file, lines 7-9.  Notice you are using an `http-snippet` to customize Nginx to use 256MB of available RAM for the cache, and to add an Nginx `X-Cache-Status` HTTP response header.  And, on lines 32-36, you are also using a `location-snippet` to further customize Nginx to cache 200 responses for 30 seconds (cache aging timer), and ignore any Cache-Control request headers.  
+Inspect `lab10/juice-cache-vs.yaml` file, lines 7-9.  Notice you are using an `http-snippet` to customize NGINX to use 256MB of available RAM for the cache, and to add an NGINX `X-Cache-Status` HTTP response header.  And, on lines 32-36, you are also using a `location-snippet` to further customize NGINX to cache 200 responses for 30 seconds (cache aging timer), and ignore any Cache-Control request headers.  
 
 | HTTP Snippet | Location Snippet |
 |--------------|------------------|
@@ -164,9 +164,9 @@ Inspect `lab10/juice-cache-vs.yaml` file, lines 7-9.  Notice you are using an `h
 
 1. **Deep Dive** - As an example, if you click on the first image in the Name list, `apple_juice.jpg`, you should see an HTTP Response Header X-Cache-Status = MISS.  If you refresh a couple times, and check again, it should now show X-Cache-Status = HIT.  If you wait more than 30 seconds, and refresh again, it should show X-Cache-Status = EXPIRED. 
 
-    **Explanation:**  the first request will be a cache MISS, because Nginx does not have a copy of this object in the Cache, and it must be served from the Upstream origin pod.  After the first request, it will be a Cache HIT because Nginx is caching it and served it from its Cache.  After the age timer expires, you will see EXPIRED.
+    **Explanation:**  the first request will be a cache MISS, because NGINX does not have a copy of this object in the Cache, and it must be served from the Upstream origin pod.  After the first request, it will be a Cache HIT because NGINX is caching it and served it from its Cache.  After the age timer expires, you will see EXPIRED.
 
-    This is because the Nginx `proxy_cache_valid` directive is set to 30 seconds, on line #32 of the manifest YAML file.
+    This is because the NGINX `proxy_cache_valid` directive is set to 30 seconds, on line #32 of the manifest YAML file.
 
     ![Cache Miss](media/lab10_chrome_cache_miss.png)
 
@@ -174,7 +174,7 @@ Inspect `lab10/juice-cache-vs.yaml` file, lines 7-9.  Notice you are using an `h
 
     ![Cache Expired](media/lab10_chrome_cache_expired.png)
 
-1. Check the Plus Dashboard, did you find the Cache statistics ?  You see some basic stats about Nginx Caching, the memory and disk usage, Hit Ratio, and Bytes served, changing in real-time as you browse around the Juice Shop site.  
+1. Check the Plus Dashboard, did you find the Cache statistics ?  You see some basic stats about NGINX Caching, the memory and disk usage, Hit Ratio, and Bytes served, changing in real-time as you browse around the Juice Shop site.  
 
     How high can you get your hit ratio ?
 
@@ -189,7 +189,7 @@ Inspect `lab10/juice-cache-vs.yaml` file, lines 7-9.  Notice you are using an `h
     <summary>Click for Hints!</summary>
     <br/>
     <p>
-        <strong>Answer: </strong>  Nginx is not caching any HTTP objects with the ".jpeg" extension! Confirm this by looking at the YAML file, line #31.  This line is a regular expression (regex) that tells Nginx to look at the end of the URL, and match only on these object type extensions.  "JPEG is not included" in this regex. Are there other JPEG objects, for which Caching should be enabled?
+        <strong>Answer: </strong>  NGINX is not caching any HTTP objects with the ".jpeg" extension! Confirm this by looking at the YAML file, line #31.  This line is a regular expression (regex) that tells NGINX to look at the end of the URL, and match only on these object type extensions.  "JPEG is not included" in this regex. Are there other JPEG objects, for which Caching should be enabled?
     </p>
 
 </details>
@@ -198,7 +198,7 @@ Inspect `lab10/juice-cache-vs.yaml` file, lines 7-9.  Notice you are using an `h
 
 ![JPEG Missing](media/lab10_jpeg_missing.png)
 
-Inspect the very bottom right corner of Chrome Developer Tools...what is the difference in Page Load times, when there are Nginx Cache Hits, vs Cache Misses (refresh the page 5 or 6 times, then wait more than 30 seconds and refresh again)?  You should see the Page Load time much faster with Cache Hits, of course.  How fast could you get your page load time?
+Inspect the very bottom right corner of Chrome Developer Tools...what is the difference in Page Load times, when there are NGINX Cache Hits, vs Cache Misses (refresh the page 5 or 6 times, then wait more than 30 seconds and refresh again)?  You should see the Page Load time much faster with Cache Hits, of course.  How fast could you get your page load time?
 
 ![Page Load Time](media/lab10_chrome_page_loadtime.png)
 
@@ -249,7 +249,7 @@ Inspect the  `lab10/cafe-mtls.yaml`, lines 19, and 29-30.  Notice the change fro
       <summary>Click for Hints!</summary>
       <br/>
       <p>
-        No, it should not.  Nginx Ingress will use the pod's IP:Port definition for the Healthchecks. 
+        No, it should not.  NGINX Ingress will use the pod's IP:Port definition for the Healthchecks. 
       </p>
     </details><br/>
     
@@ -286,11 +286,11 @@ However, switching ALL customers to new versions that might still have a few bug
 
 > Wouldn't it be nice if your Ingress Controller could split off just a small fraction of your live traffic, and route it to your new application pod for final testing?  
 
-Nginx Plus Ingress Controller can do this, using a feature called `HTTP Split Clients.`  This feature allows you to define a percentage of traffic to be split between different k8s Services, representing different versions of your application.
+NGINX Plus Ingress Controller can do this, using a feature called `HTTP Split Clients.`  This feature allows you to define a percentage of traffic to be split between different k8s Services, representing different versions of your application.
 
 You will use the currently running Cafe-mTLS coffee and tea pods, and split the traffic at an 80:20 ratio between coffee and tea Services.  
 
-Refer to the following diagram for testing Blue/Green traffic splitting with Nginx Plus Ingress Controller:
+Refer to the following diagram for testing Blue/Green traffic splitting with NGINX Plus Ingress Controller:
 
 ![BlueGreen](media/lab10_bluegreen_diagram.png)
 
@@ -331,11 +331,11 @@ Having read the tea leaves you are highly confident in your new code. So you dec
 
     Check the statistics on the Plus Dashboard cafe-bluegreen upstreams.... Do you see approximately an 80/20 Requests ratio between coffee and tea?  You can configure the ratio in 1% increments, from 1-99%.  
 
-    **Note:** Nginx will not load the Split configuration, if the ratio does not add up to 100%.
+    **Note:** NGINX will not load the Split configuration, if the ratio does not add up to 100%.
 
     ![Bluegreen Splits](media/lab10_bluegreen_dashboard.png)
 
-    > **Important!**   You are still using the https://cafe.example.com/coffee URL - you did not have to change the PATH of the url, but Nginx Ingress Controller is routing the requests to 2 different services, 80% to coffee-mtls AND 20% to tea-mtls!   This allows for easy testing of new application versions, without requiring DNS changes, new URLs or URIs, or other system changes.
+    > **Important!**   You are still using the https://cafe.example.com/coffee URL - you did not have to change the PATH of the url, but NGINX Ingress Controller is routing the requests to 2 different services, 80% to coffee-mtls AND 20% to tea-mtls!   This allows for easy testing of new application versions, without requiring DNS changes, new URLs or URIs, or other system changes.
 
 <br/>
 
@@ -365,18 +365,18 @@ Having read the tea leaves you are highly confident in your new code. So you dec
 
 You have completed all the lab exercises in the workshop.  Do a final visual check on your Plus Dashboard, and check your Grafana dashboards, what do you see?  These tools should show where you finished with statistics and graphs that match your last few lab exercises. 
 
-During the Workshop, you learned the following Nginx, Ingress, and Kubernetes topics and completed the following lab exercises:
+During the Workshop, you learned the following NGINX, Ingress, and Kubernetes topics and completed the following lab exercises:
 
-1. Verify Nginx Ingress Controller is up and running.
-1. Configure access to the Nginx Plus Dashboard for monitoring real-time statistics.
+1. Verify NGINX Ingress Controller is up and running.
+1. Configure access to the NGINX Plus Dashboard for monitoring real-time statistics.
 1. Deploy the Café demo application for coffee/tea services.
 1. Add the Bar application and Virtual Server.
 1. Run a load test on your Ingress Controller and the Cafe application.
-1. Scale your Cafe application, and Nginx Ingress up and down, under load without errors.
-1. Change Nginx logging to help troubleshoot pod performance issues.
+1. Scale your Cafe application, and NGINX Ingress up and down, under load without errors.
+1. Change NGINX logging to help troubleshoot pod performance issues.
 1. Set up and run Prometheus and Grafana with Helm, to monitor your cluster, apps and Ingress Controller.
 1. Launch a new application, JuiceShop, and test it.
-1. Enable some of the Advanced features of Nginx Plus, like Active Healthchecks, Caching, Sorry pages, mTLS, and Blue-Green split client testing.
+1. Enable some of the Advanced features of NGINX Plus, like Active Healthchecks, Caching, Sorry pages, mTLS, and Blue-Green split client testing.
 
 -------------
 

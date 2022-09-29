@@ -29,7 +29,7 @@ Prepare your client machine for this lab by:
 
 - Opening the LabGuide from GitHub
 - Establish RDP connection and login to the Jumphost
-- Open VisualStudio Code, using the `NginxPlus NIC Workshop vs-code workspace` shortcut, located on the desktop of the Jumphost:
+- Open VisualStudio Code, using the `NGINXPlus NIC Workshop vs-code workspace` shortcut, located on the desktop of the Jumphost:
 
 Locate the **`Ubuntu-Jumphost`** component and click on the **`ACCESS`** dropdown link.
 

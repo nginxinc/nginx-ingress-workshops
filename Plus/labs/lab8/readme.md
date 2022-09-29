@@ -121,11 +121,11 @@ Here is a brief description of what these different tools and application provid
 
     <br/>
 
-### Testing the NginxPlus Prometheus "scraper" Port and Page
+### Testing the NGINX Plus Prometheus "scraper" Port and Page
 
 <br/>
 
-Verify that NginxPlus NIC is enabled for exporting Prometheus statistics.  This requires 3 settings:
+Verify that NGINX Plus NIC is enabled for exporting Prometheus statistics.  This requires 3 settings:
 
 - Prometheus `Annotations` are enabled
 - Port `9113` is open
@@ -343,7 +343,7 @@ You can login to Grafana using the same admin/password credentials that you used
 
     ![grafana open NIC dashboard](media/lab8_grafana_open_nic_dashboard.png)
 
-    This should open up the NginxPlus Grafana Dashboard. You can expand the sub-sections or adjust the time range and refresh time as needed.
+    This should open up the NGINX Plus Grafana Dashboard. You can expand the sub-sections or adjust the time range and refresh time as needed.
 
     ![grafana NIC dashboard](media/lab8_grafana_nic_dashboard.png)
 

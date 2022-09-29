@@ -1,4 +1,4 @@
-## Lab 4: Nginx Plus Dashboard access
+## Lab 4: NGINX Plus Dashboard access
 
 ## Introduction
 
@@ -6,10 +6,10 @@ In this section, you are going to use the NGINX Plus Dashboard to monitor both N
 
 ## Learning Objectives
 
-- Deploy the Nginx Dashboard Service
+- Deploy the NGINX Dashboard Service
 - Test access to the Dashboard
 
-### Deploy the Nginx Dashboard Service
+### Deploy the NGINX Dashboard Service
 
 We will deploy a `Service` and a `VirtualServer` resource to provide access to the NGINX Plus Dashboard for live monitoring.  NGINX Ingress [`VirtualServer`](https://docs.nginx.com/nginx-ingress-controller/configuration/virtualserver-and-virtualserverroute-resources/) is a [Custom Resource Definition (CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)used by NGINX to configure NGINX Server and Location blocks for NGINX configurations.
 
@@ -19,7 +19,7 @@ We will deploy a `Service` and a `VirtualServer` resource to provide access to t
     ```bash
     kubectl apply -f lab4/dashboard-vs.yaml
     ```
-    ![Nginx Plus Dashboard](media/lab4_apply_dashboard.png)
+    ![NGINX Plus Dashboard](media/lab4_apply_dashboard.png)
 
 ## Test access to the Dashboard
 
@@ -27,11 +27,11 @@ We will deploy a `Service` and a `VirtualServer` resource to provide access to t
 
     ![Dashboard](media/lab4_dashboard.png)
 
-    You should see the same Nginx Plus Dashboard as the `kubectl port-forward` test we did previously. Now your dashboard is exposed outside of your cluster at http://dashboard.example.com/dashboard.html.  
+    You should see the same NGINX Plus Dashboard as the `kubectl port-forward` test we did previously. Now your dashboard is exposed outside of your cluster at http://dashboard.example.com/dashboard.html.  
 
     > **_Recommended:_** Leave this Dashboard Window open for the rest of the Workshop, you will refer to it often during later exercises.
 
-    Congratulations! You have successfully configured your Ingress Controller for external access and the Nginx Plus Dashboard.  Next we will deploy some application services and start routing some traffic through Nginx Ingress.
+    Congratulations! You have successfully configured your Ingress Controller for external access and the NGINX Plus Dashboard.  Next we will deploy some application services and start routing some traffic through NGINX Ingress.
 
 **This completes this Lab.**
 

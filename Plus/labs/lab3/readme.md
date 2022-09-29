@@ -1,8 +1,8 @@
-# Lab 3: Configuring Nginx Ingress Controller
+# Lab 3: Configuring NGINX Ingress Controller
 
 ## Introduction
 
-The Nginx Ingress Controller is already running in this Workshop. You will be configuring Ingress Controller for external access outside of your cluster using a [`LoadBalancer`](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/) Service.  The Kubernetes `LoadBalancer` Service is what assigns IP addresses to the `Ingress`, so it can communicate with clients outside the cluster, and also with pods inside the Cluster.
+The NGINX Ingress Controller is already running in this Workshop. You will be configuring Ingress Controller for external access outside of your cluster using a [`LoadBalancer`](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/) Service.  The Kubernetes `LoadBalancer` Service is what assigns IP addresses to the `Ingress`, so it can communicate with clients outside the cluster, and also with pods inside the Cluster.
 
 **Note:** Your Kubernetes cluster is running on a private lab network. We will be using a private IP for external access. In a public cloud environment, the `LoadBalancer` Service from a Cloud Provider would provide you with a routable public IP address.
 
@@ -68,7 +68,7 @@ The Nginx Ingress Controller is already running in this Workshop. You will be co
    <details><summary>Click for Hints!</summary>
    <br/>
    <p>
-   <strong>Answer</strong> – The Ingress Controller default server will return an <b>HTTP 404 Not Found page, or an HTTP 400 Bad Request status code</b> for all requests that have no Ingress routing rules defined; this is Nginx's default 404 error page. You will deploy a Demo application in the subsequent labs, which will fix this.
+   <strong>Answer</strong> – The Ingress Controller default server will return an <b>HTTP 404 Not Found page, or an HTTP 400 Bad Request status code</b> for all requests that have no Ingress routing rules defined; this is NGINX's default 404 error page. You will deploy a Demo application in the subsequent labs, which will fix this.
    </p>
    </details>
 
@@ -77,7 +77,7 @@ The Nginx Ingress Controller is already running in this Workshop. You will be co
 
 
 ## References:  
-- [Nginx NIC LoadBalancer for cloud
+- [NGINX NIC LoadBalancer for cloud
   providers](https://docs.nginx.com/nginx-ingress-controller/installation/installation-with-manifests/#get-access-to-the-ingress-controller)
 - [Kubernetes LoadBalancer Service
   Type](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer)

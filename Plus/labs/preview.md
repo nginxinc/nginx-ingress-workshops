@@ -2,9 +2,13 @@
 
 ## Preview:  Here is a list of some additional workshops/labs being developed.
 
+<br/>
+
 ## NGINX Ingress controller deployments using helm, operators
 
 - use `helm` or `operator` for you NIC deployment. Learn how to customize your deployment.
+
+<br/>
 
 ## Advanced use cases for NIC with NGINX NJS (NGINX JavaScript)
 
@@ -13,6 +17,8 @@ This workshop will show you how you can do advanced routing use cases using NJS,
 
 - extra specific header values from a incoming request, pass the request to NJS for inspection and then based on a certain value, do the following....
 
+<br/>
+
 ## Advanced layer 7 routing using VirtualServer and VirtualServerRoutes
 
 VirtualServer and VirtualServerRoute are custom resources used by NGINX Ingress controller. They allow for much more advanced use cases, including:
@@ -20,6 +26,8 @@ VirtualServer and VirtualServerRoute are custom resources used by NGINX Ingress 
 - cross-namespace routing
 - match conditions routing (based on a POST or a GET, you can route to a specific application)
 - advanced health checking capabilities. This goes beyond standard passive health checks, including remembering `state` of the applications
+
+<br/>
 
 ## Use of NGINX Ingress policies 
 
@@ -31,12 +39,16 @@ NGINX Ingress policies take advantage of our custom resources (virtualServer,vir
 - OIDC authentication. Authenticate to providers like Okta.
 - JWT tokens
 
+<br/>
+
 ## Layer 4 Load balancing with NGINX Ingress -- TransportServer
 
 NGINX Ingress controller also allows you to load balance your Layer 4 applications.
   
 - Layer 4 load balancer (TCP, UDP)
 - TLS Passthrough
+
+<br/>
 
 ## NGINX Ingress Controller design -- things to think about with your NGINX Ingress deployment
 
@@ -45,11 +57,15 @@ Learn how to plan and design your cluster for multiple tentants and teams. How d
 - namespace design -- how to setup a multi-tenant cluster and isolate different teams and tenats, without disturbing other teams/tenants.
 - ingressclass -- in depth discussion. how to leverage ingressclass for multiple, isolated ingress controllers
 
+<br/>
+
 ## Monitoring NGINX Ingress controller -- custom Grafana, Prometheus
 
 - This workshop will setting up tools to help you monitor your NGINX Ingress Controller.
 - How to configure Prometheus and scrape your NGINX Ingress controller metrics
 - Setting up a Grafana dashboard for NGINX Ingress Controller
+
+<br/>
 
 ### Authors
 - Jason Williams - Principle Product Management Engineer @ F5, Inc.

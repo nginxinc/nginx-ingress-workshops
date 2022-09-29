@@ -1,17 +1,17 @@
-# Lab 2: Verify Nginx Plus Ingress Controller is running
+# Lab 2: Verify NGINX Plus Ingress Controller is running
 
 ## Introduction
 
-The Nginx Ingress Controller is already running in this workshop. You will be checking and verifying the Ingress Controller is running.
+The NGINX Ingress Controller is already running in this workshop. You will be checking and verifying the Ingress Controller is running.
 
 ## Learning Objectives 
-- Intro to Nginx Ingress Controller
+- Intro to NGINX Ingress Controller
 - Intro to Kubernetes environment, interacting with `kubectl` command
-- Access the NginxPlus Dashboard
+- Access the NGINX Plus Dashboard
 
 ## Check your Ingress Controller
 
-1. First, verify the Nginx Ingress controller is up and running correctly in the Kubernetes cluster:
+1. First, verify the NGINX Ingress controller is up and running correctly in the Kubernetes cluster:
 
    ```bash
    kubectl get pods -n nginx-ingress
@@ -87,7 +87,7 @@ The Nginx Ingress Controller is already running in this workshop. You will be ch
 
 ### Take a look "under the hood" of Ingress Controller
 
-The NGINX Ingress Controller is a pod running Nginx Plus under the hood, let's go check it out.
+The NGINX Ingress Controller is a pod running NGINX Plus under the hood, let's go check it out.
 
 1. Use the VScode Terminal to enter a shell in the NGINX Ingress Controller pod by running the [`kubectl exec`](https://kubernetes.io/docs/tasks/debug-application-cluster/get-shell-running-container/) command 
 
@@ -102,7 +102,7 @@ The NGINX Ingress Controller is a pod running Nginx Plus under the hood, let's g
    more nginx.conf
    ```
 
-   If you have worked with Nginx config files, it should look very similar!
+   If you have worked with NGINX config files, it should look very similar!
 
 1. Type `q ` to quit viewing the `nginx.conf `
 

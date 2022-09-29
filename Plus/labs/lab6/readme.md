@@ -2,7 +2,7 @@
 
 ## Introduction
 
-In this lab, you will send some HTTP traffic to your Ingress Controller and Cafe Application, and watch Nginx Ingress load balance the trafffic.  You will scale the application pods and Ingress Controller up and down, and watch what happens in realtime, as Nginx responds dynamically to these cluster changes.
+In this lab, you will send some HTTP traffic to your Ingress Controller and Cafe Application, and watch NGINX Ingress load balance the trafffic.  You will scale the application pods and Ingress Controller up and down, and watch what happens in realtime, as NGINX responds dynamically to these cluster changes.
 
 ## Learning Objectives
 
@@ -10,7 +10,7 @@ In this lab, you will send some HTTP traffic to your Ingress Controller and Cafe
 - Scale Applications
 - Optional Exercises
 - Host-based Routing
-- Observe Nginx Dashboard
+- Observe NGINX Dashboard
 
 ## HTTP Traffic Generation
 
@@ -60,9 +60,9 @@ Coffee Break Time !! Let's scale the Coffee `Deployment`. In anticipation of a s
 
     How long did it take Kubernetes to add the new pods?  
 
-    Nginx Ingress will run Active healthchecks against all the pods, and then begin routing traffic to the **five** new pods. Nginx Ingress Controller automatically discovers the new pods and immediately reconfigures the Upstream groups and load balance traffic to them once marked healthy (After passing the health checks).
+    NGINX Ingress will run Active healthchecks against all the pods, and then begin routing traffic to the **five** new pods. NGINX Ingress Controller automatically discovers the new pods and immediately reconfigures the Upstream groups and load balance traffic to them once marked healthy (After passing the health checks).
 
-    Active healthchecks, DNS service Discovery and NGINX Plus reconfiguration API are Premium features of Nginx Plus, these features are used here, where the NGINX Ingress Controller uses the Nginx Plus API to automatically update the list Upstreams with newly discovered pods and begins to load balance them.  
+    Active healthchecks, DNS service Discovery and NGINX Plus reconfiguration API are Premium features of NGINX Plus, these features are used here, where the NGINX Ingress Controller uses the NGINX Plus API to automatically update the list Upstreams with newly discovered pods and begins to load balance them.  
 
     Caffiene crises averted...
 
@@ -70,7 +70,7 @@ Coffee Break Time !! Let's scale the Coffee `Deployment`. In anticipation of a s
 
 1. Inspect the NGINX Plus Dashboard. Look at the far right column of the `HTTP Upstreams` view and you see `HTTP Header` and `Response times` values in milliseconds.  
 
-   Nginx Plus tracks the actual response time of the pods, when it receives the HTTP header, and when it receives the entire response body.  Wouldn't it be nice if you could actually send more requests to the pods responding the fastest?  With NGINX Plus, you can do just that.
+   NGINX Plus tracks the actual response time of the pods, when it receives the HTTP header, and when it receives the entire response body.  Wouldn't it be nice if you could actually send more requests to the pods responding the fastest?  With NGINX Plus, you can do just that.
 
 1. Let's configure NGINX Ingress Controller to use a NGINX Plus Load Balancing algorithm called `Least-Time Last-Byte`  so that the most responsive (faster) pods are prioritized for more HTTP Requests. Apply the following manifest:
 
