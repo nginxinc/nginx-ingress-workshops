@@ -22,7 +22,7 @@ These Hands-On Lab Exercises are designed to build upon each other, adding addit
 
 ![Developer Seated](media/developer-seated.svg)
 
-By the end of this Workshop, you will have a working, operational NGINX Plus Ingress Controller, routing traffic to and from Kubernetes application pods and services, with the necessary skills to deploy and operate KIC for your own Digital Enterprise Applications running in Kubernetes.  Thank You for taking the time to attend this NGINX Workshop!
+By the end of this Workshop, you will have a working, operational NGINX Plus Ingress Controller, routing traffic to and from Kubernetes application pods and services, with the necessary skills to deploy and operate NIC for your own Modern Applications running in Kubernetes.  Thank You for taking the time to attend this NGINX Workshop!
 
 ![Robot](media/robot.svg)
 
