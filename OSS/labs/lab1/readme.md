@@ -76,7 +76,7 @@ Click `WORKSHOP LAB GUIDE`, which should open the Lab Guide in a seperate tab.<b
 
 1. As part of the lab, you will be using `Chrome` browser which you can also find on the Jumphost desktop, which also has the Lab Guide and some other links bookmarked which will be used for subsequent labs.
 
-   ![lab-guide](media/lab_guide.png)
+   ![lab-guide](media/lab_guide_oss.png)
 
 **This completes this Lab.**
 
