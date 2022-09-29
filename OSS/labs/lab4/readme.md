@@ -1,15 +1,15 @@
-## Lab 4: Nginx Stub Status access
+## Lab 4: NGINX Stub Status access
 
 ## Introduction
 
-In this section, you are going to use the NGINX Stub Status to monitor the NGINX Ingress Controller. This is a standard Nginx feature to allow you to watch basic stats and triage any potential issues with the NGINX Ingress controller.
+In this section, you are going to use the NGINX Stub Status to monitor the NGINX Ingress Controller. This is a standard NGINX feature to allow you to watch basic stats and triage any potential issues with the NGINX Ingress controller.
 
 ## Learning Objectives
 
-- Deploy the Nginx Stub Status
+- Deploy the NGINX Stub Status
 - Test access to the Status Page
 
-### Deploy the Nginx Stub Service
+### Deploy the NGINX Stub Service
 
 We will deploy a `Service` and a `VirtualServer` resource to provide access to the NGINX Stub Status for statistics.  NGINX Ingress [`VirtualServer`](https://docs.nginx.com/nginx-ingress-controller/configuration/virtualserver-and-virtualserverroute-resources/) is a [Custom Resource Definition (CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) used by NGINX to configure NGINX Server and Location blocks for NGINX configurations.
 
@@ -28,11 +28,11 @@ We will deploy a `Service` and a `VirtualServer` resource to provide access to t
  
     ![StubStatus](media/lab4_dashboard.png)
 
-    You should see the same Nginx Status webpage as the `kubectl port-forward` test we did previously. Using the VirtualServer and Service definitions, your status page is exposed outside of your cluster at http://dashboard.example.com/stub_status.html.  
+    You should see the same NGINX Status webpage as the `kubectl port-forward` test we did previously. Using the VirtualServer and Service definitions, your status page is exposed outside of your cluster at http://dashboard.example.com/stub_status.html.  
 
     > **_Recommended:_** Leave this Status Window open for the rest of the Workshop, you will refer to it often during later exercises.
 
-    Congratulations! You have successfully configured your Ingress Controller for external access and the Nginx Status page.  Next we will deploy some application services and start routing some traffic through Nginx Ingress.
+    Congratulations! You have successfully configured your Ingress Controller for external access and the NGINX Status page.  Next we will deploy some application services and start routing some traffic through NGINX Ingress.
 
 **This completes this Lab.**
 

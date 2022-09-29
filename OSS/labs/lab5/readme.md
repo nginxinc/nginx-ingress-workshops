@@ -1,4 +1,4 @@
-# Lab 5: Deploy the Nginx Cafe Ingress demo application, using manifests
+# Lab 5: Deploy the NGINX Cafe Ingress demo application, using manifests
 
 ## Introduction
 
@@ -8,12 +8,12 @@ In this section, you will build the "Cafe" Ingress Demo, which represents a Coff
 - Deploy the Cafe Demo app
 - Compare VirtualServer and Ingress manifests
 - Verify the URL path access to `/coffee` and `/tea` work correctly 
-- Monitor the Nginx Stub Status page
+- Monitor the NGINX Stub Status page
 - Verify the homepage redirect works correctly
 
 ## Deploy the Cafe Demo app
 
-The Cafe application that you will deploy looks like the following diagram below.  Coffee and Tea pods and services, with Nginx Ingress routing the traffic for `/coffee` and `/tea` routes, using the `cafe.example.com` Hostname, and with TLS enabled.  There is also a hidden third service - more on that later!
+The Cafe application that you will deploy looks like the following diagram below.  Coffee and Tea pods and services, with NGINX Ingress routing the traffic for `/coffee` and `/tea` routes, using the `cafe.example.com` Hostname, and with TLS enabled.  There is also a hidden third service - more on that later!
 
 < update diagram >
 
@@ -134,7 +134,7 @@ The Cafe application that you will deploy looks like the following diagram below
   ```
 <br/>
 
-## Monitor the Nginx Stats Page
+## Monitor the NGINX Stats Page
 
 <br/>
 
@@ -197,7 +197,7 @@ What happens if you try just plain  http://cafe.example.com? It should redirect 
     <br/>
     <p>
     <strong>Hint:</strong> Check your <code>cafe-virtualserver.yaml</code> file.<br/>
-    <strong>Answer:</strong> Welcome to Nginx Ingress Controller Workshop!!<br/>   
+    <strong>Answer:</strong> Welcome to NGINX Ingress Controller Workshop!!<br/>   
     </p>
     </details><br/>
 
@@ -213,7 +213,7 @@ What happens if you try just plain  http://cafe.example.com? It should redirect 
 
 ## References: 
 
-- [Nginx Ingress Controller Complete
+- [NGINX Ingress Controller Complete
   Example](https://github.com/nginxinc/kubernetes-ingress/tree/master/examples/complete-example)
 
 ### Authors

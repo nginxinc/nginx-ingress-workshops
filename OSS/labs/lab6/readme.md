@@ -2,7 +2,7 @@
 
 ## Introduction
 
-In this lab, you will send some HTTP traffic to your Ingress Controller and Cafe Application, and watch Nginx Ingress load balance the trafffic.  You will scale the application pods and Ingress Controller up and down, and watch what happens in realtime.
+In this lab, you will send some HTTP traffic to your Ingress Controller and Cafe Application, and watch NGINX Ingress load balance the trafffic.  You will scale the application pods and Ingress Controller up and down, and watch what happens in realtime.
 
 ## Learning Objectives
 
@@ -10,7 +10,7 @@ In this lab, you will send some HTTP traffic to your Ingress Controller and Cafe
 - Scale Applications
 - Optional Exercises
 - Host-based Routing
-- Observe Nginx Dashboard
+- Observe NGINX Dashboard
 
 ## HTTP Traffic Generation
 
@@ -59,7 +59,7 @@ Coffee Break Time !! Let's scale the Coffee `Deployment`. In anticipation of a s
 
     How long did it take Kubernetes to add the new pods?  
 
-    Nginx Ingress will run healthchecks against the pods, and then begin routing traffic to the **five** new pods. Nginx Ingress Controller automatically discovers the new pods and immediately reconfigures it's upstream groups and route traffic to them once marked up/healthy. 
+    NGINX Ingress will begin routing traffic to the **five** new pods as soon as the K8s live readiness probes are successful. NGINX Ingress Controller automatically discovers the new pods and immediately reconfigures it's upstream groups and route traffic to them once marked up/healthy. 
 
     Caffiene crises averted...
 

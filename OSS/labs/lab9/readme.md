@@ -1,6 +1,6 @@
 ## Lab 9: Deploy JuiceShop application, using VS/VSR manifests ##
 
-In this lab, we deploy a new application, leaving the current Cafe and Bar apps up and running. This new app environment is deployed using Nginx VirtualServer/VSRroute manifests.
+In this lab, we deploy a new application, leaving the current Cafe and Bar apps up and running. This new app environment is deployed using NGINX VirtualServer/VSRroute manifests.
 
 <br/>
 
@@ -10,7 +10,7 @@ By the end of the lab, you will be able to:
 
 - Create a new Kubernetes namespace
 - Deploy and test a new application
-- Access this new app thru Nginx Ingress Controller
+- Access this new app thru NGINX Ingress Controller
 
 <br/>
 
@@ -18,7 +18,7 @@ By the end of the lab, you will be able to:
 
 <br/>
 
-You will launch a new application, called `Juice Shop`, representing a modern online retail sales app, a nice refeshing addition to Cafe and Bar. It will be deployed in a new Kubernetes namespace called "juice" in your cluster.  The Juice Shop app is often used to test various HTTP and Website vulnerabilities. However, you will use it to test various Nginx features.
+You will launch a new application, called `Juice Shop`, representing a modern online retail sales app, a nice refeshing addition to Cafe and Bar. It will be deployed in a new Kubernetes namespace called "juice" in your cluster.  The Juice Shop app is often used to test various HTTP and Website vulnerabilities. However, you will use it to test various NGINX features.
 
 1. Inspect both of the Lab9 Juiceshop YAML files, `juiceshop.yaml`, and `juiceshop-vs.yaml`.  Do you see the deployment, service, and virtual server and route definitions?  
 
@@ -49,7 +49,7 @@ You will launch a new application, called `Juice Shop`, representing a modern on
 
     Open Chrome, navigate to (http://juiceshop.example.com).  Click around for a few minutes to explore the application.
 
-    Did you notice, how easy it was with NGINX Ingress, to launch a completely new application in just a few seconds?  With just 2 YAML manifest files - and `no IT tickets` required to do this?  Nginx NIC can perform the Layer7 Hostname and path routing for many different applications running in your k8s cluster.
+    Did you notice, how easy it was with NGINX Ingress, to launch a completely new application in just a few seconds?  With just 2 YAML manifest files - and `no IT tickets` required to do this?  NGINX NIC can perform the Layer7 Hostname and path routing for many different applications running in your k8s cluster.
 
     ![Juiceshop welcome page](media/lab9_juiceshop_welcome_page.png)
 
@@ -60,7 +60,7 @@ You will launch a new application, called `Juice Shop`, representing a modern on
 
 ## References:
 
-- [Nginx VirtualServer / Route](https://docs.nginx.com/nginx-ingress-controller/configuration/virtualserver-and-virtualserverroute-resources/)
+- [NGINX VirtualServer / Route](https://docs.nginx.com/nginx-ingress-controller/configuration/virtualserver-and-virtualserverroute-resources/)
 
 - [JuiceShop Demo Source](https://github.com/bkimminich/juice-shop)
 

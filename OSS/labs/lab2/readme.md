@@ -1,17 +1,17 @@
-# Lab 2: Verify Nginx Ingress Controller is running
+# Lab 2: Verify NGINX Ingress Controller is running
 
 ## Introduction
 
-The Nginx Ingress Controller is already running in this workshop. You will be checking and verifying the Ingress Controller is running properly.
+The NGINX Ingress Controller is already running in this workshop. You will be checking and verifying the Ingress Controller is running properly.
 
 ## Learning Objectives 
-- Intro to Nginx Ingress Controller
+- Intro to NGINX Ingress Controller
 - Intro to Kubernetes environment, interacting with `kubectl` command
-- Access the Nginx Stub Status Page
+- Access the NGINX Stub Status Page
 
 ## Check your Ingress Controller
 
-1. First, verify the Nginx Ingress controller is up and running correctly in the Kubernetes cluster:
+1. First, verify the NGINX Ingress controller is up and running correctly in the Kubernetes cluster:
 
    ```bash
    kubectl get pods -n nginx-ingress
@@ -58,7 +58,7 @@ The Nginx Ingress Controller is already running in this workshop. You will be ch
 
    ![kubectl describe](media/kubectl_describe.png)
 
-## Check the Nginx Stub Status Page
+## Check the NGINX Stub Status Page
 
 1. Using Kubernetes [port-forwarding](https://kubernetes.io/docs/tasks/access-application-cluster/port-forward-access-application-cluster/), see if stub status is running on port `9000`. Using the VScode terminal pane, run the following `kubectl port-forward` command:
 
@@ -82,7 +82,7 @@ The Nginx Ingress Controller is already running in this workshop. You will be ch
 
 ### Take a look "under the hood" of Ingress Controller
 
-The NGINX Ingress Controller is a pod running Nginx Proxy under the hood, let's go check it out.
+The NGINX Ingress Controller is a pod running NGINX Proxy under the hood, let's go check it out.
 
 1. Use the VScode Terminal to enter a shell in the NGINX Ingress Controller pod by running the [`kubectl exec`](https://kubernetes.io/docs/tasks/debug-application-cluster/get-shell-running-container/) command 
 
@@ -97,7 +97,7 @@ The NGINX Ingress Controller is a pod running Nginx Proxy under the hood, let's 
    more nginx.conf
    ```
 
-   If you have worked with Nginx config files, it should look very similar.
+   If you have worked with NGINX config files, it should look very similar.
 
 1. Type `q ` to quit viewing the `nginx.conf `
 

@@ -55,4 +55,4 @@ spec:
       return:
         code: 200
         type: text/html
-        body: "Welcome to Nginx Ingress Controller Workshop!!"
+        body: "Welcome to NGINX Ingress Controller Workshop!!"

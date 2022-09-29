@@ -121,13 +121,13 @@ Here is a brief description of what these different tools and application provid
 
     <br/>
 
-### Testing the Nginx Ingress's Prometheus "scraper" Port and Page
+### Testing the NGINX Ingress's Prometheus "scraper" Port and Page
 
 <br/>
 
 < Need copy of the nginx-ingress.yaml file for this lab >
 
-Verify that Nginx NIC is enabled for exporting Prometheus statistics.  This requires 3 settings:
+Verify that NGINX NIC is enabled for exporting Prometheus statistics.  This requires 3 settings:
 
 - Prometheus `Annotations` are enabled
 - Port `9113` is open
@@ -348,7 +348,7 @@ You can login to Grafana using the same admin/password credentials that you used
 
     ![grafana open KIC dashboard](media/lab8_grafana_open_KIC_dashboard.png)
 
-    This should open up the NginxPlus Grafana Dashboard. You can expand the sub-sections or adjust the time range and refresh time as needed.
+    This should open up the NGINX Plus Grafana Dashboard. You can expand the sub-sections or adjust the time range and refresh time as needed.
 
     ![grafana KIC dashboard](media/lab8_grafana_KIC_dashboard.png)
 

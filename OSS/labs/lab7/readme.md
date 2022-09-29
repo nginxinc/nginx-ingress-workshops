@@ -1,20 +1,20 @@
-## Lab 7: Nginx Ingress Controller High Availability and Enhanced Logging
+## Lab 7: NGINX Ingress Controller High Availability and Enhanced Logging
 
 ## Introduction
 
-In Production Kubernetes clusters, it is important to have High Availability for the Ingress Controllers, just like any traditional load balancer, and the pods themselves.  Nginx Ingress Controllers can be added and removed just like application pods.  
+In Production Kubernetes clusters, it is important to have High Availability for the Ingress Controllers, just like any traditional load balancer, and the pods themselves.  NGINX Ingress Controllers can be added and removed just like application pods.  
 
 It is considered a Best Practice to have **at least three Ingress Controllers** for Production workloads running in the cluster.  This will provide a very solid High Availability foundation for managing production traffic.
 
-It is also helpful to development and operations teams to see granular details about the traffic to and from the services and pods.  Nginx has the capability to provide many details to gain insight into these traffic flows, using additional logging variables.
+It is also helpful to development and operations teams to see granular details about the traffic to and from the services and pods.  NGINX has the capability to provide many details to gain insight into these traffic flows, using additional logging variables.
 
 ## Learning Objectives
 
-- Scaling Nginx Ingress Controller
+- Scaling NGINX Ingress Controller
 - Seeing Ingress Under the Hood
 - Configuring Enhanced Logging
 
-## Scaling Nginx Ingress
+## Scaling NGINX Ingress
 
 Next, let's scale the number of Ingress Controllers pods from one to **three**. This will provide High Availability, and also increase performance and capacity.
 
@@ -82,11 +82,11 @@ Next, let's scale the number of Ingress Controllers pods from one to **three**. 
     # Store the NIC Pod name in a variable
     export NIC=$(kubectl get pods -n nginx-ingress -o jsonpath='{.items[0].metadata.name}')
 
-    # Check the full Nginx config
+    # Check the full NGINX config
     kubectl exec -it $NIC -n nginx-ingress -- nginx -T
     ```
 
-    **Inspect the output:** `nginx -T` prints out the entire Nginx configuration. Scroll up and down - do you see:
+    **Inspect the output:** `nginx -T` prints out the entire NGINX configuration. Scroll up and down - do you see:
 
     - `server` block
     - the `listen` ports 
@@ -95,13 +95,13 @@ Next, let's scale the number of Ingress Controllers pods from one to **three**. 
     - `upstream blocks` with Pod IPs 
     - the `least_conn` or `round-robin` load balancing method  
 
-    This is all standard Nginx under the hood, it should look very familiar.
+    This is all standard NGINX under the hood, it should look very familiar.
 
 ## Enhanced Logging with NGINX Ingress
 
-Let's add some additional fields to the Nginx Access Log, you need more data about the performance of the **coffee** and **tea** pods for Developers.  They are asking you to help fix an **"application too slow"** escalation ticket from the Marketing team. The "free coffee" campaign was popular but customer feedback was the website was too slow.
+Let's add some additional fields to the NGINX Access Log, you need more data about the performance of the **coffee** and **tea** pods for Developers.  They are asking you to help fix an **"application too slow"** escalation ticket from the Marketing team. The "free coffee" campaign was popular but customer feedback was the website was too slow.
 
-For reference, this is the default Nginx Access Log format:
+For reference, this is the default NGINX Access Log format:
   
 ```bash
 log_format main $remote_addr - $remote_user [$time_local] $request $status $body_bytes_sent $http_refererm $http_user_agent $http_x_forwarded_for;
@@ -112,7 +112,7 @@ However, there are only **two** log variables with any useful data related to th
   - HTTP status code (`$status`)
   - Bytes Sent (`$body_bytes_sent`) 
 
-1. Use the `kubectl log` command, to view the default Nginx Plus Ingress Controller Access log format:
+1. Use the `kubectl log` command, to view the default NGINX Ingress Controller Access log format:
 
     ```bash
     kubectl logs $NIC -n nginx-ingress --tail 10 --follow
@@ -124,7 +124,7 @@ However, there are only **two** log variables with any useful data related to th
 
 1. Type `Ctrl-C` to stop the log `tail` when finished.
 
-1. Lets implement an **Enhanced** Access Log format, to collect extra Nginx Request and Response and pod statistics, we can do this by adding new log variables specifc to NGINX Ingress such as the Kubernetes pods' resource and traffic details. 
+1. Lets implement an **Enhanced** Access Log format, to collect extra NGINX Request and Response and pod statistics, we can do this by adding new log variables specifc to NGINX Ingress such as the Kubernetes pods' resource and traffic details. 
 
     NGINX has many variables that can be used for logging. In the code snippet below
     (`lab7/nginx-config-enhanced-logging.yaml`), you can see the new **Enhanced** Access Log format for the NGINX Ingress Controller, as a `ConfigMap`:
