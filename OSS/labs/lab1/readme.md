@@ -37,7 +37,7 @@ Locate the **`Ubuntu-Jumphost`** component and click on the **`ACCESS`** dropdow
 
 Click `WORKSHOP LAB GUIDE`, which should open the Lab Guide in a seperate tab.<br/>
      ![UDF Jumphost access](media/udf-jumphost-access.png)
-     ![UDF lab guide](media/lab_guide.png)
+     ![UDF lab guide](media/lab_guide_oss.png)
      ![UDF lab guide](media/lab_guide_outline.png)
    
 
