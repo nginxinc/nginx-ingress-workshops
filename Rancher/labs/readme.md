@@ -2,6 +2,8 @@
 
 # Rancher Nginx Ingress Controller Workshop
 
+# **Under Contruction - this is a Preview of the Workshop**
+
 <br/>
 
 ## Welcome
