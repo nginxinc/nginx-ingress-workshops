@@ -86,4 +86,4 @@ Click `WORKSHOP LAB GUIDE`, which should open the Lab Guide in a seperate tab.<b
 
 -------------
 
-Navigate to ([Lab2](../lab2/readme.md) | [Main Menu](../intro/LabGuide.md))
+Navigate to ([Lab2](../lab2/readme.md) | [Main Menu](../LabGuide.md))
