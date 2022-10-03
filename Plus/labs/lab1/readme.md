@@ -65,9 +65,11 @@ https://github.com/nginxinc/nginx-ingress-workshops/blob/main/Plus/labs/LabGuide
       
    ### Note: You can re-open the LabGuide or RDP from the UDF Access page at any time.
 
-1. After you have logged into the Jumphost, open `NginxPlus NIC Workshop Workspace` to open VScode in the workshop project directory. 
+1. After you have logged into the Jumphost, open `NGINX Plus NIC Workshop Workspace` to open VScode in the workshop project directory. 
 
->> You will be running all the lab exercises in VS Code with its built-in Terminal to run commands like `kubectl`, `curl`, `docker` and much more.
+> You will be running all the lab exercises in VS Code with its built-in Terminal to run commands like `kubectl`, `curl`, `docker` and much more.
+
+>> Change the Terminal commandline path to "nginx-ingress-workshop/Plus/labs" - all the Lab Exercises are run from this directory.
 
    ![vscode-workspace](media/vscode-workspace.png)
 

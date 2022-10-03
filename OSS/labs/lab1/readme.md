@@ -51,16 +51,17 @@ Click `WORKSHOP LAB GUIDE`, which should open the Lab Guide in a seperate tab.<b
 
    Note that you can re-open these components from the UDF Access page at any time.
 
-   The `XRDP` session will use the below login credentials:
+   The `XRDP` session will use the these login credentials:
 
-   - username: **ubuntu**
-   - password: **Nginx123**
+   > username: **ubuntu**<br/>
+   > password: **Nginx123**
 
-< update SS to remove Plus >
 
-   ![jumphost login](media/jumphost_login.png)
+   ![jumphost login](media/lab1_jumphost_login.png)
 
-1. After you have logged into the Jumphost, open `Nginx Ingress Workshop Workspace` to open VScode in the workshop project directory. You will be running all the lab exercises in VS Code and its built-in bash Terminal to run commands like `kubectl`, `curl`, `docker` and much more.
+1. After you have logged into the Jumphost, open `Nginx OSS NIC Workshop Workspace` to open VScode in the workshop project directory. You will be running all the lab exercises in VS Code and its built-in bash Terminal to run commands like `kubectl`, `curl`, `docker` and much more.
+
+>> Change the Terminal commandline path to "nginx-ingress-workshop/OSS/labs" - all the Lab Exercises are run from this directory.
 
    ![vscode-workspace](media/vscode-workspace.png)
 
