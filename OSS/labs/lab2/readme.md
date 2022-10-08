@@ -27,7 +27,7 @@ The NGINX Ingress Controller is already running in this workshop. You will be ch
    nginx-ingress-fd4b9f484-t5pb6   1/1     Running   1          12h
    ```
 
-1. Instead of remembering the unique pod name, `nginx-ingress-xxxxxx-xxxx`, we can store the Ingress Controller pod name into the `$NIC` variable to be used throughout the lab.
+1. Instead of remembering the unique pod name, `nginx-ingress-xxxxxx-xxxx`, we can store the Ingress Controller pod name into the `$NIC` variable to be used throughout the labs.
 
    **Note:** This variable is stored for the duration of the terminal session, and so if you close the terminal it will be lost. At any time you can refer back to this step to save the `$NIC` variable once again.
 
@@ -53,7 +53,7 @@ The NGINX Ingress Controller is already running in this workshop. You will be ch
    kubectl describe pod $NIC -n nginx-ingress
    ```
 
-   **Note:** The IP address and TCP ports that are open on the Ingress (they should match the `lab2/nginx-ingress.yaml` file, around lines `25-35`). We have the following listening Ports:
+   **Observe:** The IP address and TCP ports that are open on the Ingress (they should match the `lab2/nginx-ingress.yaml` file, around lines `25-35`). Verify you have the following listening Ports:
 
    * Port `80 and 443` for http/s traffic,
    * Port `8081` for Readiness, 
@@ -88,7 +88,7 @@ The NGINX Ingress Controller is already running in this workshop. You will be ch
 
 The NGINX Ingress Controller is a pod running NGINX Proxy under the hood, let's go check it out.
 
-1. Use the VScode Terminal to enter a shell in the NGINX Ingress Controller pod by running the [`kubectl exec`](https://kubernetes.io/docs/tasks/debug-application-cluster/get-shell-running-container/) command 
+1. Use the VScode Terminal to enter a shell to the NGINX Ingress Controller pod by running the [`kubectl exec`](https://kubernetes.io/docs/tasks/debug-application-cluster/get-shell-running-container/) command 
 
    ```bash
    kubectl exec -it $NIC -n nginx-ingress -- /bin/bash
@@ -101,7 +101,7 @@ The NGINX Ingress Controller is a pod running NGINX Proxy under the hood, let's 
    more nginx.conf
    ```
 
-   If you have worked with NGINX config files, it should look very similar.
+   If you have worked with NGINX config files, it should look very familiar.
 
 1. Type `q ` to quit viewing the `nginx.conf `
 

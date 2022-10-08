@@ -43,7 +43,7 @@ Prepare the Lab client machine for this lab by:
 
 1. Find the Ubuntu-Jumphost, and under the `ACCESS` menu, now click on `XRDP` to login to the Jumphost:
 
-   *Note:*  It will open the RDP session as Full Screen on your monitor.  If you want to use a different RDP screensize, click on Details, then XRDP, and you can choose from several resolutions.  FullHD, 1080x1920 is highly recommended for the lab exercises to match the Ubuntu Desktop size.
+   *Note:*  It will open the RDP session as Full Screen on your monitor.  If you want to use a different RDP screensize, click on Details, then XRDP, and you can choose from several resolutions.  `FullHD, 1920X1080` is highly recommended for the lab exercises to match the Ubuntu Desktop size.
 
    ![UDF Jumphost RDP](media/lab1_udf-jumphost-rdp.png)
 
@@ -63,11 +63,11 @@ Prepare the Lab client machine for this lab by:
 
    > For reference, the LabGuide can be found on GitHub at:
 
-   https://github.com/nginxinc/nginx-ingress-workshops/blob/main/Plus/labs/LabGuide.md
+   https://github.com/nginxinc/nginx-ingress-workshops/blob/main/OSS/labs/LabGuide.md
 
    ![lab-guide](media/lab1_lab-guide-oss.png)
 
-1. After you have logged into the Jumphost, open `Nginx OSS NIC Workshop Workspace` to open VScode in the workshop project directory.
+1. After you have logged into the Jumphost, open `Nginx OSS NIC Workshop Workspace` to launch VScode in the workshop project directory.
 
    > You will be running all the lab exercises in VS Code and its built-in bash Terminal to run commands like `kubectl`, `curl`, `docker` and much more.
 

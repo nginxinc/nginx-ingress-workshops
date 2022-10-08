@@ -4,7 +4,7 @@
 
 The NGINX Ingress Controller is already running in this Workshop. You will be configuring Ingress Controller for external access outside of your cluster using a [`LoadBalancer`](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/) Service.  The Kubernetes `LoadBalancer` Service is what assigns IP addresses to the `Ingress`, so it can communicate with clients outside the cluster, and also with pods inside the Cluster.
 
-**Note:** Your Kubernetes cluster is running on a private lab network. We will be using a private IP for external access. In a public cloud environment, the `LoadBalancer` Service from a Cloud Provider would provide you with a routable public IP address.
+**_NOTE:_** Your Kubernetes cluster is running on a private lab network. We will be using a private IP for external access. In a public cloud environment, the `LoadBalancer` Service from a Cloud Provider would provide you with a routable public IP address.
 
 <br/>
 
@@ -31,7 +31,7 @@ The NGINX Ingress Controller is already running in this Workshop. You will be co
 
     **IMPORTANT SECURITY NOTE:** In a real world deployment using a Cloud Provider, with a public IP address, this would expose your Ingress Controller to the open Internet with `NO PROTECTION` other than basic TCP port filters. Doing this in production would require Security/Firewall Protections, which are not part of this lab exercise.
 
-1. Confirm there is an `nginx-ingress` service with `TYPE: LoadBalancer`. Run the following command to get networking details of our pod:
+1. Confirm there is an `nginx-ingress` service with `TYPE: LoadBalancer`. Run the following command to get networking details of our Ingress pod:
 
    ```bash
    kubectl get deployments,services -n nginx-ingress
@@ -47,12 +47,12 @@ The NGINX Ingress Controller is already running in this Workshop. You will be co
    In the example above you see: 
 
    - `Cluster-IP` address of `10.98.133.36`  
-   - `External-IP` address of `10.1.1.10` 
-   - Both IPs are mapped from port `80` to a NodePort (`31871`); and from port `443` to a NodePort (`32470`)
+   - `External-IP` address of `10.1.1.100` 
+   - Both IPs are mapped from port `80` to a NodePort (`32656`); and from port `443` to a NodePort (`30143`)
 
-   *NOTE:* 
+   *Remember:* 
 
-   - Your `Cluster-IP` address will be different based on your cluster. 
+   - Your `Cluster-IP` address and `NodePorts` will be different based on your cluster. 
    - Since this is a lab environment and not a public cloud environment, the `External-IP` address is static and contained within the lab and has no public access.
 
 <br/>
