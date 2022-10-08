@@ -22,13 +22,13 @@ These Hands-On Lab Exercises are designed to build upon each other, adding addit
 
 ![Developer Seated](../media/developer-seated.svg)
 
-By the end of this Workshop, you will have a working, operational NGINX Ingress Controller, routing traffic to and from Kubernetes application pods and services, with the necessary skills to deploy and operate NIC for your own Digital Enterprise Applications running in Kubernetes.  Thank You for taking the time to attend this NGINX Workshop!
+By the end of this Workshop, you will have a working, operational NGINX Ingress Controller, routing traffic to and from Kubernetes application pods and services, with the necessary skills to deploy and operate NIC for your own Modern Applications running in Kubernetes.  Thank You for taking the time to attend this NGINX Workshop!
 
 ![Robot](../media/robot.svg)
 
 ## About NGINX Ingress Controller
 
-NGINX Ingress Controller (nginxinc/kubernetes-ingress) is an Open Source resource for directing traffic to/from a Kubernetes Cluster.  NGINX runs all popular K8s platforms, including AWS EKS, Google GKE, Azure AKS, and Openshift.  It can also work with your on-premise K8s clusters.  NGINX Ingress Controller is built from the same source code you know and trust from NGINX.  You can find the full Kubernetes support matrix and technical specifications for NGINX Ingress Controller on the https://www.nginx.org website.
+NGINX Ingress Controller (nginxinc/kubernetes-ingress) is an Open Source resource for directing traffic to/from a Kubernetes Cluster.  NGINX runs all popular K8s platforms, including AWS EKS, Google GKE, Azure AKS, and others.  It can also work with your on-premise K8s clusters.  NGINX Ingress Controller is built from the same source code you know and trust from NGINX.  You can find the full Kubernetes support matrix and technical specifications for NGINX Ingress Controller on the https://www.nginx.org website.
 
 If you are unsure which Ingress Controller you are running, please read our blog to determine if you are running Community Ingress, NGINX OSS Ingress, or NGINX Plus Ingress:
 

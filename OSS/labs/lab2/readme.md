@@ -4,10 +4,14 @@
 
 The NGINX Ingress Controller is already running in this workshop. You will be checking and verifying the Ingress Controller is running properly.
 
+<br/>
+
 ## Learning Objectives 
 - Intro to NGINX Ingress Controller
 - Intro to Kubernetes environment, interacting with `kubectl` command
 - Access the NGINX Stub Status Page
+
+<br/>
 
 ## Check your Ingress Controller
 
@@ -27,7 +31,7 @@ The NGINX Ingress Controller is already running in this workshop. You will be ch
 
    **Note:** This variable is stored for the duration of the terminal session, and so if you close the terminal it will be lost. At any time you can refer back to this step to save the `$NIC` variable once again.
 
-   **Note**: You must use the `kubectl` "`-n`", namespace switch, followed by the namespace's name, to see pods that are not in the default namespace.
+   **Note**: You must use the `kubectl` "`-n`" switch, followed by the namespace's name, to see resources that are not in the default namespace.
 
    ```bash
    export NIC=$(kubectl get pods -n nginx-ingress -o jsonpath='{.items[0].metadata.name}')
@@ -38,6 +42,8 @@ The NGINX Ingress Controller is already running in this workshop. You will be ch
    echo $NIC
    ```
    **Note:** If this command doesn't show the name of the pod then run the previous command again.
+
+<br/>
 
 ## Inspect the details of your Ingress Controller:
 
@@ -54,9 +60,9 @@ The NGINX Ingress Controller is already running in this workshop. You will be ch
    * Port `9000` for the Stub Status, and 
    * Port `9113` for Prometheus (You will see this in a later Lab)
 
-< update screenshot below >
+   ![kubectl describe ingress](media/lab2_describe_ingress.png)
 
-   ![kubectl describe](media/kubectl_describe.png)
+<br/>
 
 ## Check the NGINX Stub Status Page
 
@@ -66,19 +72,17 @@ The NGINX Ingress Controller is already running in this workshop. You will be ch
    kubectl port-forward -n nginx-ingress $NIC 9000:9000
    ```
 
-< Fix urls and screenshots for Stub Status below >
+1. Now open Chrome web browser to view the NGINX Stub Status webpage, at http://localhost:9000/stub_status.html. 
 
-1. Now open Chrome web browser to view the NGINX Stub Status webpage, at [http://localhost:9000/dashboard.html](http://localhost:9000/dashboard.html). 
-   
+   ![Nginx Stub Status](media/lab2_stub_status.png)
+
    Do you see the NGINX Stub Status Page? If so, your Ingress Controller pod is up and running!
-
-   ![NPlus Dashboard](media/lab2_NplusDashboard.png)
-
 
 1. Close Chrome Web Browser, and hit `Ctrl-C` in the terminal to stop the Port Forward.
 
-   ![stop port-forward](media/port-forward-ctrl-c.png)
+   ![stop port-forward](media/lab2_port-forward-ctrl-c.png)
 
+<br/>
 
 ### Take a look "under the hood" of Ingress Controller
 
@@ -101,11 +105,13 @@ The NGINX Ingress Controller is a pod running NGINX Proxy under the hood, let's 
 
 1. Type `q ` to quit viewing the `nginx.conf `
 
-   ![q to quit more](media/more-command-q-quit.png)
+   ![q to quit more](media/lab2_more-command-q-quit.png)
 
 1. Type `exit` to close the connection to the Ingress pod.
 
-   ![exit-to-exit-pod](media/exit-to-exit-pod.png)
+   ![exit-to-exit-pod](media/lab2_exit-to-exit-pod.png)
+
+<br/>
 
 **This completes this Lab.**
 

@@ -29,7 +29,7 @@ The Hands-On Lab Exercises are designed to build upon each other, adding additio
 
 `It is important to complete the lab exercises in sequential order.`
 
-By the end of this Workshop, you will have a working, operational NGINX Ingress Controller, with the skills to deploy and operate one for your Digital Enterprise Kubernetes projects.
+By the end of this Workshop, you will have a working, operational NGINX Ingress Controller, with the skills to deploy and operate one for your Modern Application Kubernetes projects.
 
 <br/>
 
@@ -45,7 +45,7 @@ By the end of this Workshop, you will have a working, operational NGINX Ingress 
 
 #### Lab Client Machine - NGINX Provided
 - Ubuntu Jumphost
-- Chrome Browser 
+- Chrome Browser, VisualStudio
 - All labs are completed using RDP to an Ubuntu Jumphost.
 
 <br/>

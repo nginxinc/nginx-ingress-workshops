@@ -6,10 +6,14 @@ The NGINX Ingress Controller is already running in this Workshop. You will be co
 
 **Note:** Your Kubernetes cluster is running on a private lab network. We will be using a private IP for external access. In a public cloud environment, the `LoadBalancer` Service from a Cloud Provider would provide you with a routable public IP address.
 
+<br/>
+
 ## Learning Objectives 
 
 - Test and verify the `LoadBalancer` Service
 - Test and verify access to the Ingress Controller using the external IP address.
+
+<br/>
 
 ## Inspect the LoadBalancer Service
 
@@ -17,19 +21,15 @@ The NGINX Ingress Controller is already running in this Workshop. You will be co
 
    - `LoadBalancer` Service
    - An External IP address 
-   - The Kubernetes Cluster IP subnet, used to assign IPs to Pods, including the
-     Ingress Controller
-
-< update lab diagram >
+   - The Kubernetes Cluster IP subnet, used to assign IPs to Pods, including the Ingress Controller
 
    ![Workshop Network Architecture](media/lab3_architecture.png)
 
-1. Inspect the `lab3/loadbalancer.yaml` manifest. You can see that port `80` and `443` are being opened and we are requesting an external IP address. This will give the Ingress Controller a static private IP address from an IP address management system in the lab. 
+1. Inspect the `lab3/loadbalancer.yaml` manifest. You can see that port `80` and `443` are being opened and we are requesting an external IP address. This will give the Ingress Controller a static private IP address in the lab. 
 
     ![loadbalancer.yaml](media/lab3_loadbalancer.png)
 
-    **IMPORTANT SECURITY NOTE:** In a real world deployment using a Cloud Provider, with a public IP address, this would expose your Ingress Controller to the open Internet with `NO PROTECTION` other than basic TCP port filters. Doing this in production would require Security/Firewall Protections, which
-    are not part of this lab exercise.
+    **IMPORTANT SECURITY NOTE:** In a real world deployment using a Cloud Provider, with a public IP address, this would expose your Ingress Controller to the open Internet with `NO PROTECTION` other than basic TCP port filters. Doing this in production would require Security/Firewall Protections, which are not part of this lab exercise.
 
 1. Confirm there is an `nginx-ingress` service with `TYPE: LoadBalancer`. Run the following command to get networking details of our pod:
 
@@ -39,43 +39,45 @@ The NGINX Ingress Controller is already running in this Workshop. You will be co
    
    You will see the two IP addresses for the Ingress Controller. Both of these IPs must exist for the `LoadBalancer` service to work correctly:
 
-   - **`EXTERNAL-IP`**: This is your external IP address 
    - **`CLUSTER-IP`**: This is your Kubernetes internal IP address
+   - **`EXTERNAL-IP`**: This is your external IP address 
 
-   ![get deployments output](media/lab3_get_deployments.png)
+     ![get loadbalancer output](media/lab3_get-loadbalancer.png)
 
    In the example above you see: 
 
    - `Cluster-IP` address of `10.98.133.36`  
    - `External-IP` address of `10.1.1.10` 
-   - Both IPs are mapped from port `80` to a NodePort (`31871`); and from port `443` to NodePort (`32470`)
+   - Both IPs are mapped from port `80` to a NodePort (`31871`); and from port `443` to a NodePort (`32470`)
 
-   **NOTE:** 
+   *NOTE:* 
 
-   - Your `Cluster-IP` address may be different based on your cluster. 
-   - Since this is a lab environment and not a public cloud environment, the `External-IP` address is contained within the lab and has no public access.
+   - Your `Cluster-IP` address will be different based on your cluster. 
+   - Since this is a lab environment and not a public cloud environment, the `External-IP` address is static and contained within the lab and has no public access.
+
+<br/>
 
 ## Verify access to the Ingress Controller using the External IP
 
-1. Use the `LoadBalancer` External-IP address that we captured from the previous step to test your **nginx-ingress** service. Use `curl` command to test it.
+1. Use the `LoadBalancer` External-IP address that we captured from the previous step to test your **k8s LoadBalancer Service**. Use `curl` to test it.
 
    ```bash
-   #Test Access to Ingress through LoadBalancer:
-   curl -I http://10.1.1.10
+   curl -I http://10.1.1.100
    ```
    You should see the following output if the `LoadBalancer` Service is configured correctly for Ingress:
 
-   ![curl header output](media/lab3_curl_header.png)
+   ![curl ingress output](media/lab3_curl-ingress.png)
 
    **Question: Why did you get a 404?** 
 
    <details><summary>Click for Hints!</summary>
    <br/>
    <p>
-   <strong>Answer</strong> – The Ingress Controller default server will return an <b>HTTP 404 Not Found page, or an HTTP 400 Bad Request status code</b> for all requests that have no Ingress routing rules defined; this is NGINX's default 404 error page. You will deploy a Demo application in the subsequent labs, which will fix this.
+   <strong>Answer</strong> – The Ingress Controller's default server will return an <b>HTTP 404 Not Found page, or an HTTP 400 Bad Request status code</b> for all requests that have no matching Ingress routing rules defined; this is NGINX's default 404 error page. You will deploy a Demo application in the subsequent labs, which will fix this.
    </p>
    </details>
 
+<br/>
 
 **This completes this Lab.**
 
