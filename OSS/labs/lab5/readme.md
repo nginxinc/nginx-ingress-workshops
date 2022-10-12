@@ -2,22 +2,28 @@
 
 ## Introduction
 
-In this section, you will build the "Cafe" Ingress Demo, which represents a Coffee Shop website with Coffee and Tea applications. You will be adding the following components to your Kubernetes Cluster: **Coffee** and **Tea** `services`, `cafe-secret`, and `cafe ` `virtualserver`.
+In this section, you will build the "Cafe" Ingress Demo, which represents a Coffee Shop website with simple Coffee and Tea applications. You will be adding the following components to your Kubernetes Cluster:
+ - **coffee** and **tea** `services`
+ - `cafe-secret` for TLS
+ - `cafe ` `virtualserver`
+
+<br/>
 
 ## Learning Objectives
 - Deploy the Cafe Demo app
-- Compare VirtualServer and Ingress manifests
-- Verify the URL path access to `/coffee` and `/tea` work correctly 
-- Monitor the NGINX Stub Status page
+- Inspect the Cafe Manifests and CRDs
+- Verify the URL request path routing to `/coffee` and `/tea` work correctly
+- Verify TLS self-signed cert is working 
 - Verify the homepage redirect works correctly
+- Monitor the NGINX Stub Status page
+
+<br/>
 
 ## Deploy the Cafe Demo app
 
-The Cafe application that you will deploy looks like the following diagram below.  Coffee and Tea pods and services, with NGINX Ingress routing the traffic for `/coffee` and `/tea` routes, using the `cafe.example.com` Hostname, and with TLS enabled.  There is also a hidden third service - more on that later!
+The Cafe application that you will deploy looks like the diagram below.  Coffee and Tea pods and services, with NGINX Ingress routing the traffic for `/coffee` and `/tea` routes, using the `cafe.example.com` Hostname, and with TLS enabled.  There is also a hidden third service - more on that later!
 
-< update diagram >
-
-![Cafe Diagram](media/lab5_cafe_diagram.png)
+![Cafe Diagram](media/lab5_cafe-diagram.png)
 
 1. Deploy the Cafe application by applying the three manifests:
 
@@ -26,26 +32,28 @@ The Cafe application that you will deploy looks like the following diagram below
     kubectl apply -f lab5/cafe.yaml
     kubectl apply -f lab5/cafe-virtualserver.yaml
     ```
-    ![apply various components](media/lab5_components_apply.png)
+    ![apply various components](media/lab5_components-apply.png)
 
-1. Check that all pods are running, you should see **three** Coffee and **three** Tea pods:
+1. Check that all pods are running, you should see `three` Coffee and `three` Tea pods:
 
     ```bash
     kubectl get pods
     ```
-    ![Get pods](media/lab5_get_pods.png)
-
+    ![Get pods](media/lab5_get-pods.png)
+  
 
 1. Check that the Cafe `VirtualServer` , **`cafe-vs`**, is running:
 
     ```bash
     kubectl get virtualserver cafe-vs
     ```
-    ![get virtualserver](media/lab5_get_vs.png)
+    ![get virtualserver](media/lab5_get-vs.png)
 
-    **Note:** The `STATE` should be `Valid`.  If it is not, then there is an issue with your yaml manifest file `(cafe-vs.yaml)`.  You could also use `kubectl describe vs cafe-vs` to get more information about the `VirtualServer` we just created.
+    **Note:** The `STATE` should be `Valid`.  If it is not, then the STATE would show Invalid, as there is an issue with your manifest yaml file `(cafe-vs.yaml)`.  You could also use `kubectl describe vs cafe-vs` to get more information about the `VirtualServer` we just created.
 
-## Compare VirtualServer and Ingress manifest
+<br/>
+
+## Inspect the VirtualServer CRD for Cafe
 
 1. In the `lab5` folder, inspect the `cafe.yaml` manifest file.  Find the following configuration details:
 
@@ -66,9 +74,9 @@ The Cafe application that you will deploy looks like the following diagram below
       </p>
     </details>
 
-  ![cafe.yaml](media/lab5_cafe_yaml.png)
+  ![cafe.yaml](media/lab5_cafe-yaml.png)
 
-1. Now inspect the `cafe-virtualserver.yaml` file.
+  Inspect the `cafe-virtualserver.yaml` manifest file.
 
   * **Question:**  What is the hostname ?  
 
@@ -86,12 +94,12 @@ The Cafe application that you will deploy looks like the following diagram below
       <strong>Hint:</strong> Look for <code>tls</code>
       </p>
     </details>
-  * **Question:**  Are healthchecks enabled ? 
+  * **Question:**  Are Healthchecks enabled ? 
 
     <details><summary>Click for Hints!</summary>
       <br/>
       <p>
-      <strong>Hint:</strong> Look for <code>healthCheck</code>
+      <strong>Hint:</strong> Look for <code>healthCheck.  Active Healthchecks are an NGINX Plus feature, so they are commented out here.</code>
       </p>
     </details>
   * **Question:** What URI paths are defined, routing to where ? 
@@ -103,26 +111,18 @@ The Cafe application that you will deploy looks like the following diagram below
       </p>
     </details><br/>
 
-  ![cafe-virtualserver.yaml1](media/lab5_cafe_vs_yaml1.png)
-  ![cafe-virtualserver.yaml2](media/lab5_cafe_vs_yaml2.png)
-
-1. Compare the `cafe-ingress.yaml` and `cafe-virtualserver.yaml` files.  How are they different?  Do you see, that the `virtualServer` definition has quite a few more options for controlling how traffic is routed to your Ingress and to your pods:
-   
-   You can make use of VSCode built-in **compare** tool as seen below: `Select the two files and then right-click Compare Selected:<br/>
-    
-    ![CompareTool](media/lab5_comparetool.png)
-
-    Do you see how many more options there are in a `VirtualServer` type over an `Ingress` type?
-
-    ![ingress vs virtualserver](media/lab5_ingress_vs_VS.png)
+  ![cafe-virtualserver.yaml1](media/lab5_cafe-vs-yaml1.png)
+  ![cafe-virtualserver.yaml2](media/lab5_cafe-vs-yaml2.png)
 
 2. Now inspect the `cafe-secret.yaml` which is the TLS self-signed certificate we are using for this lab.
 
-  ![cafe-secret.yaml](media/lab5_cafe_secret_yaml.png)
+  ![cafe-secret.yaml](media/lab5_cafe-secret-yaml.png)
+
+<br/>
 
 ## Verify the URL path to `/coffee` and `/tea` work correctly 
 
-1. Access the application using `curl`. We'll use the `-k` option to turn off certificate verification of our self-signed certificate:
+1. Access the application using `curl`. You'll use the `-k` option to turn off certificate verification of our self-signed certificate:
 
   ``` bash
   # To get coffee:
@@ -132,6 +132,10 @@ The Cafe application that you will deploy looks like the following diagram below
   # If your prefer tea:
   curl -k -I https://cafe.example.com/tea 
   ```
+  You should have received HTTP 200 Responses to both curl requests.
+
+  ![curl-coffee](media/lab5_curl-coffee.png)
+
 <br/>
 
 ## Monitor the NGINX Stats Page
@@ -156,11 +160,13 @@ The Cafe application that you will deploy looks like the following diagram below
 
     **Did you see an initial Chrome TLS Security warning ?** No problem, we are using a self-signed TLS certificate for this Lab and you can safely Proceed.
 
-    ![allow insecure chrome](media/allow-insecure-chrome.png)
+    ![allow insecure chrome](media/lab5_allow-insecure-chrome.png)
 
-1. While watching the Stats page, try refreshing the pages for Coffee and Tea several times:
+1. At the bottom of the /coffee page, enable the Refresh.  Go back to the Stats page, try refreshing it several times:
 
    Do you see some changes in the number of connections and requests counters?
+
+   `Yes` - Every time you refresh the stub_status page, it will show you the most recent server statistics from NGINX.
 
 
 1. Verify the [`Endpoint`](https://kubernetes.io/docs/concepts/services-networking/service/) addresses, with `kubectl` commands that shows you the details of Coffee and Tea `Service`:
@@ -174,8 +180,13 @@ The Cafe application that you will deploy looks like the following diagram below
     ```
     The Service `Endpoints` should match the Server IPs in the Coffee and Tea web pages:
 
-    ![describe coffee-svc](media/lab5_describe_coffee_svc.png) 
-    ![describetea-svc](media/lab5_describe_tea_svc.png)
+    ![describe coffee-svc](media/lab5_describe-coffee-svc.png) 
+    ![describe tea-svc](media/lab5_describe-tea-svc.png)
+
+    Your Endpoint IPs should match the /coffee and /tea webpage `Server Address` field, and as you refresh, you should see the IPs change in round-robin fashion.  
+    >Your Ingress is load balancing the requests among the three pods behind each Service!
+
+<br/>
 
 ## Verify the homepage redirect works correctly
 
@@ -183,7 +194,7 @@ What happens if you try just plain  http://cafe.example.com? It should redirect 
 
 1. Open Chrome Developer Tools: Right Click on the wepage and select `Inspect`.
 
-    ![Open Chrome developer tools](media/chrome_inspect.png)
+    ![Open Chrome developer tools](media/lab5_chrome-inspect.png)
 
 1. Inspect the HTTP Headers: Open the `Network` Tab > view `Headers`. 
 
@@ -201,15 +212,15 @@ What happens if you try just plain  http://cafe.example.com? It should redirect 
     </p>
     </details><br/>
 
-    < update screenshot >
+      ![milk endpoint](media/lab5_milk.png)
 
-    ![milk endpoint](media/lab5_milk.png) 
 
 <br/>
 
+**This completes this Lab.** 
+
 *Next, let's throw some traffic at your Cafe Ingress!*
 
-**This completes this Lab.** 
 
 ## References: 
 

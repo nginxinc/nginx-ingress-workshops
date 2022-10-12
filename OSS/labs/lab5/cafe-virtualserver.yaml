@@ -1,5 +1,5 @@
-#Example virtual server with routes for Cafe Demo, for NIC OSS
-#
+#Example virtual server with routes for Cafe Demo
+#For NIC OSS
 apiVersion: k8s.nginx.org/v1
 kind: VirtualServer
 metadata:
@@ -16,28 +16,28 @@ spec:
     service: tea-svc
     port: 80
     lb-method: round_robin
-    healthCheck:
-      enable: true
-      path: /tea
-      interval: 20s
-      jitter: 3s
-      fails: 5
-      passes: 2
-      connect-timeout: 30s
-      read-timeout: 20s
+    #healthCheck:   NGINX Plus only
+      #enable: true
+      #path: /tea
+      #interval: 20s
+      #jitter: 3s
+      #fails: 5
+      #passes: 2
+      #connect-timeout: 30s
+      #read-timeout: 20s
   - name: coffee
     service: coffee-svc
     port: 80
     lb-method: round_robin
-    healthCheck:
-      enable: true
-      path: /coffee
-      interval: 10s
-      jitter: 3s
-      fails: 3
-      passes: 2
-      connect-timeout: 30s
-      read-timeout: 20s
+    #healthCheck:   NGINX Plus only
+      #enable: true
+      #path: /coffee
+      #interval: 10s
+      #jitter: 3s
+      #fails: 3
+      #passes: 2
+      #connect-timeout: 30s
+      #read-timeout: 20s
   routes:
   - path: /
     action:
