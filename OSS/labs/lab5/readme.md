@@ -162,7 +162,7 @@ The Cafe application that you will deploy looks like the diagram below.  Coffee 
 
     ![allow insecure chrome](media/lab5_allow-insecure-chrome.png)
 
-1. At the bottom of the /coffee page, enable the Refresh.  Go back to the Stats page, try refreshing it several times:
+1. At the bottom of the /coffee page, enable the Auto Refresh.  Go back to the Stats page, try refreshing it several times:
 
    Do you see some changes in the number of connections and requests counters?
 

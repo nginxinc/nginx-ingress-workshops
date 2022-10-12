@@ -4,35 +4,39 @@
 
 In this lab, you will send some HTTP traffic to your Ingress Controller and Cafe Application, and watch NGINX Ingress load balance the trafffic.  You will scale the application pods and Ingress Controller up and down, and watch what happens in realtime.
 
+<br/>
+
 ## Learning Objectives
 
 - HTTP Traffic Generation
-- Scale Applications
+- Scale Cafe Applications
 - Optional Exercises
 - Host-based Routing
 - Observe NGINX Dashboard
 
+<br/>
+
 ## HTTP Traffic Generation
 
-We will use a tool called [`wrk` ](https://github.com/wg/wrk) , runing in a docker container, to generate traffic to our Ingress.
+We will use a tool called [`wrk` ](https://github.com/wg/wrk), runing in a docker container, to generate traffic to your Ingress Controller.
 
 1. Open a Terminal from the Ubuntu Desktop
 
-    ![open terminal](media/open-terminal.png)
+    ![open terminal](media/lab6_open-terminal.png)
 
-1. In the terminal window, run this command to start  load generation using `wrk` inside a docker container:
+1. In the terminal window, run this command to start the load generation using `wrk` inside a docker container:
 
     ```bash
-    docker run --rm williamyeh/wrk -t4 -c200 -d20m -H 'Host: cafe.example.com' --timeout 2s https://10.1.1.10/coffee
+    docker run --rm williamyeh/wrk -t4 -c200 -d20m -H 'Host: cafe.example.com' --timeout 2s https://10.1.1.100/coffee
     ```
 
-    ![run wrk load generator](media/wrk-load-generation.png)
+    ![run wrk load generator](media/lab6_wrk-load-generation.png)
 
     This will run the `wrk` load tool for **20 minutes**, with **200 connections**.  You can run this command again if you need additional time.
 
 1. Observe your NGINX Dashboard - http://dashboard.example.com/stub_status.html
 
-    ![Dashboard](media/dashboard.png)
+    ![Dashboard](media/lab6_dashboard.png)
 
     **Questions:**
 
@@ -42,7 +46,7 @@ We will use a tool called [`wrk` ](https://github.com/wg/wrk) , runing in a dock
         <details><summary>Click for Hints!</summary>
         <br/>
         <p>
-        <Strong>Hints:</Strong> Look at the Requests column, there you will find the counters for each pod. 
+        <Strong>Hints:</Strong> Look at the "server" line, there you will find the total request counter. 
         </p>
         </details><br/>
 
@@ -57,20 +61,37 @@ Coffee Break Time !! Let's scale the Coffee `Deployment`. In anticipation of a s
     ```
     ![scale coffee](media/lab6_coffee_scale.png)
 
-    How long did it take Kubernetes to add the new pods?  
+    **Question:** How long did it take Kubernetes to add the new pods?  
 
-    NGINX Ingress will begin routing traffic to the **five** new pods as soon as the K8s live readiness probes are successful. NGINX Ingress Controller automatically discovers the new pods and immediately reconfigures it's upstream groups and route traffic to them once marked up/healthy. 
+    **Answer:** NGINX Ingress will begin routing traffic to the `five` new pods as soon as the K8s live readiness probes are successful. You can then reload the NGINX Ingress Controller so it can reconfigure its upstream groups and route traffic to all 8 of them. 
 
-    Caffiene crises averted...
+    Check to see if all 8 of the Coffee pods are running:
 
-    ![Coffee scaled dashboard](media/lab6_coffee_scale_dashboard.png)
+   ```bash
+    kubectl describe deployment coffee
+    ```
 
+    ![Coffee deployment](media/lab6_coffee-described.png)
 
-1. Let's configure NGINX Ingress Controller to use the NGINX Load Balancing algorithm called `Least-Conn` so that the most responsive (faster) pods are prioritized for more Connections and HTTP Requests. Apply the following manifest:
+    Verify NGINX Ingress will send traffic to all 8 pods, find the `vs_default_cafe-vs_coffee` upstream block{}, and see if there are 8 server IP address:80 entries:
+
+    ```bash
+    kubectl exec -it $NIC -n nginx-ingress -- /bin/bash -c "nginx -T"
+    ```
+
+    ![Coffee 8 deployment](media/lab6_coffee-8upstreams.png)
+    
+    Caffiene crises averted...!
+
+1. Let's configure NGINX Ingress Controller to use the Load Balancing algorithm called `Least Connections` so that the most responsive (faster) pods are preferred for more Connections and HTTP Requests. Apply the following manifest:
 
     ```bash
     kubectl apply -f lab6/nginx-config-leastconn.yaml
     ```
+   This is an Nginx ConfigMap for the Ingress Controller that configures it to use a different algorithm.
+
+   ![Nginx Least Conn](media/lab6_leastconn.png)
+
 
     - **Question:** Why are some pods faster or slower than others?
     <details>
@@ -82,9 +103,9 @@ Coffee Break Time !! Let's scale the Coffee `Deployment`. In anticipation of a s
     </details><br/>
 
 1.   
-    In today's Digital Experience production workloads, it is important to send customers' requests to the most reliable and performant `pod` (server).  NGINX's `Least-Conn` Load Balancing algorithm allows you to handle more total requests, and, it adjusts automatically as pod performance and conditions in the Kubernetes cluster change minute by minute. 
+    In today's Modern Applicatin production workloads, it is important to send customers' requests to the most reliable and performant `pod` (server).  NGINX's `Least-Conn` Load Balancing algorithm allows you to handle more total requests, and, it adjusts automatically as pod performance and conditions in the Kubernetes cluster change minute by minute. 
     
-    **This yields a better customer experience, essential for today's modern digital experience workloads.** 
+    **This yields a better customer experience, essential for today's modern applications.** 
  
 
 1. Boss says Coffee rush is now over, so scale back the number of coffee pods to **three**. Run the following `kubectl scale ` command:
@@ -95,7 +116,7 @@ Coffee Break Time !! Let's scale the Coffee `Deployment`. In anticipation of a s
 
     Did you notice any errors in the NGINX Dashboard while Kubernetes scaled down the pods? 
 
-    When scaling down, NGINX will try to complete workloads before Kubernetes terminates a running `pod`, after all the responses in flight have finished processing on that` pod`, so there should not be any errors. When scaling up, NGINX also healthchecks new pods before sending any requests to them, to make sure they are ready to take requests.
+    When scaling down, NGINX will try to complete workloads before Kubernetes terminates a running `pod`, after all the responses in flight have finished processing on that` pod`, so there should not be any errors. 
 
     Did you notice any errors when you asked NGINX to change its load balancing algorithm from round-robin to `Least-Conn`? There should not have been any errors. The Configuration Reload should allows existing connections to finish their work, while allowing new connections to use the new configuration. 
     
