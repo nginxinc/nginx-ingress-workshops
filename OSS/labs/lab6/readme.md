@@ -52,20 +52,20 @@ We will use a tool called [`wrk` ](https://github.com/wg/wrk), runing in a docke
 
 ## Scale Applications
 
-Coffee Break Time !! Let's scale the Coffee `Deployment`. In anticipation of a surge in coffee drinkers - The boss says we need more Keurig pods.
+Coffee Break Time!! Let's scale the Coffee `Deployment`. In anticipation of a surge in coffee drinkers - The boss says we need more Keurig pods.
 
-1. While watching the Dashboard, change the number (`replicas`) of Coffee pods from **three**, to a total of **eight**:
+1. While watching the Dashboard, change the number (`replicas`) of Coffee pods from `three`, to a total of `eight`:
 
     ```bash
     kubectl scale deployment coffee --replicas=8
     ```
     ![scale coffee](media/lab6_coffee_scale.png)
 
-    **Question:** How long did it take Kubernetes to add the new pods?  
+    **Question:** How long does it take Kubernetes to add the new pods?  
 
-    **Answer:** NGINX Ingress will begin routing traffic to the `five` new pods as soon as the K8s live readiness probes are successful. You can then reload the NGINX Ingress Controller so it can reconfigure its upstream groups and route traffic to all 8 of them. 
+    **Answer:** NGINX Ingress will begin routing traffic to the `five` additional pods as soon as the K8s live-readiness probes are successful. 
 
-    Check to see if all 8 of the Coffee pods are running:
+1. Check to see if all 8 of the Coffee pods are running:
 
    ```bash
     kubectl describe deployment coffee
@@ -73,7 +73,7 @@ Coffee Break Time !! Let's scale the Coffee `Deployment`. In anticipation of a s
 
     ![Coffee deployment](media/lab6_coffee-described.png)
 
-    Verify NGINX Ingress will send traffic to all 8 pods, find the `vs_default_cafe-vs_coffee` upstream block{}, and see if there are 8 server IP address:80 entries:
+1. Verify NGINX Ingress is now configured to send traffic to all 8 pods. Find the `vs_default_cafe-vs_coffee` upstream block, and see if there are 8 server IP address:80 entries:
 
     ```bash
     kubectl exec -it $NIC -n nginx-ingress -- /bin/bash -c "nginx -T"
@@ -81,14 +81,19 @@ Coffee Break Time !! Let's scale the Coffee `Deployment`. In anticipation of a s
 
     ![Coffee 8 deployment](media/lab6_coffee-8upstreams.png)
     
-    Caffiene crises averted...!
+1. Let's configure NGINX Ingress Controller to use the Load Balancing algorithm called `Least Connections` so that the most responsive (faster) pods are preferred for more TCP Connections and HTTP Requests. 
 
-1. Let's configure NGINX Ingress Controller to use the Load Balancing algorithm called `Least Connections` so that the most responsive (faster) pods are preferred for more Connections and HTTP Requests. Apply the following manifest:
+   Inspect the `lab6/nginx-config-leastconn.yaml` manifest. This is the Nginx **ConfigMap** for the Ingress Controller that configures it to use a different algorithm.  Apply the manifest:
 
     ```bash
     kubectl apply -f lab6/nginx-config-leastconn.yaml
     ```
-   This is an Nginx ConfigMap for the Ingress Controller that configures it to use a different algorithm.
+
+   Verify NGINX Ingress is now configured for Least Connections.  Once again, find the `vs_default_cafe-vs_coffee` upstream block, and see if the `least_conn directive` is there:
+
+    ```bash
+    kubectl exec -it $NIC -n nginx-ingress -- /bin/bash -c "nginx -T"
+    ```
 
    ![Nginx Least Conn](media/lab6_leastconn.png)
 
@@ -102,13 +107,11 @@ Coffee Break Time !! Let's scale the Coffee `Deployment`. In anticipation of a s
       </p>
     </details><br/>
 
-1.   
-    In today's Modern Applicatin production workloads, it is important to send customers' requests to the most reliable and performant `pod` (server).  NGINX's `Least-Conn` Load Balancing algorithm allows you to handle more total requests, and, it adjusts automatically as pod performance and conditions in the Kubernetes cluster change minute by minute. 
+1.   In today's Modern Application production workloads, it is important to send customers' requests to the most reliable and performant `pod`.  NGINX's `Least-Conn` Load Balancing algorithm allows you to handle more total requests, and it adjusts automatically as pod performance and conditions in the Kubernetes cluster change minute by minute. 
     
-    **This yields a better customer experience, essential for today's modern applications.** 
+    **This should provide a better customer experience, essential for today's modern applications.** 
  
-
-1. Boss says Coffee rush is now over, so scale back the number of coffee pods to **three**. Run the following `kubectl scale ` command:
+1. Boss says Coffee rush is now over, so scale back the number of coffee pods to `three`. Run the following `kubectl scale ` command:
 
     ```bash
     kubectl scale deployment coffee --replicas=3
@@ -116,11 +119,11 @@ Coffee Break Time !! Let's scale the Coffee `Deployment`. In anticipation of a s
 
     Did you notice any errors in the NGINX Dashboard while Kubernetes scaled down the pods? 
 
-    When scaling down, NGINX will try to complete workloads before Kubernetes terminates a running `pod`, after all the responses in flight have finished processing on that` pod`, so there should not be any errors. 
+    When scaling down, NGINX will try to complete requests before Kubernetes terminates a running `pod`, after all the responses in flight have finished processing on that `pod`, so there should not be any errors. 
 
     Did you notice any errors when you asked NGINX to change its load balancing algorithm from round-robin to `Least-Conn`? There should not have been any errors. The Configuration Reload should allows existing connections to finish their work, while allowing new connections to use the new configuration. 
     
-    > This results in **no dropped connections during configuration changes.**
+<br/>
 
 ### Optional Lab Exercise1: 
 
@@ -128,10 +131,10 @@ Try the same scale up, then scale down commands for the Cafe **Tea** `Deployment
 
 **Note:**  You will have to target `/tea` with the `wrk` tool if you want to load test Tea:
 
-1. Run the following command to apply load to the Tea Service:
+1. Run the following command to apply load to the Tea Service for 10 minutes:
 
     ```bash
-    docker run --rm williamyeh/wrk -t4 -c200 -d15m -H 'Host: cafe.example.com' --timeout 2s https://10.1.1.10/tea
+    docker run --rm williamyeh/wrk -t4 -c200 -d10m -H 'Host: cafe.example.com' --timeout 2s https://10.1.1.100/tea
     ```
 
 ### Optional Lab Exercise2: 
@@ -141,6 +144,7 @@ Try the same scale up, then scale down commands for the Cafe **Tea** `Deployment
     ```bash
     kubectl apply -f lab6/nginx-config-roundrobin.yaml
     ```
+<br/>
 
 ## Host Based Routing
 
@@ -148,13 +152,11 @@ Try the same scale up, then scale down commands for the Cafe **Tea** `Deployment
 
 **Hurry up - it's almost Happy Hour!**
 
-See the topological view of the new **beer** and **wine** applications
-
-< update bar diagram >
+See the logical diagram of the new **beer** and **wine** applications:
 
 ![Bar Diagram](media/lab6_bar_diagram.png)
 
-1. In the `lab6` folder, inspect the `bar.yaml` and `bar-virtualserver.yaml` manifest files. You will see that we are adding the required ` Deployment` and `Service`, and exposing them with `VirtualServer`, using a new hostname, `bar.example.com.`
+1. In the `lab6` folder, inspect the `bar.yaml` and `bar-virtualserver.yaml` manifest files. You will see that we are adding the required  `Deployment` and `Service`, and exposing them with `VirtualServer`, using a new hostname, `bar.example.com.`
 
     ![Bar vs screenshot](media/lab6_bar_vs.png)
 
@@ -165,6 +167,7 @@ See the topological view of the new **beer** and **wine** applications
     ```
 
 1. Create a new `VirtualServer` listening on the hostname, **`bar.example.com`**, with `/beer` and `/wine` URI paths to the new application deployments, by applying the `bar-virtualserver.yaml` file:
+
    ```bash
    kubectl apply -f lab6/bar-virtualserver.yaml
    ```
@@ -209,7 +212,6 @@ You should also notice that Cafe is still running as before, adding the Bar serv
 
 ## References: 
 - [Least_conn Algorithm](http://nginx.org/en/docs/http/ngx_http_upstream_module.html#least_conn)
-- [Random Algorithm](http://nginx.org/en/docs/http/ngx_http_upstream_module.html#random)
 - [Wrk Tool](https://github.com/wg/wrk)
 
 ### Authors
