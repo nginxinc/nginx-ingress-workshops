@@ -97,7 +97,7 @@ Next, let's scale the number of Ingress Controllers pods from one to **three**. 
 
 ## Ingress Under the Hood
 
-1. Let's take a deep look under the hood – check out the NGINX Ingress Controller Configurations. Run the following commands to view the NGINX Configuration:
+1. Now that you have several apps up and running on your Ingress, let's take a deep look under the hood – check out the NGINX Ingress Controller configuration. Run the following commands to view the NGINX Configuration:
 
     Store the NIC Pod name in a variable
     
@@ -130,7 +130,11 @@ Next, let's scale the number of Ingress Controllers pods from one to **three**. 
 
 ## Enhanced Logging with NGINX Ingress
 
-Let's add some additional fields to the NGINX Access Log, you need more data about the performance of the **coffee** and **tea** pods for Developers.  They are asking you to help fix an **"application too slow"** escalation ticket from the Marketing team. The "free coffee" campaign was popular but customer feedback was the website was too slow.
+![Logging Icon](media/lab7_log-icon.png)
+
+<br/>
+
+The app developers are asking you to help fix an **"application too slow"** escalation ticket from the Marketing team - ugh!!  The "free coffee" campaign was popular - but customer feedback was that the website was too slow. Let's add some additional fields to the NGINX Access Log, you need much more data about the performance of the **coffee** and **tea** pods for the Developers.  
 
 For reference, this is the default NGINX Access Log format:
   
@@ -142,6 +146,8 @@ However, there are only **two** log variables with any useful data related to th
 
   - HTTP status code (`$status`)
   - Bytes Sent (`$body_bytes_sent`)
+  
+  `Not much to work with!`
 
 1. Use the `kubectl log` command, to view the default NGINX Ingress Controller Access log format:
 
@@ -151,7 +157,7 @@ However, there are only **two** log variables with any useful data related to th
 
     ![Access logs](media/access-logs.png)
 
-    Click refresh a few times on Coffee, Tea, Beer, Wine, or Cosmo webpages.  How do you even know *which `pod`* sent the response?  The log does not show this important info. To properly troubleshoot and identify the poor performance of a pod, you need much more information. 
+    Click refresh a few times on Coffee, Tea, Beer, Wine, or Cosmo webpages.  How do you even know *`which pod`* sent the response?  The log does not show this important info. To properly troubleshoot and identify the poor performance of a pod, you need much more information. 
 
 1. Type `Ctrl-C` to stop the log `tail` when finished.
 
@@ -180,9 +186,9 @@ However, there are only **two** log variables with any useful data related to th
     ```
     ![Apply Enhanced log](media/lab7_apply_enh_log.png)
 
-1. Let's generate new traffic by refreshing the `cafe.example.com/coffee` webpage again in the Chrome web browser several times, to send some requests, to see the new **Enhanced** Access Logging format.
+1. Now generate new traffic by refreshing the `cafe.example.com/coffee` webpage again several times, to send some requests, to see the new **Enhanced** Access Logging format.
 
-   Now we are ready to inspect the the new logs: the Pod's additional metadata have been added to the log format, in addition to the pod's actual IP address (look for ua=). 
+   Now you are ready to inspect the the new logs: the Pods' additional metadata have been added to the log format, in addition to the pod's actual IP address (look for ua=). 
 
 1. Take a look at the **Enhanced** NGINX Access log format using the `kubectl log` command:
 
