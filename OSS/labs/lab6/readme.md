@@ -18,7 +18,7 @@ In this lab, you will send some HTTP traffic to your Ingress Controller and Cafe
 
 ## HTTP Traffic Generation
 
-We will use a tool called [`wrk` ](https://github.com/wg/wrk), running in a Docker container, to generate traffic to your Ingress Controller.
+You will use a tool called [`wrk` ](https://github.com/wg/wrk), running in a Docker container, to generate traffic to your Ingress Controller.
 
 1. Open a Terminal from the Ubuntu Desktop
 
@@ -84,9 +84,11 @@ Coffee Break Time!! Let's scale the Coffee `Deployment`. In anticipation of a su
 
    ```bash
    while true; do curl -k https://cafe.example.com/coffee |grep "Server Address"; sleep 1; done
-   ```
-
+   ```  
+   
    You should see 8 different IPs. Type `Control-C` to stop the curl command.
+
+   `Take Note!!  You did not have to login, edit files, re-configure and reload NGINX - the Ingress Controller does this for you automatically when you use the CRDs.`
 
 1. Let's configure NGINX Ingress Controller to use the Load Balancing algorithm called `Least Connections` so that the most responsive (faster) pods are preferred for more TCP Connections and HTTP Requests. 
 
@@ -233,7 +235,7 @@ See the logical diagram of the new **beer** and **wine** applications:
     <summary>Click for Answer!</summary>
     <br/>
     <p>
-      <strong>Answer:</strong> In case you did'nt find it, the boss's daughter added <code>/cosmo</code> to the beer and wine VS manifests!  Does <code>https://bar.example.com/cosmo</code> work as intended ?
+      <strong>Answer:</strong> In case you didn't find it, the boss's daughter added <code>/cosmo</code> to the beer and wine VS manifests!  Does <code>https://bar.example.com/cosmo</code> work as intended ?
     </p>
   </details><br/>
 
