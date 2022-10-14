@@ -161,7 +161,7 @@ However, there are only **two** log variables with any useful data related to th
 
 1. Type `Ctrl-C` to stop the log `tail` when finished.
 
-1. Lets implement an **Enhanced** Access Log format, to collect extra NGINX Request and Response and pod statistics, we can do this by adding new log variables specifc to NGINX Ingress such as the Kubernetes pods' resource and traffic details. 
+1. Let's implement an **Enhanced** Access Log format, to collect extra NGINX Request and Response and pod statistics, you can do this by adding new log variables specifc to NGINX Ingress such as the Kubernetes pods' resource and traffic details. 
 
     NGINX has many variables that can be used for logging. In the code snippet below
     (`lab7/nginx-config-enhanced-logging.yaml`), you can see the new **Enhanced** Access Log format for the NGINX Ingress Controller, as a `ConfigMap`:
