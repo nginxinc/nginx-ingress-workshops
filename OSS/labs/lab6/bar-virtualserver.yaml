@@ -1,4 +1,4 @@
-#Example virtual server with routes for Bar Demo
+#Example VirtualServer with routes for Bar Demo for NIC OSS
 #
 apiVersion: k8s.nginx.org/v1
 kind: VirtualServer
@@ -15,42 +15,15 @@ spec:
   - name: beer
     service: beer-svc
     port: 80
-    slow-start: 20s
-    healthCheck:
-      enable: true
-      path: /beer
-      interval: 20s
-      jitter: 3s
-      fails: 5
-      passes: 2
-      connect-timeout: 30s
-      read-timeout: 20s
+    #slow-start: 20s  #NGINX Plus only
   - name: wine
     service: wine-svc
     port: 80
     #lb-method: round_robin     You can set LB method here if you like
-    healthCheck:
-      enable: true
-      path: /wine
-      interval: 10s
-      jitter: 3s
-      fails: 3
-      passes: 2
-      connect-timeout: 30s
-      read-timeout: 20s
   - name: cosmo
     service: cosmo-svc
     port: 80
     #lb-method: round_robin
-    healthCheck:
-      enable: true
-      path: /cosmo
-      interval: 10s
-      jitter: 3s
-      fails: 3
-      passes: 2
-      connect-timeout: 30s
-      read-timeout: 20s
   routes:
   - path: /
     action:

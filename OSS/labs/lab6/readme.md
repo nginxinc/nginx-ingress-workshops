@@ -163,7 +163,7 @@ Try the same scale up, then scale down commands for the Cafe **Tea** `Deployment
 
 ## Host Based Routing
 
-**New business opportunity**: The boss got a business loan to open the Cafe as a Bar in the evening for `beer and wine tasting! ` So you need to add Beer and Wine applications, and expose these using the NGINX Ingress Controller. 
+**New business opportunity!!** The boss got a business loan to open the Cafe as a Bar in the evenings for `beer and wine tasting! ` So you need to add Beer and Wine applications, and expose these using the NGINX Ingress Controller. 
 
 **Hurry up - it's almost Happy Hour!**
 
@@ -187,28 +187,45 @@ See the logical diagram of the new **beer** and **wine** applications:
    kubectl apply -f lab6/bar-virtualserver.yaml
    ```
 
+1. Verify the new bar VirtualServer configuration was accepted by the Ingress Controller, the STATE should be `Valid` :
+
+   ```bash
+   kubectl get vs
+   ```
+
+   ![VS screenshot](media/lab6_vs-valid.png)
+
+   > Note:  If your VirtualServer shows a STATE of `Invalid`, there is an issue with the manifest file!  This a good troubleshooting tip, the VS CRD gives clear messages about why the configuration is Invalid, as shown in this example:
+
+   ```bash
+   kubectl describe vs bar-vs
+   ```
+
+   ![VS screenshot](media/lab6_vs-invalid.png)
+
+   In this example, the upstream "slow-start" option was enabled, which is an NGINX Plus only feature.
+
 1. Open two new Chrome web browser windows and browse to https://bar.example.com/beer and https://bar.example.com/wine.  
    
    **Note:** You can once again safely proceed to this insecure site.
 
    Do the new `beer` and `wine` applications load as expected?
 
-   ![beer and wine](media/beer-and-wine.png)
+   ![beer and wine](media/lab6_beer-and-wine.png)
 
 1. Observe your NIC Dashboard again on http://dashboard.example.com/stub_status.html
 
-    **Questions:**
+    **Question:**
 
     - What does the Dashboard show you when you refresh `/beer` and `/wine` multiple times?  
-    - It should increase the Request counter as well, this traffic is also going through your Ingress Controller.  
+    
+      The Requests counter should increase, as this Bar traffic is also going through your Ingress Controller.  
 
-<br>
-
-    You can see how easy it is to add new `Deployment` and `Service`, and then configure NGINX Ingress Controller with CRDs to create a new HTTP Host route, URI paths and route traffic to these new services and have access to these applications immediately. The NGINX `VirtualServer` CRD's allow you to easily add new hosts and services.
+    You can see how easy it is to add a new `Deployment` and `Service`, and then configure NGINX Ingress Controller with CRDs to create a new HTTP Hostname, URI paths and route traffic to these new Services and have External access to these applications immediately. The NGINX `VirtualServer` CRD's allow you to easily add new hosts and services.
 
     This ability of self-service Host and Path based HTTP routing makes it easy to add and deploy new services, and NGINX Ingress routes the traffic correctly (and BTW - you didn't have to submit even one Ticket to IT and WAIT !!). 
     
-    As you can see, this enables application/development teams to rapidly build, deploy, and expose new digital services for the business, without waiting for lengthy deployment/approval processes.
+    As you can see, this enables application/development teams to rapidly build, deploy, and expose new modern apps for the business, without waiting for lengthy deployment/approval processes.
 
 **Bonus:** `Sneaky Pete!`  There was one additional `Happy Hour Drink Special` cocktail added by the boss's daughter.  Did you find it? 
 
@@ -216,7 +233,7 @@ See the logical diagram of the new **beer** and **wine** applications:
     <summary>Click for Answer!</summary>
     <br/>
     <p>
-      <strong>Answer:</strong> In case you did't find it, the boss's daughter added <code>/cosmo</code> to the beer and wine manifests!  Does <code>https://bar.example.com/cosmo</code> work as intended ?
+      <strong>Answer:</strong> In case you did'nt find it, the boss's daughter added <code>/cosmo</code> to the beer and wine VS manifests!  Does <code>https://bar.example.com/cosmo</code> work as intended ?
     </p>
   </details><br/>
 
@@ -224,9 +241,13 @@ You should also notice that Cafe is still running as before, adding the Bar serv
 
 **This completes this Lab.**
 
+<br/>
+
 ## References: 
-- [Least_conn Algorithm](http://nginx.org/en/docs/http/ngx_http_upstream_module.html#least_conn)
 - [Wrk Tool](https://github.com/wg/wrk)
+- [Least_conn Algorithm](http://nginx.org/en/docs/http/ngx_http_upstream_module.html#least_conn)
+- [VirtualServer CRDs](https://docs.nginx.com/nginx-ingress-controller/configuration/virtualserver-and-virtualserverroute-resources/)
+- [Compare NGINX and NGINX Plus](https://www.nginx.com/products/nginx/compare-models)
 
 ### Authors
 - Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
