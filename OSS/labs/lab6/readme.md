@@ -18,7 +18,7 @@ In this lab, you will send some HTTP traffic to your Ingress Controller and Cafe
 
 ## HTTP Traffic Generation
 
-We will use a tool called [`wrk` ](https://github.com/wg/wrk), runing in a docker container, to generate traffic to your Ingress Controller.
+We will use a tool called [`wrk` ](https://github.com/wg/wrk), running in a Docker container, to generate traffic to your Ingress Controller.
 
 1. Open a Terminal from the Ubuntu Desktop
 
@@ -40,13 +40,12 @@ We will use a tool called [`wrk` ](https://github.com/wg/wrk), runing in a docke
 
     **Questions:**
 
-     - Do you see the number of HTTP requests increasing?  
-     - Do the coffee pods each take ~equal traffic?  
+     - Do you see the number of HTTP requests increasing? 
 
         <details><summary>Click for Hints!</summary>
         <br/>
         <p>
-        <Strong>Hints:</Strong> Look at the "server" line, there you will find the total request counter. 
+        <Strong>Hints:</Strong> Look at the "server" line, there you will find the total requests counter. 
         </p>
         </details><br/>
 
@@ -81,9 +80,21 @@ Coffee Break Time!! Let's scale the Coffee `Deployment`. In anticipation of a su
 
     ![Coffee 8 deployment](media/lab6_coffee-8upstreams.png)
     
+1. Check to see if you now get 8 different IP address when accessing Coffee.  Use curl to request the coffee page, and grep for the Server Address field in the response, like so:
+
+   ```bash
+   while true; do curl -k https://cafe.example.com/coffee |grep "Server Address"; sleep 1; done
+   ```
+
+   You should see 8 different IPs. Type `Control-C` to stop the curl command.
+
 1. Let's configure NGINX Ingress Controller to use the Load Balancing algorithm called `Least Connections` so that the most responsive (faster) pods are preferred for more TCP Connections and HTTP Requests. 
 
-   Inspect the `lab6/nginx-config-leastconn.yaml` manifest. This is the Nginx **ConfigMap** for the Ingress Controller that configures it to use a different algorithm.  Apply the manifest:
+   Inspect the `lab6/nginx-config-leastconn.yaml` manifest. This is the Nginx **ConfigMap** for the Ingress Controller that configures it to use a different algorithm.  
+   
+   ![Nginx ConfigMap](media/lab6_nginx-configmap.png)
+   
+   Apply the manifest:
 
     ```bash
     kubectl apply -f lab6/nginx-config-leastconn.yaml
@@ -103,12 +114,12 @@ Coffee Break Time!! Let's scale the Coffee `Deployment`. In anticipation of a su
       <summary>Click for Hints!</summary>
       <br/>
       <p>
-        <strong>Answer:</strong>  </br></br> Some pods are slower than others, because there are other workloads running in the cluster, and you don't control where and when those other workloads are deployed, or how many resources they will consume among the pods.</br></br>This means not all pods are equal in performance, leading to an imbalance of Response Times. <br/></br>Some users will connect to a fast pod, some will get stuck with a slow pod.
+        <strong>Answer:</strong>  </br></br> Some pods are slower than others, because there are other workloads running in the cluster, and you don't control where and when those other workloads are deployed, or how many resources they will consume among the pods.</br></br>This means not all pods have equal resources, and are not equal in performance, leading to an imbalance of Response Times. <br/></br>Some users will connect to a fast pod, some will get stuck with a slow pod.
       </p>
     </details><br/>
 
-1.   In today's Modern Application production workloads, it is important to send customers' requests to the most reliable and performant `pod`.  NGINX's `Least-Conn` Load Balancing algorithm allows you to handle more total requests, and it adjusts automatically as pod performance and conditions in the Kubernetes cluster change minute by minute. 
-    
+1.  In today's Modern Application production workloads, it is important to send customers' requests to the most reliable and performant `pod`.  NGINX's `Least-Conn` Load Balancing algorithm allows you to handle more total requests, and it adjusts automatically as pod performance and conditions in the Kubernetes cluster change minute by minute.
+
     **This should provide a better customer experience, essential for today's modern applications.** 
  
 1. Boss says Coffee rush is now over, so scale back the number of coffee pods to `three`. Run the following `kubectl scale ` command:
@@ -137,6 +148,8 @@ Try the same scale up, then scale down commands for the Cafe **Tea** `Deployment
     docker run --rm williamyeh/wrk -t4 -c200 -d10m -H 'Host: cafe.example.com' --timeout 2s https://10.1.1.100/tea
     ```
 
+<br/>
+
 ### Optional Lab Exercise2: 
 
 1. You can change the load balancing algorithm back to round-robin if you like, and check out the differences. Apply the following manifest to make that change:
@@ -146,9 +159,11 @@ Try the same scale up, then scale down commands for the Cafe **Tea** `Deployment
     ```
 <br/>
 
+<br/>
+
 ## Host Based Routing
 
-**New business opportunity**: The boss got a business loan to open the Cafe as a Bar in the evening for beer and wine tasting! So you need to add Beer and Wine applications, and expose these using the NGINX Ingress Controller. 
+**New business opportunity**: The boss got a business loan to open the Cafe as a Bar in the evening for `beer and wine tasting! ` So you need to add Beer and Wine applications, and expose these using the NGINX Ingress Controller. 
 
 **Hurry up - it's almost Happy Hour!**
 
@@ -172,8 +187,7 @@ See the logical diagram of the new **beer** and **wine** applications:
    kubectl apply -f lab6/bar-virtualserver.yaml
    ```
 
-1. Open two new Chrome web browser windows and browse to
-   https://bar.example.com/beer and https://bar.example.com/wine.  
+1. Open two new Chrome web browser windows and browse to https://bar.example.com/beer and https://bar.example.com/wine.  
    
    **Note:** You can once again safely proceed to this insecure site.
 
@@ -186,7 +200,7 @@ See the logical diagram of the new **beer** and **wine** applications:
     **Questions:**
 
     - What does the Dashboard show you when you refresh `/beer` and `/wine` multiple times?  
-    - Did you find your new `HTTP upstreams` for **beer** and **wine**?  
+    - It should increase the Request counter as well, this traffic is also going through your Ingress Controller.  
 
 <br>
 
