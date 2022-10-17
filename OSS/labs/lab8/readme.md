@@ -40,7 +40,6 @@ Here is a brief description of what these different tools and application provid
 1. Verify Helm is installed and you are running Version 3.x or higher:
 
     ```bash
-    # check your helm version (Needs to be v3 or higher)
     helm version --short
     ```
     ![helm version](media/lab8_helm_version.png)
@@ -48,7 +47,6 @@ Here is a brief description of what these different tools and application provid
     If Helm is not installed, run this command to install it:
 
     ```bash
-    # Install helm command
     curl -sSL https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
     ```
 
@@ -82,12 +80,13 @@ Here is a brief description of what these different tools and application provid
 1. Once the repos have been added to Helm, the next step is to deploy a `release`. For this lab, you will create a release called `nginx-prometheus`.   
 
     ```bash
-    helm install nginx-prometheus prometheus-community/prometheus -n monitoring
+    helm install nginx-prometheus prometheus-community/prometheus --set server.persistentVolume.enabled=false,alertmanager.persistentVolume.enabled=false -n monitoring
     ```
 
     ![install prometheus](media/lab8_install_prometheus.png)
 
     <br/>
+
 
 ### Grafana Installation
 
@@ -103,10 +102,10 @@ Here is a brief description of what these different tools and application provid
 
     ![Add Grafana repo](media/lab8_add_grafana_repo.png)
 
-1. The Grafana repo is added via Helm. Next you will install Grafana using the below command. For this lab, you will create a second release called `nginx-grafana`.  
+1. The Grafana repo is added via Helm. Next you will install Grafana using the below command. For this lab, you will create a second release called `nginx-grafana`.  Notice we are also setting the Grafana admin Password to `Nginx123`: 
 
     ```bash
-    helm install nginx-grafana grafana/grafana -n monitoring
+    helm install --set-string grafana.adminPassword=Nginx123 nginx-grafana grafana/grafana -n monitoring
     ```
 
     ![install grafana](media/lab8_install_grafana.png)
@@ -125,8 +124,6 @@ Here is a brief description of what these different tools and application provid
 
 <br/>
 
-< Need copy of the nginx-ingress.yaml file for this lab >
-
 Verify that NGINX NIC is enabled for exporting Prometheus statistics.  This requires 3 settings:
 
 - Prometheus `Annotations` are enabled
@@ -142,7 +139,7 @@ Annotations | Port  | Plus Args
 ![kic prometheus settings](media/lab8_kic_prom_settings1.png) |![kic prometheus settings](media/lab8_kic_prom_settings2.png) |![kic prometheus settings](media/lab8_kic_prom_settings3.png)
 
 
-1. Now verify this is enabled and working, using k8s port-forward:
+1. Now verify this is enabled and the scraper page is working, using k8s port-forward:
 
     ```bash
     kubectl port-forward -n nginx-ingress $NIC 9113:9113
@@ -150,20 +147,22 @@ Annotations | Port  | Plus Args
 
     Open Chrome, and navigate to http://localhost:9113/metrics.  You should see an HTML scraper page like this one:
 
-    ![scraper page1](media/lab8_scraper_page1.png)
-    ![scraper page2](media/lab8_scraper_page2.png)
+    ![scraper page1](media/lab8_scraper-page1.png)
+    ![scraper page2](media/lab8_scraper-page2.png)
 
-    If you see an HTML page from NGINX NIC similar to the one above, you are good to go.  If you refresh this page several times, you will see that the stats are immediately updated.  Notice that there is a `# TYPE and # HELP` in the scraper page entries, which describes the data type and definition of each metric.
+    If you see an HTML page from NGINX NIC similar to the one above, you are good to go.  If you refresh the Coffee page several times, and then this page several times, you will see that the stats are immediately updated.  Notice that there is a `# TYPE and # HELP` in the scraper page entries, which describes the data type and definition of each metric.  For example, the `Total http requests` counter is highlighted.
 
     <br>
 
-    > It is important to point out, that the scraper page contains `all` of the NGINX statistics that you see on the Dashboard, and a few extras.
+    > It is important to point out, that the scraper page contains `all` of the NGINX statistics that you see on the Dashboard/Stub_Status, and a few extras.
 
-    >> **This set of metrics will provide a good data source for the monitoring and graphing of NGINX  NIC.**
+    >> **This set of metrics will provide a good data source for the monitoring and graphing of NGINX NIC.**
+
+    *If you were running NGINX Plus, there would be an additional ~80 metrics for all the upstream statistics, see the Plus Workshop for more details if you are interested.*
 
     <br/>
 
-    There are many tools that can collect, display, alert, and archive these metrics.  You will use Prometheus and Grafana next to do just that.
+    There are many tools that can collect, display, alert, report, and archive these metrics.  You will use Prometheus and Grafana next to do just that.
     
     <br/>
 
@@ -189,15 +188,17 @@ Annotations | Port  | Plus Args
     kubectl port-forward $PROMETHEUS_SERVER 9090:9090 -n monitoring 
     ```
 
-    Using Chrome, navigate to http://localhost:9090.  You should see a webpage like this.  Search for `nginx_ingress_` in the query box to see a list of all the statistics that Prometheus is collecting for you:
+    Using Chrome, navigate to http://localhost:9090.  You should see a webpage like this.  Search for `nginx_ingress_nginx_` in the query box to see a list of all the statistics that Prometheus is collecting for you:
 
-    ![Prometheus9090](media/lab8_localhost_9090.png)
+    ![Prometheus9090](media/lab8_localhost-9090.png)
 
     Select `nginx_ingress_http_requests_total` from the list, click on Graph, and then click the "Execute" Button.  This will provide a graph similar to this one:
 
-    ![Prometheus graph screenshot](media/lab8_prometheus_graph.png)
+    ![Prometheus graph screenshot](media/lab8_prometheus-graph.png)
 
-    Take a few minutes to explore the many different statistics, time windows, etc.
+    If you don't see many data points, re-start your `WRK` load tool, or select the Auto Refresh on the Cafe's coffee page. 
+    
+    In the upper right corner, click on the Globe icon next to Execute, and take a few minutes to explore the many different statistics, time windows, etc.  You will see metrics from all kinds of Kubernetes objects, components, and services.
 
     <br/>
 
