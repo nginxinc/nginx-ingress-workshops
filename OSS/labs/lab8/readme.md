@@ -94,7 +94,7 @@ Here is a brief description of what these different tools and application provid
 
 <br/>
 
-1. Next step will be to setup and deploy Grafana into your cluster: 
+1. Next step will be to setup and deploy Grafana into your cluster, using Helm, add the Grafana repo: 
 
     ```bash
     helm repo add grafana https://grafana.github.io/helm-charts
@@ -102,21 +102,29 @@ Here is a brief description of what these different tools and application provid
 
     ![Add Grafana repo](media/lab8_add_grafana_repo.png)
 
-1. The Grafana repo is added via Helm. Next you will install Grafana using the below command. For this lab, you will create a second release called `nginx-grafana`.  Notice we are also setting the Grafana admin Password to `Nginx123`: 
+1. After the Grafana repo is added, you will install Grafana using the below command. For this lab, you will create a second release called `nginx-grafana`.  Notice we are also setting the Grafana admin Password to `Nginx123`: 
 
     ```bash
     helm install --set-string grafana.adminPassword=Nginx123 nginx-grafana grafana/grafana -n monitoring
     ```
 
-    ![install grafana](media/lab8_install_grafana.png)
+    ![install grafana](media/lab8_install-grafana.png)
 
-    If you want to check the status of your helm installations, you can run this command which will show all helm deployments across the cluster"
+    If you want to check the status of your helm installations, you can run this command which will show all helm deployments across the cluster:
 
     ```bash
     helm ls -A
     ```
 
-    ![plus prometheus settings screenshot](media/lab8_helm_ls.png)
+    ![helm installed releases](media/lab8_helm_ls.png)
+
+    Verify all the Prometheus and Grafana pods are running:
+
+    ```bash
+    kubectl get pods -n monitoring
+    ```
+
+    ![prom and grafana running](media/lab8_prom-grafana-running.png)
 
     <br/>
 
@@ -130,13 +138,13 @@ Verify that NGINX NIC is enabled for exporting Prometheus statistics.  This requ
 - Port `9113` is open
 - The command-line argument `- -enable-prometheus-metrics` is enabled, to allow the collection of the NIC's statistics on that port.
 
-**!Bonus!** - These settings have already been enabled for you in this lab, but they are `not` enabled by default.  
+**!Bonus!** - These settings have already been enabled for you in this lab, but they are `not enabled by default.`  
 
-To see these settings, inspect the `lab2/nginx-ingress.yaml` file, lines 15-17, 33-34, and 68.
+To see these settings, inspect the `lab2/nginx-ingress.yaml` file, lines 15-17, 33-34, and 67.
 
-Annotations | Port  | Plus Args
+Annotations | Port  | Command Args
 :-------------------------:|:-------------------------:|:-------------------------:
-![kic prometheus settings](media/lab8_kic_prom_settings1.png) |![kic prometheus settings](media/lab8_kic_prom_settings2.png) |![kic prometheus settings](media/lab8_kic_prom_settings3.png)
+![nic prometheus settings](media/lab8_nic-prom-settings1.png) |![nic prometheus settings](media/lab8_nic-prom-settings2.png) |![nic prometheus settings](media/lab8_nic-prom-settings3.png)
 
 
 1. Now verify this is enabled and the scraper page is working, using k8s port-forward:
@@ -156,9 +164,9 @@ Annotations | Port  | Plus Args
 
     > It is important to point out, that the scraper page contains `all` of the NGINX statistics that you see on the Dashboard/Stub_Status, and a few extras.
 
-    >> **This set of metrics will provide a good data source for the monitoring and graphing of NGINX NIC.**
+    >> **This set of metrics will provide a good data source for the monitoring and graphing of NGINX Ingress.**
 
-    *If you were running NGINX Plus, there would be an additional ~80 metrics for all the upstream statistics, see the Plus Workshop for more details if you are interested.*
+    Note: If you were running NGINX Plus, there would be an `additional ~80 metrics` for all the server, location, and upstream statistics; see the Plus Workshop for more details if you are interested.
 
     <br/>
 
@@ -188,15 +196,15 @@ Annotations | Port  | Plus Args
     kubectl port-forward $PROMETHEUS_SERVER 9090:9090 -n monitoring 
     ```
 
-    Using Chrome, navigate to http://localhost:9090.  You should see a webpage like this.  Search for `nginx_ingress_nginx_` in the query box to see a list of all the statistics that Prometheus is collecting for you:
+    Using Chrome, navigate to http://localhost:9090.  You should see a webpage like this.  Search for `nginx_ingress_nginx_` in the query box to see a list of all the Ingress statistics that Prometheus is collecting for you:
 
     ![Prometheus9090](media/lab8_localhost-9090.png)
 
-    Select `nginx_ingress_http_requests_total` from the list, click on Graph, and then click the "Execute" Button.  This will provide a graph similar to this one:
+    Select `nginx_ingress_http_requests_total` from the list, click on Graph, and then click the "Execute" Button.  Change the time length to see data from the last 30min or so. This will provide a graph similar to this one:
 
     ![Prometheus graph screenshot](media/lab8_prometheus-graph.png)
 
-    If you don't see many data points, re-start your `WRK` load tool, or select the Auto Refresh on the Cafe's coffee page. 
+    If you don't see much data, re-start your `WRK` load tool, or select the Auto Refresh on the Cafe's coffee page, and wait a few minutes. 
     
     In the upper right corner, click on the Globe icon next to Execute, and take a few minutes to explore the many different statistics, time windows, etc.  You will see metrics from all kinds of Kubernetes objects, components, and services.
 
@@ -206,11 +214,15 @@ Annotations | Port  | Plus Args
 
 <br/>
 
-1. Create a Prometheus graph showing the `NGINX NIC CPU usage` from the pods.  This would be useful data to monitor and watch during any stress tests or in production.
+1. Using the Prometheus Explorer, find and graph the `NGINX Ingress Pod CPU usage` from the pods.  This would be useful data to monitor and watch during any load tests or in production.
 
-    Can you find where the pod `CPU stats` are recorded ?  As you can see, there are hundreds of stats you can use to monitor NGINX NIC, k8s components, pods, and other resources.
+    Can you find where the pod `CPU stats` are recorded ?  As you can see, there are hundreds of stats you can use to monitor NGINX NIC, k8s components, pods, services, and other resources.
 
     Press `Control + C` to stop port-forward when you are finished.
+
+    Did your NIC CPU graph look something like this one?
+
+    ![NIC cpu graph](media/lab8_nic-cpu.png)
 
 <br/>
 
@@ -242,11 +254,11 @@ Annotations | Port  | Plus Args
 
     You can login into Grafana using `admin` and the `password` retrieved above.
 
-    ![Grafana Login Screenshot](media/lab8_grafana_login.png)
+    ![Grafana Login Screenshot](media/lab8_grafana-login.png)
 
     After logging in, you should see the main Grafana Welcome page:
 
-    ![Grafana screenshot](media/lab8_grafana_welcome.png)
+    ![Grafana screenshot](media/lab8_grafana-welcome.png)
 
     You will be creating and using some custom Grafana Dashboards in the next sections.
 
@@ -278,7 +290,7 @@ For you and your team to access Prometheus and Grafana from outside the cluster,
     <br/>
 
 
-1. To test access through NGINX Ingress, open Chrome and navigate to Prometheus (http://prometheus.example.com) and Grafana (https://grafana.example.com) bookmarks. 
+1. Now test access to Prometheus and Grafana, `through NGINX Ingress`. Open 2 new Chrome tabs, and try the Prometheus (http://prometheus.example.com) and Grafana (https://grafana.example.com) bookmarks. 
 
 
 Prometheus | Grafana
@@ -291,30 +303,34 @@ Try another Prometheus query that interests you.  Perhaps you can find the amoun
 
 You can login to Grafana using the same admin/password credentials that you used earlier.
 
+See how easy that was - adding a couple NGINX VirtualServers, to provide external access to your monitoring tools running inside the cluster!
+
 <br/>
 
 ### Configure Grafana Data Sources
 
-1. Once logged in, from the left panel you need to click on `Configuration -> Data sources` and add `Prometheus` as a data source.
+1. Once logged into Grafana, from the left panel you need to click on `Configuration -> Data sources` and add `Prometheus` as a data source.
 
-    ![Add Prometheus DS](media/lab8_grafana_add_prometheus.png)
+    ![Add Prometheus DS](media/lab8_grafana-add-prometheus.png)
 
-1. Once `Prometheus` is added as a data source, in the Prometheus `settings` tab, update HTTP URL to `nginx-prometheus-server:80`.
+1. After `Prometheus` is added as a data source, in the Prometheus `settings` tab, update HTTP URL to `http://nginx-prometheus-server:80`.
 
-    ![Update Prometheus URL](media/lab8_grafana_prometheus_ds.png)
+    ![Update Prometheus URL](media/lab8_grafana-datasource.png)
 
-    Scroll to the botton, and click "Save and Test", it should show a Green Checkmark status and then click the "Back" button.
+    Scroll to the bottom, and click "Save and Test", it should show a Green Checkmark status and then click the "Home" button.
+
+<br/>
 
 ### Import Grafana Custom Dashboards
 
-1. Now you should be ready to import the NGINX Dashboards for NIC from NGINX, Inc. From the left panel click on `Import` to add the dashboard:
+1. Now you should be ready to import the Grafana Dashboards for NIC from NGINX, Inc. From the left panel click on `Import` to add the dashboard:
 
     ![Grafana Import](media/lab8_grafana_imports.png)
 
-1. Next you will import the Grafana dashboard JSON definition files present in the `lab8` folder.
+1. Next you will import 2 Grafana dashboard JSON definition files present in the `lab8` folder.
 
    - `NGINX-Basic.json` gives you basic metrics which come from NGINX Opensource.
-   - `NGINXPlusICDashboard.json` is provided by NGINX, Inc, giving you advanced Layer 4 thru 7 TCP/HTTP/HTTPS metrics which are only available from NGINX Plus.
+   - `NGINXPlusICDashboard.json` is provided by NGINX, Inc, giving you advanced Layer 4-7 TCP/HTTP/HTTPS metrics which are only available from NGINX Plus.
 
     Copy the entire json file and place it within the  `Import via panel json` textbox and click on `Load` button.
 
@@ -333,30 +349,32 @@ You can login to Grafana using the same admin/password credentials that you used
     ![grafana open NGINX dashboard](media/lab8_grafana_open_basic_dashboard.png)
 
     This should open up the NGINX 
-    Basic Grafana Dashboard. You can expand the sub-sections or adjust the `time range` and `refresh` interval in the upper right corner as needed.  You can see this shows the up/down Status of the Ingress, and the Connections and Requests stats:
+    Basic Grafana Dashboard. You can expand the sub-sections or adjust the `time range` and `refresh` interval in the upper right corner as needed.  You can see this shows the up/down Status of the Ingress, and the Connections and HTTP Requests stats:
 
     ![grafana nginx basic dashboard](media/lab8_grafana_nginx_basic.png)
 
-    **NOTE:** If you see a red bar with the message "**No Data**" in the top most pane as seen in below screenshot then click on edit, and change Value options Fields to "Numeric Fields" and click Apply.
+    **NOTE:** If you see a red bar with the message "**No Data**" in the top most pane as seen in below screenshot - then click on edit, and change Value options Fields to "Numeric Fields" and click Apply.
 
     ![no data issue](media/lab8_grafana_no_data.png)
 
     ![no data fix](media/lab8_grafana_no_data_fix.png)
     
+    If needed, restart your `WRK` tool, to generate some traffic for the graphs.
+
     <br/>
 
-3. Next, from the `General` section, select the `NGINX Plus Ingress Controller` Dashboard.
+3. **Optional** - if you want to check out the NGINX Plus statistics in Grafana, from the `General` section, select the `NGINX Plus Ingress Controller` Dashboard.
 
-    ![grafana open KIC dashboard](media/lab8_grafana_open_KIC_dashboard.png)
+    ![grafana open NIC dashboard](media/lab8_grafana_open_KIC_dashboard.png)
 
     This should open up the NGINX Plus Grafana Dashboard. You can expand the sub-sections or adjust the time range and refresh time as needed.
 
-    ![grafana KIC dashboard](media/lab8_grafana_KIC_dashboard.png)
+    ![grafana NIC dashboard](media/lab8_grafana_KIC_dashboard.png)
 
     If the graphs are blank or do not show much data, try restarting the loadtest tool from the previous lab, you should see some statistics being collected and graphed after a few minutes:
 
     ```bash
-    docker run --rm williamyeh/wrk -t4 -c200 -d20m -H 'Host: cafe.example.com' --timeout 2s https://10.1.1.10/coffee
+    docker run --rm williamyeh/wrk -t4 -c200 -d20m -H 'Host: cafe.example.com' --timeout 2s https://10.1.1.100/coffee
     ```
 
     ![run wrk load generator](media/wrk-load-generation.png)
