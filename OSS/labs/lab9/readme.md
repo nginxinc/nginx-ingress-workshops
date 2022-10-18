@@ -1,6 +1,6 @@
 ## Lab 9: Deploy JuiceShop application, using VS/VSR manifests ##
 
-In this lab, we deploy a new application, leaving the current Cafe and Bar apps up and running. This new app environment is deployed using NGINX VirtualServer/VSRroute manifests.
+In this lab, you deploy a new application, leaving the current Cafe and Bar apps up and running. This new app environment is deployed using NGINX VirtualServer/VSRroute manifests.
 
 <br/>
 
@@ -14,7 +14,7 @@ By the end of the lab, you will be able to:
 
 <br/>
 
-![Juiceshop welcome page](media/lab9_juiceshop_welcome_page.png)
+![Juiceshop welcome page](media/lab9_juiceshop-welcome-page.png)
 
 <br/>
 
