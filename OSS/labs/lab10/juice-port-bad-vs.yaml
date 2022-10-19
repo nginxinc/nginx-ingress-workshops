@@ -1,5 +1,5 @@
 #Example virtual server with routes for Juiceshop Demo
-#
+#NGINX NIC OSS
 apiVersion: k8s.nginx.org/v1
 kind: VirtualServer
 metadata:
@@ -12,19 +12,19 @@ spec:
   upstreams:
   - name: juiceshop
     service: juiceshop-svc
-    port: 80
-    slow-start: 10s
-    healthCheck:
-      enable: true
-      path: /
-      interval: 10s
-      jitter: 3s
-      fails: 3
-      passes: 2
-      port: 3000
-      connect-timeout: 15s
-      read-timeout: 5s
-      statusMatch: "200"
+    port: 3000
+    #slow-start: 10s
+    #healthCheck:
+      #enable: true
+      #path: /
+      #interval: 5s
+      #jitter: 3s
+      #fails: 3
+      #passes: 2
+      #port: 3000
+      #connect-timeout: 15s
+      #read-timeout: 5s
+      #statusMatch: "200"
   routes:
   - path: /
     action:

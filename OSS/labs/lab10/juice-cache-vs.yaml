@@ -1,3 +1,4 @@
+#NGINX NIC OSS caching
 apiVersion: k8s.nginx.org/v1
 kind: VirtualServer
 metadata:
@@ -14,19 +15,19 @@ spec:
   - name: juiceshop
     service: juiceshop-svc
     port: 80
-    lb-method: least_time last_byte
-    slow-start: 10s
-    healthCheck:
-      port: 3000
-      enable: true
-      path: /
-      interval: 20s
-      jitter: 3s
-      fails: 3
-      passes: 2
-      port: 3000
-      connect-timeout: 20s
-      read-timeout: 20s
+    lb-method: least_conn
+    #slow-start: 10s
+    #healthCheck:
+      #port: 3000
+      #enable: true
+      #path: /
+      #interval: 20s
+      #jitter: 3s
+      #fails: 3
+      #passes: 2
+      #port: 3000
+      #connect-timeout: 20s
+      #read-timeout: 20s
   routes:
   - path: ~*\\.css|js|jpg|png
     location-snippets: |
