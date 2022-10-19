@@ -1,5 +1,5 @@
 #Example virtual server with routes for Juiceshop Demo
-#
+#NGINX Ingress OSS
 apiVersion: k8s.nginx.org/v1
 kind: VirtualServer
 metadata:
