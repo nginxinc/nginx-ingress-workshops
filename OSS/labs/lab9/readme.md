@@ -1,6 +1,6 @@
 ## Lab 9: Deploy JuiceShop application, using VS/VSR manifests ##
 
-In this lab, you deploy a new application, leaving the current Cafe and Bar apps up and running. This new app environment is deployed using NGINX VirtualServer/VSRroute manifests.
+In this lab, you deploy a new application, leaving the current Cafe and Bar apps up and running. This new app environment is deployed using NGINX VirtualServer/VSRoute manifests.
 
 <br/>
 
@@ -34,25 +34,34 @@ You will launch a new application, called `Juice Shop`, representing a modern on
     kubectl apply -f lab9/juiceshop-vs.yaml
     ```
 
-    ![Component creation screenshot](media/lab9_component_create.png)
+    ![Component creation screenshot](media/lab9_component-create.png)
 
 1. Show running Juice components:
 
     ```bash
     kubectl get pods,svc,vs -n juice -o wide
     ```
-    ![Component Get Screenshot](media/lab9_component_get.png)
+    ![Component Get Screenshot](media/lab9_component-get.png)
+
+    Make sure your Juiceshop VirtualServer STATE is Valid.
 
     <br/>
 
-1. Test the new Juice Shop application and VS/VSR manifests.
+1. Test the new Juice Shop application.
 
-    Open Chrome, navigate to (http://juiceshop.example.com).  Click around for a few minutes to explore the application.
+    Open Chrome, navigate to https://juiceshop.example.com or use the Bookmark.  Click around for a few minutes to explore the application.
 
-    Did you notice, how easy it was with NGINX Ingress, to launch a completely new application in just a few seconds?  With just 2 YAML manifest files - and `no IT tickets` required to do this?  NGINX NIC can perform the Layer7 Hostname and path routing for many different applications running in your k8s cluster.
+    ![Juiceshop welcome page](media/lab9_juiceshop-welcome-page.png)
 
-    ![Juiceshop welcome page](media/lab9_juiceshop_welcome_page.png)
+    Did you notice, how easy it was with NGINX Ingress, to launch a completely new application in just a few seconds?  With just 2 YAML manifest files - and `no IT tickets` required to do this?  NGINX Ingress can perform the Layer7 Hostname and path routing for many different applications running in your k8s cluster.  
+    
+    And if you haven't noticed yet, all of your labs' FQDN/HTTP Hostnames are using the same Public IP Address for DNS, check out the /etc/hosts file on Ubuntu to confirm this.
 
+    ```bash
+    cat /etc/hosts
+    ```
+
+    ![Ubuntu hosts file](media/lab9_cat-hosts.png)
 
 **This completes this Lab.**
 
