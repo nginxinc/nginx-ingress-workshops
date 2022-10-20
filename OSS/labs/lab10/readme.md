@@ -11,7 +11,7 @@ Enable and test and fix some NGINX features to control how Ingress Controller ha
 - 502 Bad Gateway example
 - Custom Error Pages
 - HTTP Caching
-- Mutual TLS
+- End to End Encryption
 - Blue/Green testing
 
 <br/>
@@ -186,7 +186,8 @@ Inspect `lab10/juice-cache-vs.yaml` file, lines 8-10.  Notice you are using an `
     <summary>Click for Hints!</summary>
     <br/>
     <p>
-        <strong>Answer: </strong>  NGINX is not caching any HTTP objects with the ".jpeg" extension! Confirm this by looking at the YAML file, line #31.  This line is a regular expression (regex) that tells NGINX to look at the end of the URL, and match only on these object type extensions.  "JPEG is not included" in this regex. Are there other JPEG objects, for which Caching should be enabled?  Should you modify the regex to include jpeg objects?
+        <strong>Answer: </strong>  NGINX is not caching any HTTP objects with the ".jpeg" extension! <br/>
+        Confirm this by looking at the YAML file, line #31.  This line is a regular expression (regex) that directs NGINX to look at the end of the URL, and <strong>match only on these object type extensions.</strong>  "jpeg is not included" in this regex. Are there other JPEG objects, for which Caching should be enabled?  Should you modify the regex to include jpeg objects?  If you are brave, go ahead and modify the YAML file to add JPEG, and give it a try, and verify it works as expected.
     </p>
 
 </details>
@@ -199,7 +200,7 @@ Inspect the very bottom right corner of Chrome Developer Tools...what is the dif
 
 ![Page Load Time](media/lab10_chrome_page_loadtime.png)
 
-Final Check - did you notice just how much difference in response time there is, between the caching and not-caching JuiceShop configurations ?
+Final Check - did you notice just how much difference in response time there is, between the cache HITS vs the cache EXPIRED JuiceShop pages?
 
 <br/>
 
@@ -207,17 +208,17 @@ Final Check - did you notice just how much difference in response time there is,
 
 <br/>
 
-### Mutual TLS  
+### End to End Encryption  
 
 <br/>
 
 ![mtls icon](media/lab10_mtls_icon.png)
 
-The Boss's business insurance auditor has informed him that his website must have SSL encryption for all his web traffic from end-to-end. Not just the traffic between his customers and the Ingress Controller, but also between the Ingress Controller and all of the application pods. This is called mutualTLS for the Ingress Controller. So now you have to configure/enable TLS between Ingress Controller and the Cafe coffee and tea pods, and verify that it works.
+The Boss's business insurance auditor has informed him that his website must have TLS encryption for all his web traffic from end-to-end. Not just the traffic between his customers and the Ingress Controller, but also between the Ingress Controller and all of the application pods. This is called `End to End Encryption`, and is the first part of a highly security approach, known as Mutual TLS. So now you have to configure/enable TLS between the Ingress Controller and the Cafe coffee and tea pods, and verify that it works.
 
 <br/>
 
-Inspect the  `lab10/cafe-mtls.yaml`, lines 19, and 29-30.  Notice the change from port 80 to port 443 for the container and the Service, to use for mutual TLS.
+Inspect the  `lab10/cafe-mtls.yaml`, lines 19, and 29-30.  Notice the change from port 80 to port 443 for the container and the Service, to use for TLS to the pods.
 
 |Container | Service|
 |-------------------------|-------------------------|
@@ -229,7 +230,7 @@ Inspect the  `lab10/cafe-mtls.yaml`, lines 19, and 29-30.  Notice the change fro
     kubectl delete vs cafe-vs
     ```
 
-1. Start a fresh Cafe Demo, deploy the mTLS enabled pods and services and Virtual Server manifests:
+1. Start a fresh Cafe Demo, deploy the TLS enabled pods and services and Virtual Server manifests:
 
     ```bash
     kubectl apply -f lab10/cafe-mtls.yaml
@@ -242,16 +243,18 @@ Inspect the  `lab10/cafe-mtls.yaml`, lines 19, and 29-30.  Notice the change fro
       <summary>Click for Hints!</summary>
       <br/>
       <p>
-        No, it should not.  NGINX Ingress will use the pod's IP:Port definition for the traffic. 
+        No, it should not.  NGINX Ingress will use the pod's IP:Port definition for the traffic. However, the pods themselves must be configured to listen on port 443, and have an SSL certificate/key installed.  (We have provided this for you in this lab - but this is a step that must be addressed for the App team.)
       </p>
     </details><br/>
     
 
-1. Check the pods, and your new mTLS Cafe Application - ensure all 6 "mtls" coffee and tea pods are now in Running status.
+1. Check the pods, and your new End-to-End TLS Cafe Application - ensure all 6 "mtls" coffee and tea pods are now in Running status.
 
 ```bash
 kubectl get pods
 ```
+
+![MTLS Pods](media/lab10_mtls-pods.png)
 
 1. Using Chrome, check the access to coffee and tea as before:
 
@@ -259,9 +262,9 @@ kubectl get pods
     
     https://cafe.example.com/tea
 
-    Do you see the pod Server Name now shows coffee-mtls-pod-name and tea-mtls-pod-name ?
+    Do you see the pod `Server Name` now shows coffee-mtls-pod-name and tea-mtls-pod-name ?
 
-    Do you see the pod Server Address now shows port 443, and not 80 ?
+    Do you see the pod `Server Address` now shows port 443, and not 80 ?
 
     ![MTLS Coffee Pod](media/lab10_mtls_coffee.png)
 
@@ -277,13 +280,13 @@ kubectl get pods
 
 During the development cycle of modern applications for Kubernetes, developers will often want to test new versions of their software, using various test tools, and ideally, a final check with live customer traffic.  There are several names for this dev/test concept - `Blue/Green deployments, A/B testing, Canary testing,` etc.  
 
-However, switching ALL customers to new versions that might still have a few bugs in the code is quite risky.  
+However, switching ALL customers to new versions that might still have a few bugs in the code can be risky.  
 
-> Wouldn't it be nice if your Ingress Controller could split off just a small fraction of your live traffic, and route it to your new application pod for final testing?  
+> Wouldn't it be nice if your Ingress Controller could split off just a small fraction of your live traffic, and route it to your new application pods for final testing?  
 
 NGINX Ingress Controller can do this, using a feature called `HTTP Split Clients.`  This feature allows you to define a percentage of traffic to be split between different k8s Services, representing different versions of your application.
 
-You will use the currently running Cafe-mTLS coffee and tea pods, and split the traffic at an 80:20 ratio between coffee and tea Services.  
+You will use the currently running Cafe coffee-mtls and tea-mtls pods, and split the traffic at an 80:20 ratio between coffee-mtls and tea-mtls Services.  
 
 Refer to the following diagram for testing Blue/Green traffic splitting with NGINX Ingress Controller:
 
