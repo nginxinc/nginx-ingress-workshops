@@ -294,7 +294,7 @@ Refer to the following diagram for testing Blue/Green traffic splitting with NGI
 
 **Assume that coffee is your existing application, and tea is your new test build of the application.**  
 
-Having read the tea leaves you are highly confident in your new code. So you decide to route 20% of your live traffic to tea. (crossing your fingers🤞)
+Having read the tea leaves you are highly confident in your new code. So you decide to route 20% of your live traffic to tea-mtls. (crossing your fingers🤞)
 
 1. First, to see the split traffic ratio more clearly, scale down the number of coffee and tea pods to just one each:
 
@@ -313,7 +313,7 @@ Having read the tea leaves you are highly confident in your new code. So you dec
     kubectl delete -f lab10/cafe-mtls-vs.yaml
     ```
 
-1. Now configure the Cafe Virtual Server to send 80% traffic to coffee-mtls, and 20% traffic to tea-mtls:
+1. Now configure the Cafe VirtualServer to send `80%` traffic to coffee-mtls, and `20%` traffic to tea-mtls:
 
     ```bash
     kubectl apply -f lab10/cafe-bluegreen-vs.yaml
@@ -321,13 +321,21 @@ Having read the tea leaves you are highly confident in your new code. So you dec
 
 1. Open a Chrome tab for https://cafe.example.com/coffee, and check the Auto Refresh box at the bottom of the page.
 
+   Or use curl:
+
+   ```bash
+   while true; do curl -k https://cafe.example.com/coffee |grep "Server Name"; sleep 1; done
+   ```
+
     ![Bluegreen Auto Refresh](media/lab10_bluegreen_refresh.png)
 
-    Watch the pages being returned from the cafe-bluegreen upstreams.... Do you see approximately an 80/20 Requests ratio between coffee and tea?  You can configure the ratio in 1% increments, from 1-99%.  
+    Watch the pages being returned from the cafe-bluegreen pods.... Do you see approximately an 80/20 Requests ratio between coffee-mtls and tea-mtls?  You can configure the ratio in 1% increments, from 1-99%. 
+
+    ![Bluegreen Curl](media/lab10_bluegreen-curl-split.png) 
 
     **Note:** NGINX will not load the Split configuration, if the ratio does not add up to 100%.
 
-    > **Important!**   You are still using the https://cafe.example.com/coffee URL - you did not have to change the PATH of the url, but NGINX Ingress Controller is routing the requests to 2 different services, 80% to coffee-mtls AND 20% to tea-mtls!   This allows for easy testing of new application versions, without requiring DNS changes, new URLs or URIs, or other system changes.
+    > **Important!**   You are still using the https://cafe.example.com/coffee URL - you did not have to change the PATH of the url, but NGINX Ingress Controller is routing the requests to 2 different Services, 80% to coffee-mtls AND 20% to tea-mtls!   This allows for easy testing of new application versions, without requiring DNS changes, new URLs or URIs, or other system changes.  To test a new version of an App, simply create a new deployment and Service, and tell NGINX Ingress to split the traffic as you need.  This is a `great` traffic management solution for application developers.
 
 <br/>
 
@@ -335,7 +343,7 @@ Having read the tea leaves you are highly confident in your new code. So you dec
 
 - NGINX Error Pages:  http://nginx.org/en/docs/http/ngx_http_core_module.html#error_page
 
-- Error Pages:  https://docs.nginx.com/nginx-ingress-controller/configuration/virtualserver-and-virtualserverroute-resources/#errorpage
+- Ingress Error Pages:  https://docs.nginx.com/nginx-ingress-controller/configuration/virtualserver-and-virtualserverroute-resources/#errorpage
 
 - Caching:  
     
@@ -361,15 +369,15 @@ You have completed all the lab exercises in the workshop.  Do a final visual che
 During the Workshop, you learned the following NGINX, Ingress, and Kubernetes topics and completed the following lab exercises:
 
 1. Verify NGINX Ingress Controller is up and running.
-1. Configure access to the NGINX Dashboard for monitoring real-time statistics.
+1. Configure access to the NGINX Stub Status Dashboard for monitoring statistics.
 1. Deploy the Café demo application for coffee/tea services.
 1. Add the Bar application and Virtual Server.
 1. Run a load test on your Ingress Controller and the Cafe application.
-1. Scale your Cafe application, and NGINX Ingress up and down, under load without errors.
+1. Scale your Cafe application, and NGINX Ingress up and down, under load.
 1. Change NGINX logging to help troubleshoot pod performance issues.
 1. Set up and run Prometheus and Grafana with Helm, to monitor your cluster, apps and Ingress Controller.
 1. Launch a new application, JuiceShop, and test it.
-1. Enable some of the Advanced features of NGINX, like Error Pages, Sorry pages, Caching, mTLS, and Blue-Green split client testing.
+1. Enable some of the Advanced features of NGINX, like Error Pages, Sorry pages, Caching, End-to-End Encryptioin, and Blue-Green split traffic testing.
 
 -------------
 
