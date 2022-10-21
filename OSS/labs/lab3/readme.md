@@ -31,7 +31,7 @@ The NGINX Ingress Controller is already running in this Workshop. You will be co
 
     **IMPORTANT SECURITY NOTE:** In a real world deployment using a Cloud Provider, with a public IP address, this would expose your Ingress Controller to the open Internet with `NO PROTECTION` other than basic TCP port filters. Doing this in production would require Security/Firewall Protections, which are not part of this lab exercise.
 
-1. Confirm there is an `nginx-ingress` service with `TYPE: LoadBalancer`. Run the following command to get networking details of our Ingress pod:
+1. Confirm there is an `nginx-ingress` service with `TYPE: LoadBalancer`. Run the following command to get networking details of your Ingress pod:
 
    ```bash
    kubectl get deployments,services -n nginx-ingress
@@ -46,7 +46,7 @@ The NGINX Ingress Controller is already running in this Workshop. You will be co
 
    In the example above you see: 
 
-   - `Cluster-IP` address of `10.98.133.36`  
+   - `Cluster-IP` address of `10.107.20.212`  
    - `External-IP` address of `10.1.1.100` 
    - Both IPs are mapped from port `80` to a NodePort (`32656`); and from port `443` to a NodePort (`30143`)
 
@@ -54,6 +54,7 @@ The NGINX Ingress Controller is already running in this Workshop. You will be co
 
    - Your `Cluster-IP` address and `NodePorts` will be different based on your cluster. 
    - Since this is a lab environment and not a public cloud environment, the `External-IP` address is static and contained within the lab and has no public access.
+   - If you delete and then add the Loadbalancer Service, the IPs may also change.
 
 <br/>
 
@@ -73,7 +74,7 @@ The NGINX Ingress Controller is already running in this Workshop. You will be co
    <details><summary>Click for Hints!</summary>
    <br/>
    <p>
-   <strong>Answer</strong> – The Ingress Controller's default server will return an <b>HTTP 404 Not Found page, or an HTTP 400 Bad Request status code</b> for all requests that have no matching Ingress routing rules defined; this is NGINX's default 404 error page. You will deploy a Demo application in the subsequent labs, which will fix this.
+   <strong>Answer</strong> – The NGINX Ingress Controller's default server will return an <b>HTTP 404 Not Found page, or an HTTP 400 Bad Request status code</b> for all requests that have no matching Ingress routing rules defined; this is NGINX's default 404 error page. You will deploy a Demo application in the subsequent labs, which will fix this.
    </p>
    </details>
 
