@@ -214,7 +214,7 @@ Final Check - did you notice just how much difference in response time there is,
 
 ![mtls icon](media/lab10_mtls_icon.png)
 
-The Boss's business insurance auditor has informed him that his website must have TLS encryption for all his web traffic from end-to-end. Not just the traffic between his customers and the Ingress Controller, but also between the Ingress Controller and all of the application pods. This is called `End to End Encryption`, and is the first part of a highly security approach, known as Mutual TLS. So now you have to configure/enable TLS between the Ingress Controller and the Cafe coffee and tea pods, and verify that it works.
+The Boss's business insurance auditor has informed him that his website must have TLS encryption for all his web traffic from end-to-end. Not just the traffic between his customers and the Ingress Controller, but also between the Ingress Controller and all of the application pods. This is called `End to End Encryption`, and is the first part of a high security application design, often called Mutual TLS. So now you have to configure/enable TLS between the Ingress Controller and the Cafe coffee and tea pods, and verify that it works.
 
 <br/>
 
@@ -243,7 +243,7 @@ Inspect the  `lab10/cafe-mtls.yaml`, lines 19, and 29-30.  Notice the change fro
       <summary>Click for Hints!</summary>
       <br/>
       <p>
-        No, it should not.  NGINX Ingress will use the pod's IP:Port definition for the traffic. However, the pods themselves must be configured to listen on port 443, and have an SSL certificate/key installed.  (We have provided this for you in this lab - but this is a step that must be addressed for the App team.)
+        No, it should not.  NGINX Ingress will use the pod's IP:Port definition for the traffic. However, don't forget - the pods themselves must be configured to listen on port 443, and have an SSL certificate/key installed.  (We have provided this for you in this lab - but this is an item that must be addressed by the App team).
       </p>
     </details><br/>
     
@@ -336,7 +336,7 @@ Having read the tea leaves you are highly confident in your new code. So you dec
     **Note:** NGINX will not load the Split configuration, if the ratio does not add up to 100%.
 
     > **Important!**   You are still using the https://cafe.example.com/coffee URL - you did not have to change the PATH of the url, but NGINX Ingress Controller is routing the requests to 2 different Services, 80% to coffee-mtls AND 20% to tea-mtls!   This allows for easy testing of new application versions, without requiring DNS changes, new URLs or URIs, or other system changes.<br/>  
-    To test a new version of an App, simply create a new deployment and Service, and tell NGINX Ingress to split the traffic as you need.  This is a `great` traffic management solution for application developers.
+    To test a new version of an App, simply create a new Deployment and Service, and tell NGINX Ingress to split the traffic as you need.  This is a `great` traffic management solution for application developers.
 
     Type `Control+C` to shop the curl when you are finished.
 
