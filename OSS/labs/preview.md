@@ -1,15 +1,16 @@
 ![NGINX logo](media/nginx-2020.png)
 
-## Preview:  Here is a list of some additional workshops/labs being developed.
+## Preview:  Here is a list of some additional workshops/labs being considered.
 
-## NGINX Ingress controller deployments using helm, operators
+<br/>
+
+## NGINX Ingress controller deployments using Helm, operators
 
 - use `helm` or `operator` for you NIC deployment. Learn how to customize your deployment.
 
 ## Advanced use cases for NIC with NGINX NJS (NGINX JavaScript)
 
-- NGINX NJS is built by NGINX. It further extends the function and capability of layer 7 routing with NGINX, providing advanced customized routing capability.  
-This workshop will show you how you can do advanced routing use cases using NJS, giving you more power and control of your NGINX Ingress Controller.
+- NGINX NJS is built by NGINX. It further extends the function and capability of layer 7 routing with NGINX, providing advanced customized routing capability. This workshop will show you how you can do advanced routing use cases using NJS, giving you more power and control of your NGINX Ingress Controller.
 
 - extra specific header values from a incoming request, pass the request to NJS for inspection and then based on a certain value, do the following....
 
@@ -30,6 +31,7 @@ NGINX Ingress policies take advantage of our custom resources (virtualServer,vir
 - egressMTLS
 - OIDC authentication. Authenticate to providers like Okta.
 - JWT tokens
+- External DNS
 
 ## Layer 4 Load balancing with NGINX Ingress -- TransportServer
 

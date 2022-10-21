@@ -14,7 +14,7 @@
 
 This Workshop will introduce NGINX Opensource Ingress Controller with hands-on practice through self-paced lab exercises.
 
-You will learn how to configure an **`NGINX OSS Ingress Controller`**, deploy it on a Kubernetes cluster, configure basic and advanced NGINX features, loadtest it, scale it up and down and monitor it in realtime.  You will deploy new apps and services in your private cluster, terminate SSL, route HTTP traffic, configure redirects, and load balance traffic to running pods.
+You will learn how to configure an **`NGINX OSS Ingress Controller`**, deploy it on a Kubernetes cluster, configure basic and advanced NGINX features, loadtest it, scale it up and down and monitor it in realtime.  You will deploy new Apps and Services in your own private cluster, terminate TLS, route HTTP traffic; configure re-directs, sorry pages, load balancing algorithms, caching, Blue/Green testing and routing traffic to running pods.
 
 <br/>
 
@@ -42,7 +42,7 @@ https://www.nginx.com/blog/guide-to-choosing-ingress-controller-part-4-nginx-ing
 
 NGINX Ingress Controller has the best-in-class traffic management solution for cloud‑native apps in Kubernetes and containerized environments. In a recent 
 [CNCF](https://www.cncf.io/blog/2018/08/29/cncf-survey-use-of-cloud-native-technologies-in-production-has-grown-over-200-percent/)
-survey, nearly two‑thirds of respondents reported using the NGINX Ingress Controller, more than all other controllers combined – and NGINX Ingress Controller has been downloaded more than [10 million
+survey, nearly two‑thirds of respondents reported using the NGINX Ingress Controller, more than all other controllers combined – and NGINX Ingress Controller has been downloaded more than [50 million
 times](https://hub.docker.com/r/nginx/nginx-ingress) from DockerHub. 
 
 <br/>
@@ -62,7 +62,7 @@ https://docs.nginx.com/nginx-ingress-controller/technical-specifications/
 ### Authors
 - Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
 - Shouvik Dutta - Solutions Architect - Sales @ F5, Inc.
-- Jason Williams - Sr. Product Management Engineer @ F5, Inc.
+- Jason Williams - Principal Technical Product Manager @ F5, Inc.
 
 -------------
 
