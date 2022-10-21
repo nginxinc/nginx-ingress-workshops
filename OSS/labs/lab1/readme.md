@@ -81,9 +81,14 @@ Prepare the Lab client machine for this lab by:
 
 1. Using the VScode Terminal (the bottom pane), go ahead a try a `kubectl` command, such as `kubectl get nodes`:
 
+   ```bash
+   kubectl get nodes
+   ```
+
+
       ![vscode-main](media/lab1_vscode-main.png)
 
-      Verify your Kubernetes Cluster is up and all Nodes are in the "Ready" state using this command:
+      Verify your Kubernetes Cluster is up and all Nodes are in the "Ready" state:
 
       ![kubectl get nodes](media/lab1_k-get-nodes.png)
 
