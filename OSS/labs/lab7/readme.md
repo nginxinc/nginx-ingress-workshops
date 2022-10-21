@@ -161,9 +161,9 @@ However, there are only **two** log variables with any useful data related to th
 
 1. Type `Ctrl-C` to stop the log `tail` when finished.
 
-1. Let's implement an **Enhanced** Access Log format, to collect extra NGINX Request and Response and pod statistics, you can do this by adding new log variables specifc to NGINX Ingress such as the Kubernetes pods' resource and traffic details. 
+1. You will implement an **Enhanced** Access Log format, to collect extra NGINX Request and Response and pod statistics, you can do this by adding new log variables specifc to NGINX Ingress such as the Kubernetes pods' name, IP, resource and traffic details. 
 
-    NGINX has many variables that can be used for logging. In the code snippet below
+    NGINX has many variables that can be used for logging. In the YAML snippet below
     (`lab7/nginx-config-enhanced-logging.yaml`), you can see the new **Enhanced** Access Log format for the NGINX Ingress Controller, as a `ConfigMap`:
 
       ```yaml
@@ -176,6 +176,8 @@ However, there are only **two** log variables with any useful data related to th
         lb-method: "least_conn"
         log-format:  '$remote_addr - $remote_user [$time_local] "$request" $status $body_bytes_sent "$http_referer" "$http_user_agent" "$http_x_forwarded_for" rn="$resource_name" "$resource_type" "$resource_namespace" svc="$service" "$request_id" rt=“$request_time” ua=“$upstream_addr” uct="$upstream_connect_time" uht="$upstream_header_time" urt="$upstream_response_time" uqt=“$upstream_queue_time“ cs=“$upstream_cache_status“'
       ```
+
+      ![Enhanced ConfigMap](media/lab7_configmap.png)
 
       Taking advantage of the additional logging variables from NGINX will provide detailed insight into which upstream pods are working the best, and which are having issues.  This should help the app dev team to identify the slow pods and further help in their troubleshooting steps.
 
@@ -198,7 +200,7 @@ However, there are only **two** log variables with any useful data related to th
 
     ![log tailing screenshot](media/access-log-enhanced.png)
 
-1. Type` Ctrl-C` to stop the log  `tail` when finished.
+1. Type` Control-C` to stop the log  `tail` when finished.
 
 **Question:**
 
