@@ -329,13 +329,16 @@ Having read the tea leaves you are highly confident in your new code. So you dec
 
     ![Bluegreen Auto Refresh](media/lab10_bluegreen_refresh.png)
 
-    Watch the pages being returned from the cafe-bluegreen pods.... Do you see approximately an 80/20 Requests ratio between coffee-mtls and tea-mtls?  You can configure the ratio in 1% increments, from 1-99%. 
+    Watch the `Server Name` in the pages being returned from the Cafe pods... Do you see approximately an 80/20 Requests ratio between coffee-mtls and tea-mtls?  You can configure the ratio in 1% increments, from 1-99%. 
 
     ![Bluegreen Curl](media/lab10_bluegreen-curl-split.png) 
 
     **Note:** NGINX will not load the Split configuration, if the ratio does not add up to 100%.
 
-    > **Important!**   You are still using the https://cafe.example.com/coffee URL - you did not have to change the PATH of the url, but NGINX Ingress Controller is routing the requests to 2 different Services, 80% to coffee-mtls AND 20% to tea-mtls!   This allows for easy testing of new application versions, without requiring DNS changes, new URLs or URIs, or other system changes.  To test a new version of an App, simply create a new deployment and Service, and tell NGINX Ingress to split the traffic as you need.  This is a `great` traffic management solution for application developers.
+    > **Important!**   You are still using the https://cafe.example.com/coffee URL - you did not have to change the PATH of the url, but NGINX Ingress Controller is routing the requests to 2 different Services, 80% to coffee-mtls AND 20% to tea-mtls!   This allows for easy testing of new application versions, without requiring DNS changes, new URLs or URIs, or other system changes.<br/>  
+    To test a new version of an App, simply create a new deployment and Service, and tell NGINX Ingress to split the traffic as you need.  This is a `great` traffic management solution for application developers.
+
+    Type `Control+C` to shop the curl when you are finished.
 
 <br/>
 
