@@ -59,7 +59,7 @@ Prepare the Lab client machine for this lab by:
    ### Note that you can re-open the LabGuide or RDP from the UDF Access page at any time.
 
 
-1. Locate Chrome on the Ubuntu Desktop, and launch Chrome.  It should have the LabGuide open as the default Website.  If not, you can find the LabGuide on the Bookmarks Bar.
+1. Locate Chrome on the Ubuntu Desktop, and launch Chrome.  It should have this LabGuide open as the default Website.  If not, you can find the LabGuide on the Bookmarks Bar.
 
    > For reference, the LabGuide can be found on GitHub at:
 
