@@ -4,12 +4,13 @@
 
 By the end of the lab, you will be able to: 
 
-* Enable and test some NGINX Plus features to control how Ingress Controller handles different situations and enables Enterprise features, like:
-    - Active Healthchecks
-    - Custom Error Pages
-    - HTTP Caching
-    - Mutual TLS
-    - Blue/Green testing
+Enable and test some NGINX Plus features to control how Ingress Controller handles different situations and enables Enterprise features, like:
+
+- Active Healthchecks
+- Custom Error Pages
+- HTTP Caching
+- End to End Encryption
+- Blue/Green testing
 
 <br/>
 
@@ -118,7 +119,7 @@ NGINX Plus provides many options for intercepting HTTP response errors and provi
 
 <br/>
 
-![NGINX 2020](media/nginx-2020.png)
+![NGINX 2020](media/nginx-cache-icon.png)
 
 <br/>
 
@@ -212,13 +213,13 @@ Final Check - did you notice just how much difference in response time there is,
 
 <br/>
 
-### Mutual TLS  
+### End to End Encryption  
 
 <br/>
 
 ![mtls icon](media/lab10_mtls_icon.png)
 
-The Boss's business insurance auditor has informed him that his website must have SSL encryption for all his web traffic from end-to-end. Not just the traffic between his customers and the Ingress Controller, but also between the Ingress Controller and all of the application pods. This is called mutualTLS for the Ingress Controller. So now you have to configure/enable TLS between Ingress Controller and the Cafe coffee and tea pods, and verify that it works.
+The Boss's business insurance auditor has informed him that his website must have TLS encryption for all his web traffic from end-to-end. Not just the traffic between his customers and the Ingress Controller, but also between the Ingress Controller and all of the application pods. This is called `End to End Encryption`, and is the first part of a high security application design, often called Mutual TLS. So now you have to configure/enable TLS between the Ingress Controller and the Cafe coffee and tea pods, and verify that it works.
 
 <br/>
 
@@ -236,7 +237,7 @@ Inspect the  `lab10/cafe-mtls.yaml`, lines 19, and 29-30.  Notice the change fro
 
 2. Check the Plus Dashboard, the Cafe HTTP Zone should now be gone.
 
-3. Start a fresh Cafe Demo, deploy the mTLS enabled pods and services and Virtual Server manifests:
+3. Start a fresh Cafe Demo, deploy the TLS enabled pods and services and Virtual Server manifests:
 
     ```bash
     kubectl apply -f lab10/cafe-mtls.yaml
@@ -249,12 +250,12 @@ Inspect the  `lab10/cafe-mtls.yaml`, lines 19, and 29-30.  Notice the change fro
       <summary>Click for Hints!</summary>
       <br/>
       <p>
-        No, it should not.  NGINX Ingress will use the pod's IP:Port definition for the Healthchecks. 
+        No, it should not.  NGINX Ingress will use the pod's IP:Port definition for the traffic. However, don't forget - the pods themselves must be configured to listen on port 443, and have an SSL certificate/key installed.  (We have provided this for you in this lab - but this is an item that must be addressed by the App team). 
       </p>
     </details><br/>
     
 
-4. Check the Plus Dashboard, and your new mTLS Cafe Application - ensure all 6 "mtls" coffee and tea pods are now in Up/Green status.
+4. Check the Plus Dashboard, and your new End-to-End TLS Cafe Application - ensure all 6 "mtls" coffee and tea pods are now in Up/Green status.
 
     ![MTLS Cafe Dashboard](media/lab10_mtls_dashboard.png)
 
@@ -264,9 +265,9 @@ Inspect the  `lab10/cafe-mtls.yaml`, lines 19, and 29-30.  Notice the change fro
     
     https://cafe.example.com/tea
 
-    Do you see the pod Server Name now shows coffee-mtls-pod-name and tea-mtls-pod-name ?
+    Do you see the pod `Server Name` now shows coffee-mtls-pod-name and tea-mtls-pod-name ?
 
-    Do you see the pod Server Address now shows port 443, and not 80 ?
+    Do you see the pod `Server Address` now shows port 443, and not 80 ?
 
     ![MTLS Coffee Pod](media/lab10_mtls_coffee.png)
 
@@ -288,7 +289,7 @@ However, switching ALL customers to new versions that might still have a few bug
 
 NGINX Plus Ingress Controller can do this, using a feature called `HTTP Split Clients.`  This feature allows you to define a percentage of traffic to be split between different k8s Services, representing different versions of your application.
 
-You will use the currently running Cafe-mTLS coffee and tea pods, and split the traffic at an 80:20 ratio between coffee and tea Services.  
+You will use the currently running Cafe coffee-mtls and tea-mtls pods, and split the traffic at an 80:20 ratio between coffee-mtls and tea-mtls Services.  
 
 Refer to the following diagram for testing Blue/Green traffic splitting with NGINX Plus Ingress Controller:
 
@@ -296,7 +297,7 @@ Refer to the following diagram for testing Blue/Green traffic splitting with NGI
 
 **Assume that coffee is your existing application, and tea is your new test build of the application.**  
 
-Having read the tea leaves you are highly confident in your new code. So you decide to route 20% of your live traffic to tea. (crossing your fingers🤞)
+Having read the tea leaves you are highly confident in your new code. So you decide to route 20% of your live traffic to tea-mtls. (crossing your fingers🤞)
 
 1. First, to see the split ratio more clearly, scale down the number of coffee and tea pods to just one each:
 
@@ -319,7 +320,7 @@ Having read the tea leaves you are highly confident in your new code. So you dec
     kubectl delete -f lab10/cafe-mtls-vs.yaml
     ```
 
-4. Now configure the Cafe Virtual Server to send 80% traffic to coffee-mtls, and 20% traffic to tea-mtls:
+4. Now configure the Cafe VirtualServer to send `80%` traffic to coffee-mtls, and `20%` traffic to tea-mtls:
 
     ```bash
     kubectl apply -f lab10/cafe-bluegreen-vs.yaml
@@ -329,13 +330,15 @@ Having read the tea leaves you are highly confident in your new code. So you dec
 
     ![Bluegreen Auto Refresh](media/lab10_bluegreen_refresh.png)
 
-    Check the statistics on the Plus Dashboard cafe-bluegreen upstreams.... Do you see approximately an 80/20 Requests ratio between coffee and tea?  You can configure the ratio in 1% increments, from 1-99%.  
+    Check the statistics on the Plus Dashboard Cafe upstreams... Do you see approximately an 80/20 Requests ratio between coffee-mtls and tea-mtls?  You can configure the ratio in 1% increments, from 1-99%.  
 
     **Note:** NGINX will not load the Split configuration, if the ratio does not add up to 100%.
 
     ![Bluegreen Splits](media/lab10_bluegreen_dashboard.png)
 
     > **Important!**   You are still using the https://cafe.example.com/coffee URL - you did not have to change the PATH of the url, but NGINX Ingress Controller is routing the requests to 2 different services, 80% to coffee-mtls AND 20% to tea-mtls!   This allows for easy testing of new application versions, without requiring DNS changes, new URLs or URIs, or other system changes.
+    <br/>  
+    To test a new version of an App, simply create a new Deployment and Service, and tell NGINX Ingress to split the traffic as you need.  This is a `great` traffic management solution for application developers.
 
 <br/>
 
@@ -376,7 +379,7 @@ During the Workshop, you learned the following NGINX, Ingress, and Kubernetes to
 1. Change NGINX logging to help troubleshoot pod performance issues.
 1. Set up and run Prometheus and Grafana with Helm, to monitor your cluster, apps and Ingress Controller.
 1. Launch a new application, JuiceShop, and test it.
-1. Enable some of the Advanced features of NGINX Plus, like Active Healthchecks, Caching, Sorry pages, mTLS, and Blue-Green split client testing.
+1. Enable some of the Advanced features of NGINX Plus, like Active Healthchecks, Caching, Sorry pages, End-to-End TLS, and Blue-Green split client testing.
 
 -------------
 
