@@ -88,7 +88,7 @@ https://github.com/nginxinc/nginx-ingress-workshops/blob/main/Plus/labs/LabGuide
 
       Verify your Kubernetes Cluster is up and all Nodes are in the "Ready" state using this command:
 
-      ![kubectl get nodes](media/k-get-nodes.png)
+      ![kubectl get nodes](media/lab1_k-get-nodes.png)
 
       **NOTE:** If your nodes are not showing in `Ready` status then please inform your instructor.
 
