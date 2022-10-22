@@ -2,10 +2,12 @@
 
 <br>
 
-# github.com/nginxinc/nginx_ingress_workshops
+## github.com/nginxinc/nginx_ingress_workshops
 <br>
 
 # Welcome to the Workshops for Nginx Ingress Controller!
+
+<br/>
 
 This Repo is for learning `Nginx Ingress Controller`, with Hands-on Lab Exercises and Lab Guides that will teach a student using real world scenarios for using Nginx Ingress Controller in a Kubernetes Cluster.
 
@@ -17,9 +19,9 @@ This Repo is for learning `Nginx Ingress Controller`, with Hands-on Lab Exercise
 
 ## Audience
 
-These Workshops are meant for Modern Application Developers, DevOps, Platform Ops, and SRE engineers working with Kubernetes and Ingress Controllers, to learn and understand how Nginx Ingress Controller works - is configured, deployed, monitored and managed.
+These Workshops are meant for Modern Application Developers, Architects, DevOps, Platform Ops, and SRE engineers working with Kubernetes and Ingress Controllers, to learn and understand how Nginx Ingress Controller works - is configured, deployed, monitored and managed.
 
-The student taking these Workshops should have basic and/or intermediate skills and knowledge with:
+The Student taking these Workshops should have basic and/or intermediate skills and knowledge with:
 
 - Kubernetes Administration
 - Nginx webserver and Nginx Proxy
@@ -43,21 +45,21 @@ Nginx Ingress  |  Hands-On Labs
 
 <br/>
 
-The Lab Exercises and Lab Guides are written for a specific Kubernetes environment.  Choose the folder that matches your hosted Lab environment, and use the resources in that folder.
+The Lab Exercises and Lab Guides are written for a `specific Kubernetes environment`.  Choose the folder that matches your hosted Lab environment, and use the resources in that folder.
 
 - OSS -  This environment is built in F5's Unified Demo Framework (UDF), and is hosted as a class instructed by F5/Nginx employees.
 
 - Plus - This environment is built in F5's Unified Demo Framework (UDF), and is hosted as a class instructed by F5/Nginx employees.
 
-- Rancher - This environment would be built using a Rancher RKE2 cluster, and would be hosted by the student.
+- Rancher - This environment would be built using a Rancher RKE2 cluster, and would be provided by the Student.
 
-- AWS - This environment would be built using an Amazon EKS cluster, and would be hosted by the student.
+- AWS - This environment would be built using an Amazon EKS cluster, and would be provided by the Student.
 
-- GCP - This environment would be built using a Google GKE cluster, and would be hosted by the student.
+- GCP - This environment would be built using a Google GKE cluster, and would be provided by the Student.
 
-- Azure - This environment would be built using an Azure AKS cluster, and would be hosted by the student.
+- Azure - This environment would be built using an Azure AKS cluster, and would be provided by the Student.
 
-- Minikube - This environment would be built using a MacOS minikube cluster, and would be hosted by the student.
+- Minikube - This environment would be built using a MacOS minikube cluster, and would be provided by the Student.
 
 It is important to select the proper environment and folder, as the initial setup and configuration of the clusters, repository, ingress controllers, load balancer services, and remote access instructions will differ among the environments.  `After the initial setup, most of the lab exercises are nearly identical.`
 
@@ -69,11 +71,11 @@ Nginx  |  Kubernetes  |  VisualStudio Code
 
 <br/>
 
-The requirements for a student to complete the Hands-on Lab Exercises are the following:
+The requirements for a Student to complete the Hands-on Lab Exercises are the following:
 
 - A Kubernetes cluster, with Admin level access.
 - Nginx Ingress Controller software
-- - you will use Nginx Opensource for the OSS labs.  
+- - you will use Nginx Open Source for the OSS labs.  
 - - you must use Nginx Plus for the Plus labs.  If you need a license for Nginx Plus, you can request a free 30-day trial here:  https://www.nginx.com/free-trial-request-nginx-ingress-controller/
 - A laptop or other computer to use as a client to the Lab environment.
 - Time:  Most of the workshops can be completed in 2-3 hours.  
@@ -82,14 +84,14 @@ The requirements for a student to complete the Hands-on Lab Exercises are the fo
 
 ## Installation
 
-The F5/Nginx hosted UDF lab environments are pre-built with all the components needed to complete the Lab Exercises.  If you would like to run these lab exercises in a different k8s cluster environment, the student will need to provide the following resources in the test lab environment:
+The F5/Nginx hosted UDF lab environments are pre-built with all the components needed to complete the Lab Exercises.  If you would like to run these lab exercises in a different k8s cluster environment, the Student will need to provide the following resources in the test lab environment:
 
-- working k8s cluster, three node minimum size, with admin level access.
-- access to a private container registry, where container images can be stored and pulled.
-- an Nginx Ingress Controller container image.  You can use the OSS image, or provide your own with Plus, as describe here: https://docs.nginx.com/nginx-ingress-controller/installation/pulling-ingress-controller-image/.
-- a client PC to use for access to the cluster.
-- a load balancer service running to expose your cluster to external traffic.
-- certain environments may have additional resource requirements.
+- Working k8s cluster, three node minimum size, with admin level access.
+- Access to a private container registry, where container images can be stored and pulled.
+- An Nginx Ingress Controller container image.  You can use the OSS image, or provide your own with Plus, as describe here: https://docs.nginx.com/nginx-ingress-controller/installation/pulling-ingress-controller-image/.
+- A client PC to use for access to the cluster.
+- A LoadBalancer Service running to expose your cluster to external traffic.
+- Certain environments may have additional resource requirements.
 
 <br>
 
