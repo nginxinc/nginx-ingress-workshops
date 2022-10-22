@@ -122,7 +122,7 @@ However, there are only **two** log variables with any useful data related to th
 
     How do you even know *which `pod`* sent the response? To properly troubleshoot and identify the poor performance of a pod, you need much more information. 
 
-1. Type `Ctrl-C` to stop the log `tail` when finished.
+1. Type `Control-C` to stop the log `tail` when finished.
 
 1. Lets implement an **Enhanced** Access Log format, to collect extra NGINX Plus Request and Response and pod statistics, we can do this by adding new log variables specifc to NGINX Plus Ingress such as the Kubernetes pods' resource and traffic details. 
 
@@ -161,7 +161,7 @@ However, there are only **two** log variables with any useful data related to th
 
     ![log tailing screenshot](media/access-log-enhanced.png)
 
-1. Type` Ctrl-C` to stop the log  `tail` when finished.
+1. Type` Control-C` to stop the log  `tail` when finished.
 
    Hopefully, using this additional logging information will help pinpoint issues with various pods, and allow the Developers to improve the performance of their applications.
 

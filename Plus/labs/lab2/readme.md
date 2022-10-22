@@ -80,7 +80,7 @@ The NGINX Ingress Controller is already running in this workshop. You will be ch
    </details>
    </br>
 
-1. Close Chrome Web Browser, and hit `Ctrl-C` in the terminal to stop the Port Forward.
+1. Close Chrome Web Browser, and hit `Control-C` in the terminal to stop the Port Forward.
 
    ![stop port-forward](media/port-forward-ctrl-c.png)
 

@@ -66,7 +66,7 @@ NGINX Plus provides many options for active health checking of pods and services
 
     ![NGINX Error Logs](media/lab10_error_log.png) 
 
-    Type Ctrl+C to stop the log tail when you are finished.
+    Type Control+C to stop the log tail when you are finished.
 
 1. Inspect the fixed YAML manifest VS file, `juice-health-good-vs.yaml`, with the correct healthcheck port of 3000 on line #24. Now try that one:
 
@@ -155,7 +155,7 @@ Inspect `lab10/juice-cache-vs.yaml` file, lines 7-9.  Notice you are using an `h
 
     ![Cache Expired](media/lab10_log_cache_expired.png)
 
-    Type Ctrl+C to stop the log tail when you are finished.
+    Type Control+C to stop the log tail when you are finished.
     
 1. Now, open a new Tab in Chrome, enable Developer Tools, and make sure you disable Chrome's internal browser cache, and select the `Network` tab at the top in Chrome Tools.  Click the JuiceShop Favorite.
 
