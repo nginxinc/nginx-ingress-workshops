@@ -14,6 +14,8 @@ In this lab you will setup the workshop environment and prepare the Jumphost whe
 
 > **Important:** All lab exercises must be run from the `Ubuntu Desktop` Jumphost in order to complete them successfully.
 
+<br/>
+
 ## Learning Objectives 
 
 By the end of the lab, you will be able to: 
@@ -27,6 +29,8 @@ The Basic Architecture of the lab is shown here for reference:
 
 ![UDF workshop topology](media/udf-lab-topology.png)
 
+<br/>
+
 ## Access Jumphost
 
 Prepare your client machine for this lab by: 
@@ -37,11 +41,12 @@ Prepare your client machine for this lab by:
 
 Locate the **`Ubuntu-Jumphost`** component and click on the **`ACCESS`** dropdown link.
 
-   ![UDF Jumphost access](media/udf-jumphost-access.png)
+   ![UDF Jumphost access](media/lab1_udf-jumphost-access.png)
 
-Click `WORKSHOP LAB GUIDE`, which should open this LabGuide in a seperate tab.
+
+After you connect to the Jumphost, open Chrome from the Desktop, which should open this LabGuide as the default page.
      ![UDF lab guide](media/lab_guide.png)
-     ![UDF lab guide](media/lab_guide_outline.png)
+     ![UDF lab guide](media/lab1_lab-guide-outline.png)
 
 </br>
 
@@ -58,7 +63,7 @@ https://github.com/nginxinc/nginx-ingress-workshops/blob/main/Plus/labs/LabGuide
 
 1. Under `ACCESS` now click on `XRDP` to login to the Jumphost
 
-   ![UDF Jumphost access](media/udf-jumphost-access.png)
+   ![UDF Jumphost access](media/lab1_udf-jumphost-access.png)
 
    The `XRDP` session will use these login credentials:
 
@@ -92,6 +97,8 @@ https://github.com/nginxinc/nginx-ingress-workshops/blob/main/Plus/labs/LabGuide
    ![lab-guide](media/lab_guide.png)
 
 **This completes this Lab.**
+
+<br/>
 
 ### Authors
 - Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
