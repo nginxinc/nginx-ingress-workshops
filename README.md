@@ -75,7 +75,7 @@ The requirements for a Student to complete the Hands-on Lab Exercises are the fo
 
 - A Kubernetes cluster, with Admin level access.
 - Nginx Ingress Controller software
-- - you will use Nginx Open Source for the OSS labs.  
+- - you will use Nginx Open Source for the OSS labs, found here:  https://hub.docker.com/r/nginx/nginx-ingress  
 - - you must use Nginx Plus for the Plus labs.  If you need a license for Nginx Plus, you can request a free 30-day trial here:  https://www.nginx.com/free-trial-request-nginx-ingress-controller/
 - A laptop or other computer to use as a client to the Lab environment.
 - Time:  Most of the workshops can be completed in 2-3 hours.  
