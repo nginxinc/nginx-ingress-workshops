@@ -1,8 +1,12 @@
 # Lab 5: Deploy the NGINX Cafe Ingress demo application, using manifests
 
+<br/>
+
 ## Introduction
 
 In this section, you will build the "Cafe" Ingress Demo, which represents a Coffee Shop website with Coffee and Tea applications. You will be adding the following components to your Kubernetes Cluster: **Coffee** and **Tea** `services`, `cafe-secret`, and `cafe ` `virtualserver`.
+
+<br/>
 
 ## Learning Objectives
 - Deploy the Cafe Demo app
@@ -10,6 +14,8 @@ In this section, you will build the "Cafe" Ingress Demo, which represents a Coff
 - Verify the URL path access to `/coffee` and `/tea` work correctly 
 - Monitor the NGINX Plus Dashboard
 - Verify the homepage redirect works correctly
+
+<br/>
 
 ## Deploy the Cafe Demo app
 
@@ -43,6 +49,8 @@ The Cafe application that you will deploy looks like the following diagram below
     ![get virtualserver](media/lab5_get_vs.png)
 
     **Note:** The `STATE` should be `Valid`.  If it is not, then there is an issue with your yaml manifest file `(cafe-vs.yaml)`.  You could also use `kubectl describe vs cafe-vs` to get more information about the `VirtualServer` we just created.
+
+<br/>
 
 ## Compare VirtualServer and Ingress manifest
 
@@ -119,16 +127,19 @@ The Cafe application that you will deploy looks like the following diagram below
 
   ![cafe-secret.yaml](media/lab5_cafe_secret_yaml.png)
 
+<br/>
+
 ## Verify the URL path to `/coffee` and `/tea` work correctly 
 
 1. Access the application using `curl`. We'll use the `-k` option to turn off certificate verification of our self-signed certificate:
 
-  ``` bash
-  # To get coffee:
+  To get coffee:
+  ```bash
   curl -k -I https://cafe.example.com/coffee 
   ```
-  ```bash    
-  # If your prefer tea:
+  
+  If you prefer tea:
+  ```bash
   curl -k -I https://cafe.example.com/tea 
   ```
 <br/>
@@ -184,17 +195,24 @@ The `Server Zones` table contains the Virtual Servers statistics of the Ingress,
 
 1. Verify the [`Endpoint`](https://kubernetes.io/docs/concepts/services-networking/service/) addresses, with `kubectl` commands that shows you the details of Coffee and Tea `Service`:
 
-    ```bash
-    # Describe Coffee Service 
-    kubectl describe svc coffee-svc
+    Describe Coffee Service:
 
-    # Describe Tea Service 
+    ```bash 
+    kubectl describe svc coffee-svc
+    ```
+
+    Describe Tea Service:
+
+    ```bash
     kubectl describe svc tea-svc
     ```
     The Service `Endpoints` should match the Server IPs in the dashboard:
 
     ![describe coffee-svc](media/lab5_describe_coffee_svc.png) 
     ![describetea-svc](media/lab5_describe_tea_svc.png)
+
+
+<br/>
 
 ## Verify the homepage redirect works correctly
 
@@ -228,10 +246,14 @@ What happens if you try just plain  http://cafe.example.com? It should redirect 
 
 **This completes this Lab.** 
 
+<br/>
+
 ## References: 
 
 - [NGINX Ingress Controller Complete
   Example](https://github.com/nginxinc/kubernetes-ingress/tree/master/examples/complete-example)
+
+<br/>
 
 ### Authors
 - Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
