@@ -1,30 +1,30 @@
-![Nginx Ingress Workshop](media/nicworkshop-banner.png)
+![NGINX Ingress Workshop](media/nicworkshop-banner.png)
 
 <br>
 
 ## github.com/nginxinc/nginx_ingress_workshops
 <br>
 
-# Welcome to the Workshops for Nginx Ingress Controller!
+# Welcome to the Workshops for NGINX Ingress Controller!
 
 <br/>
 
-This Repo is for learning `Nginx Ingress Controller`, with Hands-on Lab Exercises and Lab Guides that will teach a student using real world scenarios for using Nginx Ingress Controller in a Kubernetes Cluster.
+This Repo is for learning `NGINX Ingress Controller`, with Hands-on Lab Exercises and Lab Guides that will teach a student using real world scenarios for using NGINX Ingress Controller in a Kubernetes Cluster.
 
 <br>
 
-![Nginx Ingress Controller topology](media/nic-topology.svg)
+![NGINX Ingress Controller topology](media/nic-topology.svg)
 
 <br/>
 
 ## Audience
 
-These Workshops are meant for Modern Application Developers, Architects, DevOps, Platform Ops, and SRE engineers working with Kubernetes and Ingress Controllers, to learn and understand how Nginx Ingress Controller works - is configured, deployed, monitored and managed.
+These Workshops are meant for Modern Application Developers, Architects, DevOps, Platform Ops, and SRE engineers working with Kubernetes and Ingress Controllers, to learn and understand how NGINX Ingress Controller works - is configured, deployed, monitored and managed.
 
 The Student taking these Workshops should have basic and/or intermediate skills and knowledge with:
 
 - Kubernetes Administration
-- Nginx webserver and Nginx Proxy
+- NGINX webserver and NGINX Proxy
 - HTTP and TLS protocols and traffic
 - Chrome or browser diagnostic tools
 - Basic Linux OS commands and OS tools
@@ -39,7 +39,7 @@ The Student taking these Workshops should have basic and/or intermediate skills 
 
 </br>
 
-Nginx Ingress  |  Hands-On Labs
+NGINX Ingress  |  Hands-On Labs
 :-------------------------:|:-------------------------:
 ![](media/nginx-ingress-icon.png)  |  ![](media/developer-seated.svg)
 
@@ -47,9 +47,9 @@ Nginx Ingress  |  Hands-On Labs
 
 The Lab Exercises and Lab Guides are written for a `specific Kubernetes environment`.  Choose the folder that matches your hosted Lab environment, and use the resources in that folder.
 
-- OSS -  This environment is built in F5's Unified Demo Framework (UDF), and is hosted as a class instructed by F5/Nginx employees.
+- OSS -  This environment is built in F5's Unified Demo Framework (UDF), and is hosted as a class instructed by F5/NGINX employees.
 
-- Plus - This environment is built in F5's Unified Demo Framework (UDF), and is hosted as a class instructed by F5/Nginx employees.
+- Plus - This environment is built in F5's Unified Demo Framework (UDF), and is hosted as a class instructed by F5/NGINX employees.
 
 - Rancher - This environment would be built using a Rancher RKE2 cluster, and would be provided by the Student.
 
@@ -65,7 +65,7 @@ It is important to select the proper environment and folder, as the initial setu
 
 <br>
 
-Nginx  |  Kubernetes  |  VisualStudio Code
+NGINX  |  Kubernetes  |  VisualStudio Code
 :-------------------------:|:-------------------------:|:-------------------------:
 ![](media/nginx-icon.png)  |  ![](media/kubernetes-icon.png)   |  ![](media/vs-code-icon.png)
 
@@ -74,9 +74,9 @@ Nginx  |  Kubernetes  |  VisualStudio Code
 The requirements for a Student to complete the Hands-on Lab Exercises are the following:
 
 - A Kubernetes cluster, with Admin level access.
-- Nginx Ingress Controller software
-- - you will use Nginx Open Source for the OSS labs, found here:  https://hub.docker.com/r/nginx/nginx-ingress  
-- - you must use Nginx Plus for the Plus labs.  If you need a license for Nginx Plus, you can request a free 30-day trial here:  https://www.nginx.com/free-trial-request-nginx-ingress-controller/
+- NGINX Ingress Controller software
+- - you will use NGINX Open Source for the OSS labs, found here:  https://hub.docker.com/r/nginx/nginx-ingress  
+- - you must use NGINX Plus for the Plus labs.  If you need a license for NGINX Plus, you can request a free 30-day trial here:  https://www.nginx.com/free-trial-request-nginx-ingress-controller/
 - A laptop or other computer to use as a client to the Lab environment.
 - Time:  Most of the workshops can be completed in 2-3 hours.  
 
@@ -84,11 +84,11 @@ The requirements for a Student to complete the Hands-on Lab Exercises are the fo
 
 ## Installation
 
-The F5/Nginx hosted UDF lab environments are pre-built with all the components needed to complete the Lab Exercises.  If you would like to run these lab exercises in a different k8s cluster environment, the Student will need to provide the following resources in the test lab environment:
+The F5/NGINX hosted UDF lab environments are pre-built with all the components needed to complete the Lab Exercises.  If you would like to run these lab exercises in a different k8s cluster environment, the Student will need to provide the following resources in the test lab environment:
 
 - Working k8s cluster, three node minimum size, with admin level access.
 - Access to a private container registry, where container images can be stored and pulled.
-- An Nginx Ingress Controller container image.  You can use the OSS image, or provide your own with Plus, as describe here: https://docs.nginx.com/nginx-ingress-controller/installation/pulling-ingress-controller-image/.
+- An NGINX Ingress Controller container image.  You can use the OSS image, or provide your own with Plus, as describe here: https://docs.nginx.com/nginx-ingress-controller/installation/pulling-ingress-controller-image/.
 - A client PC to use for access to the cluster.
 - A LoadBalancer Service running to expose your cluster to external traffic.
 - Certain environments may have additional resource requirements.
