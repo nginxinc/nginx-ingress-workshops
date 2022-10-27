@@ -1,0 +1,30 @@
+# LoadBalancer Service for Minikube enviroment
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-ingress
+  namespace: nginx-ingress
+spec:
+  externalTrafficPolicy: Local
+  type: LoadBalancer
+  externalIPs:
+  - 192.168.1.87   #Use the IP Address from PC's interface 
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
+  - port: 443
+    targetPort: 443
+    protocol: TCP
+    name: https
+    #- port: 9000
+    #targetPort: 9000
+    #protocol: TCP
+    #name: dashboard
+    #- port: 9113
+    #targetPort: 9113
+    #protocol: TCP
+    #name: prometheus
+  selector:
+    app: nginx-ingress
