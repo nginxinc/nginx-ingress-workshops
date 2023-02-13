@@ -65,16 +65,16 @@ nginx-workshop-m03   Ready    <none>                 23h   v1.21.2
 1. Follow the directions for installing the Ingress Controller with Manifests, with the following changes:
 
    - Skip the manifests for the `App Protect` WAF, that will be covered in a different Lab.
-   - Make a copy, then `modify` the nginx-ingress or nginx-plus-ingress YAML files to use the image that you want to run.  (Examples are provided here for your review).
+   - Make a copy, then `modify` the nginx-ingress.yaml or nginx-plus-ingress.yaml manifest file to use the image that you want to run.  (Examples are provided here for your review).
 
    https://docs.nginx.com/nginx-ingress-controller/installation/installation-with-manifests/
 
-1. If you want to use NGINX Plus, you will need to provide that image, and have it available on your PC or a private repo.  You will need to change the `-image` spec, on ~line #21, in the `nginx-plus-ingress.yaml` file, to reference your private repo and image:tag.
+1. If you want to use NGINX Plus, you will need to provide that image, and have it available on your PC or a private repo.  You will need to change the `-image spec`, on ~line #21, in the `nginx-plus-ingress.yaml` file, to reference your private repo and `image:tag`.
 
-   - If you don't have NGINX Plus and want to try it, you can request a free 30-day Trial here:  https://www.nginx.com/free-trial-request
+   - If you don't have NGINX Plus and want to try it, you can request a free 30-day Trial here:  https://www.nginx.com/free-trial-request.  Or, you can request a 1-year NGINX Plus Developer License here:  https://www.nginx.com/developer-license/.
 
 
-   - If you want to use NGINX OSS, you can use the `nginx-ingress.yaml` file, and use the `latest` tag to pull the current version from http://hub.docker.com.
+   - If you want to use NGINX OSS, use the `nginx-ingress.yaml` file, and use the `latest` tag to pull the current version from http://hub.docker.com.
 
    You can pull the image to your local PC as well:
 

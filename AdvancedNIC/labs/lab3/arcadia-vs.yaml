@@ -1,0 +1,76 @@
+#Example virtual server with routes for Arcadia Demo
+#
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: arcadia-vs
+spec:
+  host: arcadia.example.com
+  upstreams:
+  - name: main
+    service: main-svc
+    port: 80
+    lb-method: round_robin
+    slow-start: 20s
+    healthCheck:
+      enable: true
+      path: /
+      interval: 20s
+      jitter: 3s
+      fails: 5
+      passes: 2
+      connect-timeout: 30s
+      read-timeout: 20s
+  - name: backend
+    service: backend-svc
+    port: 80
+    lb-method: round_robin
+    healthCheck:
+      enable: true
+      path: /files
+      interval: 15s
+      jitter: 3s
+      fails: 3
+      passes: 2
+      connect-timeout: 30s
+      read-timeout: 20s
+  - name: app2
+    service: app2-svc
+    port: 80
+    lb-method: round_robin
+    healthCheck:
+      enable: true
+      path: /api
+      interval: 15s
+      jitter: 3s
+      fails: 3
+      passes: 2
+      connect-timeout: 30s
+      read-timeout: 20s
+  - name: app3
+    service: app3-svc
+    port: 80
+    lb-method: round_robin
+    healthCheck:
+      enable: true
+      path: /app3
+      interval: 15s
+      jitter: 3s
+      fails: 3
+      passes: 2
+      connect-timeout: 30s
+      read-timeout: 20s
+  routes:
+  - path: /
+    action:
+      pass: main-svc
+  - path: /files
+    action:
+      pass: backend-svc
+  - path: /api
+    action:
+      pass: app2-svc
+  - path: /app3
+    action:
+      pass: app3-svc
+
