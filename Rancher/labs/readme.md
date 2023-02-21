@@ -1,4 +1,4 @@
-![Nginx Ingress Workshop](media/kicworkshop-banner.png)
+![Nginx Ingress Workshop](//media/nicworkshop-banner.png)
 
 # Rancher Nginx Ingress Controller Workshop
 
@@ -15,11 +15,11 @@ You will learn how to configure an **`Nginx Plus Ingress Controller`**, deploy i
 
 These Hands-On Lab Exercises are designed to build upon each other, adding additional services and features as you progress through them, completing the labs in sequential order is required. 
 
-![Developer Seated](media/developer-seated.svg)
+![Developer Seated](//media/developer-seated.svg)
 
 By the end of this Workshop, you will have a working, operational Nginx Plus Ingress Controller, routing traffic to and from Kubernetes application pods and services, with the necessary skills to deploy and operate KIC for your own Digital Enterprise Applications running in Kubernetes.  Thank You for taking the time to attend this Nginx Workshop!
 
-![Robot](media/robot.svg)
+![Robot](//media/robot.svg)
 
 ## About Nginx Plus Ingress Controller
 
@@ -27,7 +27,7 @@ Nginx Plus Ingress Controller is an Enterprise-Ready resource for directing traf
 
 <br/>
 
-![Kubernetes Ingress Controller topology](media/kic-topology.svg)
+![Kubernetes Ingress Controller topology](//media/kic-topology.svg)
 
 <br/>
 
@@ -39,7 +39,7 @@ times](https://hub.docker.com/r/nginx/nginx-ingress) on DockerHub.
 
 <br/>
 
-![Nginx KIC](media/nginxredplus.png)
+![Nginx KIC](//media/nginxredplus.png)
 
 <br/>
 
