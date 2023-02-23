@@ -40,9 +40,8 @@ https://docs.nginx.com/nginx-ingress-controller/technical-specifications/
 <br/>
 
 ### Authors
+- Dylen Turnbull - Developer Relations @ NGINX Inc.
 - Chris Akker - Technical Solutions Architect @ F5, Inc.
-- Shouvik Dutta - Technical Solutions Architect @ F5, Inc.
-- Jason Williams - Product Management Engineer @ F5, Inc.
 
 -------------
 
