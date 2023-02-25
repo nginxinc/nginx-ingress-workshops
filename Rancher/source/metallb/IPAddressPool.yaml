@@ -5,4 +5,4 @@ metadata:
   namespace: metallb-system
 spec:
   addresses:
-  - 192.168.1.95-192.168.1.99
+  - 192.168.1.95-192.168.1.99 # The user will need to update this line with a bank of IP addresses that will work in their envrionment.
