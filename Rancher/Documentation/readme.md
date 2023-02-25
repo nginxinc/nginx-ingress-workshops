@@ -1,11 +1,5 @@
 ![Nginx Ingress Workshop](/media/nicworkshop-banner.png)
 
-# Rancher Nginx Ingress Controller Workshop
-
-# **Under Contruction - this is a Preview of the Workshop**
-
-<br/>
-
 # Starter K8s Dev Environment
 The purpose of this exercise is to offer a simple and easily accessable way to set up basic dev tools and a local Kubernetes cluster to allow a beginner a low risk way to work with and learn kubernetes concepts using the NGINX Inc. Ingress controller.
 
