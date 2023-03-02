@@ -34,7 +34,7 @@ This can be done several ways however for this exercise we will be using VSCode.
 - [ ] Brief repo overview
 	- [ ] Navigate to the location in the repo used in this exercise
 
-### [Local K3s Devopment Environment](https://github.com/nginxinc/nginx-ingress-workshops/blob/RancherDTContentAdd/Rancher/Documentation/readme.md#local-k3s-devopment-environment)
+### [Local K3s Devopment Environment](https://github.com/nginxinc/nginx-ingress-workshops/blob/RancherDTContentAdd/Rancher/Documentation/readme.md#local-k3s-devopment-environment-1)
 **note:** to show hidden files on Mac OS hit shift+command+period. This will be helpful when we copy the overide.yaml file to the appropriate location.
 
 - [ ] Install Rancher Desktop (RDT)
