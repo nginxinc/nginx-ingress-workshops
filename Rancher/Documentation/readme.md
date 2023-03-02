@@ -11,11 +11,11 @@ Mac Edition
 Windows Edition (Comming Soon...)
 
 ## Mac Edition
-### Setting up tools
+### [Setting up tools](https://github.com/nginxinc/nginx-ingress-workshops/blob/RancherDTContentAdd/Rancher/Documentation/readme.md#setting-up-tools-1)
 - [ ] Install Homebrew
 	- [ ] Install Xcode
 	- [ ] Intall Homebrew
-- [ ] Install Git
+- [ ] InstallGit
 - [ ] Install VSCode
 	- [ ] Get Dracula Refined (Optional Quality of life)
 	- [ ] Material Icon Theme (Optional Quality of life)
@@ -25,7 +25,7 @@ Windows Edition (Comming Soon...)
 - [ ] Install Fig (Optional Quality of life)
 	- [ ] Install Fig VSCode extension
 	- [ ] Set theme to dracula
-### Pull the NGINX Ingress workshop repo from GitHub
+### [Pull the NGINX Ingress workshop repo from GitHub](https://github.com/nginxinc/nginx-ingress-workshops/blob/RancherDTContentAdd/Rancher/Documentation/readme.md#pull-the-nginx-ingress-workshop-repo-from-github-1)
 This can be done several ways however for this exercise we will be using VSCode.
 
 - [ ] Setup VSCode to work with GitHub
@@ -34,7 +34,7 @@ This can be done several ways however for this exercise we will be using VSCode.
 - [ ] Brief repo overview
 	- [ ] Navigate to the location in the repo used in this exercise
 
-### K8s Local development environment
+### [Local K3s Devopment Environment](https://github.com/nginxinc/nginx-ingress-workshops/blob/RancherDTContentAdd/Rancher/Documentation/readme.md#local-k3s-devopment-environment)
 **note:** to show hidden files on Mac OS hit shift+command+period. This will be helpful when we copy the overide.yaml file to the appropriate location.
 
 - [ ] Install Rancher Desktop (RDT)
@@ -49,9 +49,9 @@ This can be done several ways however for this exercise we will be using VSCode.
 <br>
 
 ## Setting up tools
-#### Installng Homebrew
+
+#### Install Homebrew
 [Website](https://brew.sh)
-Top
 
 Install Xcode
 ```
@@ -65,8 +65,6 @@ Install Homebrew
 
 #### Intalling Git
 [Website](https://git-scm.com/download/mac)
-<br>
-Top
 
 Via Homebrew
 ```
@@ -75,7 +73,6 @@ brew install git
 
 #### Install VSCodium or VSCode
 [Website](https://vscodium.com/#intro) or [Website](https://code.visualstudio.com)
-Top
 
 VSCode can be installed via dmg download or Homebrew (recommended)
 
@@ -90,7 +87,6 @@ brew install --cask vscodium
 
 #### Install Oh My Zsh
 [Website](https://ohmyz.sh)
-Top
 
 ```
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
@@ -111,7 +107,6 @@ ZSH_THEME="agnoster"<---ChangeThis
 
 #### Install Powerline fonts from Nerd Fonts  
 [Website](https://www.nerdfonts.com/font-downloads)
-Top
 
 Install a powerline enabled font, I use mononoki
 ```
@@ -129,7 +124,6 @@ brew install --cask font-mononoki-nerd-font
 
 #### Install FIG
 [Website](https://fig.io/download)
-Top
 
 Install FIG using Homebrew
 ```
@@ -145,6 +139,9 @@ To validate in VSCode;
 You can also set FIG to a specific theme I use "Dracula" to match my VSCode theme. This can be done by;
 - Opening the fig "settings" UI and selecting Personal > Auto Complete > Popular in the left nav bar area of the main fig UI
 - Under "Theme" set the dropdown to "Dracula" 
+<br>
+[Top](https://github.com/nginxinc/nginx-ingress-workshops/blob/RancherDTContentAdd/Rancher/Documentation/readme.md#pull-the-nginx-ingress-workshop-repo-from-github)
+<br>
 
 ## Pull the NGINX Ingress workshop repo from GitHub
 
@@ -198,10 +195,13 @@ Now we have the working repo cloned so we can begin working on building out our 
 cd Rancher/
 ```
 
+<br>
+[Top](https://github.com/nginxinc/nginx-ingress-workshops/blob/RancherDTContentAdd/Rancher/Documentation/readme.md#k8s-local-development-environment)
+<br>
+
 ## Local K3s Devopment Environment
 #### Install Rancher Desktop
 [Website](https://rancherdesktop.io)
-Top
 
 **Steps**
 
@@ -238,7 +238,6 @@ cp overide.yaml /Users/[Your User Name Here]/Library/Application Support/rancher
 - Once this process finishes you will have a base cluster  with no ingress or Loadbalancer defined to work with.
 
 #### Add two K8s focused extensions to VSCode
-Top
 
 **Steps**
 - Navigate to the extesions UI in VSCode
@@ -250,7 +249,6 @@ Top
 
 #### Install k9s
 [Website](https://k9scli.io)
-Top
 
 Via Homebrew
 ```
@@ -267,7 +265,6 @@ Note: nothing will show up untill the local single node cluster for Rancher Desk
 
 #### Install Metal LB
 [Website](https://metallb.universe.tf)
-Top
 
 Deploy MetalLB
 ```
@@ -310,7 +307,6 @@ kubectl apply -f L2Advertisement.yaml
 
 #### Install NGINX OSS Ingress via CLI
 [Website](https://docs.nginx.com/nginx-ingress-controller/installation/)
-Top
 
 Install using helm (preferred)
 or
@@ -364,6 +360,8 @@ NAME                                           DESIRED   CURRENT   READY   AGE
 replicaset.apps/nic-nginx-ingress-55dd46fcf9   1         1         1       62s
 
 ```
+<br>
+[Top](https://github.com/nginxinc/nginx-ingress-workshops/blob/RancherDTContentAdd/Rancher/Documentation/readme.md#starter-k8s-dev-environment)
 <br>
 Fin...
 
