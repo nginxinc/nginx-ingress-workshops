@@ -139,8 +139,11 @@ To validate in VSCode;
 You can also set FIG to a specific theme I use "Dracula" to match my VSCode theme. This can be done by;
 - Opening the fig "settings" UI and selecting Personal > Auto Complete > Popular in the left nav bar area of the main fig UI
 - Under "Theme" set the dropdown to "Dracula" 
+
 <br>
+
 [Top](https://github.com/nginxinc/nginx-ingress-workshops/blob/RancherDTContentAdd/Rancher/Documentation/readme.md#pull-the-nginx-ingress-workshop-repo-from-github)
+
 <br>
 
 ## Pull the NGINX Ingress workshop repo from GitHub
@@ -196,7 +199,9 @@ cd Rancher/
 ```
 
 <br>
-[Top](https://github.com/nginxinc/nginx-ingress-workshops/blob/RancherDTContentAdd/Rancher/Documentation/readme.md#k8s-local-development-environment)
+
+[Top](https://github.com/nginxinc/nginx-ingress-workshops/blob/RancherDTContentAdd/Rancher/Documentation/readme.md#local-k3s-devopment-environment)
+
 <br>
 
 ## Local K3s Devopment Environment
@@ -361,7 +366,9 @@ replicaset.apps/nic-nginx-ingress-55dd46fcf9   1         1         1       62s
 
 ```
 <br>
+
 [Top](https://github.com/nginxinc/nginx-ingress-workshops/blob/RancherDTContentAdd/Rancher/Documentation/readme.md#starter-k8s-dev-environment)
+
 <br>
 Fin...
 
