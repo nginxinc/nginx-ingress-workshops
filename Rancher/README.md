@@ -7,7 +7,7 @@ This area of the repo is dedicated to technologies from our alliance partner Ran
 
 <br>
 
-[Rancher Desktop](https://github.com/nginxinc/nginx-ingress-workshops/tree/RancherDTContentAdd/Rancher/Documentation)
+[Rancher Desktop](https://github.com/nginxinc/nginx-ingress-workshops/tree/RancherDTContentAdd/Rancher/Documentation/rdt)
 
 <br>
 
