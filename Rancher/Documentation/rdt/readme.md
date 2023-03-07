@@ -17,7 +17,7 @@ Windows Edition (Comming Soon...)
 	- [ ] Intall Homebrew
 - [ ] InstallGit
 - [ ] Install VSCode
-	- [ ] Get Dracula Refined (Optional Quality of life)
+	- [ ] Get Dracula or Dracula Refined (Optional Quality of life)
 	- [ ] Material Icon Theme (Optional Quality of life)
 - [ ] Install OhMyZSH! (Optional Quality of life)
 	- [ ] Enable agnoster or amuse theme
@@ -71,7 +71,7 @@ Via Homebrew
 brew install git
 ```
 
-#### Install VSCodium or VSCode
+#### Install VSCode or VSCodium
 [Website](https://vscodium.com/#intro) or [Website](https://code.visualstudio.com)
 
 VSCode can be installed via dmg download or Homebrew (recommended)
@@ -84,6 +84,12 @@ VSCodium
 ```
 brew install --cask vscodium
 ```
+**Optional (quality of life)**
+
+In the extensions area of VSCode add the following extensions if you want to add some flavor to your code editor.
+
+- Dracula or Dracula Refined
+- Material Icon Theme
 
 #### Install Oh My Zsh
 [Website](https://ohmyz.sh)
@@ -115,8 +121,8 @@ brew install --cask font-mononoki-nerd-font
 ```
 
 **Set font type in VScode/VSCodium**
-- Open the command pallett View > Command Pallett
-- Type "settings" and select the Prefrences: Open Settings (UI) option.
+- Open the command pallet View > Command Pallet
+- Type "settings" and select the Preferences: Open Settings (UI) option.
 - In the search field type "terminal font"
 - Under Terminal > Integrated: Font Family paste the following in the empty text field
 - "Mononoki Nerd Font Mono"
@@ -131,14 +137,17 @@ brew install --cask fig
 ```
 
 **Check for the FIG extension in VSCode**
-Once installed fig should add its extention to VSCode
-To validate in VSCode;
-- List itemGo to "Extensions" menue in the left side bar and validate fig is present.
+Once installed fig should work out of the box after a couple minor changes.
 
-**Set the AutoComplete theme**
-You can also set FIG to a specific theme I use "Dracula" to match my VSCode theme. This can be done by;
-- Opening the fig "settings" UI and selecting Personal > Auto Complete > Popular in the left nav bar area of the main fig UI
-- Under "Theme" set the dropdown to "Dracula" 
+- You will need to login to it, I just use SSO via my GitHub account, you may opt for an alternative method.
+- Fig requires permission to be enabled in Systems Settings > Privacy & Security > Accessability, tick the option next to fig.
+- You will need to restart VSCode as well for it to work with the terminal window
+
+**note:** if you continue to run into issues you may need to run the following commands, and follow any instructions that it recommends.
+
+```
+fig doctor
+```
 
 <br>
 
@@ -150,13 +159,15 @@ You can also set FIG to a specific theme I use "Dracula" to match my VSCode them
 
 **Via command line**
 
-- Open an new VSCode window
 - Open a new terminal via the Terminal > New Terminal menu at the top fo the VSCode window.
 - Change directories to the root location you would like to store your GitHub source
-note: This will be diffrent for each user you will need to extablish this location I use the location below.
+
+**note:** This will be different for each user you will need to establish this location I use the location below.
 ```
 cd Documents/source/github/
 ```
+
+**note:** you will need to create this location if it does not exist prior to cloning the repo
 
 - List itemClone the github repo below
 ```
@@ -169,30 +180,7 @@ git clone https://github.com/nginxinc/nginx-ingress-workshops.git
 git clone https://github.com/nginxinc/nginx-ingress-workshops.git [your folder name here]
 ```
 
-- List itemSkip to the bottom of this section to continue...
-
-**Via the VSCode UI**
-- Open a new VSCode window
-- Authenticate VSCode with GitHub
-```
-Get exact command line for this
-```
-- Select the "Source Control" option in the upper left corner of the VSCode window
-- Select "Clone Repository"
-- Select "Clone from GitHub" in the "command pallett" field
-- Locate and copy the git link from GitHub via a browser.
-```
-https://github.com/nginxinc/nginx-ingress-workshops.git
-```
-
-- Paste this in to the "Command Pallett" field and hit enter
-- Specify a location for this repo to be stored locally I use the path below. You will need to choose where you would like to store repos from GitHub.
-```
-/Users/D.Turnbull/Documents/source/github/
-```
-- Select "Select as Repository Destination" and follow the prompts. It is recommended to open a new window if your are not already in one.
-
-Now we have the working repo cloned so we can begin working on building out our Kubernetes dev envrironment. For this exercise we will only be using the content found in the repo location below.
+Now we have the working repo cloned, we can begin working on building out our Kubernetes dev environment. For this exercise we will only be using the content found in the repo location below.
 
 ```
 cd Rancher/
@@ -213,15 +201,19 @@ cd Rancher/
 - Download the binary for your Mac type and run the .dmg
 - Drag Rancher Desktop (RDT) into the applications folder.
 - Run Rancher Desktop from the Mac Launcher.
-- Once it launches a popup window will appear that allows you make seettings to the local K3s cluster.
+- Once it launches a popup window will appear that allows you make settings to the local K3s cluster.
 - Deselect the option to deploy K3s for now.
-- From the rancher menu select prefrences and navigate to the Kubernetes tab.
+- From the rancher menu select preferences.
 - Locate and switch to the "Virtual Machine" tab.
 	- Set memory to 8 gb if possible
 	- Set CPUs to 4 if possible
+- Locate and switch to the Kubernetes tab
+	- Check the box next to enable Kubernetes
+	- Uncheck the box next to Traefik
+	- Click apply and allow RDT to finish loading
 
 **Deploy the override.yaml**
-This is required to turn off the internal loadbalnacer Klipper in RDT.
+This is required to turn off the internal load balancer Klipper in RDT.
 
 - Locate the overide.yaml file in our the git repo location below.
 ```
@@ -231,16 +223,14 @@ cd Rancher/source/rancherdt/
 - Copy it to the directory below
 
 ```
-cp overide.yaml /Users/[Your User Name Here]/Library/Application Support/rancher-desktop/lima/_config
+/Users/[Your User Name Here]/Library/Application Support/rancher-desktop/lima/_config
 ```
 
-**Final setup and launch for Kubernetes on RDT**
-- Click on the Kubernetes tab and deselect the Traefik check box.
-- Click apply and exit out of prefrences.
-- Next navigate to troubleshooting in the main RDT window
+**Final reset and launch for Kubernetes on RDT**
+- Navigate to troubleshooting in the main RDT window
 - Locate and click on the Rest Kubernetes button to reset the cluster
-- In the following pop up window select the option to delete container images and click reset.
-- Once this process finishes you will have a base cluster  with no ingress or Loadbalancer defined to work with.
+- In the following pop up window leave the delete container images unchecked and click "Reset Kubernetes.
+- Once this process finishes you will have a base cluster  with no ingress or Load balancer defined to work with.
 
 #### Add two K8s focused extensions to VSCode
 
@@ -262,11 +252,12 @@ Via Homebrew
 
 To start k9s just open a terminal session in VSCode, I like to put mine in the top window in vscode, and type.
 
+
 ```
 k9s
 ```
 
-Note: nothing will show up untill the local single node cluster for Rancher Desktop is active.
+**note:** VSCode may require a restart after this if k9s is not showing the K8s cluster properly. Also, nothing will show up until the local single node cluster for Rancher Desktop is active.
 
 #### Install Metal LB
 [Website](https://metallb.universe.tf)
@@ -277,7 +268,8 @@ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.9/confi
 ```
 
 Create and Apply the following manifests to add your IP range
-Note: you will need to set aside a bank on your local network.
+
+**note:** you will need to set aside a bank on your local network.
 note: these are already created in the repo just update the addresses to suite your environment apply the manifests
 
 IPAddressPool.yaml
