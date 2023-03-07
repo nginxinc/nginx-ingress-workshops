@@ -1,9 +1,9 @@
 ![Nginx Ingress Workshop](/media/nicworkshop-banner.png)
 
 # Starter K8s Dev Environment
-The purpose of this exercise is to offer a simple and easily accessable way to set up basic dev tools and a local Kubernetes cluster to allow a beginner a low risk way to work with and learn Kubernetes concepts using the opensource Ingress controller from NGINX Inc. All from the comfort of your own laptop.
+The purpose of this exercise is to offer a simple and easily accessible way to set up basic dev tools and a local Kubernetes cluster to allow a beginner a low risk way to work with and learn Kubernetes concepts using the open source Ingress controller from NGINX Inc. All from the comfort of your own laptop.
 
-This setup will act as a foundation for future explorations into NGINX solutions, GitOps, and the Kubernetes eccocsystem.
+This setup will act as a foundation for future explorations into NGINX solutions, GitOps, and the Kubernetes ecosystem.
 
 ## Setting up Basic Tools
 
