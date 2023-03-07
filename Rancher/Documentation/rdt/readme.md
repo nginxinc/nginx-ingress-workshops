@@ -11,7 +11,7 @@ Mac Edition
 Windows Edition (Comming Soon...)
 
 ## Mac Edition
-### [Setting up tools](https://github.com/nginxinc/nginx-ingress-workshops/blob/RancherDTContentAdd/Rancher/Documentation/readme.md#setting-up-tools-1)
+### [Setting up tools](https://github.com/nginxinc/nginx-ingress-workshops/blob/RancherDTContentAdd/Rancher/Documentation/rdt/readme.md#setting-up-tools-1)
 - [ ] Install Homebrew
 	- [ ] Install Xcode
 	- [ ] Intall Homebrew
@@ -25,7 +25,7 @@ Windows Edition (Comming Soon...)
 - [ ] Install Fig (Optional Quality of life)
 	- [ ] Install Fig VSCode extension
 	- [ ] Set theme to dracula
-### [Pull the NGINX Ingress workshop repo from GitHub](https://github.com/nginxinc/nginx-ingress-workshops/blob/RancherDTContentAdd/Rancher/Documentation/readme.md#pull-the-nginx-ingress-workshop-repo-from-github-1)
+### [Pull the NGINX Ingress workshop repo from GitHub](https://github.com/nginxinc/nginx-ingress-workshops/blob/RancherDTContentAdd/Rancher/Documentation/rdt/readme.md#pull-the-nginx-ingress-workshop-repo-from-github-1)
 This can be done several ways however for this exercise we will be using VSCode.
 
 - [ ] Setup VSCode to work with GitHub
@@ -34,7 +34,7 @@ This can be done several ways however for this exercise we will be using VSCode.
 - [ ] Brief repo overview
 	- [ ] Navigate to the location in the repo used in this exercise
 
-### [Local K3s Devopment Environment](https://github.com/nginxinc/nginx-ingress-workshops/blob/RancherDTContentAdd/Rancher/Documentation/readme.md#local-k3s-devopment-environment-1)
+### [Local K3s Devopment Environment](https://github.com/nginxinc/nginx-ingress-workshops/blob/RancherDTContentAdd/Rancher/Documentation/rdt/readme.md#local-k3s-devopment-environment-1)
 **note:** to show hidden files on Mac OS hit shift+command+period. This will be helpful when we copy the overide.yaml file to the appropriate location.
 
 - [ ] Install Rancher Desktop (RDT)
@@ -142,7 +142,7 @@ You can also set FIG to a specific theme I use "Dracula" to match my VSCode them
 
 <br>
 
-[Top](https://github.com/nginxinc/nginx-ingress-workshops/blob/RancherDTContentAdd/Rancher/Documentation/readme.md#pull-the-nginx-ingress-workshop-repo-from-github)
+[Top](https://github.com/nginxinc/nginx-ingress-workshops/blob/RancherDTContentAdd/Rancher/Documentation/rdt/readme.md#pull-the-nginx-ingress-workshop-repo-from-github)
 
 <br>
 
@@ -200,7 +200,7 @@ cd Rancher/
 
 <br>
 
-[Top](https://github.com/nginxinc/nginx-ingress-workshops/blob/RancherDTContentAdd/Rancher/Documentation/readme.md#local-k3s-devopment-environment)
+[Top](https://github.com/nginxinc/nginx-ingress-workshops/blob/RancherDTContentAdd/Rancher/Documentation/rdt/readme.md#local-k3s-devopment-environment)
 
 <br>
 
@@ -367,7 +367,7 @@ replicaset.apps/nic-nginx-ingress-55dd46fcf9   1         1         1       62s
 ```
 <br>
 
-[Top](https://github.com/nginxinc/nginx-ingress-workshops/blob/RancherDTContentAdd/Rancher/Documentation/readme.md#starter-k8s-dev-environment)
+[Top](https://github.com/nginxinc/nginx-ingress-workshops/blob/RancherDTContentAdd/Rancher/Documentation/rdt/readme.md#starter-k8s-dev-environment)
 
 <br>
 Fin...
