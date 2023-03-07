@@ -1,0 +1,54 @@
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: arcadia
+spec:
+  host: $nginx_ingress
+  tls:
+    secret: arcadia-secret
+    redirect:
+      enable: true
+  upstreams:
+  - name: arcadia-main
+    service: arcadia-main
+    port: 80
+    healthCheck:
+      enable: true
+      port: 8080
+      interval: 20s
+      jitter: 3s
+      fails: 5
+      passes: 5
+      statusMatch: "! 500"
+  - name: arcadia-app2
+    service: arcadia-app2
+    port: 80
+    healthCheck:
+      enable: true
+      port: 8080
+      interval: 20s
+      jitter: 3s
+      fails: 5
+      passes: 5
+      statusMatch: "! 500"
+  - name: arcadia-app3
+    service: arcadia-app3
+    port: 80
+    healthCheck:
+      enable: true
+      port: 8080
+      interval: 20s
+      jitter: 3s
+      fails: 5
+      passes: 5
+      statusMatch: "! 500"
+  routes:
+  - path: /
+    action:
+      pass: arcadia-main
+  - path: /api/
+    action:
+      pass: arcadia-app2
+  - path: /app3/
+    action:
+      pass: arcadia-app3

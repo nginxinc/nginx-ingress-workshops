@@ -1,0 +1,28 @@
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: arcadia
+spec:
+  host: $nginx_ingress
+  tls:
+    secret: arcadia-secret
+  upstreams:
+  - name: arcadia-main
+    service: arcadia-main
+    port: 80
+  - name: arcadia-app2
+    service: arcadia-app2
+    port: 80
+  - name: arcadia-app3
+    service: arcadia-app3
+    port: 80
+  routes:
+  - path: /
+    action:
+      pass: arcadia-main
+  - path: /app2
+    action:
+      pass: arcadia-app2
+  - path: /app3
+    action:
+      pass: arcadia-app3
