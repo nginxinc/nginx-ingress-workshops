@@ -11,7 +11,7 @@ This area of the repo is dedicated to technologies from our alliance partner Ran
 
 <br>
 
-![Nginx & Rancher](/Rancher/Documentation/media/nginx-rancer.png)
+![Nginx & Rancher](/Rancher/Documentation/media/nginx-rancher.png)
 
 <br>
 
