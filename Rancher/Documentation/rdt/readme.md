@@ -326,7 +326,16 @@ kubectl create namespace nginx-ingress
 
 Install NGINX Ingress controller
 ```
+kubectl config set-context --current --namespace=nginx-ingress
+```
+Base Helm command
+```
 helm install my-release nginx-stable/nginx-ingress
+```
+
+Helm command to support this workshop
+```
+helm install my-release nginx-stable/nginx-ingress --namespace nginx-ingress --set controller.nginxStatus.enable=true --set controller.nginxStatus.port=9000 --set controller.nginxStatus.allowCidrs=0.0.0.0/0 --set prometheus.create=true
 ```
 Note: "my-release" can be changed to any name I like to use "nic"
 
@@ -339,7 +348,7 @@ helm uninstall my-release
 Validate that the nginx service was properly assigned an external IP
 while in the "nic" namespace run the following
 ```
-kubectl get all
+kubectl get all -n nginx-ingress
 ```
 
 You should see somthing similar to the following
@@ -348,7 +357,7 @@ NAME                                     READY   STATUS    RESTARTS   AGE
 pod/nic-nginx-ingress-55dd46fcf9-smvng   1/1     Running   0          62s
 
 NAME                        TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)                      AGE
-service/nic-nginx-ingress   LoadBalancer   10.43.171.131   192.168.1.95   80:30888/TCP,443:31517/TCP   62s
+service/nic-nginx-ingress   LoadBalancer   10.43.171.131   10.1.1.100   80:30888/TCP,443:31517/TCP   62s
 
 NAME                                READY   UP-TO-DATE   AVAILABLE   AGE
 deployment.apps/nic-nginx-ingress   1/1     1            1           62s

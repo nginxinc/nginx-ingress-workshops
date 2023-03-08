@@ -5,4 +5,4 @@ metadata:
   namespace: metallb-system
 spec:
   addresses:
-  - 10.1.1.100-10.1.1.110 # The user will need to update this line with a bank of IP addresses that will work in their envrionment.
+  - 10.1.1.100-10.1.1.109 # The user will need to update this line with a bank of IP addresses that will work in their envrionment.
