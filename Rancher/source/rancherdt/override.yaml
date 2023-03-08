@@ -1,0 +1,3 @@
+# This overdride turns off the built in loadbalancer klipper.
+env:
+  K3S_EXEC: --disable=servicelb
