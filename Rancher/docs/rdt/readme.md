@@ -8,13 +8,14 @@ This setup will act as a foundation for future explorations into NGINX solutions
 ## Setting up Basic Tools
 
 Mac Edition
+<br>
 Windows Edition (Comming Soon...)
 
 ## Mac Edition
-### [Setting up tools](https://github.com/nginxinc/nginx-ingress-workshops/blob/RancherDTContentAdd/Rancher/Documentation/rdt/readme.md#setting-up-tools-1)
+### [Setting up tools](https://github.com/nginxinc/nginx-ingress-workshops/blob/main/Rancher/docs/rdt/readme.md#setting-up-tools-1)
 - [ ] Install Homebrew
 	- [ ] Install Xcode
-	- [ ] Intall Homebrew
+	- [ ] Install Homebrew
 - [ ] InstallGit
 - [ ] Install VSCode
 	- [ ] Get Dracula or Dracula Refined (Optional Quality of life)
@@ -25,7 +26,7 @@ Windows Edition (Comming Soon...)
 - [ ] Install Fig (Optional Quality of life)
 	- [ ] Install Fig VSCode extension
 	- [ ] Set theme to dracula
-### [Pull the NGINX Ingress workshop repo from GitHub](https://github.com/nginxinc/nginx-ingress-workshops/blob/RancherDTContentAdd/Rancher/Documentation/rdt/readme.md#pull-the-nginx-ingress-workshop-repo-from-github-1)
+### [Pull the NGINX Ingress workshop repo from GitHub](https://github.com/nginxinc/nginx-ingress-workshops/blob/main/Rancher/docs/rdt/readme.md#pull-the-nginx-ingress-workshop-repo-from-github-1)
 This can be done several ways however for this exercise we will be using VSCode.
 
 - [ ] Setup VSCode to work with GitHub
@@ -34,13 +35,13 @@ This can be done several ways however for this exercise we will be using VSCode.
 - [ ] Brief repo overview
 	- [ ] Navigate to the location in the repo used in this exercise
 
-### [Local K3s Devopment Environment](https://github.com/nginxinc/nginx-ingress-workshops/blob/RancherDTContentAdd/Rancher/Documentation/rdt/readme.md#local-k3s-devopment-environment-1)
+### [Local K3s Devopment Environment](https://github.com/nginxinc/nginx-ingress-workshops/blob/main/Rancher/docs/rdt/readme.md#local-k3s-devopment-environment-1)
 **note:** to show hidden files on Mac OS hit shift+command+period. This will be helpful when we copy the overide.yaml file to the appropriate location.
 
 - [ ] Install Rancher Desktop (RDT)
 	- [ ] Deploy the "override.yaml" to disable Klipper in RDT
 - [ ] Install K8s extensions in VSCode
-	- [ ] Kubernets (MS)
+	- [ ] Kubernetes (MS)
 	- [ ] YAML (RedHat)
 - [ ] Install K9s (Optional Quality of life)
 - [ ] Install Metal LB
@@ -151,7 +152,7 @@ fig doctor
 
 <br>
 
-[Top](https://github.com/nginxinc/nginx-ingress-workshops/blob/RancherDTContentAdd/Rancher/Documentation/rdt/readme.md#pull-the-nginx-ingress-workshop-repo-from-github)
+[Top](https://github.com/nginxinc/nginx-ingress-workshops/blob/main/Rancher/docs/rdt/readme.md#pull-the-nginx-ingress-workshop-repo-from-github)
 
 <br>
 
@@ -188,7 +189,7 @@ cd Rancher/
 
 <br>
 
-[Top](https://github.com/nginxinc/nginx-ingress-workshops/blob/RancherDTContentAdd/Rancher/Documentation/rdt/readme.md#local-k3s-devopment-environment)
+[Top](https://github.com/nginxinc/nginx-ingress-workshops/blob/main/Rancher/docs/rdt/readme.md#local-k3s-devopment-environment)
 
 <br>
 
@@ -197,12 +198,25 @@ cd Rancher/
 [Website](https://rancherdesktop.io)
 
 **Steps**
-
 - Download the binary for your Mac type and run the .dmg
 - Drag Rancher Desktop (RDT) into the applications folder.
 - Run Rancher Desktop from the Mac Launcher.
 - Once it launches a popup window will appear that allows you make settings to the local K3s cluster.
 - Deselect the option to deploy K3s for now.
+
+**Deploy the override.yaml**
+This is required to turn off the internal load balancer Klipper in RDT.
+
+- Locate the overide.yaml file in our the git repo location below.
+```
+cd Rancher/source/rdt/
+```
+- Copy it to the directory below
+```
+/Users/[Your User Name Here]/Library/Application Support/rancher-desktop/lima/_config
+```
+
+**Final settings and launch for Kubernetes on RDT**
 - From the rancher menu select preferences.
 - Locate and switch to the "Virtual Machine" tab.
 	- Set memory to 8 gb if possible
@@ -212,24 +226,6 @@ cd Rancher/
 	- Uncheck the box next to Traefik
 	- Click apply and allow RDT to finish loading
 
-**Deploy the override.yaml**
-This is required to turn off the internal load balancer Klipper in RDT.
-
-- Locate the overide.yaml file in our the git repo location below.
-```
-cd Rancher/source/rancherdt/
-```
-
-- Copy it to the directory below
-
-```
-/Users/[Your User Name Here]/Library/Application Support/rancher-desktop/lima/_config
-```
-
-**Final reset and launch for Kubernetes on RDT**
-- Navigate to troubleshooting in the main RDT window
-- Locate and click on the Rest Kubernetes button to reset the cluster
-- In the following pop up window leave the delete container images unchecked and click "Reset Kubernetes.
 - Once this process finishes you will have a base cluster  with no ingress or Load balancer defined to work with.
 
 #### Add two K8s focused extensions to VSCode
@@ -368,7 +364,7 @@ replicaset.apps/nic-nginx-ingress-55dd46fcf9   1         1         1       62s
 ```
 <br>
 
-[Top](https://github.com/nginxinc/nginx-ingress-workshops/blob/RancherDTContentAdd/Rancher/Documentation/rdt/readme.md#starter-k8s-dev-environment)
+[Top](https://github.com/nginxinc/nginx-ingress-workshops/blob/main/Rancher/docs/rdt/readme.md#starter-k8s-dev-environment)
 
 <br>
 Fin...
