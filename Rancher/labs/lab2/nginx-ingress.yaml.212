@@ -18,9 +18,8 @@ spec:
         prometheus.io/scheme: http
     spec:
       serviceAccountName: nginx-ingress
-      automountServiceAccountToken: true
       containers:
-      - image: nginx/nginx-ingress:3.0.2
+      - image: nginx/nginx-ingress:2.1.2
         imagePullPolicy: IfNotPresent
         name: nginx-ingress
         ports:
@@ -39,17 +38,9 @@ spec:
             path: /nginx-ready
             port: readiness-port
           periodSeconds: 1
-        resources:
-          requests:
-            cpu: "100m"
-            memory: "128Mi"
-         #limits:
-         #  cpu: "1"
-         #  memory: "1Gi"
         securityContext:
           allowPrivilegeEscalation: true
           runAsUser: 101 #nginx
-          runAsNonRoot: true
           capabilities:
             drop:
             - ALL
@@ -67,11 +58,11 @@ spec:
         args:
           - -nginx-configmaps=$(POD_NAMESPACE)/nginx-config
           - -default-server-tls-secret=$(POD_NAMESPACE)/default-server-secret
-         #- -include-year
-         #- -enable-cert-manager
-         #- -enable-external-dns
+          - -nginx-status-port=9000
+          - -nginx-status-allow-cidrs=0.0.0.0/0
+          - -enable-snippets         
          #- -v=3 # Enables extensive logging. Useful for troubleshooting.
-         #- -report-ingress-status
+          - -report-ingress-status
          #- -external-service=nginx-ingress
           - -enable-prometheus-metrics
          #- -global-configuration=$(POD_NAMESPACE)/nginx-configuration
