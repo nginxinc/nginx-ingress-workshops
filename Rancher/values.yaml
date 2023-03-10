@@ -48,7 +48,11 @@ controller:
   logLevel: 1
 
   ## A list of custom ports to expose on the NGINX Ingress Controller pod. Follows the conventional Kubernetes yaml syntax for container ports.
-  customPorts: [9000,9113]
+  customPorts: [{
+                "name": "stubstatus",
+                "containerPort": 9000,
+                "protocol": "TCP"
+              }]
 
   image:
     ## The image repository of the Ingress Controller.
