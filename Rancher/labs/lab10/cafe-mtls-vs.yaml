@@ -1,0 +1,60 @@
+#Example virtual server with routes for Cafe Demo, using TLS on the pods
+#NGINX NIC OSS
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: cafe-mtls-vs
+spec:
+  host: cafe.example.com
+  tls:
+    secret: cafe-secret
+    redirect:
+      enable: true   #Redirect from http > https
+      code: 301
+  upstreams:
+  - name: tea-mtls
+    service: tea-mtls-svc
+    port: 443
+    tls:
+      enable: true
+    #healthCheck:
+      #enable: true
+      #path: /tea
+      #interval: 20s
+      #jitter: 3s
+      #fails: 5
+      #passes: 2
+      #connect-timeout: 30s
+      #read-timeout: 20s
+  - name: coffee-mtls
+    service: coffee-mtls-svc
+    port: 443
+    tls:
+      enable: true
+    #healthCheck:
+      #enable: true
+      #path: /coffee
+      #interval: 10s
+      #jitter: 3s
+      #fails: 3
+      #passes: 2
+      #connect-timeout: 30s
+      #read-timeout: 20s
+  routes:
+  - path: /
+    action:
+      redirect:
+        url: https://cafe.example.com/coffee
+        code: 302
+  - path: /tea
+    action:
+      pass: tea-mtls
+  - path: /coffee
+    action:
+      pass: coffee-mtls
+  - path: /milk
+    action:
+      return:
+        code: 200
+        type: text/html
+        body: "Welcome to Nginx NIC Workshop!!"
