@@ -24,6 +24,6 @@ spec:
     service: stubstatus-svc
     port: 9000
   routes:
-  - path: /stub_status
+  - path: /stub_status.html
     action:
       pass: stubstatus
