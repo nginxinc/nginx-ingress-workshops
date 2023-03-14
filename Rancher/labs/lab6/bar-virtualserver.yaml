@@ -1,0 +1,41 @@
+#Example VirtualServer with routes for Bar Demo for NIC OSS
+#
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: bar-vs
+spec:
+  host: bar.example.com
+  tls:
+    secret: cafe-secret
+    redirect:
+      enable: true   #Redirect from http > https
+      code: 301
+  upstreams:
+  - name: beer
+    service: beer-svc
+    port: 80
+    #slow-start: 20s  #NGINX Plus only
+  - name: wine
+    service: wine-svc
+    port: 80
+    #lb-method: round_robin     You can set LB method here if you like
+  - name: cosmo
+    service: cosmo-svc
+    port: 80
+    #lb-method: round_robin
+  routes:
+  - path: /
+    action:
+      redirect:
+        url: https://bar.example.com/beer
+        code: 302
+  - path: /beer
+    action:
+      pass: beer
+  - path: /wine
+    action:
+      pass: wine
+  - path: /cosmo
+    action:
+      pass: cosmo
