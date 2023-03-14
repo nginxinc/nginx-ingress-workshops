@@ -331,7 +331,7 @@ helm install my-release nginx-stable/nginx-ingress
 
 Helm command to support this workshop
 ```
-helm install nic nginx-stable/nginx-ingress --namespace nginx-ingress --set controller.nginxStatus.enable=true --set controller.nginxStatus.port=9000 --set controller.nginxStatus.allowCidrs=0.0.0.0/0 --set prometheus.create=true
+helm install nic nginx-stable/nginx-ingress --namespace nginx-ingress --set controller.nginxStatus.enable=true --set controller.customPorts[0].containerPort=9000 --set controller.nginxStatus.port=9000 --set controller.nginxStatus.allowCidrs=0.0.0.0/0 --set prometheus.create=true
 ```
 Note: "my-release" can be changed to any name I like to use "nic"
 
