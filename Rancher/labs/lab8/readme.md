@@ -105,7 +105,7 @@ Here is a brief description of what these different tools and application provid
 1. After the Grafana repo is added, you will install Grafana using the below command. For this lab, you will create a second release called `nginx-grafana`.  Notice we are also setting the Grafana admin Password to `Nginx123`: 
 
     ```bash
-    helm install --set-string grafana.adminPassword=Nginx123 nginx-grafana grafana/grafana -n monitoring
+    helm install nginx-grafana grafana/grafana -n monitoring
     ```
 
     ![install grafana](media/lab8_install-grafana.png)
@@ -200,7 +200,7 @@ Annotations | Port  | Command Args
 
     ![Prometheus9090](media/lab8_localhost-9090.png)
 
-    Select `nginx_ingress_http_requests_total` from the list, click on Graph, and then click the "Execute" Button.  Change the time length to see data from the last 30min or so. This will provide a graph similar to this one:
+    Select `nginx_ingress_nginx_http_requests_total` from the list, click on Graph, and then click the "Execute" Button.  Change the time length to see data from the last 30min or so. This will provide a graph similar to this one:
 
     ![Prometheus graph screenshot](media/lab8_prometheus-graph.png)
 
@@ -232,12 +232,6 @@ Annotations | Port  | Command Args
 
 <br/>
 
-1. Retrieve the Grafana admin login password, which was dynamically created by Helm during the installation:
-
-    ```bash
-    kubectl get secret --namespace monitoring nginx-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
-    ```
-
 1. To test Grafana, set a shell variable to the Grafana Server to the name of the Grafana pod:
 
     ```bash
@@ -248,6 +242,12 @@ Annotations | Port  | Command Args
 
     ```bash
     kubectl -n monitoring port-forward $GRAFANA_SERVER 3000:3000  
+    ```
+
+1. Retrieve the Grafana admin login password, which was dynamically created by Helm during the installation:
+
+    ```bash
+    kubectl get secret --namespace monitoring nginx-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
     ```
 
 1. Using Chrome, navigate to http://localhost:3000 on your browser.
@@ -332,7 +332,7 @@ See how easy that was - adding a couple NGINX VirtualServers, to provide externa
    - `NGINX-Basic.json` gives you basic metrics which come from NGINX Opensource.
    - `NGINXPlusICDashboard.json` is provided by NGINX, Inc, giving you advanced Layer 4-7 TCP/HTTP/HTTPS metrics which are only available from NGINX Plus.
 
-    Copy the entire json file and place it within the  `Import via panel json` textbox and click on `Load` button.
+    Copy the entire json file and place it within the  `Import via panel json` textbox and click on `Load` button.  Select `Prometheus` in the Data Source box.
 
     ![json load](media/lab8_grafana_json_load.png)
 
@@ -367,11 +367,11 @@ See how easy that was - adding a couple NGINX VirtualServers, to provide externa
 
     ![grafana open NIC dashboard](media/lab8_grafana_open_KIC_dashboard.png)
 
-    This should open up the NGINX Plus Grafana Dashboard. You can expand the sub-sections or adjust the time range and refresh time as needed.
+    This should open up the NGINX Plus Grafana Dashboard. You can expand the sub-sections or adjust the time range and refresh time as needed.  There are also sample screenshots in the Plus workshop, Lab 8.
 
     ![grafana NIC dashboard](media/lab8_grafana_KIC_dashboard.png)
 
-    If the graphs are blank or do not show much data, try restarting the loadtest tool from the previous lab, you should see some statistics being collected and graphed after a few minutes:
+    If the graphs are blank or do not show much data, try refreshing Chrome many times, or starting loadtest tool from the previous lab, you should see some statistics being collected and graphed after a few minutes:
 
     ```bash
     docker run --rm williamyeh/wrk -t4 -c200 -d20m -H 'Host: cafe.example.com' --timeout 2s https://10.1.1.100/coffee

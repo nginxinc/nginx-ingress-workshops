@@ -25,7 +25,7 @@ Next, let's scale the number of Ingress Controllers pods from one to **three**. 
 1. Run the following `kubectl scale` command:
 
     ```bash
-    kubectl scale deployment nginx-ingress -n nginx-ingress --replicas=3
+    kubectl scale deployment nic-nginx-ingress -n nginx-ingress --replicas=3
     ```
 
 1. To see the newly created NGINX Ingress Controller pods run the following command in the `nginx-ingress` namespace:
@@ -65,7 +65,7 @@ Next, let's scale the number of Ingress Controllers pods from one to **three**. 
 1. Now scale the number of NGINX Ingress Controllers up to **four**, in anticipation of a surge of traffic from an overnight Digital Marketing campaign for *free coffee=free caffeine*. Run the following `kubectl scale` command:
 
    ```
-   kubectl scale deployment nginx-ingress -n nginx-ingress --replicas=4
+   kubectl scale deployment nic-nginx-ingress -n nginx-ingress --replicas=4
    ```
 
    Then,
@@ -83,7 +83,7 @@ Next, let's scale the number of Ingress Controllers pods from one to **three**. 
 1. The Marketing push is over, so scale the Ingress Controllers back down to **one**. Run the following `kubectl scale` command:
 
     ```bash
-    kubectl scale deployment -n nginx-ingress nginx-ingress --replicas=1
+    kubectl scale deployment nic-nginx-ingress -n nginx-ingress --replicas=1
     ```
 
     Then,

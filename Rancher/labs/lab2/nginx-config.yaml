@@ -1,7 +1,7 @@
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: nginx-config
+  name: nic-nginx-config
   namespace: nginx-ingress
 data:
   lb-method: "round_robin"

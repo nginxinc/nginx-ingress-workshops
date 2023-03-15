@@ -18,13 +18,13 @@ In this lab, you will send some HTTP traffic to your Ingress Controller and Cafe
 
 ## HTTP Traffic Generation
 
-You will use a tool called [`wrk` ](https://github.com/wg/wrk), running in a Docker container, to generate traffic to your Ingress Controller.
+You will use a tool called [`wrk` ](https://github.com/wg/wrk), running in a Docker container, to generate traffic to your Ingress Controller.  
 
-1. Open a Terminal from the Ubuntu Desktop
+1. Open a Terminal from your Desktop
 
     ![open terminal](media/lab6_open-terminal.png)
 
-1. In the terminal window, run this command to start the load generation using `wrk` inside a docker container:
+1. In the terminal window, run this command to start the load generation using `wrk` inside a docker container.  `CHANGE the IP Address` to match your Loadbalancer External-IP.
 
     ```bash
     docker run --rm williamyeh/wrk -t4 -c200 -d20m -H 'Host: cafe.example.com' --timeout 2s https://10.1.1.100/coffee
@@ -223,7 +223,7 @@ See the logical diagram of the new **beer** and **wine** applications:
     
       The Requests counter should increase, as this Bar traffic is also going through your Ingress Controller.  
 
-    You can see how easy it is to add a new `Deployment` and `Service`, and then configure NGINX Ingress Controller with CRDs to create a new HTTP Hostname, URI paths and route traffic to these new Services and have External access to these applications immediately. The NGINX `VirtualServer` CRD's allow you to easily add new hosts and services.
+    You can see how easy it is to add a new `Deployment` and `Service`, and then configure NGINX Ingress Controller with CRDs to create a new HTTP Hostname, URI paths and route traffic to these new Services and have External access to these applications immediately. The NGINX `VirtualServer` CRD's allow you to easily add new hostnames and services.
 
     This ability of self-service Host and Path based HTTP routing makes it easy to add and deploy new services, and NGINX Ingress routes the traffic correctly (and BTW - you didn't have to submit even one Ticket to IT and WAIT !!). 
     

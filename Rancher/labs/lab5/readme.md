@@ -1,4 +1,4 @@
-# Lab 5: Deploy the NGINX Cafe Ingress demo application, using manifests
+# Lab 5: Deploy the NGINX Cafe Ingress Demo application, using manifests
 
 ## Introduction
 
@@ -31,6 +31,7 @@ The Cafe application that you will deploy looks like the diagram below.  Coffee 
     kubectl apply -f lab5/cafe-secret.yaml
     kubectl apply -f lab5/cafe.yaml
     kubectl apply -f lab5/cafe-virtualserver.yaml
+
     ```
     ![apply various components](media/lab5_components-apply.png)
 
@@ -40,6 +41,8 @@ The Cafe application that you will deploy looks like the diagram below.  Coffee 
     kubectl get pods
     ```
     ![Get pods](media/lab5_get-pods.png)
+    or
+    ![k9s pods](media/lab5_show-pods.png)
   
 
 1. Check that the Cafe `VirtualServer` , **`cafe-vs`**, is running:
@@ -49,7 +52,7 @@ The Cafe application that you will deploy looks like the diagram below.  Coffee 
     ```
     ![get virtualserver](media/lab5_get-vs.png)
 
-    **Note:** The `STATE` should be `Valid`.  If it is not, then the STATE would show Invalid, as there is an issue with your manifest yaml file `(cafe-vs.yaml)`.  You could also use `kubectl describe vs cafe-vs` to get more information about the `VirtualServer` we just created.
+    **Note:** The `STATE` should be `Valid`.  If it is not, then the STATE would show Invalid, and there is likely an issue with your manifest yaml file `(cafe-vs.yaml)`.  You could also use `kubectl describe vs cafe-vs` to get more information about the `VirtualServer` you just created.
 
 <br/>
 
@@ -145,7 +148,7 @@ The Cafe application that you will deploy looks like the diagram below.  Coffee 
 1. Open two new Chrome web browser windows for side by side viewing.
      
      -  Dashboard: http://dashboard.example.com/stub_status.html:
-     -  And in two tabs, the Cafe Application components, Coffee
+     -  And in the second browser, open two tabs, the Cafe Application components, Coffee
         (https://cafe.example.com/coffee) and  Tea
         (https://cafe.example.com/tea)
 
@@ -178,21 +181,22 @@ The Cafe application that you will deploy looks like the diagram below.  Coffee 
     # Describe Tea Service 
     kubectl describe svc tea-svc
     ```
-    The Service `Endpoints` should match the Server IPs in the Coffee and Tea web pages:
+    The `Service Endpoints` should match the `Server IPs` in the Coffee and Tea web pages as it Refreshes:
 
     ![describe coffee-svc](media/lab5_describe-coffee-svc.png) 
     ![describe tea-svc](media/lab5_describe-tea-svc.png)
 
     Your Endpoint IPs should match the /coffee and /tea webpage `Server Address` field, and as you refresh, you should see the IPs change in round-robin fashion.  
+    
     >Your Ingress is load balancing the requests among the three pods behind each Service!
 
 <br/>
 
 ## Verify the homepage redirect works correctly
 
-What happens if you try just plain  http://cafe.example.com? It should redirect you to TLS secured https://cafe.example.com/coffee.
+What happens if you try unsecured  http://cafe.example.com? It should redirect you to TLS secured https://cafe.example.com/coffee.
 
-1. Open Chrome Developer Tools: Right Click on the wepage and select `Inspect`.
+1. Verify the Redirect - Open Chrome Developer Tools, then Right Click on the wepage and select `Inspect`.
 
     ![Open Chrome developer tools](media/lab5_chrome-inspect.png)
 
@@ -202,13 +206,13 @@ What happens if you try just plain  http://cafe.example.com? It should redirect 
 
 1. Try [https://cafe.example.com/milk](https://cafe.example.com/milk)
 
-    **Question:** What just happened and why?
+    **Question:** Say - What just happened and why?
 
     <details><summary>Click for Hints!</summary>
     <br/>
     <p>
     <strong>Hint:</strong> Check your <code>cafe-virtualserver.yaml</code> file.<br/>
-    <strong>Answer:</strong> Welcome to NGINX Ingress Controller Workshop!!<br/>   
+    <strong>Answer:</strong> /milk returns: Welcome to NGINX Ingress Controller Workshop!!<br/>   
     </p>
     </details><br/>
 

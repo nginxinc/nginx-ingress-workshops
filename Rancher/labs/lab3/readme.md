@@ -4,14 +4,15 @@
 
 The NGINX Ingress Controller is already running in this Workshop. You will be configuring Ingress Controller for external access outside of your cluster using a [`LoadBalancer`](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/) Service.  The Kubernetes `LoadBalancer` Service is what assigns IP addresses to the `Ingress`, so it can communicate with clients outside the cluster, and also with pods inside the Cluster.
 
-**_NOTE:_** Your Kubernetes cluster is running on a private lab network. We will be using a private IP for external access. In a public cloud environment, the `LoadBalancer` Service from a Cloud Provider would provide you with a routable public IP address.
+**_NOTE:_** Your Rancher Kubernetes cluster is likely running on a private network. You will be using a private IP for external access. In a public cloud environment, the `LoadBalancer` Service from a Cloud Provider would provide you with a routable public IP address.
 
 <br/>
 
 ## Learning Objectives 
 
 - Test and verify the `LoadBalancer` Service
-- Test and verify access to the Ingress Controller using the external IP address.
+- Test and verify access to the Ingress Controller using the external IP address
+- Update your local `HOSTS` file for DNS resolution for the rest of the labs
 
 <br/>
 
@@ -77,6 +78,25 @@ The NGINX Ingress Controller is already running in this Workshop. You will be co
    <strong>Answer</strong> – The NGINX Ingress Controller's default server will return an <b>HTTP 404 Not Found page, or an HTTP 400 Bad Request status code</b> for all requests that have no matching Ingress routing rules defined; this is NGINX's default 404 error page. You will deploy a Demo application in the subsequent labs, which will fix this.
    </p>
    </details>
+
+<br/>
+
+## Update local DNS
+
+We will be using FQDN hostnames for the labs, and you will need to update your local computer's `hosts` file, to use these names with your Nginx Ingress Controller.
+
+Edit your local hosts file, adding the FQDNs as shown below.  Use the `External-IP` Address, from the previous step:
+
+vi /etc/hosts
+
+```bash
+cat /etc/hosts
+
+10.1.1.100 cafe.example.com bar.example.com dashboard.example.com grafana.example.com prometheus.example.com juiceshop.example.com
+```
+
+>Note that all 6 hostnames are mapped to the same Loadbalancer External-IP.  You will use the Ingress Controller to route the traffic correctly in the upcoming labs.  
+Your External-IP address will likely be different than the example.
 
 <br/>
 

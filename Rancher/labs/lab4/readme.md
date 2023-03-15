@@ -1,4 +1,4 @@
-## Lab 4: NGINX Stub Status access
+## Lab 4: NGINX Stub Status Access
 
 ## Introduction
 
@@ -14,7 +14,7 @@ In this section, you are going to use the NGINX Stub Status to monitor the NGINX
 
 <br/>
 
-### Deploy the NGINX Stub Service
+### Deploy the NGINX Stub Status Service
 
 We will deploy a `Service` and a `VirtualServer` resource to provide external access to the NGINX Stub Status for statistics.  NGINX Ingress [`VirtualServer`](https://docs.nginx.com/nginx-ingress-controller/configuration/virtualserver-and-virtualserverroute-resources/) is a [Custom Resource Definition (CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) used by NGINX to configure NGINX Server{} and Location{} blocks for NGINX configurations.
 
@@ -27,7 +27,7 @@ We will deploy a `Service` and a `VirtualServer` resource to provide external ac
 
 ## Test access to the Status Page
 
-1. Open a new Chrome web browser tab, and click the `Nginx Status` Bookmark, or directly open http://dashboard.example.com/stub_status.html.
+1. Open a new Chrome web browser tab to http://dashboard.example.com/stub_status.html.
     
  ![StubStatus](media/lab4_stubstatus.png)
     
@@ -42,7 +42,7 @@ Congratulations! You have successfully configured your Ingress Controller for ex
 
 For a Preview of the NGINX Plus Dashboard, it can be found at https://demo.nginx.com.
 
-It contains a rich set of additional metrics for NGINX Plus and the Ingress Controller.  If you wish to see it in action, check out the `Plus` folder in this repo.
+It contains over 80 additional metrics for NGINX Plus and the Ingress Controller.  If you wish to see it in action, check out the `Plus` folder in this repo.
 
 <br/>
 

@@ -10,8 +10,8 @@ spec:
     protocol: TCP
     name: stubstatus
   selector:
-    app: nginx-ingress
----
+    app: nic-nginx-ingress
+---    
 apiVersion: k8s.nginx.org/v1
 kind: VirtualServer
 metadata:
