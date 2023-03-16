@@ -8,7 +8,7 @@ By the end of the lab, you will be able to:
 
 Enable and test and fix some NGINX features to control how Ingress Controller handles different situations and enables Enterprise features, like:
 
-- 502 Bad Gateway example
+- 502 Bad Gateway
 - Custom Error Pages
 - HTTP Caching
 - End to End Encryption
@@ -24,13 +24,16 @@ Enable and test and fix some NGINX features to control how Ingress Controller ha
 
 <br/>
 
-At times, NGINX will send the dreaded HTTP 502 Bad Gateway error page to users.  But what is the real cause for this?  Often, people will assume that NGINX is to blame for this issue, but the root cause of this error is not NGINX itself!  NGINX only returns this error when it `cannot connect to an upstream server, the configuration is incorrect, or the upstream server is not responding correctly`.  The message "502 Bad Gateway" from NGINX means *`I have no place to send this request`*.
+At times, NGINX will send the dreaded `HTTP 502 Bad Gateway` error page to users.  But what is the real cause for this?  Often, people will assume that NGINX is to blame for this issue, but the root cause of this error is not NGINX itself!  NGINX only returns this error when it `cannot connect to an upstream server, the configuration is incorrect, or the upstream server is not responding correctly`.  The message "502 Bad Gateway" from NGINX means *`I have no place to send this request`*.
 
 You will intentionally misconfigure NGINX Ingress, so we can see this error, and then you will fix it. 
 
-1. Inspect `lab10/juice-port-bad-vs.yaml` file, look at line 15 for the TCP port #.  You will notice that the TCP port is 3000.  But the Juice Service is defined on Port 80.  So this is incorrect, and a common mistake.  NGINX Ingress looks for the `Service` port, not for the container port.  If try to access JuiceShop application now, you see the 502 message.
+1. Inspect `lab10/juice-port-bad-vs.yaml` file, look at line 15 for the TCP port #.  You will notice that the TCP port is 3000.  But the `Juice Service is defined on Port 80.`  So this is incorrect, and a common mistake.  NGINX Ingress VirtualServer looks for the `Service` port, not for the container port. 
 
-    ![Juice bad port yaml](media/lab10_juice-bad-port-yaml.png)
+*Important!!* - The Service definition is defined on port 80, with the Containers on port 3000.
+  
+![Juice bad port yaml](media/lab10_juice-bad-port-yaml.png)
+
 
 1. Remove the running JuiceShop Virtual Server from the previous lab:
 
@@ -38,7 +41,7 @@ You will intentionally misconfigure NGINX Ingress, so we can see this error, and
     kubectl delete -f lab9/juiceshop-vs.yaml
     ```
 
-1. Try the new Virtual Server with incorrect TCP port defined:
+1. Try the new Virtual Server with incorrect TCP port defined.  If you try to access JuiceShop application now, you see the `502 Bad Gateway` message:
 
     ```bash
     kubectl apply -f lab10/juice-port-bad-vs.yaml
@@ -50,7 +53,7 @@ You will intentionally misconfigure NGINX Ingress, so we can see this error, and
       <summary>Click for Hints!</summary>
       <br/>
       <p>
-        Yikes - Your website is DOWN hard!  Customers are getting a 502 Bad Gateway error. 
+        Yikes - Your Smoothy website is DOWN hard!  Customers are getting a 502 Bad Gateway error. 
       </p>
     </details><br/>
 
@@ -62,7 +65,7 @@ You will intentionally misconfigure NGINX Ingress, so we can see this error, and
     kubectl logs -n nginx-ingress $NIC --follow --tail=20
     ```
 
-    > **Detailed Explanation:**  Your JuiceShop VirtualServer is running, but the website is now offline because NGINX is trying to connect to the `juiceshop-vs k8s Service` on port `3000`.  This is the wrong port and it fails, so NGINX has no place to send the request, and responds with the 502 error message.  NGINX `502 Bad Gateway` errors are an important sign that NGINX has `no upstreams available` to handle the request.
+    > **Detailed Explanation:**  Your JuiceShop VirtualServer is running, but the website is now offline because NGINX is trying to connect to the `juiceshop-svc k8s Service` on port `3000`.  This is the wrong Service port and it fails, so NGINX has no place to send the request, and responds with the 502 error message.  NGINX `502 Bad Gateway` errors are an important sign that NGINX has `no upstreams available` to handle the request.  When you encounter 502 errors from Nginx, first check to LOGS, then immediately beginning checking the backend upstream servers.  It's not likely an NGINX error.
 
     The Ingress Logs should show `502 HTTP Response code` messages for the requests.
 
@@ -87,13 +90,13 @@ You will intentionally misconfigure NGINX Ingress, so we can see this error, and
 
 ![custom error](media/lab10_custom_error.png)
 
-The Director of Customer Support has asked if you can stop the ugly HTTP 502 Bad Gateway error messages from going back to the customers, as the developers say they are too busy to fix it. While you can't actually stop them, you can hide the 502 errors and send the customers an alternative page. 
+The Director of Customer Support has asked if you can stop the ugly `HTTP 502 Bad Gateway` error messages from going back to the customers, as the developers say they are too busy to fix it. While you can't actually stop them, you can hide the 502 errors and send the customers an alternative page. 
 
 So you will enable a `Sorry page` that gives customers a more friendly `Please try again later` message, with a Customer Support phone number to call if they need help.
 
 NGINX provides many options for intercepting HTTP response errors and providing user-friendly error pages from web applications.  In this example, you will enable a simple error response page.
 
-1. Inspect `lab10/juice-sorrypage.yaml` file, lines 30-40.  
+1. Inspect `lab10/juice-sorrypage.yaml` file, lines 31-40.  
     ![custom error](media/lab10_custom-error-yaml.png)
 
     Now apply the customer friendly error page manifest:
@@ -187,7 +190,7 @@ Inspect `lab10/juice-cache-vs.yaml` file, lines 8-10.  Notice you are using an `
     <br/>
     <p>
         <strong>Answer: </strong>  NGINX is not caching any HTTP objects with the ".jpeg" extension! <br/>
-        Confirm this by looking at the YAML file, line #31.  This line is a regular expression (regex) that directs NGINX to look at the end of the URL, and <strong>match only on these object type extensions.</strong>  "jpeg is not included" in this regex. Are there other JPEG objects, for which Caching should be enabled?  Should you modify the regex to include jpeg objects?  If you are brave, go ahead and modify the YAML file to add JPEG, and give it a try, and verify it works as expected.
+        Confirm this by looking at the YAML file, line #31.  This line is a regular expression (regex) that directs NGINX to look at the end of the URL, and <strong>match only on these object type extensions.</strong>  "jpeg is not included" in this regex. Are there other JPEG objects, for which Caching should be enabled?  Should you modify the regex to include jpeg objects?  If you are brave, go ahead and modify the YAML file to add jpeg, and give it a try, and verify it works as expected.
     </p>
 
 </details>
@@ -200,7 +203,7 @@ Inspect the very bottom right corner of Chrome Developer Tools...what is the dif
 
 ![Page Load Time](media/lab10_chrome_page_loadtime.png)
 
-Final Check - did you notice just how much difference in response time there is, between the cache HITS vs the cache EXPIRED JuiceShop pages?
+Final Check - did you notice just how much difference in response time there is, between the cache HITS vs the cache EXPIRED JuiceShop pages?  Perhaps not, as you are running a local K8s cluster, Ingress Controller, and Chrome all on the same machine in this workshop.  But...in the real world - with real users, real Internet, real WANs, real phones, tablets, laptops; you might find that NGINX Caching will provide superior performance.
 
 <br/>
 
@@ -268,6 +271,8 @@ kubectl get pods
 
     ![MTLS Coffee Pod](media/lab10_mtls_coffee.png)
 
+    Congrats, you have just configured TLS to all your Cafe coffee and tea pods.
+
     <br/>
 
 ### Blue/Green | A/B Testing
@@ -280,11 +285,11 @@ kubectl get pods
 
 During the development cycle of modern applications for Kubernetes, developers will often want to test new versions of their software, using various test tools, and ideally, a final check with live customer traffic.  There are several names for this dev/test concept - `Blue/Green deployments, A/B testing, Canary testing,` etc.  
 
-However, switching ALL customers to new versions that might still have a few bugs in the code can be risky.  
+However, switching ALL customers to new versions that might still have a few bugs in the code can be risky, and create head-aches, tickets, support calls, lost money, and general hysteria.  
 
 > Wouldn't it be nice if your Ingress Controller could split off just a small fraction of your live traffic, and route it to your new application pods for final testing?  
 
-NGINX Ingress Controller can do this, using a feature called `HTTP Split Clients.`  This feature allows you to define a percentage of traffic to be split between different k8s Services, representing different versions of your application.
+NGINX Ingress Controller can do this, using a feature called `HTTP Split Clients.`  This feature allows you to define a percentage of traffic to be `split between different k8s Services`, representing different versions of your application.
 
 You will use the currently running Cafe coffee-mtls and tea-mtls pods, and split the traffic at an 80:20 ratio between coffee-mtls and tea-mtls Services.  
 
@@ -313,7 +318,7 @@ Having read the tea leaves you are highly confident in your new code. So you dec
     kubectl delete -f lab10/cafe-mtls-vs.yaml
     ```
 
-1. Now configure the Cafe VirtualServer to send `80%` traffic to coffee-mtls, and `20%` traffic to tea-mtls:
+1. Now apply the Cafe Blue/Green VirtualServer to send `80%` traffic to coffee-mtls, and `20%` traffic to tea-mtls:
 
     ```bash
     kubectl apply -f lab10/cafe-bluegreen-vs.yaml
@@ -336,7 +341,7 @@ Having read the tea leaves you are highly confident in your new code. So you dec
     **Note:** NGINX will not load the Split configuration, if the ratio does not add up to 100%.
 
     > **Important!**   You are still using the https://cafe.example.com/coffee URL - you did not have to change the PATH of the url, but NGINX Ingress Controller is routing the requests to 2 different Services, 80% to coffee-mtls AND 20% to tea-mtls!   This allows for easy testing of new application versions, without requiring DNS changes, new URLs or URIs, or other system changes.<br/>  
-    To test a new version of an App, simply create a new Deployment and Service, and tell NGINX Ingress to split the traffic as you need.  This is a `great` traffic management solution for application developers.
+    To test a new version of an App, simply create a new Deployment and Service, and tell NGINX Ingress to split the traffic as you need.  This is a `great` traffic management solution for testing different versions of applications for developers.
 
     Type `Control+C` to shop the curl when you are finished.
 
@@ -376,11 +381,11 @@ During the Workshop, you learned the following NGINX, Ingress, and Kubernetes to
 1. Deploy the Café demo application for coffee/tea services.
 1. Add the Bar application and Virtual Server.
 1. Run a load test on your Ingress Controller and the Cafe application.
-1. Scale your Cafe application, and NGINX Ingress up and down, under load.
+1. Scale your Cafe application, and NGINX Ingress up and down.
 1. Change NGINX logging to help troubleshoot pod performance issues.
 1. Set up and run Prometheus and Grafana with Helm, to monitor your cluster, apps and Ingress Controller.
 1. Launch a new application, JuiceShop, and test it.
-1. Enable some of the Advanced features of NGINX, like Error Pages, Sorry pages, Caching, End-to-End Encryptioin, and Blue-Green split traffic testing.
+1. Enable some of the Advanced features of NGINX, like Error Pages, Sorry pages, Caching, End-to-End Encryption, and Blue-Green split traffic testing.
 
 -------------
 
@@ -399,7 +404,7 @@ During the Workshop, you learned the following NGINX, Ingress, and Kubernetes to
 ### Authors
 
 - Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
-- Shouvik Dutta - Technical Solutions Architect @ F5, Inc.
+- Shouvik Dutta - Solutions Architect - Community and Alliances @ F5, Inc.
 
 -------------
 

@@ -55,7 +55,7 @@ You will launch a new application, called `Juice Shop`, representing a modern on
 
     Did you notice, how easy it was with NGINX Ingress, to launch a completely new application in just a few seconds?  With just 2 YAML manifest files - and `no IT tickets` required to do this?  NGINX Ingress can perform the Layer7 Hostname and path routing for many different applications running in your k8s cluster.  
     
-    And if you haven't noticed yet, all of your labs' FQDN/HTTP Hostnames are using the same Public IP Address for DNS, check out the /etc/hosts file on Ubuntu to confirm this.
+    And if you haven't noticed yet, all of your labs' FQDN/HTTP Hostnames are using the same Public IP Address for DNS, remember the /etc/hosts file has all these hostnames (cafe, bar, dashboard, grafana, juiceshop, prometheus).com pointed to your Loadbalancer Service External-IP.
 
     ```bash
     cat /etc/hosts
@@ -76,7 +76,7 @@ You will launch a new application, called `Juice Shop`, representing a modern on
 ### Authors
 
 - Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
-- Shouvik Dutta - Technical Solutions Architect @ F5, Inc.
+- Shouvik Dutta - Solutions Architect - Community and Alliances @ F5, Inc.
 
 -------------
 

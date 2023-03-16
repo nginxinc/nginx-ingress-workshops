@@ -2,12 +2,11 @@
 
 <br/>
 
-
-## NGINX Ingress Controller Workshop
+## NGINX Ingress Controller Workshop for Rancher Desktop
 
 <br/>
 
-> ><strong>Welcome to the NGINX OSS Workshop for NGINX Ingress Controller (NIC)!</strong>
+> ><strong>Welcome to the NGINX OSS & Rancher Workshop for NGINX Ingress Controller (NIC)!</strong>
 
 </br>
 
@@ -74,8 +73,8 @@ An excellent Prerequisite for taking this Workshop is the NGINX Basics Workshop,
 
 ## Lab Outline
 
-#### Lab 1: Lab Overview and Student access
-- [Lab 1: Workshop Lab Overview](lab1/readme.md)
+#### Lab 1: Rancher Desktop and NGINX Ingress Installation
+- [Lab 1: Rancher and NIC Install](docs/rdt/readme.md)
 
 #### Lab 2: Verify NGINX Ingress Controller is running
 - [Lab 2: Verify NGINX Ingress Controller](lab2/readme.md)
@@ -109,7 +108,7 @@ An excellent Prerequisite for taking this Workshop is the NGINX Basics Workshop,
 ### Authors
 
 - Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
-- Shouvik Dutta - Solutions Architect - Sales @ F5, Inc.
+- Shouvik Dutta - Solutions Architect - Community and Alliances @ F5, Inc.
 - Jason Williams - Principle Product Management Engineer @ F5, Inc.
 
 <br/>

@@ -122,7 +122,7 @@ The NGINX Ingress Controller is a pod running NGINX Proxy under the hood, let's 
 
 ### Authors
 - Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
-- Shouvik Dutta - Technical Solutions Architect @ F5, Inc.
+- Shouvik Dutta - Solutions Architect - Community and Alliances @ F5, Inc.
 
 -------------
 Navigate to ([Lab3](../lab3/readme.md) | [Main Menu](../LabGuide.md))

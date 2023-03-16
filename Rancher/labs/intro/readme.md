@@ -61,7 +61,7 @@ https://docs.nginx.com/nginx-ingress-controller/technical-specifications/
 
 ### Authors
 - Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
-- Shouvik Dutta - Solutions Architect - Sales @ F5, Inc.
+- Shouvik Dutta - Solutions Architect - Community and Alliances @ F5, Inc.
 - Jason Williams - Principal Technical Product Manager @ F5, Inc.
 
 -------------

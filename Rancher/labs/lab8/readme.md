@@ -396,7 +396,7 @@ See how easy that was - adding a couple NGINX VirtualServers, to provide externa
 ### Authors
 - Jason Williams - Sr. Product Management Engineer @ F5, Inc.
 - Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
-- Shouvik Dutta - Technical Solutions Architect @ F5, Inc.
+- Shouvik Dutta - Solutions Architect - Community and Alliances @ F5, Inc.
 
 -------------
 

@@ -336,21 +336,21 @@ helm install nic nginx-stable/nginx-ingress --namespace nginx-ingress --set cont
 
 Helm with custom port and ConfigMap:
 
-```bash
-helm install nic nginx-stable/nginx-ingress --namespace nginx-ingress --set controller.nginxStatus.enable=true --set controller.customPorts[0].containerPort=9000 --set controller.nginxStatus.port=9000 --set controller.nginxStatus.allowCidrs=0.0.0.0/0 --set prometheus.create=true --set controller.customConfigMap=nic-nginx-config
+```
+helm install nic nginx-stable/nginx-ingress --namespace nginx-ingress --set controller.nginxStatus.enable=true --set controller.customPorts[0].containerPort=9000 --set controller.nginxStatus.port=9000 --set controller.nginxStatus.allowCidrs=0.0.0.0/0 --set prometheus.create=true --set controller.customConfigMap=nic-nginx-config --set controller.enableSnippets=true
 ```
 
-
-Note: "my-release" can be changed to any name I like to use "nic"
+Note: "my-release" can be changed to any name.  It is important to use the name "nic" for this workshop.
 
 Uninstall NGINX Ingress Controller
 
 ```
-helm uninstall my-release
+helm uninstall ny-release
+or
+helm uninstall nic
 ```
 
-Validate that the nginx service was properly assigned an external IP
-while in the "nic" namespace run the following
+Validate that the nginx service was properly assigned an External-IP while in the "nic" namespace run the following
 ```
 kubectl get all -n nginx-ingress
 ```
