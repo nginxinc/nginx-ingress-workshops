@@ -117,8 +117,10 @@ The NGINX Ingress Controller is a pod running NGINX Proxy under the hood, let's 
 
 ## References:
 
-- https://docs.nginx.com/nginx-ingress-controller
-- https://docs.nginx.com/nginx-ingress-controller/installation/installation-with-manifests/
+- Nginx Ingress:  https://docs.nginx.com/nginx-ingress-controller
+- Installation with Manifests:  https://docs.nginx.com/nginx-ingress-controller/installation/installation-with-manifests/
+- Installation with Helm:  https://docs.nginx.com/nginx-ingress-controller/installation/installation-with-helm/
+
 
 ### Authors
 - Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
