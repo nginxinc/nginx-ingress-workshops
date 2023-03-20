@@ -1,18 +1,23 @@
-# Lab 1: Lab Overview and Student Access
+# Lab 1: Rancher Deskstop and Nginx Ingress Installation
 
 ## Introduction
 
 <br/>
 
-This Workshop is hosted in F5's `Unified Demo Framework`, a cloud-based lab environment.  Once you have logged into the UDF system, and deployed your lab resources, you will be ready to begin the exercises.  
+During Part1 of this Rancher Master Class Series, you have installed and configured the following:
 
-Your instructor will be sending the UDF email invitation, and ensure you are logged onto UDF, and show you how to start up your lab components.  Once the environment is up and running, your instructor will make sure you are able to access the LabGuide and get logged onto the Jumphost with RDP.
+- Rancher Desktop for Mac (Windows version coming soon)
+- Configure Rancher Desktop resources
+- Customize the Rancher Desktop networking
+- Install and Configure MetalLB
+- Deploy and test a Loadbalancer Service
+- Deploy Nginx OSS Ingress Controller with Helm
 
-![UDF main](media/lab1_udf-main.png)
 
-In this lab you will setup the workshop environment and prepare the Jumphost where you will be doing the labs from. You will be using the Microsoft `RDP protocol` to connect to an Ubuntu Desktop Jumphost.  It has `Chrome` and `VisualStudio Code` with a built-in bash terminal with tools like `kubectl` and `curl` ready to be used by the student.
+The Full Master Class Part 1 documentation can be found here.  You MUST complete Part1, before you can do the lab exercises in Part 2.
 
-> **Important:** All lab exercises must be run from the `Ubuntu Desktop` Jumphost in order to complete them successfully.
+![Master Class Part1](../../../Rancher/docs/rdt/readme.md)
+
 
 <br/>
 
@@ -22,45 +27,12 @@ By the end of the lab, you will be able to:
 
 - Understand the components of the Workshop environment
 - Open the LabGuide doc in a browser
-- Connect to the Jumphost with an RDP (Remote Desktop Protocol) client
+
 - Open VisualStudio Workspace
 - Ready to start the Workshop labs
 
-The Basic Architecture of the lab is shown here for reference:
-
-![UDF workshop topology](media/lab1_udf-lab-topology.png)
-
 <br/>
 
-## Access Jumphost
-
-Prepare the Lab client machine for this lab by: 
-
-- Establish RDP connection and login to the Ubuntu Jumphost
-- Open Chrome with the LabGuide from GitHub
-- Open VisualStudio Code, using the `NGINX-OSS NIC Workshop vs-code workspace` shortcut, located on the desktop of the Jumphost:
-
-
-1. To access this Workshop, and complete the lab exercises, you will need Remote Desktop client software installed on your system. Windows PCs should already have Microsoft's Remote Desktop Client software installed. Mac users may need to install `Microsoft RDP Client` from the Apple App Store (free). https://apps.apple.com/us/app/microsoft-remote-desktop/id1295203466?mt=12
-
-   ![RDP on App Store](media/lab1_rdp-applestore.png)
-
-1. Find the Ubuntu-Jumphost, and under the `ACCESS` menu, now click on `XRDP` to login to the Jumphost:
-
-   *Note:*  It will open the RDP session as Full Screen on your monitor.  If you want to use a different RDP screensize, click on Details, then XRDP, and you can choose from several resolutions.  `FullHD, 1920X1080` is highly recommended for the lab exercises to match the Ubuntu Desktop size.
-
-   ![UDF Jumphost RDP](media/lab1_udf-jumphost-rdp.png)
-
-   Save, then Open the .RDP file after it is downloaded.
-   
-     The `XRDP` session will use these login credentials:
-
-   > username: **ubuntu**<br/>
-   > password: **Nginx123**
-
-   ![jumphost login](media/lab1_jumphost-login.png)
-
-   ### Note that you can re-open the LabGuide or RDP from the UDF Access page at any time.
 
 
 1. Locate Chrome on the Ubuntu Desktop, and launch Chrome.  It should have this LabGuide open as the default Website.  If not, you can find the LabGuide on the Bookmarks Bar.

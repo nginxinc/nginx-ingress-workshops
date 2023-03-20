@@ -6,7 +6,11 @@
 
 <br/>
 
-> ><strong>Welcome to the NGINX OSS & Rancher Workshop for NGINX Ingress Controller (NIC)!</strong>
+> ><strong>Welcome to a `Rancher Master Class`, with Rancher Desktop and NGINX OSS Ingress Controller (NIC)!</strong>
+
+</br>
+
+![Master Class](media/rancher-nginx-masterclass-icon.jpeg)
 
 </br>
 
@@ -14,13 +18,13 @@
 
 </br>
 
-This Workshop will introduce the Open Source version of the `NGINX Ingress Controller` with hands-on practice through self-paced lab exercises.  You will learn how to deploy an NGINX Ingress Controller on a Kubernetes cluster, configure basic and advanced NGINX features; and then test it, and monitor it in realtime. 
+This Workshop will introduce the Open Source version of the `NGINX Ingress Controller` with hands-on practice through self-paced lab exercises.  You will learn how to deploy an NGINX Ingress Controller on `Rancher Desktop`, configure basic and advanced NGINX features; and then test it, and monitor it in realtime. 
 
 <br/>
 
-NGINX Ingress  |  Hands-On Labs
-:-------------------------:|:-------------------------:
-![](media/nginx-ingress-icon.png)  |  ![](media/developer-seated.svg)
+NGINX Ingress  |  Hands-On Labs | Rancher
+:-------------------------:|:-------------------------:|:-----------------------:
+![](media/nginx-ingress-icon.png)  |  ![](media/developer-seated.svg) | ![](media/rancher-icon.png)
 
 <br/>
 
@@ -28,36 +32,37 @@ The Hands-On Lab Exercises are designed to build upon each other, adding additio
 
 `It is important to complete the lab exercises in sequential order.`
 
-By the end of this Workshop, you will have a working, operational NGINX Ingress Controller, with the skills to deploy and operate one for your Modern Application Kubernetes projects.
+By the end of this Workshop, you will have a working, operational NGINX Ingress Controller, with the skills to deploy and operate one for your Modern Application Kubernetes Rancher projects.
 
 <br/>
 
 ### Prerequisites
 
-- Students:  F5.com UDF Account Registered with an Email Address
-
-#### Client Machine - Student Provided
-
-- Local Computer with Microsoft Remote Desktop application installed.
+- Local Computer with Rancher Desktop application installed.
 - Internet connection.
 - Second monitor recommended.
 
-#### Lab Client Machine - NGINX Provided
-- Ubuntu Jumphost
-- Chrome Browser, VisualStudio
-- All labs are completed using RDP to an Ubuntu Jumphost.
 
 <br/>
 
-Ubuntu | Chrome  |  Remote Desktop
-:-------------------------:|:-------------------------:|:-------------------------:
-![](media/ubuntu-icon.png)  |![](media/chrome-icon.png)  |![](media/rdp-icon.png)
+Rancher Desktop | Chrome | RKE
+:-------------------------:|:-------------------------:|:----------------:
+![](media/rancher-desktop-icon.png)  |![](media/chrome-icon.png) |![](media/rancher-rke2-icon.png)
 
 </br>
 
 ### ** Prerequisite Knowledge **
 
-It is `highly recommended` for Students attending this Workshop to be familiar with NGINX and have some experience with Kubernetes administration, networking tools, and Load Balancing concepts.  Previous experience with VisualStudio Code is also helpful.
+It is `highly recommended` for Students attending this Master Class to be familiar with NGINX and have some experience with Kubernetes administration, Rancher, networking tools, and Load Balancing concepts.  Previous experience with VisualStudio Code is also helpful.
+
+An excellent Prerequisite for taking this Workshop is the NGINX Basics Workshop, also available from F5 NGINX, as it provides a fundamental basics of NGINX, on which the NGINX Ingress Controller is built.  Please contact your NGINX Event Marketing team for information on additional Workshops.
+
+<br/>
+
+NOTE:  This is `Part2 of a Rancher Master Class.`  You can find `Part1 - Rancher Desktop and NIC Installation` of this Series here:
+
+https://more.suse.com/master-kubernetes-traffic-rancher-NGINX-part1.html
+
 
 </br>
 
@@ -65,9 +70,6 @@ VisualStudio Code  |  Kubernetes  |  NGINX
 :-----------------:|:------------:|:-------------------------:
 ![](media/vs-code-icon.png)  |  ![](media/kubernetes-icon.png)   |  ![](media/nginx-icon.png)
 
-<br/>
-
-An excellent Prerequisite for taking this Workshop is the NGINX Basics Workshop, also available from F5 NGINX, as it provides a fundamental basics of NGINX, on which the NGINX Ingress Controller is built.  Please contact your NGINX Event Marketing team for information on additional Workshops.
 
 </br>
 

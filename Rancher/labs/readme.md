@@ -1,24 +1,39 @@
-![NGINX NIC Workshop](media/nicossworkshop-banner.png)
-
-# NGINX Ingress Controller Workshop
+![NGINX Ingress](media/nicossworkshop-banner.png)
 
 <br/>
 
-## Welcome!
+## NGINX Ingress Controller Workshop for Rancher Desktop
 
 <br/>
 
-> ><strong>Welcome to the NGINX OSS Workshop for NGINX Ingress Controller (NIC)!</strong>
+> ><strong>Welcome to a `Rancher Master Class`, with Rancher Desktop and NGINX OSS Ingress Controller (NIC)!</strong>
+
+</br>
+
+![Master Class](media/rancher-nginx-masterclass-icon.jpeg)
+
+</br>
 
 <br/>
 
-This Workshop will introduce NGINX OSS Ingress Controller with hands-on practice through self-paced lab exercises.
+This `Rancher Master Class` will introduce NGINX OSS Ingress Controller with hands-on practice through self-paced lab exercises.
 
-You will learn how to configure an **`NGINX OSS Ingress Controller`**, deploy it on a Kubernetes cluster, configure basic and advanced NGINX features, load test it, scale it up and down and monitor it in real time.  You will deploy new Apps and Services in your own private cluster, terminate TLS, route HTTP traffic; configure re-directs, sorry pages, load balance algorithms, caching, Blue/Green testing and routing traffic to running pods.
+You will learn how to configure an **`NGINX OSS Ingress Controller`**, deploy it on Rancher Desktop, configure basic and advanced NGINX features, load test it, scale it up and down and monitor it in real time.  You will deploy new Apps and Services in your own private cluster, terminate TLS, route HTTP traffic; configure re-directs, sorry pages, load balance algorithms, caching, Blue/Green testing and routing traffic to running pods.
 
 <br/>
 
-But Wait - I'm already running NGINX, aren't I ?  NGINX OSS Ingress is not the default Ingress, the Community Ingress is the default.  Are you running `kubernetes/ingress-nginx`, or `nginxinc/nginx-ingress` - there **IS** a difference!
+NOTE:  This is `Part2 of a Rancher Master Class.`  You can find `Part1 - Rancher Desktop and NIC Installation` of this Series here:
+
+https://more.suse.com/master-kubernetes-traffic-rancher-NGINX-part1.html
+
+<br/>
+
+But Wait - I'm already running NGINX, aren't I ?  
+- Maybe not - NGINX OSS Ingress is not the default Ingress, the k8s Community Ingress is the default.  
+
+> Are you running `kubernetes/ingress-nginx`, or `nginxinc/nginx-ingress` - there **IS** a difference!
+
+<br/>
 
 Here is a side by side comparison for NGINX Ingress vs Community Ingress:
 
@@ -37,7 +52,7 @@ Commercial Option | No Commercial Option
 
 <br/>
 
-For further details, read the blogs on Nginx.com:
+For further details, check out the blogs on Nginx.com:
 
 - https://www.nginx.com/blog/guide-to-choosing-ingress-controller-part-3-open-source-default-commercial/
 
@@ -49,13 +64,13 @@ These Hands-On Lab Exercises are designed to build upon each other, adding addit
 
 ![Developer Seated](media/developer-seated.svg)
 
-By the end of this Workshop, you will have a working, operational NGINX Ingress Controller, routing traffic to and from Kubernetes application pods and services, with the necessary skills to deploy and operate NIC for your own Modern Applications running in Kubernetes.  Thank You for taking the time to attend this NGINX Workshop!
+By the end of this Workshop, you will have a working, operational NGINX Ingress Controller, routing traffic to and from Kubernetes application pods and services, with the necessary skills to deploy and operate NIC for your own Modern Applications running in Kubernetes.  Thank You for taking the time to attend this NGINX Workshop and Rancher Master Class!
 
 ![Robot](media/robot.svg)
 
 ## About NGINX Ingress Controller
 
-NGINX Ingress Controller is an Open Source resource for directing traffic to/from a Kubernetes Cluster.  NGINX runs all popular K8s platforms, including Amazon EKS, Google GKE, Azure AKS, Rancher, Digital Ocean, Openshift, and many others.  It can also work with your on-premise Data Center based Kubernetes clusters.  NGINX Ingress Controller is built from the same source code you know and trust from NGINX.  You can find the full Kubernetes support matrix and technical specifications for NGINX Ingress Controller on the http://www.nginx.org website.  
+NGINX Ingress Controller is an Open Source resource for directing traffic to/from a Kubernetes Cluster.  NGINX runs all popular K8s platforms, including Amazon EKS, Google GKE, Azure AKS, Rancher Desktop and RKE/2, Digital Ocean, Openshift, and many others.  It can also work with your on-premise Data Center based Kubernetes clusters.  NGINX Ingress Controller is built from the same source code you know and trust from NGINX.  You can find the full Kubernetes support matrix and technical specifications for NGINX Ingress Controller on the http://www.nginx.org website.  
 
 <br/>
 
