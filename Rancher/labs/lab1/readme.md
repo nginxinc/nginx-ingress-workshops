@@ -4,19 +4,21 @@
 
 <br/>
 
-During Part1 of this Rancher Master Class Series, you have installed and configured the following:
+During Part1 of this Rancher Master Class Series, you installed and configured the following:
 
 - Rancher Desktop for Mac (Windows version coming soon)
 - Configure Rancher Desktop resources
 - Customize the Rancher Desktop networking
 - Install and Configure MetalLB
-- Deploy and test a Loadbalancer Service
+- Deploy a Loadbalancer Service with External-IP
 - Deploy Nginx OSS Ingress Controller with Helm
 
 
-The Full Master Class Part 1 documentation can be found here.  You MUST complete Part1, before you can do the lab exercises in Part 2.
+The complete Rancher Master Class Part 1 documentation can be found here.  You MUST complete Part1, before you can do the lab exercises in Part 2.
 
-![Master Class Part1](../../../Rancher/docs/rdt/readme.md)
+Link to Rancher Master Class Part 1 - [Master Class Part1](Rancher/docs/rdt/readme.md)
+
+Video of Rancher Master Class Part 1:  https://more.suse.com/master-kubernetes-traffic-rancher-NGINX-part1.html
 
 
 <br/>
@@ -27,27 +29,22 @@ By the end of the lab, you will be able to:
 
 - Understand the components of the Workshop environment
 - Open the LabGuide doc in a browser
-
-- Open VisualStudio Workspace
+- Open VisualStudio and k9s
 - Ready to start the Workshop labs
 
 <br/>
 
+1. Open the LabGuide which be found on GitHub at:
 
+   https://github.com/nginxinc/nginx-ingress-workshops/blob/main/Rancher/labs/LabGuide.md
 
-1. Locate Chrome on the Ubuntu Desktop, and launch Chrome.  It should have this LabGuide open as the default Website.  If not, you can find the LabGuide on the Bookmarks Bar.
+   ![lab-guide](media/lab1_lab-guide-rancher.png)
 
-   > For reference, the LabGuide can be found on GitHub at:
+1. Open Visual Studio Code, and prep the layout as follows, (or your preferences).
 
-   https://github.com/nginxinc/nginx-ingress-workshops/blob/main/OSS/labs/LabGuide.md
+   > You will be running all the lab exercises in VS Code and its built-in bash Terminal to run commands like `kubectl`, `curl`, `nerdctl` and much more.
 
-   ![lab-guide](media/lab1_lab-guide-oss.png)
-
-1. After you have logged into the Jumphost, open `Nginx OSS NIC Workshop Workspace` to launch VScode in the workshop project directory.
-
-   > You will be running all the lab exercises in VS Code and its built-in bash Terminal to run commands like `kubectl`, `curl`, `docker` and much more.
-
-   >> Important!  Change the Terminal commandline path to **`"nginx-ingress-workshop/OSS/labs"`** - all the Lab Exercises are run from this directory.
+   >> Important!  Change the Terminal commandline path to **`"nginx-ingress-workshop/Rancher/labs"`** - all the Lab Exercises are run from this directory.
 
    ![vscode-workspace](media/lab1_vscode-workspace.png)
 

@@ -2,7 +2,7 @@
 
 <br/>
 
-## NGINX Ingress Controller Workshop for Rancher Desktop
+# NGINX Ingress Controller Workshop for Rancher Desktop
 
 <br/>
 
@@ -16,39 +16,43 @@
 
 <br/>
 
-This `Rancher Master Class` will introduce NGINX OSS Ingress Controller with hands-on practice through self-paced lab exercises.
+# This `Rancher Master Class` will introduce NGINX OSS Ingress Controller with hands-on practice through self-paced lab exercises.
+
+<br/>
 
 You will learn how to configure an **`NGINX OSS Ingress Controller`**, deploy it on Rancher Desktop, configure basic and advanced NGINX features, load test it, scale it up and down and monitor it in real time.  You will deploy new Apps and Services in your own private cluster, terminate TLS, route HTTP traffic; configure re-directs, sorry pages, load balance algorithms, caching, Blue/Green testing and routing traffic to running pods.
 
 <br/>
 
-NOTE:  This is `Part2 of a Rancher Master Class.`  You can find `Part1 - Rancher Desktop and NIC Installation` of this Series here:
+## NOTE:  This is `Part2 of a Rancher Master Class.`  You can find `Part1 - Rancher Desktop and NIC Installation` of this Series here:
 
 https://more.suse.com/master-kubernetes-traffic-rancher-NGINX-part1.html
 
 <br/>
 
 But Wait - I'm already running NGINX, aren't I ?  
-- Maybe not - NGINX OSS Ingress is not the default Ingress, the k8s Community Ingress is the default.  
+- Maybe not - NGINX OSS Ingress is not the default Ingress most people install, 
+- K8s Community Ingress is the default.  
 
-> Are you running `kubernetes/ingress-nginx`, or `nginxinc/nginx-ingress` - there **IS** a difference!
+> Are you running `kubernetes/ingress-nginx`, or `nginxinc/nginx-ingress` - **there IS a difference!**
 
 <br/>
 
-Here is a side by side comparison for NGINX Ingress vs Community Ingress:
+Here is a side by side comparison of NGINX Ingress vs Community Ingress Controller:
 
 <br/>
 
 NGINX Version  |  K8s Community Version
 :-------------------------:|:-------------------------:
+![](../media/nginx-ingress-icon.png)  |  ![](../media/kubernetes-icon.png)
+repo source | repo source
 nginxinc/kubernetes-ingress | kubernetes/ingress-nginx
-NGINX Open Source | Kubernetes Open Source
-Written in "C" | NGINX Build with Custom LUA
+NGINX Open Source | Kubernetes SIG Open Source
+Written in "C" | Written with Custom LUA
 Small Footprint | Large Footprint
-Extended with CRDs | Limited to Ingress Type
+Extendable with CRDs | Limited to Ingress Type
 NGINX Support | Community Support
 Commercial Option | No Commercial Option
-![](media/nginx-ingress-icon.png)  |  ![](media/kubernetes-icon.png)
 
 <br/>
 
@@ -64,7 +68,7 @@ These Hands-On Lab Exercises are designed to build upon each other, adding addit
 
 ![Developer Seated](../media/developer-seated.svg)
 
-By the end of this Workshop, you will have a working, operational NGINX Ingress Controller, routing traffic to and from Kubernetes application pods and services, with the necessary skills to deploy and operate NIC for your own Modern Applications running in Kubernetes.  Thank You for taking the time to attend this NGINX Workshop and Rancher Master Class!
+By the end of this Workshop / Master Class, you will have a working, operational NGINX Ingress Controller, routing traffic to and from Kubernetes application pods and services, with the necessary skills to deploy and operate NIC for your own Modern Applications running in Kubernetes.  Thank You for taking the time to attend this NGINX Workshop and Rancher Master Class!
 
 ![Robot](../media/robot.svg)
 
