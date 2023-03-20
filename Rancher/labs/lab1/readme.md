@@ -46,7 +46,7 @@ By the end of the lab, you will be able to:
 
    >> Important!  Change the Terminal commandline path to **`"nginx-ingress-workshop/Rancher/labs"`** - all the Lab Exercises are run from this directory.
 
-   ![vscode-workspace](media/lab1_vscode-workspace.png)
+   ![vscode-layout](media/lab1_vscode-layout.png)
 
 1. Open the VScode Bash Terminal for the bottom pane, if it is not already open:
 
@@ -58,14 +58,11 @@ By the end of the lab, you will be able to:
    kubectl get nodes
    ```
 
+      Verify your Kubernetes Cluster is up and the Rancher lima Node in the "Ready" state:
 
-      ![vscode-main](media/lab1_vscode-main.png)
+      ![kubectl get nodes](media/lab1_vscode-layout.png)
 
-      Verify your Kubernetes Cluster is up and all Nodes are in the "Ready" state:
-
-      ![kubectl get nodes](media/lab1_k-get-nodes.png)
-
-      **NOTE:** If your nodes are not showing in `Ready` status then please inform your instructor.
+      **NOTE:** If your Node is not showing in `Ready` status, you must fix it before proceeding.
 
 <br/>
 
