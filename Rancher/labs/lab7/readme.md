@@ -39,7 +39,7 @@ Next, let's scale the number of Ingress Controllers pods from one to **three**. 
     ![get Ingress pods](media/lab7_get_ingress_pods.png)
 
     **Questions:** 
-     - What happened to your `WRK` loadtest traffic on the Dashboard ?
+     - What do you think will happen to your traffic to the first Nginx Ingress Controller ?
      - Did it drop by approximately 1/3rd.  Why?
 
     <details><summary>Click for Hints!</summary>
@@ -50,33 +50,19 @@ Next, let's scale the number of Ingress Controllers pods from one to **three**. 
         Refer to the topology diagram of this lab's Multi-Ingress deployment:
       </p>
       
-      ![Multiple Ingress](media/lab7_multi_ingress.png)
+      ![Multiple Ingress](media/lab7_multi-ingress.png)
 
       To verify this, check the `nginx-ingress` Service, there are now 3 Endpoints, which map to the 3 IPs of the Ingress Controllers.
 
       ```bash
-      kubectl describe svc nginx-ingress -n nginx-ingress
+      kubectl describe svc nic-nginx-ingress -n nginx-ingress
       ```
 
       ![Nginx-Ingress 3 Endpoints](media/lab7_3-ingress-controllers.png)
+    
 
     </details><br/>
 
-1. Now scale the number of NGINX Ingress Controllers up to **four**, in anticipation of a surge of traffic from an overnight Digital Marketing campaign for *free coffee=free caffeine*. Run the following `kubectl scale` command:
-
-   ```
-   kubectl scale deployment nic-nginx-ingress -n nginx-ingress --replicas=4
-   ```
-
-   Then,
-
-   ```bash
-   kubectl get pods -n nginx-ingress
-   ```
-
-   ![scale Ingress to 4](media/lab7_ingress_scale4.png)
-
-    What do you observe about the traffic?  You can restart the wrk load tool if you like.
 
    **Food for thought** - With most Cloud providers, you could use AutoScaling to do this automatically!
 
@@ -99,7 +85,7 @@ Next, let's scale the number of Ingress Controllers pods from one to **three**. 
 
 1. Now that you have several apps up and running on your Ingress, let's take a deep look under the hood – check out the NGINX Ingress Controller configuration. Run the following commands to view the NGINX Configuration:
 
-    Store the NIC Pod name in a variable
+    Store the NIC Pod name in a variable:
     
     ```bash
     export NIC=$(kubectl get pods -n nginx-ingress -o jsonpath='{.items[0].metadata.name}')
@@ -110,7 +96,7 @@ Next, let's scale the number of Ingress Controllers pods from one to **three**. 
     Check the full NGINX config
     
     ```bash
-    kubectl exec -it $NIC -n nginx-ingress -- nginx -T
+    kubectl exec -it $NIC -n nginx-ingress -- nginx -T |more
     ```
 
     **Inspect the output:** `nginx -T` prints out the entire NGINX configuration. Scroll up and down - do you see:
