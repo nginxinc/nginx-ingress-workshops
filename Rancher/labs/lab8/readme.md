@@ -128,24 +128,16 @@ Here is a brief description of what these different tools and application provid
 
     <br/>
 
-### Testing the NGINX Ingress's Prometheus "scraper" Port and Page
+## Testing the NGINX Ingress's Prometheus "scraper" Port and Page
 
 <br/>
 
-Verify that NGINX NIC is enabled for exporting Prometheus statistics.  This requires 3 settings:
+Verify that NGINX NIC is enabled for exporting Prometheus statistics.  This is defined in the Helm values file:
 
-- Prometheus `Annotations` are enabled
-- Port `9113` is open
-- The command-line argument `- -enable-prometheus-metrics` is enabled, to allow the collection of the NIC's statistics on that port.
+To see these settings, inspect the `lab2/lab2_values.yaml` file, lines 13-14.
 
-**!Bonus!** - These settings have already been enabled for you in this lab, but they are `not enabled by default.`  
 
-To see these settings, inspect the `lab2/nginx-ingress.yaml` file, lines 15-17, 33-34, and 67.
-
-Annotations | Port  | Command Args
-:-------------------------:|:-------------------------:|:-------------------------:
-![nic prometheus settings](media/lab8_nic-prom-settings1.png) |![nic prometheus settings](media/lab8_nic-prom-settings2.png) |![nic prometheus settings](media/lab8_nic-prom-settings3.png)
-
+![helm prometheus settings](media/lab8_helm-values.png) 
 
 1. Now verify this is enabled and the scraper page is working, using k8s port-forward:
 
@@ -174,7 +166,7 @@ Annotations | Port  | Command Args
 
     <br/>
 
-### NGINX Ingress for Prometheus and Grafana
+## NGINX Ingress for Prometheus and Grafana
 
 <br/>
 
