@@ -76,7 +76,7 @@ VisualStudio Code  |  Kubernetes  |  NGINX
 ## Lab Outline
 
 #### Lab 1: Rancher Desktop and NGINX Ingress Installation
-- [Lab 1: Rancher and NIC Install](docs/rdt/readme.md)
+- [Lab 1: Rancher and NIC Install](lab1/readme.md)
 
 #### Lab 2: Verify NGINX Ingress Controller is running
 - [Lab 2: Verify NGINX Ingress Controller](lab2/readme.md)
