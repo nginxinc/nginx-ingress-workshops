@@ -27,12 +27,12 @@ You will use a tool called [`wrk` ](https://github.com/wg/wrk), running in a Doc
 1. In the terminal window, run this command to start the load generation using `wrk` inside a docker container.  `CHANGE the IP Address` to match your Loadbalancer External-IP.
 
     ```bash
-    docker run --rm williamyeh/wrk -t4 -c200 -d20m -H 'Host: cafe.example.com' --timeout 2s https://10.1.1.100/coffee
+    nerdctl run --rm williamyeh/wrk -t2 -c200 -d2m -H 'Host: cafe.example.com' --timeout 2s https://10.1.1.100/coffee
     ```
 
     ![run wrk load generator](media/lab6_wrk-load-generation.png)
 
-    This will run the `wrk` load tool for **20 minutes**, with **200 connections**.  You can run this command again if you need additional time.
+    This will run the `wrk` load tool for **2 minutes**, with **200 connections**.  You can run this command again if you need additional time.
 
 1. Observe your NGINX Dashboard - http://dashboard.example.com/stub_status.html
 
@@ -75,7 +75,7 @@ Coffee Break Time!! Let's scale the Coffee `Deployment`. In anticipation of a su
 1. Verify NGINX Ingress is now configured to send traffic to all 8 pods. Find the `vs_default_cafe-vs_coffee` upstream block, and see if there are 8 server IP address:80 entries:
 
     ```bash
-    kubectl exec -it $NIC -n nginx-ingress -- /bin/bash -c "nginx -T"
+    kubectl exec -it $NIC -n nginx-ingress -- /bin/bash -c "nginx -T |more"
     ```
 
     ![Coffee 8 deployment](media/lab6_coffee-8upstreams.png)
@@ -83,7 +83,7 @@ Coffee Break Time!! Let's scale the Coffee `Deployment`. In anticipation of a su
 1. Check to see if you now get 8 different IP address when accessing Coffee.  Use curl to request the coffee page, and grep for the Server Address field in the response, like so:
 
    ```bash
-   while true; do curl -k https://cafe.example.com/coffee |grep "Server Address"; sleep 1; done
+   while true; do curl -sk https://cafe.example.com/coffee |grep "Server Address"; sleep 1; done
    ```  
    
    You should see 8 different IPs. Type `Control-C` to stop the curl command.
@@ -92,20 +92,20 @@ Coffee Break Time!! Let's scale the Coffee `Deployment`. In anticipation of a su
 
 1. Let's configure NGINX Ingress Controller to use the Load Balancing algorithm called `Least Connections` so that the most responsive (faster) pods are preferred for more TCP Connections and HTTP Requests. 
 
-   Inspect the `lab6/nginx-config-leastconn.yaml` manifest. This is the Nginx **ConfigMap** for the Ingress Controller that configures it to use a different algorithm.  
+   Inspect the `lab6/cafe-vs-leastconn.yaml` manifest. This is an Nginx VirtualServer for the Ingress Controller that configures it to use the least connections load balancing algorithm.  
    
-   ![Nginx ConfigMap](media/lab6_nginx-configmap.png)
+   ![Cafe Least Conn](media/lab6_cafe-leastconn.png)
    
    Apply the manifest:
 
     ```bash
-    kubectl apply -f lab6/nginx-config-leastconn.yaml
+    kubectl apply -f lab6/cafe-vs-leastconn.yaml
     ```
 
    Verify NGINX Ingress is now configured for Least Connections.  Once again, find the `vs_default_cafe-vs_coffee` upstream block, and see if the `least_conn directive` is there:
 
     ```bash
-    kubectl exec -it $NIC -n nginx-ingress -- /bin/bash -c "nginx -T"
+    kubectl exec -it $NIC -n nginx-ingress -- /bin/bash -c "nginx -T"|grep -A 10 "upstream vs"
     ```
 
    ![Nginx Least Conn](media/lab6_leastconn.png)
@@ -130,40 +130,13 @@ Coffee Break Time!! Let's scale the Coffee `Deployment`. In anticipation of a su
     kubectl scale deployment coffee --replicas=3
     ```
 
-    Did you notice any errors in the NGINX Dashboard while Kubernetes scaled down the pods? 
-
     When scaling down, NGINX will try to complete requests before Kubernetes terminates a running `pod`, after all the responses in flight have finished processing on that `pod`, so there should not be any errors. 
-
-    Did you notice any errors when you asked NGINX to change its load balancing algorithm from round-robin to `Least-Conn`? There should not have been any errors. The Configuration Reload should allows existing connections to finish their work, while allowing new connections to use the new configuration. 
-    
-<br/>
-
-### Optional Lab Exercise1: 
-
-Try the same scale up, then scale down commands for the Cafe **Tea** `Deployment`. Does NGINX also send more traffic to the faster Tea pods? Set the tea pods back to **three** replicas when you are finished.
-
-**Note:**  You will have to target `/tea` with the `wrk` tool if you want to load test Tea:
-
-1. Run the following command to apply load to the Tea Service for 10 minutes:
-
-    ```bash
-    docker run --rm williamyeh/wrk -t4 -c200 -d10m -H 'Host: cafe.example.com' --timeout 2s https://10.1.1.100/tea
-    ```
-
-<br/>
-
-### Optional Lab Exercise2: 
-
-1. You can change the load balancing algorithm back to round-robin if you like, and check out the differences. Apply the following manifest to make that change:
-
-    ```bash
-    kubectl apply -f lab6/nginx-config-roundrobin.yaml
-    ```
-<br/>
 
 <br/>
 
 ## Host Based Routing
+
+<br/>
 
 **New business opportunity!!** The boss got a business loan to open the Cafe as a Bar in the evenings for `beer and wine tasting! ` So you need to add Beer and Wine applications, and expose these using the NGINX Ingress Controller. 
 

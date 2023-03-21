@@ -219,6 +219,8 @@ However, there are only **two** log variables with any useful data related to th
 
 - [Summary of ConfigMap Keys - logging](http://docs.nginx.com/nginx-ingress-controller/configuration/global-configuration/configmap-resource/#logging)
 - [NGINX Variables](http://nginx.org/en/docs/varindex.html)
+- [NGINX NIC log formatting](https://github.com/nginxinc/kubernetes-ingress/tree/main/examples/shared-examples/custom-log-format)
+
 
 ### Authors
 - Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
