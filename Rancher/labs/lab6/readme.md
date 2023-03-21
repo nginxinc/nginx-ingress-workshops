@@ -27,7 +27,7 @@ You will use a tool called [`wrk` ](https://github.com/wg/wrk), running in a Doc
 1. In the terminal window, run this command to start the load generation using `wrk` inside a docker container.  `CHANGE the IP Address` to match your Loadbalancer External-IP.
 
     ```bash
-    nerdctl run --rm williamyeh/wrk -t2 -c200 -d2m -H 'Host: cafe.example.com' --timeout 2s https://10.1.1.100/coffee
+    nerdctl run --rm williamyeh/wrk -t2 -c200 -d2m -H 'Host: cafe.example.com' --timeout 2s https://$EIP/coffee
     ```
 
     ![run wrk load generator](media/lab6_wrk-load-generation.png)
