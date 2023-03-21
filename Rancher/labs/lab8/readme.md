@@ -166,103 +166,11 @@ Annotations | Port  | Command Args
 
     >> **This set of metrics will provide a good data source for the monitoring and graphing of NGINX Ingress.**
 
-    Note: If you were running NGINX Plus, there would be an `additional ~80 metrics` for all the server, location, and upstream statistics; see the Plus Workshop for more details if you are interested.
+    Note: If you were running NGINX Plus, there would be an `additional ~240 metrics` for all the server, location, and upstream statistics; see the Plus Workshop for more details if you are interested.
 
     <br/>
 
-    There are many tools that can collect, display, alert, report, and archive these metrics.  You will use Prometheus and Grafana next to do just that.
-    
-    <br/>
-
-    Press `Control + C` to stop the port-forward when you are finished with the scraper page.
-
-    <br/>
-
-### Prometheus Testing
-
-![Prometheus](media/prometheus-icon.png)
-
-<br/>
-
-1. To test Prometheus you will run this command to create a shell variable for the Prometheus Server:
-
-    ```bash
-    export PROMETHEUS_SERVER=$(kubectl get pods --namespace monitoring -l "app=prometheus,component=server" -o jsonpath="{.items[0].metadata.name}")
-    ```
-
-1. Use k8s port-forward to test access to the Prometheus Server on port 9090:
-
-    ```bash
-    kubectl port-forward $PROMETHEUS_SERVER 9090:9090 -n monitoring 
-    ```
-
-    Using Chrome, navigate to http://localhost:9090.  You should see a webpage like this.  Search for `nginx_ingress_nginx_` in the query box to see a list of all the Ingress statistics that Prometheus is collecting for you:
-
-    ![Prometheus9090](media/lab8_localhost-9090.png)
-
-    Select `nginx_ingress_nginx_http_requests_total` from the list, click on Graph, and then click the "Execute" Button.  Change the time length to see data from the last 30min or so. This will provide a graph similar to this one:
-
-    ![Prometheus graph screenshot](media/lab8_prometheus-graph.png)
-
-    If you don't see much data, re-start your `WRK` load tool, or select the Auto Refresh on the Cafe's coffee page, and wait a few minutes. 
-    
-    In the upper right corner, click on the Globe icon next to Execute, and take a few minutes to explore the many different statistics, time windows, etc.  You will see metrics from all kinds of Kubernetes objects, components, and services.
-
-    <br/>
-
-### Optional Prometheus Exercise
-
-<br/>
-
-1. Using the Prometheus Explorer, find and graph the `NGINX Ingress Pod CPU usage` from the pods.  This would be useful data to monitor and watch during any load tests or in production.
-
-    Can you find where the pod `CPU stats` are recorded ?  As you can see, there are hundreds of stats you can use to monitor NGINX NIC, k8s components, pods, services, and other resources.
-
-    Press `Control + C` to stop port-forward when you are finished.
-
-    Did your NIC CPU graph look something like this one?
-
-    ![NIC cpu graph](media/lab8_nic-cpu.png)
-
-<br/>
-
-### Grafana Testing
-
-![Grafana](media/grafana-icon.png)
-
-<br/>
-
-1. To test Grafana, set a shell variable to the Grafana Server to the name of the Grafana pod:
-
-    ```bash
-    export GRAFANA_SERVER=$(kubectl get pods --namespace monitoring -l "app.kubernetes.io/name=grafana,app.kubernetes.io/instance=nginx-grafana" -o jsonpath="{.items[0].metadata.name}")
-    ```
-
-1. Use k8s port-forwarding to test access to the Grafana server on port 3000:
-
-    ```bash
-    kubectl -n monitoring port-forward $GRAFANA_SERVER 3000:3000  
-    ```
-
-1. Retrieve the Grafana admin login password, which was dynamically created by Helm during the installation:
-
-    ```bash
-    kubectl get secret --namespace monitoring nginx-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
-    ```
-
-1. Using Chrome, navigate to http://localhost:3000 on your browser.
-
-    You can login into Grafana using `admin` and the `password` retrieved above.
-
-    ![Grafana Login Screenshot](media/lab8_grafana-login.png)
-
-    After logging in, you should see the main Grafana Welcome page:
-
-    ![Grafana screenshot](media/lab8_grafana-welcome.png)
-
-    You will be creating and using some custom Grafana Dashboards in the next sections.
-
-    Press `Control + C` to stop port-forward when you are finished.
+    There are many tools that can collect, display, alert, report, and archive these metrics.  You will use Nginx Ingress to expose Prometheus and Grafana outside the cluster, to do just that.
 
     <br/>
 
@@ -270,7 +178,7 @@ Annotations | Port  | Command Args
 
 <br/>
 
-For you and your team to access Prometheus and Grafana from outside the cluster, you will add these apps to your existing NGINX Ingress Controller. In your lab environment, you will use VirtualServer and VirtualServerRoute manifests, to take advantage of NGINX's ability to do cross-namespace routing.  (Prometheus and Grafana are running in the "monitoring" namespace, remember?).  
+For you and your team to access Prometheus and Grafana from outside the cluster, you will add these apps to your existing NGINX Ingress Controller. In your Rancher environment, you will use VirtualServer and VirtualServerRoute manifests, to take advantage of NGINX's ability to do cross-namespace routing.  (Prometheus and Grafana are running in the "monitoring" namespace, remember?).  
 
 1. Inspect the `prometheus-vs.yaml`, `grafana-vs.yaml` and `grafana-vsr.yaml` files in the lab8 folder.
 
@@ -290,20 +198,31 @@ For you and your team to access Prometheus and Grafana from outside the cluster,
     <br/>
 
 
-1. Now test access to Prometheus and Grafana, `through NGINX Ingress`. Open 2 new Chrome tabs, and try the Prometheus (http://prometheus.example.com) and Grafana (https://grafana.example.com) bookmarks. 
+1. Now test access to Prometheus and Grafana, `through NGINX Ingress`. Open 2 new Chrome tabs, and try the Prometheus (http://prometheus.example.com) and Grafana (https://grafana.example.com) hostnames. 
 
 
 Prometheus | Grafana
 :-------------------------:|:-------------------------:
 ![](media/lab8_ext_prometheus.png)  |![](media/lab8_ext_grafana.png)
 
-Try another Prometheus query that interests you.  Perhaps you can find the amount of memory being used by the Ingress Controller ?
+Try a Prometheus query that shows the total number of HTTP requests, like the image below.  There are *many* statistics that you can find and graph with Prometheus.
+
+![Prom Query](media/lab8_localhost-9090.png)
+
 
 <br/>
 
-You can login to Grafana using the same admin/password credentials that you used earlier.
+To log onto the Grafana Server, the username is "admin", and use the following kubectl command to retrieve the Grafana admin login password, which was dynamically created by Helm during the installation:
 
-See how easy that was - adding a couple NGINX VirtualServers, to provide external access to your monitoring tools running inside the cluster!
+    ```bash
+    kubectl get secret --namespace monitoring nginx-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+    ```
+
+![Grafana Login](media/lab8_grafana-login.png)
+
+<br/>
+
+>WOW!! - See how easy that was - adding a couple NGINX VirtualServers, to provide external access to your monitoring tools running inside the cluster!
 
 <br/>
 
@@ -348,8 +267,7 @@ See how easy that was - adding a couple NGINX VirtualServers, to provide externa
 
     ![grafana open NGINX dashboard](media/lab8_grafana_open_basic_dashboard.png)
 
-    This should open up the NGINX 
-    Basic Grafana Dashboard. You can expand the sub-sections or adjust the `time range` and `refresh` interval in the upper right corner as needed.  You can see this shows the up/down Status of the Ingress, and the Connections and HTTP Requests stats:
+    This should open up the NGINX Basic Grafana Dashboard. You can expand the sub-sections or adjust the `time range` and `refresh` interval in the upper right corner as needed.  You can see this shows the up/down Status of the Ingress, and the Connections and HTTP Requests stats:
 
     ![grafana nginx basic dashboard](media/lab8_grafana_nginx_basic.png)
 
@@ -361,6 +279,12 @@ See how easy that was - adding a couple NGINX VirtualServers, to provide externa
     
     If needed, restart your `WRK` tool, to generate some traffic for the graphs.
 
+    ```bash
+    nerdctl run --rm williamyeh/wrk -t2 -c200 -d5m -H 'Host: cafe.example.com' --timeout 2s https://192.168.2.100/coffee
+    ```
+
+    ![run wrk load generator](media/lab8_wrk-load-generation.png)
+    
     <br/>
 
 3. **Optional** - if you want to check out the NGINX Plus statistics in Grafana, from the `General` section, select the `NGINX Plus Ingress Controller` Dashboard.
@@ -370,14 +294,6 @@ See how easy that was - adding a couple NGINX VirtualServers, to provide externa
     This should open up the NGINX Plus Grafana Dashboard. You can expand the sub-sections or adjust the time range and refresh time as needed.  There are also sample screenshots in the Plus workshop, Lab 8.
 
     ![grafana NIC dashboard](media/lab8_grafana_KIC_dashboard.png)
-
-    If the graphs are blank or do not show much data, try refreshing Chrome many times, or starting loadtest tool from the previous lab, you should see some statistics being collected and graphed after a few minutes:
-
-    ```bash
-    docker run --rm williamyeh/wrk -t4 -c200 -d20m -H 'Host: cafe.example.com' --timeout 2s https://10.1.1.100/coffee
-    ```
-
-    ![run wrk load generator](media/wrk-load-generation.png)
 
     <br/>
 
@@ -392,6 +308,8 @@ See how easy that was - adding a couple NGINX VirtualServers, to provide externa
 - [VirtualServer and VirtualServerRoute](https://docs.nginx.com/nginx-ingress-controller/configuration/virtualserver-and-virtualserverroute-resources/)
 
 - [Grafana NGINX Plus IC Dashboard](https://github.com/nginxinc/kubernetes-ingress/tree/master/grafana)
+
+- [WRK loadtest tool](https://github.com/wg/wrk)
 
 ### Authors
 - Jason Williams - Sr. Product Management Engineer @ F5, Inc.
