@@ -42,7 +42,7 @@ Congratulations! You have successfully configured your Ingress Controller for ex
 
 For a Preview of the NGINX Plus Dashboard, it can be found at https://demo.nginx.com.
 
-It contains over 80 additional metrics for NGINX Plus and the Ingress Controller.  If you wish to see it in action, check out the `Plus` folder in this repo.
+It contains over 240 additional metrics for NGINX Plus and the Ingress Controller.  If you wish to see it in action, check out the `Plus` folder in this repo.
 
 <br/>
 

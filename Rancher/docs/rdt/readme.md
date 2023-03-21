@@ -298,7 +298,7 @@ kubectl apply -f IPAddressPool.yaml
 kubectl apply -f L2Advertisement.yaml
 ```
 
-#### Install NGINX OSS Ingress via CLI
+#### Install NGINX OSS Ingress via Helm
 [Website](https://docs.nginx.com/nginx-ingress-controller/installation/)
 
 Install using helm (preferred)
