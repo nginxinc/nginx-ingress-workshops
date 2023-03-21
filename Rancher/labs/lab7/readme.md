@@ -156,7 +156,7 @@ However, there are only **two** log variables with any useful data related to th
       kind: ConfigMap
       apiVersion: v1
       metadata:
-        name: nginx-config
+        name: nic-nginx-config
         namespace: nginx-ingress
       data:
         lb-method: "least_conn"
