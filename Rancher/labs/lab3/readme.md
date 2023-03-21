@@ -48,9 +48,9 @@ The NGINX Ingress Controller is already running in this Workshop. You will be co
 
    In the example above you see: 
 
-   - `Cluster-IP` address of `10.107.20.212`  
-   - `External-IP` address of `10.1.1.100` 
-   - Both IPs are mapped from port `80` to a NodePort (`32656`); and from port `443` to a NodePort (`30143`)
+   - `Cluster-IP` address of `10.43.255.176`  
+   - `External-IP` address of `192.168.12.250` 
+   - Both IPs are mapped from port `80` to a NodePort (`31865`); and from port `443` to a NodePort (`30389`)
 
    *Remember:* 
 
@@ -62,10 +62,15 @@ The NGINX Ingress Controller is already running in this Workshop. You will be co
 
 ## Verify access to the Ingress Controller using the External IP
 
-1. Use the `LoadBalancer` External-IP address that we captured from the previous step to test your **k8s LoadBalancer Service**. Use `curl` to test it.
+1. Extract the `LoadBalancer` External-IP address in separate variable using below command.
+   ```bash
+   export EIP=$(kubectl get svc nic-nginx-ingress -n nginx-ingress -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+   ```
+
+2. Use the `LoadBalancer` External-IP address that we captured  in the variable from the previous step to test your **k8s LoadBalancer Service**. Use `curl` to test it.
 
    ```bash
-   curl -I http://10.1.1.100
+   curl -I http://$EIP
    ```
    You should see the following output if the `LoadBalancer` Service is configured correctly for Ingress:
 
@@ -93,7 +98,7 @@ vi /etc/hosts
 ```bash
 vi /etc/hosts
 
-10.1.1.100 cafe.example.com bar.example.com dashboard.example.com grafana.example.com prometheus.example.com juiceshop.example.com
+192.168.12.250 cafe.example.com bar.example.com dashboard.example.com grafana.example.com prometheus.example.com juiceshop.example.com
 ```
 
 >Note that all 6 hostnames are mapped to the same Loadbalancer External-IP.  You will use the Ingress Controller to route the traffic correctly in the upcoming labs.  
