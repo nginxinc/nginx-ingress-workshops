@@ -7,11 +7,36 @@ The NGINX Ingress Controller is already running in this workshop. You will be ch
 <br/>
 
 ## Learning Objectives 
+- Deploy Nginx Ingress with Helm Values file
 - Intro to NGINX Ingress Controller
 - Intro to Kubernetes environment, interacting with `kubectl` command
 - Access the NGINX Stub Status Page
 
 <br/>
+
+## Deploy Nginx Ingress with Helm Values file
+
+At the end of Rancher Master Class Part 1, you deployed Nginx Ingress using a Helm CLI command.  However, you will need to use additional advanced features of Nginx for Master Class Part 2, this workshop.  To enable these, your Helm installation will be re-deployed using a `Helm VALUES` yaml file, which is an easy way to configure / re-configure Nginx Ingress.  Helm and the helm values.yaml file will become the `source of truth` for how Nginx Ingress is deployed and configured using Helm.
+
+1. Inspect the `lab2/lab2_values.yaml` file.  You will see that we are defining some customPorts, and adding a custom ConfigMap so you can customize Nginx configurations.
+
+1. List the current Helm releases running:
+
+   ```bash
+   helm ls -A
+   ```
+
+1. Remove the existing Nginx Ingress Controller Helm deployment.  This example follows the Master Class Part 1, helm release name "nic":
+
+   ```bash
+   helm uninstall nic -n nginx-ingress
+   ```
+
+1. Re-deploy the Nginx Ingress Controller, using the Values file:
+
+```bash
+helm install nic -n nginx-ingress -f lab2/lab2_values.yaml
+```
 
 ## Check your Ingress Controller
 
@@ -24,12 +49,16 @@ The NGINX Ingress Controller is already running in this workshop. You will be ch
    ```bash
    # Should look similar to this...
    NAME                            READY   STATUS    RESTARTS   AGE
-   nginx-ingress-fd4b9f484-t5pb6   1/1     Running   1          12h
+   nic-nginx-ingress-fd4b9f484-t5pb6   1/1     Running   1          12h
    ```
 
-1. Instead of remembering the unique pod name, `nginx-ingress-xxxxxx-xxxx`, we can store the Ingress Controller pod name into the `$NIC` variable to be used throughout the labs.
+   Or, check your k9s window, make sure nic-nginx-ingress-xxxx-yyyy is running.
 
-   **Note:** This variable is stored for the duration of the terminal session, and so if you close the terminal it will be lost. At any time you can refer back to this step to save the `$NIC` variable once again.
+   < k9s Screenshot here >
+
+1. Instead of remembering the unique pod name, `nic-nginx-ingress-xxxxxx-xxxx`, you can store the Ingress Controller pod name into the `$NIC` variable to be used throughout the labs.
+
+   **Note:** This variable is only valid for the duration of the terminal session, and so if you close the terminal it will be lost. At any time you can refer back to this step to create the `$NIC` variable once again.
 
    **Note**: You must use the `kubectl` "`-n`" switch, followed by the namespace's name, to see resources that are not in the default namespace.
 
@@ -53,7 +82,7 @@ The NGINX Ingress Controller is already running in this workshop. You will be ch
    kubectl describe pod $NIC -n nginx-ingress
    ```
 
-   **Observe:** The IP address and TCP ports that are open on the Ingress (they should match the `lab2/nginx-ingress.yaml` file, around lines `25-35`). Verify you have the following listening Ports:
+   **Observe:** The IP address and TCP ports that are open on the Ingress. Verify you have the following listening Ports:
 
    * Port `80 and 443` for http/s traffic,
    * Port `8081` for Readiness, 
@@ -76,9 +105,9 @@ The NGINX Ingress Controller is already running in this workshop. You will be ch
 
    ![Nginx Stub Status](media/lab2_stub_status.png)
 
-   Do you see the NGINX Stub Status Page? If so, your Ingress Controller pod is up and running!
+   Do you see the NGINX Stub Status Page? If so, your Ingress Controller pod is up and running!  Hit Refresh a few times, the counters should increment.
 
-1. Close Chrome Web Browser, and hit `Ctrl-C` in the terminal to stop the Port Forward.
+1. Close the Chrome Web Browser, and hit `Ctrl-C` in the terminal to stop the Port Forward.
 
    ![stop port-forward](media/lab2_port-forward-ctrl-c.png)
 

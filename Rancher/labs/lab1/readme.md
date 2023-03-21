@@ -4,7 +4,7 @@
 
 <br/>
 
-During Part1 of this Rancher Master Class Series, you installed and configured the following:
+During Part 1 of this Rancher Master Class Series, you installed and configured the following:
 
 - Rancher Desktop for Mac (Windows version coming soon)
 - Configure Rancher Desktop resources
@@ -13,10 +13,11 @@ During Part1 of this Rancher Master Class Series, you installed and configured t
 - Deploy a Loadbalancer Service with External-IP
 - Deploy Nginx OSS Ingress Controller with Helm
 
+The complete Rancher Master Class Part 1 documentation can be found here. 
 
-The complete Rancher Master Class Part 1 documentation can be found here.  You MUST complete Part1, before you can do the lab exercises in Part 2.
+>You MUST complete Part 1, before you can do the lab exercises in Part 2.
 
-Link to Rancher Master Class Part 1 - [Master Class Part1](Rancher/docs/rdt/readme.md)
+Link to Rancher Master Class Part 1 - [Master Class Part 1](Rancher/docs/rdt/readme.md)
 
 Video of Rancher Master Class Part 1:  https://more.suse.com/master-kubernetes-traffic-rancher-NGINX-part1.html
 
@@ -58,9 +59,10 @@ By the end of the lab, you will be able to:
    kubectl get nodes
    ```
 
-      Verify your Kubernetes Cluster is up and the Rancher lima Node in the "Ready" state:
+      Verify your Kubernetes Cluster is up and the Rancher lima Node is in the "Ready" state:
 
-      ![kubectl get nodes](media/lab1_vscode-layout.png)
+      ![kubectl get nodes](media/lab1_rancher-ready.png)
+   
 
       **NOTE:** If your Node is not showing in `Ready` status, you must fix it before proceeding.
 

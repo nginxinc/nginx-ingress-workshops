@@ -26,9 +26,10 @@ The NGINX Ingress Controller is already running in this Workshop. You will be co
 
    ![Workshop Network Architecture](media/lab3_architecture.png)
 
-1. Inspect the `lab3/loadbalancer.yaml` manifest. You can see that port `80` and `443` are being opened and we are requesting an external IP address. This will give the Ingress Controller a static private IP address in the lab. 
+1. Inspect the `lab3/loadbalancer.yaml` manifest. You can see that port `80` and `443` are being opened and we are requesting an external IP address. This will give the Ingress Controller a static private IP address from your computer. 
 
     ![loadbalancer.yaml](media/lab3_loadbalancer.png)
+  
 
     **IMPORTANT SECURITY NOTE:** In a real world deployment using a Cloud Provider, with a public IP address, this would expose your Ingress Controller to the open Internet with `NO PROTECTION` other than basic TCP port filters. Doing this in production would require Security/Firewall Protections, which are not part of this lab exercise.
 
@@ -54,7 +55,7 @@ The NGINX Ingress Controller is already running in this Workshop. You will be co
    *Remember:* 
 
    - Your `Cluster-IP` address and `NodePorts` will be different based on your cluster. 
-   - Since this is a lab environment and not a public cloud environment, the `External-IP` address is static and contained within the lab and has no public access.
+   - Since this is a private network environment and not a public cloud environment, the `External-IP` address is static and contained within the lab and has no public access.
    - If you delete and then add the Loadbalancer Service, the IPs may also change.
 
 <br/>
@@ -90,7 +91,7 @@ Edit your local hosts file, adding the FQDNs as shown below.  Use the `External-
 vi /etc/hosts
 
 ```bash
-cat /etc/hosts
+vi /etc/hosts
 
 10.1.1.100 cafe.example.com bar.example.com dashboard.example.com grafana.example.com prometheus.example.com juiceshop.example.com
 ```
