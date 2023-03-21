@@ -1,0 +1,15 @@
+controller:
+  replicaCount: 1
+  enableSnippets: true
+  customConfigMap: "nic-nginx-config"
+  customPorts:              # Added for Rancher Master class
+    - name: dashboard       # Added for Rancher Master class
+      containerPort: 9000   # Added for Rancher Master class
+
+  
+  nginxStatus:                # Added for Rancher Master class
+    enable: true              # Added for Rancher Master class
+    port: 9000                # Added for Rancher Master class
+    allowCidrs: "0.0.0.0/0"   # Added for Rancher Master class
+prometheus:
+  create: true
