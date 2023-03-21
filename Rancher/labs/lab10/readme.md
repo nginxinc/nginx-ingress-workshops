@@ -139,17 +139,29 @@ Inspect `lab10/juice-cache-vs.yaml` file, lines 8-10.  Notice you are using an `
 
 **Note:** In production, you would like to set the cache aging timer higher than 30 seconds. We intentionaly set the timer low in this lab so you can see what happens when the cache timer expires.
 
-1.  Now apply this Caching configuration, and test it:
+1.  Update the Helm release to enable Nginx Snippets for Ingress Controller:
 
-    ```bash
-    kubectl apply -f lab10/juice-cache-vs.yaml
-    ```
+   ```bash
+   helm upgrade nic nginx-stable/nginx-ingress -f lab10/lab10_values.yaml -n nginx-ingress
+   ```
 
-    Monitor the Ingress Controller access log, watch for "HIT", "MISS", and "EXPIRED" entries, while you refresh the Juice Shop pages:
+1. Now apply this Caching configuration, and test it:
 
-    ```bash
-    kubectl logs -n nginx-ingress $NIC --follow --tail 50
-    ```
+   ```bash
+   kubectl apply -f lab10/juice-cache-vs.yaml
+   ```
+
+1. Reset the $NIC variable, because the NIC pod name has changed:
+
+   ```bash
+   export NIC=$(kubectl get pods -n nginx-ingress -o jsonpath='{.items[0].metadata.name}')
+   ```
+
+1. Monitor the Ingress Controller access log, watch for "HIT", "MISS", and "EXPIRED" entries, while you refresh the Juice Shop pages:
+
+   ```bash
+   kubectl logs -n nginx-ingress $NIC --follow --tail 50
+   ```
 
     During refreshes, you should see some Cache "MISS" and "HIT" and "EXPIRED" log entries, it should be the last field of each log entry in the access log, as shown below.  (This `Cache Status logging variable` was added when you enabled Enhanced Logging in a previous exercise).
 
@@ -161,7 +173,7 @@ Inspect `lab10/juice-cache-vs.yaml` file, lines 8-10.  Notice you are using an `
 
     Type Ctrl+C to stop the log tail when you are finished.
     
-1. Now, open a new Tab in Chrome, enable Developer Tools, and make sure you disable Chrome's internal browser cache, and select the `Network` tab at the top in Chrome Tools.  Right click on the Columns, and enable the Response Headers:X-Cache-Status, so it will display that Header value.  Now click Refresh the JuiceShop webpage.
+1. Now, open a new Tab in Chrome, enable Developer Tools, and make sure you disable Chrome's internal browser cache, and select the `Network` tab at the top in Chrome Tools.  Right click on the Columns, and add and enable the Response Headers:X-Cache-Status, so it will display that Header value.  Now click Refresh on the JuiceShop webpage.
 
     Look for the `X-Cache-Status` Response Header and value (that Ingress is adding).  It should look like this:
 

@@ -35,7 +35,7 @@ At the end of Rancher Master Class Part 1, you deployed Nginx Ingress using a He
 1. Re-deploy the Nginx Ingress Controller, using the Values file:
 
 ```bash
-helm install nic -n nginx-ingress -f lab2/lab2_values.yaml
+helm install nic nginx-stable/nginx-ingress -n nginx-ingress -f lab2/lab2_values.yaml
 ```
 
 ## Check your Ingress Controller

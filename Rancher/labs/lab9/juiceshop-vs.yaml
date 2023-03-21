@@ -13,7 +13,7 @@ spec:
   - name: juiceshop
     service: juiceshop-svc
     port: 80
-    #slow-start: 5s
+    #slow-start: 5s  Nginx Plus only
     #healthCheck:
       #enable: true
       #port: 3000
