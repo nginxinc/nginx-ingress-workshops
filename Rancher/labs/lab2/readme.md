@@ -54,9 +54,9 @@ helm install nic -n nginx-ingress -f lab2/lab2_values.yaml
 
    Or, check your k9s window, make sure nic-nginx-ingress-xxxx-yyyy is running.
 
-   < k9s Screenshot here >
+   ![k9s dashboard](media/lab2_k9s_dashboard.png)
 
-1. Instead of remembering the unique pod name, `nic-nginx-ingress-xxxxxx-xxxx`, you can store the Ingress Controller pod name into the `$NIC` variable to be used throughout the labs.
+2. Instead of remembering the unique pod name, `nic-nginx-ingress-xxxxxx-xxxx`, you can store the Ingress Controller pod name into the `$NIC` variable to be used throughout the labs.
 
    **Note:** This variable is only valid for the duration of the terminal session, and so if you close the terminal it will be lost. At any time you can refer back to this step to create the `$NIC` variable once again.
 
