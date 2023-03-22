@@ -67,6 +67,10 @@ Coffee Break Time!! Let's scale the Coffee `Deployment`. In anticipation of a su
     ```
 
     ![Coffee deployment](media/lab6_coffee-described.png)
+  
+   OR you can also check in K9s dashboard
+
+    ![Coffee K9s scale](media/lab6_k9s_coffee.png)
 
 1. Verify NGINX Ingress is now configured to send traffic to all 8 pods. Find the `vs_default_cafe-vs_coffee` upstream block, and see if there are 8 server IP address:80 entries:
 
