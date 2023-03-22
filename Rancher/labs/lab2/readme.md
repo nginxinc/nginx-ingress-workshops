@@ -38,7 +38,7 @@ At the end of Rancher Master Class Part 1, you deployed Nginx Ingress using a He
    kubectl apply -f lab2/nginx-config.yaml
    ```
 
-1. Re-deploy the Nginx Ingress Controller, using the Values file:
+1. Once the `configmap` object has been created, re-deploy the Nginx Ingress Controller, using the Values file:
 
    ```bash
     helm install nic nginx-stable/nginx-ingress -n nginx-ingress -f lab2/lab2_values.yaml
