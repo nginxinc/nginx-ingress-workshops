@@ -3,9 +3,9 @@
 ## Introduction
 
 In this section, you will build the "Cafe" Ingress Demo, which represents a Coffee Shop website with simple Coffee and Tea applications. You will be adding the following components to your Kubernetes Cluster:
- - **coffee** and **tea** `services`
- - `cafe-secret` for TLS
- - `cafe ` `virtualserver`
+ - Two `deployment` and `services` objects for **coffee** and **tea** application
+ - One `secret` object named **cafe-secret** to enable TLS
+ - One `virtualserver` CRD object named **cafe-vs** to route traffic.
 
 <br/>
 

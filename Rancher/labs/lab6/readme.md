@@ -18,13 +18,9 @@ In this lab, you will send some HTTP traffic to your Ingress Controller and Cafe
 
 ## HTTP Traffic Generation
 
-You will use a tool called [`wrk` ](https://github.com/wg/wrk), running in a Docker container, to generate traffic to your Ingress Controller.  
+You will use a tool called [`wrk` ](https://github.com/wg/wrk), running in a containerd, to generate traffic to your Ingress Controller.  
 
-1. Open a Terminal from your Desktop
-
-    ![open terminal](media/lab6_open-terminal.png)
-
-1. In the terminal window, run this command to start the load generation using `wrk` inside a docker container.  `CHANGE the IP Address` to match your Loadbalancer External-IP.
+1. In the terminal window, run below command to start the load generation using `wrk` inside a containerd container.  Use the External-IP variable (**$EIP**) that we created in lab3 to pass your Loadbalancer External-IP.
 
     ```bash
     nerdctl run --rm williamyeh/wrk -t2 -c200 -d2m -H 'Host: cafe.example.com' --timeout 2s https://$EIP/coffee
@@ -34,7 +30,7 @@ You will use a tool called [`wrk` ](https://github.com/wg/wrk), running in a Doc
 
     This will run the `wrk` load tool for **2 minutes**, with **200 connections**.  You can run this command again if you need additional time.
 
-1. Observe your NGINX Dashboard - http://dashboard.example.com/stub_status.html
+2. Observe your NGINX Dashboard - http://dashboard.example.com/stub_status.html
 
     ![Dashboard](media/lab6_dashboard.png)
 
@@ -71,6 +67,10 @@ Coffee Break Time!! Let's scale the Coffee `Deployment`. In anticipation of a su
     ```
 
     ![Coffee deployment](media/lab6_coffee-described.png)
+  
+   OR you can also check in K9s dashboard
+
+    ![Coffee K9s scale](media/lab6_k9s_coffee.png)
 
 1. Verify NGINX Ingress is now configured to send traffic to all 8 pods. Find the `vs_default_cafe-vs_coffee` upstream block, and see if there are 8 server IP address:80 entries:
 
