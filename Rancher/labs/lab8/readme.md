@@ -203,6 +203,12 @@ Try a Prometheus query that shows the total number of HTTP requests, like the im
 
 <br/>
 
+Maybe you can find your `Ingress Controller's CPU usage` ?
+
+![Prom Query](media/lab8_nic-cpu.png)
+
+<br/>
+
 To log onto the Grafana Server, the username is "admin", and use the following kubectl command to retrieve the `Grafana admin login password`, which was dynamically created by Helm during the installation:
 
 ```
