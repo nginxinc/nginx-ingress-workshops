@@ -158,7 +158,7 @@ To see these settings, inspect the `lab2/lab2_values.yaml` file, lines 13-14.
 
     >> **This set of metrics will provide a good data source for the monitoring and graphing of NGINX Ingress.**
 
-    Note: If you were running NGINX Plus, there would be an `additional ~240 metrics` for all the server, location, and upstream statistics; see the Plus Workshop for more details if you are interested.
+    Note: If you were running NGINX Plus, there would be an `additional ~240 metrics` for all the server, location, and upstream statistics; see the Plus Workshop in this Repo for more details if you are interested.
 
     <br/>
 
@@ -197,24 +197,23 @@ Prometheus | Grafana
 :-------------------------:|:-------------------------:
 ![](media/lab8_ext_prometheus.png)  |![](media/lab8_ext_grafana.png)
 
-Try a Prometheus query that shows the total number of HTTP requests, like the image below.  There are *many* statistics that you can find and graph with Prometheus.
+Try a Prometheus query that shows the total number of HTTP requests, like the image below.  There are *many* statistics that you can find and graph with Prometheus. Spend a few minutes exploring some of the different metrics that are available.
 
-![Prom Query](media/lab8_localhost-9090.png)
-
+![Prom Query](media/lab8_prometheus-main.png)
 
 <br/>
 
-To log onto the Grafana Server, the username is "admin", and use the following kubectl command to retrieve the Grafana admin login password, which was dynamically created by Helm during the installation:
+To log onto the Grafana Server, the username is "admin", and use the following kubectl command to retrieve the `Grafana admin login password`, which was dynamically created by Helm during the installation:
 
-    ```bash
-    kubectl get secret --namespace monitoring nginx-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
-    ```
+```
+kubectl get secret --namespace monitoring nginx-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+```
 
 ![Grafana Login](media/lab8_grafana-login.png)
 
 <br/>
 
->WOW!! - See how easy that was - adding a couple NGINX VirtualServers, to provide external access to your monitoring tools running inside the cluster!
+>WOW!! - See how easy that was - adding a couple NGINX VirtualServers, to provide external access to your monitoring tools running in the cluster!
 
 <br/>
 
@@ -255,7 +254,7 @@ To log onto the Grafana Server, the username is "admin", and use the following k
 
     ![grafana general](media/lab8_grafana_general.png)
 
-    In the `General` section, click on the `NGINX` dashboard.
+    In the `General` section, click on the `NGINX-NIC-OSS` dashboard.
 
     ![grafana open NGINX dashboard](media/lab8_grafana_open_basic_dashboard.png)
 
@@ -281,11 +280,11 @@ To log onto the Grafana Server, the username is "admin", and use the following k
 
 3. **Optional** - if you want to check out the NGINX Plus statistics in Grafana, from the `General` section, select the `NGINX Plus Ingress Controller` Dashboard.
 
-    ![grafana open NIC dashboard](media/lab8_grafana_open_KIC_dashboard.png)
+    ![grafana open NIC dashboard](media/lab8_grafana_open_NIC_dashboard.png)
 
-    This should open up the NGINX Plus Grafana Dashboard. You can expand the sub-sections or adjust the time range and refresh time as needed.  There are also sample screenshots in the Plus workshop, Lab 8.
+    This should open up the NGINX Plus Grafana Dashboard. You can expand the sub-sections or adjust the time range and refresh time as needed.  There are also sample screenshots in the Plus workshop, Lab 8.  Note: most of the data panels will be blank if you are not runniing NGINX Plus.
 
-    ![grafana NIC dashboard](media/lab8_grafana_KIC_dashboard.png)
+    ![grafana NIC dashboard](media/lab8_grafana_NIC_dashboard.png)
 
     <br/>
 
