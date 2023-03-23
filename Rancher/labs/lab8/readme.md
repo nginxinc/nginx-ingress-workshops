@@ -102,7 +102,7 @@ Here is a brief description of what these different tools and application provid
 
     ![Add Grafana repo](media/lab8_add_grafana_repo.png)
 
-1. After the Grafana repo is added, you will install Grafana using the below command. For this lab, you will create a second release called `nginx-grafana`.  Notice we are also setting the Grafana admin Password to `Nginx123`: 
+1. After the Grafana repo is added, you will install Grafana using the below command. For this lab, you will create a second release called `nginx-grafana`: 
 
     ```bash
     helm install nginx-grafana grafana/grafana -n monitoring
@@ -132,7 +132,7 @@ Here is a brief description of what these different tools and application provid
 
 <br/>
 
-Verify that NGINX NIC is enabled for exporting Prometheus statistics.  This is defined in the Helm values file:
+Verify that NGINX NIC is enabled for exporting Prometheus statistics.  This is defined in the Helm values file from lab2:
 
 To see these settings, inspect the `lab2/lab2_values.yaml` file, lines 13-14.
 
@@ -271,7 +271,7 @@ kubectl get secret --namespace monitoring nginx-grafana -o jsonpath="{.data.admi
     If needed, restart your `WRK` tool, to generate some traffic for the graphs.
 
     ```bash
-    nerdctl run --rm williamyeh/wrk -t2 -c200 -d5m -H 'Host: cafe.example.com' --timeout 2s https://192.168.2.100/coffee
+    nerdctl run --rm williamyeh/wrk -t2 -c200 -d5m -H 'Host: cafe.example.com' --timeout 2s https://$EIP/coffee
     ```
 
     ![run wrk load generator](media/lab8_wrk-load-generation.png)

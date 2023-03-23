@@ -63,7 +63,7 @@ The NGINX Ingress Controller is already running in this Workshop. You will be co
 ## Verify access to the Ingress Controller using the External IP
 
 1. Extract the `LoadBalancer` External-IP address in separate variable using below command.
-   ```bash
+   ```
    export EIP=$(kubectl get svc nic-nginx-ingress -n nginx-ingress -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
    ```
 
