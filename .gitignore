@@ -14,3 +14,7 @@ Thumbs.db
 # Logs #
 ########
 *.log
+
+# NGINX Ingress Cloned Repo #
+#############################
+kubernetes-ingress/
