@@ -82,9 +82,8 @@ Here is a brief description of what these different tools and application provid
 1. Once the repos have been added to Helm, the next step is to deploy a `release`. For this lab, you will create a release called `nginx-prometheus`.   
 
     ```bash
-    helm install nginx-prometheus prometheus-community/prometheus -n monitoring
+    helm install nginx-prometheus prometheus-community/prometheus --set server.persistentVolume.enabled=false,alertmanager.persistentVolume.enabled=false -n monitoring
     ```
-
     ![install prometheus](media/lab8_install_prometheus.png)
 
     <br/>
@@ -175,7 +174,7 @@ Annotations | Port  | Plus Args
 1. To test Prometheus you will run this command to create a shell variable for the Prometheus Server:
 
     ```bash
-    export PROMETHEUS_SERVER=$(kubectl get pods --namespace monitoring -l "app=prometheus,component=server" -o jsonpath="{.items[0].metadata.name}")
+    export PROMETHEUS_SERVER=$(kubectl get pods --namespace monitoring -l "app.kubernetes.io/name=prometheus,app.kubernetes.io/component=server" -o jsonpath="{.items[0].metadata.name}")
     ```
 
 1. Use k8s port-forward to test access to the Prometheus Server:
