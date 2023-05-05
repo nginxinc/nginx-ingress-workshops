@@ -21,7 +21,7 @@ spec:
       jitter: 3s
       fails: 3
       passes: 2
-      #port: 3000
+      port: 300
       connect-timeout: 15s
       read-timeout: 5s
       statusMatch: "200"

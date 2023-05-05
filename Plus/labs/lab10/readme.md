@@ -24,7 +24,7 @@ Enable and test some NGINX Plus features to control how Ingress Controller handl
 
 NGINX Plus provides many options for active health checking of pods and services.  You will enable some checks for URI paths, and set the interval and counts that meet the needs of the application.  A Community Ingress manifest has some limitations in defining a healthcheck. With an NGINX VirtualServer manifest, additional options can be configured for production workloads. 
 
-1. Inspect `lab10/juice-health-bad-vs.yaml` file, lines 17-25 for the healthchecks.  You will notice we have commented out the correct TCP port for the healthcheck of the backend pods.  What do you think will happen if you do not check the correct TCP port?
+1. Inspect `lab10/juice-health-bad-vs.yaml` file, lines 17-25 for the healthchecks.  You will notice we have entered a incorrect TCP port for the healthcheck of the backend pods.  What do you think will happen if you do not check the correct TCP port?
 
     ![active health yaml](media/lab10_active_health_yaml.png)
 
@@ -62,7 +62,7 @@ NGINX Plus provides many options for active health checking of pods and services
 
     **Detailed Explanation:**  The Dashboard shows all your juiceshop upstreams as Down, due to `Failed` healthchecks.  Your JuiceShop VirtualServer is running, but the website is now offline because the pods are in a `Failed` state.  NGINX `502 Bad Gateway` errors are an important sign that NGINX has `no upstreams available` to service the request.
 
-    The Ingress Logs should show `[error] 97 ... 111: Connection refused` messages for the healthchecks on port 80 (but remember, the JuiceShop pods are running on port 3000!).
+    The Ingress Logs should show `[error] 97 ... 111: Connection refused` messages for the healthchecks on port 300 (but remember, the JuiceShop pods are running on port 3000!).
 
     ![NGINX Error Logs](media/lab10_error_log.png) 
 
