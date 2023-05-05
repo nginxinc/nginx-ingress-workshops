@@ -23,7 +23,7 @@ We will use a tool called [`wrk` ](https://github.com/wg/wrk) , runing in a dock
 1. In the terminal window, run this command to start load generation using `wrk` inside a docker container:
 
     ```bash
-    docker run --rm williamyeh/wrk -t4 -c200 -d20m -H 'Host: cafe.example.com' --timeout 2s https://10.1.1.10/coffee
+    docker run --rm williamyeh/wrk -t4 -c200 -d20m -H 'Host: cafe.example.com' --timeout 2s https://10.1.1.100/coffee
     ```
 
     ![run wrk load generator](media/wrk-load-generation.png)
@@ -126,7 +126,7 @@ Try the same scale up, then scale down commands for the Cafe **Tea** `Deployment
 1. Run the following command to apply load to the Tea Service:
 
     ```bash
-    docker run --rm williamyeh/wrk -t4 -c200 -d15m -H 'Host: cafe.example.com' --timeout 2s https://10.1.1.10/tea
+    docker run --rm williamyeh/wrk -t4 -c200 -d15m -H 'Host: cafe.example.com' --timeout 2s https://10.1.1.100/tea
     ```
 
 ### Optional Lab Exercise 2: 
