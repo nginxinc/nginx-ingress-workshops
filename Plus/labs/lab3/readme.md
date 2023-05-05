@@ -43,7 +43,7 @@ The NGINX Ingress Controller is already running in this Workshop. You will be co
    In the example above you see: 
 
    - `Cluster-IP` address of `10.98.133.36`  
-   - `External-IP` address of `10.1.1.10` 
+   - `External-IP` address of `10.1.1.100` 
    - Both IPs are mapped from port `80` to a NodePort (`31871`); and from port `443` to NodePort (`32470`)
 
    **NOTE:** 
@@ -57,7 +57,7 @@ The NGINX Ingress Controller is already running in this Workshop. You will be co
 
    ```bash
    #Test Access to Ingress through LoadBalancer:
-   curl -I http://10.1.1.10
+   curl -I http://10.1.1.100
    ```
    You should see the following output if the `LoadBalancer` Service is configured correctly for Ingress:
 
