@@ -50,7 +50,7 @@ After you connect to the Jumphost, open Chrome from the Desktop, which should op
 
 </br>
 
-> For reference, the LabGuide can be found on GitHub at:
+> For reference, **Bookmark this LabGuide**, found on GitHub at:
 
 https://github.com/nginxinc/nginx-ingress-workshops/blob/main/Plus/labs/LabGuide.md
 

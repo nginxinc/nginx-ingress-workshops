@@ -38,7 +38,7 @@ NGINX Plus Ingress Controller is an Enterprise-Ready resource for directing traf
 
 NGINX Ingress Controller has the best-in-class traffic management solution for cloud‑native apps in Kubernetes and containerized environments. In a recent 
 [CNCF](https://www.cncf.io/blog/2018/08/29/cncf-survey-use-of-cloud-native-technologies-in-production-has-grown-over-200-percent/)
-survey, nearly two‑thirds of respondents reported using the NGINX Ingress Controller, more than all other controllers combined – and NGINX Ingress Controller has been downloaded more than [50 million
+survey, nearly two‑thirds of respondents reported using the NGINX Ingress Controller, more than all other controllers combined – and NGINX Ingress Controller has been downloaded more than [100 million
 times](https://hub.docker.com/r/nginx/nginx-ingress) from DockerHub. 
 
 <br/>
