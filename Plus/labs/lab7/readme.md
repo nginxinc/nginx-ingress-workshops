@@ -80,6 +80,11 @@ Next, let's scale the number of Ingress Controllers pods from one to **three**. 
 
     ```bash
     # Store the NIC Pod name in a variable
+
+    nic
+    
+    #or
+
     export NIC=$(kubectl get pods -n nginx-ingress -o jsonpath='{.items[0].metadata.name}')
 
     # Check the full NGINX config
@@ -118,7 +123,7 @@ However, there are only **two** log variables with any useful data related to th
     kubectl logs $NIC -n nginx-ingress --tail 10 --follow
     ```
 
-    ![Access logs](media/access-logs.png)
+    ![Access logs](media/lab7_access-logs.png)
 
     How do you even know *which `pod`* sent the response? To properly troubleshoot and identify the poor performance of a pod, you need much more information. 
 
@@ -159,7 +164,7 @@ However, there are only **two** log variables with any useful data related to th
     kubectl logs $NIC -n nginx-ingress --tail 10 --follow
     ```
 
-    ![log tailing screenshot](media/access-log-enhanced.png)
+    ![log tailing screenshot](media/lab7_access-log-enhanced.png)
 
 1. Type` Control-C` to stop the log  `tail` when finished.
 
@@ -175,7 +180,7 @@ However, there are only **two** log variables with any useful data related to th
 
 ### Authors
 - Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
-- Shouvik Dutta - Technical Solutions Architect @ F5, Inc.
+- Shouvik Dutta - Solutions Architect - Community and Alliances @ F5, Inc.
 
 -------------
 

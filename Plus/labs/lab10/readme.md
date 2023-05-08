@@ -400,7 +400,7 @@ During the Workshop, you learned the following NGINX, Ingress, and Kubernetes to
 ### Authors
 
 - Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
-- Shouvik Dutta - Technical Solutions Architect @ F5, Inc.
+- Shouvik Dutta - Solutions Architect - Community and Alliances @ F5, Inc.
 
 -------------
 

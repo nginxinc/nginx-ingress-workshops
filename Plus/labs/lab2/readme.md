@@ -32,8 +32,15 @@ The NGINX Ingress Controller is already running in this workshop. You will be ch
    ```bash
    export NIC=$(kubectl get pods -n nginx-ingress -o jsonpath='{.items[0].metadata.name}')
    ```
+   
+   The bash alias `nic` as been also added to .bashrc for this variable.  You can run "nic" from any Terminal, and it sets the $NIC variable as well.
 
+   ```bash
+   nic
+   ```
+   
    Verify the variable is set correctly.
+
    ```bash
    echo $NIC
    ```
@@ -121,7 +128,7 @@ The NGINX Ingress Controller is a pod running NGINX Plus under the hood, let's g
 
 ### Authors
 - Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
-- Shouvik Dutta - Solutions Architect - Sales @ F5, Inc.
+- Shouvik Dutta - Solutions Architect - Community and Alliances @ F5, Inc.
 
 -------------
 Navigate to ([Lab3](../lab3/readme.md) | [Main Menu](../LabGuide.md))

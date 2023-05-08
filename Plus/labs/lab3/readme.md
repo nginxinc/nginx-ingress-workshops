@@ -38,13 +38,13 @@ The NGINX Ingress Controller is already running in this Workshop. You will be co
    - **`EXTERNAL-IP`**: This is your external IP address 
    - **`CLUSTER-IP`**: This is your Kubernetes internal IP address
 
-   ![get deployments output](media/lab3_get_deployments.png)
+   ![get deployments output](media/lab3_get-deployments.png)
 
    In the example above you see: 
 
-   - `Cluster-IP` address of `10.98.133.36`  
-   - `External-IP` address of `10.1.1.10` 
-   - Both IPs are mapped from port `80` to a NodePort (`31871`); and from port `443` to NodePort (`32470`)
+   - `Cluster-IP` address of `10.105.153.177`  
+   - `External-IP` address of `10.1.1.100` 
+   - Both IPs are mapped from port `80` to a NodePort (`31501`); and from port `443` to NodePort (`30287`)
 
    **NOTE:** 
 
@@ -57,11 +57,11 @@ The NGINX Ingress Controller is already running in this Workshop. You will be co
 
    ```bash
    #Test Access to Ingress through LoadBalancer:
-   curl -I http://10.1.1.10
+   curl -I http://10.1.1.100
    ```
    You should see the following output if the `LoadBalancer` Service is configured correctly for Ingress:
 
-   ![curl header output](media/lab3_curl_header.png)
+   ![curl header output](media/lab3_curl-header.png)
 
    **Question: Why did you get a 404?** 
 
@@ -84,7 +84,7 @@ The NGINX Ingress Controller is already running in this Workshop. You will be co
 
 ### Authors
 - Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
-- Shouvik Dutta - Technical Solutions Architect @ F5, Inc.
+- Shouvik Dutta - Solutions Architect - Community and Alliances @ F5, Inc.
 
 -------------
 

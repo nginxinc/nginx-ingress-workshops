@@ -18,21 +18,21 @@ We will use a tool called [`wrk` ](https://github.com/wg/wrk) , runing in a dock
 
 1. Open a Terminal from the Ubuntu Desktop
 
-    ![open terminal](media/open-terminal.png)
+    ![open terminal](media/lab6_open-terminal.png)
 
 1. In the terminal window, run this command to start load generation using `wrk` inside a docker container:
 
     ```bash
-    docker run --rm williamyeh/wrk -t4 -c200 -d20m -H 'Host: cafe.example.com' --timeout 2s https://10.1.1.10/coffee
+    docker run --rm williamyeh/wrk -t4 -c200 -d20m -H 'Host: cafe.example.com' --timeout 2s https://10.1.1.100/coffee
     ```
 
-    ![run wrk load generator](media/wrk-load-generation.png)
+    ![run wrk load generator](media/lab6_wrk.png)
 
     This will run the `wrk` load tool for **20 minutes**, with **200 connections**.  You can run this command again if you need additional time.
 
 1. Observe your NGINX Plus Dashboard - http://dashboard.example.com/dashboard.html
 
-    ![Dashboard](media/dashboard.png)
+    ![Dashboard](media/lab6_dashboard.png)
 
     **Questions:**
 
@@ -126,7 +126,7 @@ Try the same scale up, then scale down commands for the Cafe **Tea** `Deployment
 1. Run the following command to apply load to the Tea Service:
 
     ```bash
-    docker run --rm williamyeh/wrk -t4 -c200 -d15m -H 'Host: cafe.example.com' --timeout 2s https://10.1.1.10/tea
+    docker run --rm williamyeh/wrk -t4 -c200 -d15m -H 'Host: cafe.example.com' --timeout 2s https://10.1.1.100/tea
     ```
 
 ### Optional Lab Exercise 2: 
@@ -171,7 +171,7 @@ See the topological view of the new **beer** and **wine** applications
 
    Do the new `beer` and `wine` applications load as expected?
 
-   ![beer and wine](media/beer-and-wine.png)
+   ![beer and wine](media/lab6_beer-and-wine.png)
 
 1. Observe your NIC Plus Dashboard again on http://dashboard.example.com/dashboard.html
 
@@ -181,9 +181,9 @@ See the topological view of the new **beer** and **wine** applications
     - Did you find your new `HTTP upstreams` for **beer** and **wine**?  
     - What did you find in the `HTTP Zones` table?
 
-      ![server zone bar](media/server-zone-bar.png)
+      ![server zone bar](media/lab6_server-zone-bar.png)
 
-      ![http upstream bar](media/http-upstreams-bar.png)
+      ![http upstream bar](media/lab6_http-upstreams-bar.png)
 
     You can see how easy it is to add new `Deployment` and `Service`, and then configure NGINX Plus Ingress Controller to create a new HTTP Host route, URI paths and route traffic to these new services and have access to these applications immediately. The NGINX Plus `VirtualServer` CRD's allow you to easily add new hosts and services.
 
@@ -208,13 +208,13 @@ You should also notice that Cafe is still running as before, adding the Bar serv
 ## References: 
 - [Least_time Algorithm](http://nginx.org/en/docs/http/ngx_http_upstream_module.html#least_time)
 - [Random Algorithm](http://nginx.org/en/docs/http/ngx_http_upstream_module.html#random)
-- [Dyanamic Reconfiguration with NGINX
+- [Dynamic Reconfiguration with NGINX
   Plus](https://www.nginx.com/blog/dynamic-reconfiguration-with-nginx-plus/)
 - [Wrk Tool](https://github.com/wg/wrk)
 
 ### Authors
 - Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
-- Shouvik Dutta - Technical Solutions Architect @ F5, Inc.
+- Shouvik Dutta - Solutions Architect - Community and Alliances @ F5, Inc.
 
 -------------
 
