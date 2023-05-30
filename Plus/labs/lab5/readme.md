@@ -39,9 +39,7 @@ The Cafe application that you will deploy looks like the following diagram below
     ```
     ![Get pods](media/lab5_get_pods.png)
 
-    **Note:** Ignore the two walkthrough pods as they are part of the UDF lab environment.
-
-1. Check that the Cafe `VirtualServer` , **`cafe-vs`**, is running:
+2. Check that the Cafe `VirtualServer` , **`cafe-vs`**, is running:
 
     ```bash
     kubectl get virtualserver cafe-vs
@@ -257,7 +255,7 @@ What happens if you try just plain  http://cafe.example.com? It should redirect 
 
 ### Authors
 - Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
-- Shouvik Dutta - Technical Solutions Architect @ F5, Inc.
+- Shouvik Dutta - Solutions Architect - Community and Alliances @ F5, Inc.
 
 -------------
 

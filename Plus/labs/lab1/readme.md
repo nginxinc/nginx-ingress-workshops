@@ -102,7 +102,7 @@ https://github.com/nginxinc/nginx-ingress-workshops/blob/main/Plus/labs/LabGuide
 
 ### Authors
 - Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
-- Shouvik Dutta - Solutions Architect - Sales @ F5, Inc.
+- Shouvik Dutta - Solutions Architect - Community and Alliances @ F5, Inc.
 
 -------------
 

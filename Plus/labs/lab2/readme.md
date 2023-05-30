@@ -121,7 +121,7 @@ The NGINX Ingress Controller is a pod running NGINX Plus under the hood, let's g
 
 ### Authors
 - Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
-- Shouvik Dutta - Solutions Architect - Sales @ F5, Inc.
+- Shouvik Dutta - Solutions Architect - Community and Alliances @ F5, Inc.
 
 -------------
 Navigate to ([Lab3](../lab3/readme.md) | [Main Menu](../LabGuide.md))
