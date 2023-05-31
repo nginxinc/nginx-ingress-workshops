@@ -103,7 +103,7 @@ An excellent Prerequisite for taking this Workshop is the NGINX Basics Workshop,
 
 ### Authors
 - Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
-- Shouvik Dutta - Technical Solutions Architect @ F5, Inc.
+- Shouvik Dutta - Solutions Architect - Community and Alliances @ F5, Inc.
 - Jason Williams - Principle Product Management Engineer @ F5, Inc.
 
 <br/>

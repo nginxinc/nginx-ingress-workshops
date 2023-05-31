@@ -42,9 +42,9 @@ The NGINX Ingress Controller is already running in this Workshop. You will be co
 
    In the example above you see: 
 
-   - `Cluster-IP` address of `10.98.133.36`  
+   - `Cluster-IP` address of `10.105.153.177`  
    - `External-IP` address of `10.1.1.100` 
-   - Both IPs are mapped from port `80` to a NodePort (`31871`); and from port `443` to NodePort (`32470`)
+   - Both IPs are mapped from port `80` to a NodePort (`31501`); and from port `443` to NodePort (`30287`)
 
    **NOTE:** 
 
@@ -84,7 +84,7 @@ The NGINX Ingress Controller is already running in this Workshop. You will be co
 
 ### Authors
 - Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
-- Shouvik Dutta - Technical Solutions Architect @ F5, Inc.
+- Shouvik Dutta - Solutions Architect - Community and Alliances @ F5, Inc.
 
 -------------
 

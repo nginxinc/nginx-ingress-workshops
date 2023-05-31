@@ -72,7 +72,7 @@ You will launch a new application, called `Juice Shop`, representing a modern on
 ### Authors
 
 - Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
-- Shouvik Dutta - Technical Solutions Architect @ F5, Inc.
+- Shouvik Dutta - Solutions Architect - Community and Alliances @ F5, Inc.
 
 -------------
 

@@ -70,7 +70,7 @@ Learn how to plan and design your cluster for multiple tentants and teams. How d
 ### Authors
 - Jason Williams - Principle Product Management Engineer @ F5, Inc.
 - Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
-- Shouvik Dutta - Technical Solutions Architect @ F5, Inc.
+- Shouvik Dutta - Solutions Architect - Community and Alliances @ F5, Inc.
 
 -------------
 
