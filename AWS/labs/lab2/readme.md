@@ -15,7 +15,7 @@
      cp nginx-repo.key ~/.docker/certs.d/private-registry.nginx.com/client.key
      ```
 - Optional Step only for Mac and Windows system
-  - Restart Docker Desktop so that it copies the `~/.docker/certs.d` folder on your Mac or Windows system to the `/etc/docker/certs.d` directory on **Moby** (the Docker Desktop `xhyve` virtual machine).
+  - Restart Docker Desktop so that it copies the `~/.docker/certs.d` directory from your Mac or Windows system to the `/etc/docker/certs.d` directory on **Moby** (the Docker Desktop `xhyve` virtual machine).
 
 
 - Run below command to pull the NGINX Plus Ingress Controller image from F5 private container registry.
