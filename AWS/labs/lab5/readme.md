@@ -1,0 +1,55 @@
+## Lab 5: NGINX Plus Dashboard access
+
+## Introduction
+
+In this section, you are going to use the NGINX Plus Dashboard to monitor both NGINX Ingress Controller as well as our backend applications. This is a great feature to allow you to watch and triage any potential issues with NGINX Ingress controller as well as any issues with your backend applications, for example, HTTP response times, healthcheck failures, status codes, TCP connections, SSL sessions, etc.
+
+## Learning Objectives
+
+- Deploy the NGINX Dashboard Service
+- Test access to the Dashboard
+
+### Deploy the NGINX Dashboard Service
+
+We will deploy a `Service` and a `VirtualServer` resource to provide access to the NGINX Plus Dashboard for live monitoring.  NGINX Ingress [`VirtualServer`](https://docs.nginx.com/nginx-ingress-controller/configuration/virtualserver-and-virtualserverroute-resources/) is a [Custom Resource Definition (CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)used by NGINX to configure NGINX Server and Location blocks for NGINX configurations.
+
+
+1. In the `lab5` folder, apply the `dashboard-vs.yaml` file to deploy a `Service` and a `VirtualServer` resource to provide access to the NGINX Plus Dashboard for live monitoring:
+
+    ```bash
+    kubectl apply -f lab5/dashboard-vs.yaml
+    ```
+    ```bash
+    ###Sample output###
+    service/dashboard-svc created
+    virtualserver.k8s.nginx.org/dashboard-vs created
+    ```
+
+## Test access to the Dashboard
+
+1. Open a new Chrome web browser tab, and click the Dashboard Bookmark, or directly open http://dashboard.example.com/dashboard.html
+
+    ![Dashboard](media/lab5_dashboard.png)
+
+    You should see the same NGINX Plus Dashboard as the `kubectl port-forward` test we did previously. Now your dashboard is exposed outside of your cluster at http://dashboard.example.com/dashboard.html.  
+
+    > **_Recommended:_** Leave this Dashboard Window open for the rest of the Workshop, you will refer to it often during later exercises.
+
+    Congratulations! You have successfully configured your Ingress Controller for external access and the NGINX Plus Dashboard.  Next we will deploy some application services and start routing some traffic through NGINX Ingress.
+
+**This completes this Lab.**
+
+## References:
+
+- [NGINX Plus Live Activity
+  Monitoring](https://docs.nginx.com/nginx/admin-guide/monitoring/live-activity-monitoring)
+- [NGINX Plus Dashboard example](http://demo.nginx.com)
+
+### Authors
+- Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
+- Shouvik Dutta - Solutions Architect - Community and Alliances @ F5, Inc.
+
+-------------
+
+Navigate to ([Lab6](../lab6/readme.md) | [Main Menu](../LabGuide.md))
+
