@@ -17,9 +17,45 @@ In this section, you will run the Nginx Plus Ingress Controller in FIPS mode, fo
 - Review the Nginx logs for FIPS related log variables
 
 
-### Review the Nginx Ingress Controller image
+### Review the Nginx Ingress Controller image being used
 
-Check Nginx Version of the NIC image:
+Set the $NIC environment variable:
+
+  Linux:
+
+```bash
+export NIC=$(kubectl get pods -n nginx-ingress -o jsonpath={.items[0].metadata.name})
+```
+
+  Windows:  << to be tested >>
+
+```bash
+NIC%=$(kubectl get pods -n nginx-ingress -o jsonpath={.items[0].metadata.name})
+```
+
+Describe the Nginx Ingress pod:
+
+```bash
+kubectl describe pod $NIC -n nginx-ingress
+```
+
+Output should look like, look for `alpine-fips` in the name:
+
+```bash
+Containers:
+  nginx-plus-ingress:
+    Container ID:  docker://e57d091bac4b7914bb60513ccdbd5d93de37725cfcc4e42a0fdd04ebcc6d8010
+    Image:         private-registry.nginx.com/nginx-ic/nginx-plus-ingress:3.2.0-alpine-fips
+    Image ID:      docker-pullable://private-registry.nginx.com/nginx-ic/nginx-plus-ingress@sha256:d16d23a489f115915c3660fe0b012b6d350e395a316e497d1219fd9c354fb423
+```
+
+Shell into the NIC Container:
+
+```bash
+kubectl exec -it $NIC -n nginx-ingress -- /bin/ash
+```
+
+Check the Versions of Nginx and OpenSSL in the NIC image:
 
 ```bash
 ~ $ nginx -V
@@ -31,17 +67,7 @@ configure arguments: --prefix=/etc/nginx --sbin-path=/usr/sbin/nginx --modules-p
 
 ```
 
-### Verify the NIC - FIPS image is running
-
-If is not running in FIPS mode, you will see a statement like this, when running "nginx -T" to the NIC pod:
-
-```bash
-2023/07/18 15:15:13 [notice] 239#239: OpenSSL FIPS Mode is not enabled
-```
-
-Set the $NIC variable
-
-Kubect Exec into the NIC container, and check the following:
+Verify the Nginx FIPS checker module is configured to load when Nginx starts in the Container:
 
 - Does the nginx.conf file have the FIPS check module loaded?
 
@@ -61,9 +87,26 @@ daemon off;
 
 error_log  stderr notice;
 pid        /var/lib/nginx/nginx.pid;
-load_module modules/ngx_fips_check_module.so;   ### the FIPS checker module is being loaded into memory with NGINX starts
+load_module modules/ngx_fips_check_module.so;   ### the FIPS checker module is being loaded into memory when NGINX starts
 
 ```
+
+
+### Verify the NIC - FIPS image is running
+
+
+
+If is not running in FIPS mode, you will see a statement like this, when running "nginx -T" to the NIC pod:
+
+```bash
+2023/07/18 15:15:13 [notice] 239#239: OpenSSL FIPS Mode is not enabled
+```
+
+Set the $NIC variable
+
+Kubect Exec into the NIC container, and check the following:
+
+
 
 Check the full Nginx config for FIPS related parameters. 
 
@@ -182,33 +225,9 @@ Verify and test that the NGINX Plus Ingress Controller is running in FIPS mode:
 
 ### Verify you are running an NGINX Ingress Controller image with FIPS Openssl
 
-Set the $NIC environment variable, this use this bash alias
 
-```bash
-nic
-```
 
-or
 
-```bash
-export NIC=$(kubectl get pods -n nginx-ingress -o jsonpath={.items[0].metadata.name})
-```
-
-Describe the Nginx Ingress pod:
-
-```bash
-kubectl describe pod $NIC -n nginx-ingress
-```
-
-Output:
-
-```bash
-Containers:
-  nginx-plus-ingress:
-    Container ID:  docker://e57d091bac4b7914bb60513ccdbd5d93de37725cfcc4e42a0fdd04ebcc6d8010
-    Image:         private-registry.nginx.com/nginx-ic/nginx-plus-ingress:3.2.0-alpine-fips
-    Image ID:      docker-pullable://private-registry.nginx.com/nginx-ic/nginx-plus-ingress@sha256:d16d23a489f115915c3660fe0b012b6d350e395a316e497d1219fd9c354fb423
-```
 
 Verify NGINX Ingress is running in FIPS mode.  This message comes from the Nginx FIPS checker module, and is posted to the `nginx error.log` whenever NGINX is started.
 
