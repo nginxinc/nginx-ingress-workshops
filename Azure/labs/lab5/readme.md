@@ -422,3 +422,12 @@ End Jumphost
 -------------
 
 Navigate to [Main Menu](../LabGuide.md)
+
+Notes:
+ - create new VM on UDF, for testing FIPS
+ - added new VM, 2 cpu / 8GB ram, 100GB disk
+ - had to use the VM Console Access in UDF, Webshell would not take these low level commands
+ - installed fips packages, enabled fips boot, followed these general directions:
+ https://infotechys.com/enable-fips-on-rhel7-or-centos7/
+
+ 
