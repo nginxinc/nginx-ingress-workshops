@@ -293,7 +293,7 @@ Type `exit` when you finished with the ash shell to the NIC pod.
 
 <br/>
 
-### Test the TLS ciphers for proper FIPS operation 
+### Test TLS ciphers for proper FIPS operation 
 
 This cipher is not allowed with FIPS, so it should fail:
 ```bash
@@ -395,18 +395,6 @@ closed
 ```
 <br/>
 
-### This completes this lab.
-
-<br/>
-
-### Authors
-
-- Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
-- Shouvik Dutta - Solutions Architect - Community and Alliances @ F5, Inc.
-
--------------
-
-Navigate to ([Preview](../preview.md) | [Main Menu](../LabGuide.md))
 
 End Jumphost
 
@@ -416,11 +404,12 @@ End Jumphost
 
 ## References: 
 
-- [nginx](www.nginx.com)
-
-- [NGINX Plus FIPS Compliance](https://docs.nginx.com/nginx/fips-compliance-nginx-plus/)
+- [NGINX Plus Ingress Controller](https://docs.nginx.com/nginx-ingress-controller/)
+- [NGINX Plus FIPS Compliance Docs](https://docs.nginx.com/nginx/fips-compliance-nginx-plus/)
+- [NGINX Plus FIPS Compliance Blog](https://www.nginx.com/blog/achieving-fips-compliance-nginx-plus/)
 - [NGINX FIPS Status Check](https://docs.nginx.com/nginx/admin-guide/dynamic-modules/fips/)
 - [NGINX FIPS Check Module](https://github.com/ogarrett/nginx-fips-check-module)
+- [NIST FIPS 140-2 Security Requirements](https://csrc.nist.gov/pubs/fips/140-2/upd2/final)
 
 
 <br/>
@@ -432,4 +421,4 @@ End Jumphost
 
 -------------
 
-Navigate to ([Lab1](../lab1/readme.md) | [Main Menu](../LabGuide.md))
+Navigate to [Main Menu](../LabGuide.md)
