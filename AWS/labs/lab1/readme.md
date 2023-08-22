@@ -317,7 +317,7 @@ Take note of the image URIs in your private registry that is created from the fo
    ```bash
    docker images | grep hello-world
    664*********.dkr.ecr.us-east-1.amazonaws.com/shouvik/hello-world   latest              15d53731c307        11 minutes ago      1.23MB
-   armsultan/hello-world                                             latest              15d53731c307        11 minutes ago      1.23MB
+   shodutta/hello-world                                             latest              15d53731c307        11 minutes ago      1.23MB
    ```
 
 6. Push your tagged image to ECR
