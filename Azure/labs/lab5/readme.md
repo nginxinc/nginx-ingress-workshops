@@ -405,6 +405,7 @@ End Jumphost
 ## References: 
 
 - [NGINX Plus Ingress Controller](https://docs.nginx.com/nginx-ingress-controller/)
+- [NGINX Plus Ingress Images](https://docs.nginx.com/nginx-ingress-controller/technical-specifications/#images-with-nginx-plus)
 - [NGINX Plus FIPS Compliance Docs](https://docs.nginx.com/nginx/fips-compliance-nginx-plus/)
 - [NGINX Plus FIPS Compliance Blog](https://www.nginx.com/blog/achieving-fips-compliance-nginx-plus/)
 - [NGINX FIPS Status Check](https://docs.nginx.com/nginx/admin-guide/dynamic-modules/fips/)
@@ -429,5 +430,8 @@ Notes:
  - had to use the VM Console Access in UDF, Webshell would not take these low level commands
  - installed fips packages, enabled fips boot, followed these general directions:
  https://infotechys.com/enable-fips-on-rhel7-or-centos7/
+ - Added new Calico IPpool for new node
+ - Set nodeSelector in the nginx-plus-ingress.yaml Manifest
+ 
 
  
