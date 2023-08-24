@@ -11,7 +11,7 @@ In this section, you will learn how to create your own 3 node AKS cluster using 
 - Setting up Azure CLI in your local workstation.
 - Deploy a Kubernetes Cluster within Azure using Azure CLI.
 - Creating an Azure Container Registry (ACR) using Azure CLI.
-- 
+- Pushing a test container image to the newly created Private ACR registry.
 
 ## What is Azure AKS?
 
