@@ -111,10 +111,15 @@ az --version
         --enable-addons monitoring \
         --generate-ssh-keys
    ```
-   **NOTE:** At the time of this writing 1.27 is the latest kubernetes version that Azure AKS supports. To list all possible node vm types you can run below command
+   **Note 1**: At the time of this writing, 1.27 is the latest kubernetes version that Azure AKS supports. 
+
+   **Note 2**: To make all the nodes have FIPS-enabled OS, you can include `--enable-fips-image` flag with the `az aks create` command.
+   
+   **Note 3**: To list all possible vm sizes that an AKS node can use, run below command
    ```bash
    az vm list-sizes --location centralus --output table
    ```
+
 
 2. ***Optional**: If kubectl ultility tool is not installed in your workstation then you can install `kubectl` locally using below command:
    ```bash
