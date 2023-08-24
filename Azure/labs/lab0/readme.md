@@ -240,12 +240,12 @@ We can quickly test the ability to push images to our Private ACR from our clien
    ```bash
    MY_ACR=acrshouvik
    MY_REPO=nginxinc/ingress-demo
-   MY_VERSION=v1
+   MY_TAG=v1
    MY_IMAGE_ID=$(docker images nginxinc/ingress-demo --format "{{.ID}}")
 
    set| grep MY_
 
-   docker tag $MY_IMAGE_ID $MY_ACR.azurecr.io/$MY_REPO:$MY_VERSION
+   docker tag $MY_IMAGE_ID $MY_ACR.azurecr.io/$MY_REPO:$MY_TAG
    ```
 
 1. Your newly tagged image is now listed under `docker images`:
