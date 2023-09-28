@@ -4,7 +4,7 @@
 
 ## Introduction
 
-In this section, you will learn how to create your own 3 node AKS cluster using Azure CLI. You will also learn how to create a new private Azure Container Registry and push a test container image to the newly created private registry.
+In this section, you will learn how to create your own 3 node AKS cluster using Azure CLI. You will also learn how to create a new private Azure Container Registry and push a test container image to the newly created private registry. Finally, you will pull NGINX Plus Ingress Controller Image and push it to the private registry.
 <br/>
 
 ## Learning Objectives
@@ -12,6 +12,7 @@ In this section, you will learn how to create your own 3 node AKS cluster using 
 - Deploy a Kubernetes Cluster within Azure using Azure CLI.
 - Creating an Azure Container Registry (ACR) using Azure CLI.
 - Pushing a test container image to the newly created Private ACR registry.
+- Pulling NGINX Plus Ingress Controller Image using Docker and pushing to private ACR Registry
 
 ## What is Azure AKS?
 
@@ -66,12 +67,12 @@ az --version
     az login
     ``` 
 
-1. Once you have logged in you can run below command to validate your tenent and subscription ID and name.
+2. Once you have logged in you can run below command to validate your tenent and subscription ID and name.
    ```bash
    az account show 
    ```
 
-1. Optional: If you have multiple subscriptions and would like to change the current subscription to another then run below command.
+3. Optional: If you have multiple subscriptions and would like to change the current subscription to another then run below command.
    ```bash
    # change the active subscription using the subscription name
    az account set --subcription "{subscription name}"
@@ -82,7 +83,7 @@ az --version
    az account set --subscription "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"  
    ```
 
-1. Create a new Azure resource group which would hold all the Azure resources that you would create for this workshop.
+4. Create a new Azure resource group which would hold all the Azure resources that you would create for this workshop.
    ```bash
    az group create --name s.dutta --location centralus
    ```
@@ -225,7 +226,7 @@ We can quickly test the ability to push images to our Private ACR from our clien
    docker pull nginxinc/ingress-demo
    ```
 
-1. Get the image ID so we can tag it on the next step
+2. Get the image ID so we can tag it on the next step
 
    ```bash
    docker images | grep ingress-demo
@@ -235,7 +236,7 @@ We can quickly test the ability to push images to our Private ACR from our clien
    nginxinc/ingress-demo                latest    73ba987f213a   2 years ago   23MB
    ```
 
-1. Tag the image with your registry login server name
+3. Tag the image with your registry login server name
 
    ```bash
    MY_ACR=acrshouvik
@@ -248,7 +249,7 @@ We can quickly test the ability to push images to our Private ACR from our clien
    docker tag $MY_IMAGE_ID $MY_ACR.azurecr.io/$MY_REPO:$MY_TAG
    ```
 
-1. Your newly tagged image is now listed under `docker images`:
+4. Your newly tagged image is now listed under `docker images`:
    
    ```bash
    docker images | grep ingress-demo
@@ -259,14 +260,14 @@ We can quickly test the ability to push images to our Private ACR from our clien
    nginxinc/ingress-demo                         latest    73ba987f213a   2 years ago   23MB
    ```
 
-1. Push your tagged image to ACR
+5. Push your tagged image to ACR
 
    ```bash
    # you can get copy the docker image name from the last step 
    docker push acrshouvik.azurecr.io/nginxinc/ingress-demo:v1 
    ```
 
-2. Check if the image was successfully pushed to ACR using the azure cli command below
+6. Check if the image was successfully pushed to ACR using the azure cli command below
 
    ```bash
    MY_ACR=acrshouvik
@@ -278,6 +279,63 @@ We can quickly test the ability to push images to our Private ACR from our clien
    ---------------------
    nginxinc/ingress-demo
    ```
+
+## Pulling NGINX Plus Ingress Controller Image using Docker and pushing to private ACR Registry
+
+1. First you need to configure the Docker environment to use certificate-based client-server authentication with F5 private container registry `private-registry.nginx.com`.<br/>
+To do so create a `private-registry.nginx.com` directory under below paths based on your operating system. (See references section for more details)
+     -  **linux** : `/etc/docker/certs.d`
+     -  **mac** : `~/.docker/certs.d`
+     -  **windows** : `~/.docker/certs.d` 
+
+
+2. Copy `nginx-repo.crt` and `nginx-repo.key` file in the newly created directory.
+     -  Below are the commands for mac/windows based systems
+        ```bash
+        mkdir ~/.docker/certs.d/private-registry.nginx.com
+        cp nginx-repo.crt ~/.docker/certs.d/private-registry.nginx.com/client.cert
+        cp nginx-repo.key ~/.docker/certs.d/private-registry.nginx.com/client.key
+        ```  
+
+3. ***Optional** Step only for Mac and Windows system
+     - Restart Docker Desktop so that it copies the `~/.docker/certs.d` directory from your Mac or Windows system to the `/etc/docker/certs.d` directory on **Moby** (the Docker Desktop `xhyve` virtual machine).
+
+4. Once Docker Desktop has restarted, run below command to pull the NGINX Plus Ingress Controller image from F5 private container registry.
+    ```bash
+    docker pull private-registry.nginx.com/nginx-ic/nginx-plus-ingress:3.2.1
+    ```
+    **Note**: At the time of this writing 3.2.1 is the latest NGINX Plus Ingress version that is available. Please feel free to use the latest version of NGINX Plus Ingress Controller. Look into references for latest Ingress images.
+
+5. Set below variables to tag and push image to AWS ECR
+    ```bash
+    MY_ACR=acrshouvik
+    MY_REPO=nginxinc/nginx-plus-ingress
+    MY_TAG=3.2.1
+    MY_IMAGE_ID=$(docker images private-registry.nginx.com/nginx-ic/nginx-plus-ingress:$MY_TAG --format "{{.ID}}") 
+    ```
+    Check all variables have been set properly by running below command:
+    ```bash
+    set | grep MY_
+    ```
+
+6. After setting the variables, tag the pulled NGINX Plus Ingress image using below command
+    ```bash
+    docker tag $MY_IMAGE_ID $MY_ACR.azurecr.io/$MY_REPO:$MY_TAG
+    ```
+7. Login to the ACR registry using below command. 
+   ```bash
+   az acr login --name $MY_ACR
+   ```
+
+8. Push your tagged image to ACR registry
+   ```bash
+   docker push $MY_ACR.azurecr.io/$MY_REPO:$MY_TAG
+   ```
+
+9. Once pushed you can check the image by running below command
+    ```bash
+    az acr repository list --name $MY_ACR --output table
+    ```
 
 ## Delete your AKS cluster and other resources associated to cluster
 
@@ -300,6 +358,11 @@ You can easily delete your AKS cluster using the Azure CLI
 - [Azure CLI command list for AKS](https://learn.microsoft.com/en-us/cli/azure/aks?view=azure-cli-latest)
 - [Create private container registry using Azure CLI](https://learn.microsoft.com/en-us/azure/container-registry/container-registry-get-started-azure-cli)
 - [Azure CLI command list for ACR](https://learn.microsoft.com/en-us/cli/azure/acr?view=azure-cli-latest)
+- [Pulling NGINX Plus Ingress Controller Image](https://docs.nginx.com/nginx-ingress-controller/installation/pulling-ingress-controller-image)
+- [Add Client Certificate Mac](https://docs.docker.com/desktop/faqs/macfaqs/#add-client-certificates)
+- [Add Client Certificate Windows](https://docs.docker.com/desktop/faqs/windowsfaqs/#how-do-i-add-client-certificates)
+- [Docker Engine Security Documentation](https://docs.docker.com/engine/security/certificates/)
+- [Latest NGINX Plus Ingress Images](https://docs.nginx.com/nginx-ingress-controller/technical-specifications/#images-with-nginx-plus)
 <br/>
 
 ### Authors
