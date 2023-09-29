@@ -1,10 +1,10 @@
-# Lab 5: Deploying NGINX Ingress with FIPS for AKS
+# Lab 5: Deploying NGINX Ingress with FIPS in AKS
 
 <br/>
 
 ## Introduction
 
-In this section, you will run the Nginx Plus Ingress Controller in FIPS mode, for compliance with Federal Information Processing Systems 140-2 Level 1 requirements.  A FIPS compliant image will be used, configured, and tested to verify that the Nginx Plus Ingress Controller meets this requirement.
+In this section, you will run the NGINX Plus Ingress Controller in FIPS mode, for compliance with Federal Information Processing Systems 140-2 Level 1 requirements.  A FIPS compliant NGINX Ingress image will be used, configured, and tested to verify that the Nginx Plus Ingress Controller meets this requirement.  You will also verify that the Kubernetes nodes are also FIPS compliant.
 
 <br/>
 
@@ -16,8 +16,9 @@ In this section, you will run the Nginx Plus Ingress Controller in FIPS mode, fo
 - Verify the NIC is not passing non-compliant traffic
 - Review the Nginx logs for FIPS related log variables
 
+<br/>
 
-### Review the Nginx Ingress Controller image being used
+### Review the NGINX Ingress Controller image being used
 
 Set the $NIC environment variable:
 
@@ -33,13 +34,13 @@ export NIC=$(kubectl get pods -n nginx-ingress -o jsonpath={.items[0].metadata.n
 NIC%=$(kubectl get pods -n nginx-ingress -o jsonpath={.items[0].metadata.name})
 ```
 
-Describe the Nginx Ingress pod:
+Describe the NGINX Ingress pod:
 
 ```bash
 kubectl describe pod $NIC -n nginx-ingress
 ```
 
-Output should look like this, look for `alpine-fips` in the Image name:
+Output should be similar to this, look for `alpine-fips` in the Image name:
 
 ```bash
 Containers:
@@ -49,16 +50,41 @@ Containers:
     Image ID:      docker-pullable://private-registry.nginx.com/nginx-ic/nginx-plus-ingress@sha256:d16d23a489f115915c3660fe0b012b6d350e395a316e497d1219fd9c354fb423
 ```
 
-Shell into the NIC Container:
+Kube Exec to an Alpine Shell into the NIC Container:
+
+Check if the Alpine OS is running in FIPS mode:
+
+```bash
+~ $ sysctl -a |grep fips
+```
+
+Output should be similar to this:
+
+```bash
+crypto.fips_enabled = 1    # the Alpine OS is running in FIPS mode
+
+```
+
+***If the value = 0, Alpine is not running in FIPS mode!**:
+
+```bash
+crypto.fips_enabled = 0    # the Alpine OS is NOT running in FIPS mode
+
+```
 
 ```bash
 kubectl exec -it $NIC -n nginx-ingress -- /bin/ash
 ```
 
-Review the Versions of Nginx and OpenSSL in the NIC image:
+Review the Version of NGINX in the NIC image:
 
 ```bash
 ~ $ nginx -V
+```
+
+Output should be similar to this:
+
+```bash
 nginx version: nginx/1.23.4 (nginx-plus-r29)
 built by gcc 12.2.1 20220924 (Alpine 12.2.1_git20220924-r10) 
 built with OpenSSL 3.1.1 30 May 2023
@@ -66,14 +92,16 @@ TLS SNI support enabled
 configure arguments: --prefix=/etc/nginx --sbin-path=/usr/sbin/nginx --modules-path=/usr/lib/nginx/modules --conf-path=/etc/nginx/nginx.conf --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --pid-path=/var/run/nginx.pid --lock-path=/var/run/nginx.lock --http-client-body-temp-path=/var/cache/nginx/client_temp --http-proxy-temp-path=/var/cache/nginx/proxy_temp --http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp --http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp --http-scgi-temp-path=/var/cache/nginx/scgi_temp --with-perl_modules_path=/usr/lib/perl5/vendor_perl --user=nginx --group=nginx --with-compat --with-file-aio --with-threads --with-http_addition_module --with-http_auth_request_module --with-http_dav_module --with-http_flv_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_mp4_module --with-http_random_index_module --with-http_realip_module --with-http_secure_link_module --with-http_slice_module --with-http_ssl_module --with-http_stub_status_module --with-http_sub_module --with-http_v2_module --with-mail --with-mail_ssl_module --with-stream --with-stream_realip_module --with-stream_ssl_module --with-stream_ssl_preread_module --build=nginx-plus-r29 --with-http_auth_jwt_module --with-http_f4f_module --with-http_hls_module --with-http_proxy_protocol_vendor_module --with-http_session_log_module --with-stream_mqtt_filter_module --with-stream_mqtt_preread_module --with-stream_proxy_protocol_vendor_module --with-cc-opt='-Os -Wformat -Werror=format-security -g' --with-ld-opt='-Wl,--as-needed,-O1,--sort-common -Wl,-z,pack-relative-relocs'
 ```
 
-Verify the Nginx FIPS check module is configured to load when Nginx starts in the Container, check the nginx.conf file:
-
-Output should be similar to this:
+Verify the `NGINX FIPS check module` is configured to load when NGINX starts in the Container, check the nginx.conf file:
 
 ```bash
 cd /etc/nginx $
 more nginx.conf
+```
 
+Output should be similar to this:
+
+```bash
 worker_processes  auto;
 
 daemon off;
@@ -84,7 +112,7 @@ load_module modules/ngx_fips_check_module.so;   ### the FIPS checker module is b
 
 ```
 
-Check the full Nginx config for FIPS related parameters. 
+Check the entire NGINX configuration for FIPS related parameters. 
 
 ```bash
 ~$ nginx -T |grep FIPS
@@ -105,7 +133,6 @@ load_module modules/ngx_fips_check_module.so;                       ## FIPS chec
 ### Verify the NIC - FIPS image is running
 
 
-
 If is not running in FIPS mode, you will see a statement like this, when running "nginx -T" to the NIC pod:
 
 ```bash
@@ -117,26 +144,30 @@ Set the $NIC variable
 Kubect Exec into the NIC container, and check the following:
 
 
-
-
-
-Confirm OpenSSL is capable of FIPS processing
-
+### Verify the Version of OpenSSL, and FIPS mode is available
 
 Check the OpenSSL version:
 
 ```bash
-
 ~ $ openssl version
+```
+
+Output should be similar to this:
+
+```bash
 OpenSSL 3.1.1 30 May 2023 (Library: OpenSSL 3.1.1 30 May 2023)
 
 ```
 
-List the providers:
+List the SSL providers:
 
 ```bash
-
 ~ $ openssl list -providers
+```
+
+Output should be similar to this:
+
+```bash
 Providers:
   base
     name: OpenSSL Base Provider
@@ -150,9 +181,14 @@ Providers:
 ```
 
 Verify SHA1 works as expected:
-```bash
 
+```bash
 ~ $ openssl sha1 /dev/null
+```
+
+Output should be similar to this:
+
+```bash
 SHA1(/dev/null)= da39a3ee5e6b4b0d3255bfef95601890afd80709
 
 ```
@@ -161,26 +197,22 @@ Verify MD5 is not working (MD5 is not a permitted hash with FIPS):
 
 ```bash
 ~ $ openssl md5 /dev/null
+```
+
+Output should be similar to this:
+
+```bash
 Error setting digest
 489B8712157F0000:error:0308010C:digital envelope routines:inner_evp_generic_fetch:unsupported:crypto/evp/evp_fetch.c:341:Global default library context, Algorithm (MD5 : 94), Properties ()
 489B8712157F0000:error:03000086:digital envelope routines:evp_md_init_internal:initialization error:crypto/evp/digest.c:272:
 
 ```
 
-If the MD5 hash DOES work, **NIC is not running in FIPS mode!**:
+***If the MD5 hash DOES work, NIC is not running in FIPS mode!**:
 
 ```bash
 ~ $ openssl md5 /dev/null
 MD5(/dev/null)= d41d8cd98f00b204e9800998ecf8427e
-```
-
-Check if the Alpine OS is running in FIPS mode:
-
-```bash
-
-~ $ sysctl -a |grep fips
-crypto.fips_enabled = 0
-
 ```
 
 
