@@ -11,73 +11,141 @@ In this section, you will ...
 - one
 - two 
 
-## Pulling NGINX Plus Ingress Controller Image using Docker and pushing to private ACR Registry
+## Install NGINX Plus Ingress Controller using Manifest files
 
-1. First you need to configure the Docker environment to use certificate-based client-server authentication with F5 private container registry `private-registry.nginx.com`.<br/>
-To do so create a `private-registry.nginx.com` directory under below paths based on your operating system. (See references section for more details)
-     -  **linux** : `/etc/docker/certs.d`
-     -  **mac** : `~/.docker/certs.d`
-     -  **windows** : `~/.docker/certs.d` 
+1. Make sure your AKS cluster is running. If it is in stopped state then you can start it using below command
+   ```bash
+   MY_RESOURCEGROUP=s.dutta
+   MY_AKS=aks-shouvik
 
+   az aks start --resource-group $MY_RESOURCEGROUP --name $MY_AKS
+   ```
+   **Note**: The FQDN for API server for AKS might change on restart of the cluster which would result in errors running `kubectl` commands from your workstation. To update the FQDN re-import the credentials again using below command. This command would prompt about overwriting old objects. Enter "y" to overwrite the existing objects.
+   ```bash
+   az aks get-credentials --resource-group $MY_RESOURCEGROUP --name $MY_AKS
+   ```
+   ```bash
+   ##Sample Output##
+   A different object named aks-shouvik already exists in your kubeconfig file.
+   Overwrite? (y/n): y
+   A different object named clusterUser_s.dutta_aks-shouvik already exists in your kubeconfig file.
+   Overwrite? (y/n): y
+   Merged "aks-shouvik" as current context in /Users/shodutta/.kube/config
+   ```
 
-1. Copy `nginx-repo.crt` and `nginx-repo.key` file in the newly created directory.
-     -  Below are the commands for mac/windows based systems
+1. Clone the Ingress Controller repo and navigate into the deployments folder to make it your working directory:
+   ```bash
+   git clone https://github.com/nginxinc/kubernetes-ingress.git --branch v3.2.1
+   cd kubernetes-ingress/deployments
+   ```
+
+1. Create a namespace and a service account for the Ingress Controller
+    ```bash
+    kubectl apply -f common/ns-and-sa.yaml
+    ```
+1. Create a cluster role and cluster role binding for the service account
+    ```bash
+    kubectl apply -f rbac/rbac.yaml
+    ```
+
+1. Create Common Resources:
+     1. Create a secret with TLS certificate and a key for the default server in NGINX.
         ```bash
-        mkdir ~/.docker/certs.d/private-registry.nginx.com
-        cp nginx-repo.crt ~/.docker/certs.d/private-registry.nginx.com/client.cert
-        cp nginx-repo.key ~/.docker/certs.d/private-registry.nginx.com/client.key
-        ```  
+        cd ..
+        kubectl apply -f examples/shared-examples/default-server-secret/default-server-secret.yaml
+        cd deployments
+        ```
+     1. Create a config map for customizing NGINX configuration.
+        ```bash
+        kubectl apply -f common/nginx-config.yaml
+        ```
+     1. Create an IngressClass resource. (**Note:** If you would like to set the NGINX Ingress Controller as the default one, uncomment the annotation `ingressclass.kubernetes.io/is-default-class` within the below file)
+        ```bash
+        kubectl apply -f common/ingress-class.yaml
+        ```
 
-1. ***Optional** Step only for Mac and Windows system
-     - Restart Docker Desktop so that it copies the `~/.docker/certs.d` directory from your Mac or Windows system to the `/etc/docker/certs.d` directory on **Moby** (the Docker Desktop `xhyve` virtual machine).
+1. Create Custom Resources
+    1. Create custom resource definitions for VirtualServer and VirtualServerRoute, TransportServer and Policy resources:
+        ```bash
+        kubectl apply -f common/crds/k8s.nginx.org_virtualservers.yaml
+        kubectl apply -f common/crds/k8s.nginx.org_virtualserverroutes.yaml
+        kubectl apply -f common/crds/k8s.nginx.org_transportservers.yaml
+        kubectl apply -f common/crds/k8s.nginx.org_policies.yaml
+        ```
+   
+    1. Create a custom resource for GlobalConfiguration resource:
+        ```bash
+        kubectl apply -f common/crds/k8s.nginx.org_globalconfigurations.yaml
+        ```
+1. Deploy the Ingress Controller as a Deployment:
 
-1. Once Docker Desktop has restarted, run below command to pull the NGINX Plus Ingress Controller image from F5 private container registry.
-    ```bash
-    docker pull private-registry.nginx.com/nginx-ic/nginx-plus-ingress:3.2.1
-    ```
-    **Note**: At the time of this writing 3.2.1 is the latest NGINX Plus Ingress version that is available. Please feel free to use the latest version of NGINX Plus Ingress Controller. Look into references for latest Ingress images.
+   The sample deployment file(`nginx-plus-ingress.yaml`) can be found within `deployment` sub-directory within your present working directory.
 
-1. Set below variables to tag and push image to AWS ECR
+   Highlighted below are some of the parameters that would be changed in the sample `nginx-plus-ingress.yaml` file.
+   - Change Image Pull to Private Repo
+   - Enable Prometheus
+   - Add port and name for dashboard
+   - Change Dashboard Port to 9000
+   - Allow all IPs to access dashboard
+   
+   <br/>
+
+   Navigate to Azure/labs directory 
     ```bash
-    MY_ACR=acrshouvik
-    MY_REPO=nginxinc/nginx-plus-ingress
-    MY_TAG=3.2.1
-    MY_IMAGE_ID=$(docker images private-registry.nginx.com/nginx-ic/nginx-plus-ingress:$MY_TAG --format "{{.ID}}") 
+    cd ../../Azure/labs
     ```
-    Check all variables have been set properly by running below command:
+  
+    Observe the `lab1/nginx-plus-ingress.yaml` looking at below details:
+     - On line #36, we have replaced the `nginx-plus-ingress:3.2.1` placeholder with a workshop image that we pushed in the private ACR registry.
+     - On lines #50-51, we have added TCP port 9000 for the Plus Dashboard.
+     - On lines #96-97, we have enabled the Dashboard and set the IP access controls to the Dashboard.
+     - On line #106, we have enabled Prometheus to collect metrics from the NginxPlus stats API.
+     - On lines #16-19, we have enabled Prometheus related annotations.
+
+    <br/>
+
+    Now deploy NGINX Plus Ingress Controller as a Deployment using the updated manifest file.
     ```bash
-    set | grep MY_
+    kubectl apply -f lab1/nginx-plus-ingress.yaml
     ```
 
-1. After setting the variables, tag the pulled NGINX Plus Ingress image using below command
-    ```bash
-    docker tag $MY_IMAGE_ID $MY_ACR.azurecr.io/$MY_REPO:$MY_TAG
-    ```
-1. Login to the ACR registry using below command. 
+## Check your Ingress Controller
+
+1. Verify the NGINX Plus Ingress controller is up and running correctly in the Kubernetes cluster:
+
    ```bash
-   az acr login --name $MY_ACR
+   kubectl get pods -n nginx-ingress
    ```
 
-1. Push your tagged image to ACR registry
    ```bash
-   docker push $MY_ACR.azurecr.io/$MY_REPO:$MY_TAG
+   # Should look similar to this...
+   NAME                            READY   STATUS    RESTARTS   AGE
+   nginx-ingress-5764ddfd78-ldqcs   1/1     Running   0          17s
    ```
 
-1. Once pushed you can check the image by running below command
-    ```bash
-    az acr repository list --name $MY_ACR --output table
-    ```
-    
+   **Note**: You must use the `kubectl` "`-n`", namespace switch, followed by namespace name, to see pods that are not in the default namespace.
+
+2. Instead of remembering the unique pod name, `nginx-ingress-xxxxxx-yyyyy`, we can store the Ingress Controller pod name into the `$NIC` variable to be used throughout the lab.
+
+   **Note:** This variable is stored for the duration of the terminal session, and so if you close the terminal it will be lost. At any time you can refer back to this step to save the `$NIC` variable again.
+
+   ```bash
+   export NIC=$(kubectl get pods -n nginx-ingress -o jsonpath='{.items[0].metadata.name}')
+   ```
+
+   Verify the variable is set correctly.
+   ```bash
+   echo $NIC
+   ```
+   **Note:** If this command doesn't show the name of the pod then run the previous command again.
+
+
 **This completes the Lab.** 
 <br/>
 
 ## References: 
 
-- [Pulling NGINX Plus Ingress Controller Image](https://docs.nginx.com/nginx-ingress-controller/installation/pulling-ingress-controller-image)
-- [Add Client Certificate Mac](https://docs.docker.com/desktop/faqs/macfaqs/#add-client-certificates)
-- [Add Client Certificate Windows](https://docs.docker.com/desktop/faqs/windowsfaqs/#how-do-i-add-client-certificates)
-- [Docker Engine Security Documentation](https://docs.docker.com/engine/security/certificates/)
-- [Latest NGINX Plus Ingress Images](https://docs.nginx.com/nginx-ingress-controller/technical-specifications/#images-with-nginx-plus)
+-sdlafj
 <br/>
 
 ### Authors
