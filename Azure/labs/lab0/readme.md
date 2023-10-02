@@ -4,7 +4,7 @@
 
 ## Introduction
 
-In this section, you will learn how to create your own 3 node AKS cluster using Azure CLI. You will also learn how to create a new private Azure Container Registry and push a test container image to the newly created private registry. Finally, you will pull NGINX Plus Ingress Controller Image and push it to the private registry.
+In this section, you will learn how to create your own 3 node AKS cluster using Azure CLI. You will also learn how to create a new private Azure Container Registry and push a test container image to the newly created private registry. You will then attach the newly created private registry to the AKS cluster. Finally, you will pull NGINX Plus Ingress Controller Image and push it to the private registry.
 <br/>
 
 ## Learning Objectives
@@ -12,6 +12,7 @@ In this section, you will learn how to create your own 3 node AKS cluster using 
 - Deploy a Kubernetes Cluster within Azure using Azure CLI.
 - Creating an Azure Container Registry (ACR) using Azure CLI.
 - Pushing a test container image to the newly created Private ACR registry.
+- Attaching ACR to AKS cluster using Azure CLI.
 - Pulling NGINX Plus Ingress Controller Image using Docker and pushing to private ACR Registry
 
 ## What is Azure AKS?
@@ -280,10 +281,23 @@ We can quickly test the ability to push images to our Private ACR from our clien
    nginxinc/ingress-demo
    ```
 
+## Attach an Azure Container Registry (ACR) to Azure Kubernetes cluster (AKS)
+
+1. You will attach the newly created ACR to your AKS cluster. This will enable you to pull private images within AKS cluster directly from the your ACR. Run below command to attach ACR to AKS
+   ```bash
+   MY_RESOURCEGROUP=s.dutta
+   MY_AKS=aks-shouvik
+   MY_ACR=acrshouvik
+
+   az aks update -n $MY_AKS -g $MY_RESOURCEGROUP --attach-acr $MY_ACR
+   ```
+   **NOTE:** You need the Owner, Azure account administrator, or Azure co-administrator role on your Azure subscription. To avoid needing one of these roles, you can instead use an existing managed identity to authenticate ACR from AKS. See [references](#references) for more details.
+
+
 ## Pulling NGINX Plus Ingress Controller Image using Docker and pushing to private ACR Registry
 
 1. First you need to configure the Docker environment to use certificate-based client-server authentication with F5 private container registry `private-registry.nginx.com`.<br/>
-To do so create a `private-registry.nginx.com` directory under below paths based on your operating system. (See references section for more details)
+To do so create a `private-registry.nginx.com` directory under below paths based on your operating system. (See [references](#references) section for more details)
      -  **linux** : `/etc/docker/certs.d`
      -  **mac** : `~/.docker/certs.d`
      -  **windows** : `~/.docker/certs.d` 
@@ -304,7 +318,7 @@ To do so create a `private-registry.nginx.com` directory under below paths based
     ```bash
     docker pull private-registry.nginx.com/nginx-ic/nginx-plus-ingress:3.2.1
     ```
-    **Note**: At the time of this writing 3.2.1 is the latest NGINX Plus Ingress version that is available. Please feel free to use the latest version of NGINX Plus Ingress Controller. Look into references for latest Ingress images.
+    **Note**: At the time of this writing 3.2.1 is the latest NGINX Plus Ingress version that is available. Please feel free to use the latest version of NGINX Plus Ingress Controller. Look into [references](#references) for latest Ingress images.
 
 5. Set below variables to tag and push image to AWS ECR
     ```bash
@@ -358,6 +372,7 @@ You can easily delete your AKS cluster using the Azure CLI
 - [Azure CLI command list for AKS](https://learn.microsoft.com/en-us/cli/azure/aks?view=azure-cli-latest)
 - [Create private container registry using Azure CLI](https://learn.microsoft.com/en-us/azure/container-registry/container-registry-get-started-azure-cli)
 - [Azure CLI command list for ACR](https://learn.microsoft.com/en-us/cli/azure/acr?view=azure-cli-latest)
+- [Authenticate with ACR from AKS cluster](https://learn.microsoft.com/en-us/azure/container-registry/authenticate-kubernetes-options#scenarios)
 - [Pulling NGINX Plus Ingress Controller Image](https://docs.nginx.com/nginx-ingress-controller/installation/pulling-ingress-controller-image)
 - [Add Client Certificate Mac](https://docs.docker.com/desktop/faqs/macfaqs/#add-client-certificates)
 - [Add Client Certificate Windows](https://docs.docker.com/desktop/faqs/windowsfaqs/#how-do-i-add-client-certificates)
