@@ -101,6 +101,9 @@ In this section, you will ...
      - On lines #96-97, we have enabled the Dashboard and set the IP access controls to the Dashboard.
      - On line #106, we have enabled Prometheus to collect metrics from the NginxPlus stats API.
      - On lines #16-19, we have enabled Prometheus related annotations.
+    (Check this two below lines with Chris)
+     - On line #65, ...?
+     - On line #95, uncomment to make use of default TLS secret. ...?
 
     <br/>
 
@@ -138,6 +141,61 @@ In this section, you will ...
    echo $NIC
    ```
    **Note:** If this command doesn't show the name of the pod then run the previous command again.
+
+## Check the NIC Plus Dashboard (Optional)
+
+1. Using Kubernetes [port-forwarding](https://kubernetes.io/docs/tasks/access-application-cluster/port-forward-access-application-cluster/), see if the dashboard is running on port `9000`. Using the VScode terminal pane, run the following `kubectl port-forward` command:
+
+   ```bash
+   kubectl port-forward -n nginx-ingress $NIC 9000:9000
+   ```
+
+1. Now open Chrome web browser to view the NGINX Plus Dashboard, at [http://localhost:9000/dashboard.html](http://localhost:9000/dashboard.html). 
+   
+   Do you see the NGINX Plus Dashboard? If so, your Ingress Controller pod is up and running!
+
+   ![NPlus Dashboard](./media/NplusDashboard-port-forward.png)
+
+   **Question - Why is there almost nothing else to see?**  
+
+   <details><summary>Click for Hints!</summary>
+   <br/>
+   <p>
+   <strong>Answer</strong> – you have not configured the Ingress Controller to handle any traffic yet, but you will in the next Lab.
+   </p>
+   </details>
+   </br>
+
+2. Close Chrome Web Browser, and hit `Control-C` in the terminal to stop the Port Forward.
+
+   ![stop port-forward](media/port-forward-ctrl-c.png)
+
+## Take a look "under the hood" of Ingress Controller
+
+The NGINX Ingress Controller is a pod running NGINX Plus under the hood, let's go check it out.
+
+1. Use the VScode Terminal to enter a shell in the NGINX Ingress Controller pod by running the [`kubectl exec`](https://kubernetes.io/docs/tasks/debug-application-cluster/get-shell-running-container/) command 
+
+   ```bash
+   kubectl exec -it $NIC -n nginx-ingress -- /bin/bash
+   ```
+
+2. Once inside a shell in the NGINX Ingress Controller pod, run the following commands to inspect the root NGINX configuration:
+
+   ```bash
+   cd /etc/nginx
+   more nginx.conf
+   ```
+
+   If you have worked with NGINX config files, it should look very similar!
+
+3. Type `q ` to quit viewing the `nginx.conf `
+
+   ![q to quit more](media/more-command-q-quit.png)
+
+4. Type `exit` to close the connection to the Ingress pod.
+
+   ![exit-to-exit-pod](media/exit-to-exit-pod.png)
 
 
 **This completes the Lab.** 
