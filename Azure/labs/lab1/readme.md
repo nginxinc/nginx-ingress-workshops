@@ -13,7 +13,7 @@ In this section, you will ...
 
 ## Install NGINX Plus Ingress Controller using Manifest files
 
-1. Make sure your AKS cluster is running. If it is in stopped state then you can start it using below command
+1. Make sure your AKS cluster is running. If it is in stopped state then you can start it using below command. 
    ```bash
    MY_RESOURCEGROUP=s.dutta
    MY_AKS=aks-shouvik
@@ -99,7 +99,7 @@ In this section, you will ...
      - On line #36, we have replaced the `nginx-plus-ingress:3.2.1` placeholder with a workshop image that we pushed in the private ACR registry.
      - On lines #50-51, we have added TCP port 9000 for the Plus Dashboard.
      - On lines #96-97, we have enabled the Dashboard and set the IP access controls to the Dashboard.
-     - On line #106, we have enabled Prometheus to collect metrics from the NginxPlus stats API.
+     - On line #106, we have enabled Prometheus to collect metrics from the NGINX Plus stats API.
      - On lines #16-19, we have enabled Prometheus related annotations.
     (Check this two below lines with Chris)
      - On line #65, ...?
@@ -170,7 +170,7 @@ In this section, you will ...
 
    ![stop port-forward](media/port-forward-ctrl-c.png)
 
-## Take a look "under the hood" of Ingress Controller
+## Take a look "under the hood" of Ingress Controller (Optional)
 
 The NGINX Ingress Controller is a pod running NGINX Plus under the hood, let's go check it out.
 
@@ -197,13 +197,102 @@ The NGINX Ingress Controller is a pod running NGINX Plus under the hood, let's g
 
    ![exit-to-exit-pod](media/exit-to-exit-pod.png)
 
+## Getting Access to NGINX Ingress Controller using LoadBalancer Service
+
+In this section you will give the Ingress Controller a Public IP address from the Azure's IP Address Mgmt system. 
+
+1. Inspect the `lab1/loadbalancer.yaml` manifest. You can see that port `80` and `443` are being opened and we are requesting an external IP address. This will give the Ingress Controller a static private IP address from an IP address management system in the lab.
+ 
+   ![loadbalancer.yaml](media/lab1_loadbalancer.png)
+
+   **Note:** This WILL expose your Ingress Controller to the open Internet with `NO PROTECTION` other than basic TCP port filters. Doing this in production would require Security/Firewall Protections, which are not part of this lab exercise.
+   
+2. Apply the above manifest to deploy loadbalancer service:
+   ```bash
+   kubectl apply -f lab1/loadbalancer.yaml
+   ```
+  
+3. Confirm there is an `nginx-ingress` service with `TYPE: LoadBalancer`. Run the following command to get networking details of our pod:
+
+   ```bash
+   kubectl get deployments,services -n nginx-ingress
+   ```
+   
+   You will see an **`EXTERNAL-IP`** which is the public IP. Also you will notice a **`CLUSTER-IP`**, which is an Internal Cluster address. Both of those IPs must exist for the `LoadBalancer` service to work correctly.
+
+   ```bash
+   kubectl get deployments,services -n nginx-ingress
+   ```
+   ```bash
+   ###Sample output###
+   NAME                            READY   UP-TO-DATE   AVAILABLE   AGE
+   deployment.apps/nginx-ingress   1/1     1            1           22h
+
+   NAME                    TYPE           CLUSTER-IP    EXTERNAL-IP     PORT(S)                      AGE
+   service/nginx-ingress   LoadBalancer   10.0.80.190   13.86.100.10   80:32600/TCP,443:31137/TCP   49s
+   ```
+ 
+   In the example above you see: 
+
+   - `Cluster-IP` address of `10.0.80.190`  
+   - `External-IP` address of `13.86.100.10` 
+   - Both IPs are mapped from port `80` to a NodePort (`32600`); and from port `443` to NodePort (`31137`)
+
+   **NOTE:** Your `Cluster-IP` and `External-IP` address will be different based on your cluster. 
+
+## Verify access to the Ingress Controller using the External IP
+
+1. Store the External-IP into an environment variable by running below command.
+   ```bash
+   export EIP=$(kubectl get svc nginx-ingress -n nginx-ingress -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+   ```
+2. Use the `LoadBalancer` External-IP address that we captured inside the variable `EIP` from the previous step to test your **nginx-ingress** service. Use `curl` command to test it.
+
+   ```bash
+   #Test Access to Ingress through LoadBalancer:
+   curl -I http://$EIP
+   ```
+   You should see the following output if the `LoadBalancer` Service is configured correctly for Ingress:
+   ```bash
+   ###Sample output###
+   HTTP/1.1 404 Not Found
+   Server: nginx/1.25.1
+   Date: Tue, 03 Oct 2023 22:22:04 GMT
+   Content-Type: text/html
+   Content-Length: 153
+   Connection: keep-alive
+   ```
+
+   **Question: Why did you get a 404?** 
+
+   <details><summary>Click for Hints!</summary>
+   <br/>
+   <p>
+   <strong>Answer</strong> – The Ingress Controller default server will return an <b>HTTP 404 Not Found page, or an HTTP 400 Bad Request status code</b> for all requests that have no Ingress routing rules defined; this is NGINX's default 404 error page. You will deploy a Demo application in the subsequent labs, which will fix this.
+   </p>
+   </details>
+
+## Update local DNS
+
+We will be using FQDN hostnames for the labs, and you will need to update your local computer's `hosts` file, to use these names with your NGINX Plus Ingress Controller.
+
+Edit your local hosts file, adding the FQDNs as shown below.  Use the `External-IP` Address, from the previous step:
+
+```bash
+vi /etc/hosts
+
+13.86.100.10 cafe.example.com bar.example.com dashboard.example.com grafana.example.com prometheus.example.com juiceshop.example.com
+```
+
+>Note that all 6 hostnames are mapped to the same Loadbalancer External-IP.  You will use the Ingress Controller to route the traffic correctly in the upcoming labs.  
+Your External-IP address will likely be different than the example.
 
 **This completes the Lab.** 
 <br/>
 
 ## References: 
 
--sdlafj
+- [NGINX Ingress Controller Installation using Manifests](https://docs.nginx.com/nginx-ingress-controller/installation/installation-with-manifests/)
 <br/>
 
 ### Authors
