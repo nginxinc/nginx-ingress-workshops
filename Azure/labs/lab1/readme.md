@@ -142,61 +142,6 @@ In this section, you will ...
    ```
    **Note:** If this command doesn't show the name of the pod then run the previous command again.
 
-## Check the NIC Plus Dashboard (Optional)
-
-1. Using Kubernetes [port-forwarding](https://kubernetes.io/docs/tasks/access-application-cluster/port-forward-access-application-cluster/), see if the dashboard is running on port `9000`. Using the VScode terminal pane, run the following `kubectl port-forward` command:
-
-   ```bash
-   kubectl port-forward -n nginx-ingress $NIC 9000:9000
-   ```
-
-1. Now open Chrome web browser to view the NGINX Plus Dashboard, at [http://localhost:9000/dashboard.html](http://localhost:9000/dashboard.html). 
-   
-   Do you see the NGINX Plus Dashboard? If so, your Ingress Controller pod is up and running!
-
-   ![NPlus Dashboard](./media/NplusDashboard-port-forward.png)
-
-   **Question - Why is there almost nothing else to see?**  
-
-   <details><summary>Click for Hints!</summary>
-   <br/>
-   <p>
-   <strong>Answer</strong> – you have not configured the Ingress Controller to handle any traffic yet, but you will in the next Lab.
-   </p>
-   </details>
-   </br>
-
-2. Close Chrome Web Browser, and hit `Control-C` in the terminal to stop the Port Forward.
-
-   ![stop port-forward](media/port-forward-ctrl-c.png)
-
-## Take a look "under the hood" of Ingress Controller (Optional)
-
-The NGINX Ingress Controller is a pod running NGINX Plus under the hood, let's go check it out.
-
-1. Use the VScode Terminal to enter a shell in the NGINX Ingress Controller pod by running the [`kubectl exec`](https://kubernetes.io/docs/tasks/debug-application-cluster/get-shell-running-container/) command 
-
-   ```bash
-   kubectl exec -it $NIC -n nginx-ingress -- /bin/bash
-   ```
-
-2. Once inside a shell in the NGINX Ingress Controller pod, run the following commands to inspect the root NGINX configuration:
-
-   ```bash
-   cd /etc/nginx
-   more nginx.conf
-   ```
-
-   If you have worked with NGINX config files, it should look very similar!
-
-3. Type `q ` to quit viewing the `nginx.conf `
-
-   ![q to quit more](media/more-command-q-quit.png)
-
-4. Type `exit` to close the connection to the Ingress pod.
-
-   ![exit-to-exit-pod](media/exit-to-exit-pod.png)
-
 ## Getting Access to NGINX Ingress Controller using LoadBalancer Service
 
 In this section you will give the Ingress Controller a Public IP address from the Azure's IP Address Mgmt system. 
@@ -286,6 +231,33 @@ vi /etc/hosts
 
 >Note that all 6 hostnames are mapped to the same Loadbalancer External-IP.  You will use the Ingress Controller to route the traffic correctly in the upcoming labs.  
 Your External-IP address will likely be different than the example.
+
+## (Optional Section): Take a look "under the hood" of NGINX Plus Ingress Controller
+
+The NGINX Ingress Controller is a pod running NGINX Plus under the hood, let's go check it out.
+
+1. Use the VScode Terminal to enter a shell in the NGINX Ingress Controller pod by running the [`kubectl exec`](https://kubernetes.io/docs/tasks/debug-application-cluster/get-shell-running-container/) command 
+
+   ```bash
+   kubectl exec -it $NIC -n nginx-ingress -- /bin/bash
+   ```
+
+2. Once inside a shell in the NGINX Ingress Controller pod, run the following commands to inspect the root NGINX configuration:
+
+   ```bash
+   cd /etc/nginx
+   more nginx.conf
+   ```
+
+   If you have worked with NGINX config files, it should look very similar!
+
+3. Type `q ` to quit viewing the `nginx.conf `
+
+   ![q to quit more](media/more-command-q-quit.png)
+
+4. Type `exit` to close the connection to the Ingress pod.
+
+   ![exit-to-exit-pod](media/exit-to-exit-pod.png)
 
 **This completes the Lab.** 
 <br/>
