@@ -108,14 +108,15 @@ az --version
         --location $MY_LOCATION \
         --node-count 3 \
         --node-vm-size $AKS_NODE_VM \
+        # --enable-fips-image \ # Uncomment to make all nodes FIPS enabled
         --kubernetes-version $K8S_VERSION \
-        --tags owner=$MY_NAME
+        --tags owner=$MY_NAME \
         --enable-addons monitoring \
         --generate-ssh-keys
    ```
    **Note 1**: At the time of this writing, 1.27 is the latest kubernetes version that Azure AKS supports. 
 
-   **Note 2**: To make all the nodes have FIPS-enabled OS, you can include `--enable-fips-image` flag with the `az aks create` command.
+   **Note 2**: To make all the nodes have FIPS-enabled OS, you can uncomment `--enable-fips-image` flag within the `az aks create` command.
    
    **Note 3**: To list all possible vm sizes that an AKS node can use, run below command
    ```bash
@@ -296,14 +297,15 @@ We can quickly test the ability to push images to our Private ACR from our clien
 
 ## Pulling NGINX Plus Ingress Controller Image using Docker and pushing to private ACR Registry
 
-1. First you need to configure the Docker environment to use certificate-based client-server authentication with F5 private container registry `private-registry.nginx.com`.<br/>
+1. For NGINX Ingress Controller, you must have the NGINX Ingress Controller subscription – download the NGINX Plus Ingress Controller (per instance) certificate (nginx-repo.crt) and the key (nginx-repo.key) from [MyF5](https://my.f5.com/). You can also request for a 30-day trial key from [here](https://www.nginx.com/free-trial-connectivity-stack-kubernetes/).
+   
+2. Once you have the certificate and key, you need to configure the Docker environment to use certificate-based client-server authentication with F5 private container registry `private-registry.nginx.com`.<br/>
 To do so create a `private-registry.nginx.com` directory under below paths based on your operating system. (See [references](#references) section for more details)
      -  **linux** : `/etc/docker/certs.d`
      -  **mac** : `~/.docker/certs.d`
      -  **windows** : `~/.docker/certs.d` 
 
-
-2. Copy `nginx-repo.crt` and `nginx-repo.key` file in the newly created directory.
+1. Copy your `nginx-repo.crt` and `nginx-repo.key` file in the newly created directory.
      -  Below are the commands for mac/windows based systems
         ```bash
         mkdir ~/.docker/certs.d/private-registry.nginx.com
@@ -311,16 +313,16 @@ To do so create a `private-registry.nginx.com` directory under below paths based
         cp nginx-repo.key ~/.docker/certs.d/private-registry.nginx.com/client.key
         ```  
 
-3. ***Optional** Step only for Mac and Windows system
+2. ***Optional** Step only for Mac and Windows system
      - Restart Docker Desktop so that it copies the `~/.docker/certs.d` directory from your Mac or Windows system to the `/etc/docker/certs.d` directory on **Moby** (the Docker Desktop `xhyve` virtual machine).
 
-4. Once Docker Desktop has restarted, run below command to pull the NGINX Plus Ingress Controller image from F5 private container registry.
+3. Once Docker Desktop has restarted, run below command to pull the NGINX Plus Ingress Controller image from F5 private container registry.
     ```bash
     docker pull private-registry.nginx.com/nginx-ic/nginx-plus-ingress:3.2.1
     ```
     **Note**: At the time of this writing 3.2.1 is the latest NGINX Plus Ingress version that is available. Please feel free to use the latest version of NGINX Plus Ingress Controller. Look into [references](#references) for latest Ingress images.
 
-5. Set below variables to tag and push image to AWS ECR
+4. Set below variables to tag and push image to AWS ECR
     ```bash
     MY_ACR=acrshouvik
     MY_REPO=nginxinc/nginx-plus-ingress
@@ -332,21 +334,21 @@ To do so create a `private-registry.nginx.com` directory under below paths based
     set | grep MY_
     ```
 
-6. After setting the variables, tag the pulled NGINX Plus Ingress image using below command
+5. After setting the variables, tag the pulled NGINX Plus Ingress image using below command
     ```bash
     docker tag $MY_IMAGE_ID $MY_ACR.azurecr.io/$MY_REPO:$MY_TAG
     ```
-7. Login to the ACR registry using below command. 
+6. Login to the ACR registry using below command. 
    ```bash
    az acr login --name $MY_ACR
    ```
 
-8. Push your tagged image to ACR registry
+7. Push your tagged image to ACR registry
    ```bash
    docker push $MY_ACR.azurecr.io/$MY_REPO:$MY_TAG
    ```
 
-9. Once pushed you can check the image by running below command
+8. Once pushed you can check the image by running below command
     ```bash
     az acr repository list --name $MY_ACR --output table
     ```
