@@ -123,7 +123,7 @@ az --version
    ```
 
 
-2. ***Optional**: If kubectl ultility tool is not installed in your workstation then you can install `kubectl` locally using below command:
+2. **Optional**: If kubectl ultility tool is not installed in your workstation then you can install `kubectl` locally using below command:
    ```bash
    az aks install-cli
    ```
