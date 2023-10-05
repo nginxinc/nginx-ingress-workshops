@@ -4,12 +4,19 @@
 
 ## Introduction
 
-In this section, you will ...
+In this section, you will be installing NGINX Plus Ingress Controller in your AKS cluster using manifest files. You will be then checking and verifying the Ingress Controller is running.You will also configure the Azure services to provide a Public IP address, so that your Ingress Controller is accessible over the open Internet. `Warning, there are no security measures in place during this Workshop, do not do this for production workloads without proper Security protections`.
+
+Finally, you are going to use the NGINX Plus Dashboard to monitor both NGINX Plus Ingress Controller as well as our backend applications. This is a great feature to allow you to watch and triage any potential issues with NGINX Plus Ingress controller as well as any issues with your backend applications.
 <br/>
 
 ## Learning Objectives
-- one
-- two 
+- Install NGINX Plus Ingress Controller using manifest files
+- Check your NGINX Plus Ingress Controller
+- Inspect and deploy `LoadBalancer` Service
+- Test and verify access to the NGINX Plus Ingress Controller using the External IP address
+- Update local DNS
+- Deploy the NGINX Plus Ingress Controller Dashboard
+- (Optional Section): Take a look "under the hood" of NGINX Plus Ingress Controller
 
 ## Install NGINX Plus Ingress Controller using Manifest files
 
@@ -206,7 +213,7 @@ In this section you will give the Ingress Controller a Public IP address from th
 
    **NOTE:** Your `Cluster-IP` and `External-IP` address will be different based on your cluster. 
 
-## Verify access to the NGINX Plus Ingress Controller using the External IP
+## Verify access to the NGINX Plus Ingress Controller using the External IP address
 
 1. Store the External-IP into an environment variable by running below command.
    ```bash
@@ -253,7 +260,7 @@ vi /etc/hosts
 >Note that all 6 hostnames are mapped to the same Loadbalancer External-IP.  You will use the Ingress Controller to route the traffic correctly in the upcoming labs.  
 Your External-IP address will likely be different than the example.
 
-## Deploy the NGINX Plus Ingress Controller Dashboard (Optional)
+## Deploy the NGINX Plus Ingress Controller Dashboard
 
 We will deploy a `Service` and a `VirtualServer` resource to provide access to the NGINX Plus Dashboard for live monitoring.  NGINX Ingress [`VirtualServer`](https://docs.nginx.com/nginx-ingress-controller/configuration/virtualserver-and-virtualserverroute-resources/) is a [Custom Resource Definition (CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) used by NGINX to configure NGINX Server and Location blocks for NGINX configurations.
 
@@ -310,6 +317,10 @@ The NGINX Ingress Controller is a pod running NGINX Plus under the hood, let's g
 ## References: 
 
 - [NGINX Ingress Controller Installation using Manifests](https://docs.nginx.com/nginx-ingress-controller/installation/installation-with-manifests/)
+- [NGINX Plus Ingress Controller LoadBalancer for cloud providers](https://docs.nginx.com/nginx-ingress-controller/installation/installation-with-manifests/#using-a-loadbalancer-service)
+- [Kubernetes LoadBalancer Service Type](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer)
+- [NGINX Plus Live Activity Monitoring](https://docs.nginx.com/nginx/admin-guide/monitoring/live-activity-monitoring)
+- [NGINX Plus Dashboard example](http://demo.nginx.com)
 <br/>
 
 ### Authors
