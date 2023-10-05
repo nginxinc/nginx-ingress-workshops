@@ -62,7 +62,7 @@ spec:
          #  cpu: "1"
          #  memory: "1Gi"
         securityContext:
-          allowPrivilegeEscalation: true
+          allowPrivilegeEscalation: false
 #          readOnlyRootFilesystem: true
           runAsUser: 101 #nginx
           runAsNonRoot: true

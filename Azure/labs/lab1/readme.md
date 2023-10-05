@@ -96,6 +96,7 @@ Finally, you are going to use the NGINX Plus Dashboard to monitor both NGINX Plu
    - Add port and name for dashboard
    - Change Dashboard Port to 9000
    - Allow all IPs to access dashboard
+   - Make use of default TLS certificate
    
    <br/>
 
@@ -112,10 +113,7 @@ Finally, you are going to use the NGINX Plus Dashboard to monitor both NGINX Plu
      - On lines #96-97, we have enabled the Dashboard and set the IP access controls to the Dashboard.
      - On line #106, we have enabled Prometheus to collect metrics from the NGINX Plus stats API.
      - On lines #16-19, we have enabled Prometheus related annotations.
-  
-      ***CHECK:***(Check this two below lines with Chris)
-     - On line #65, ...?
-     - On line #95, uncomment to make use of default TLS secret. ...?
+     - On line #95, uncomment to make use of default TLS secret.
 
     <br/>
 
@@ -295,7 +293,7 @@ The NGINX Ingress Controller is a pod running NGINX Plus under the hood, let's g
 1. Use the VScode Terminal to enter a shell in the NGINX Ingress Controller pod by running the [`kubectl exec`](https://kubernetes.io/docs/tasks/debug-application-cluster/get-shell-running-container/) command 
 
    ```bash
-   kubectl exec -it $NIC -n nginx-ingress -- /bin/bash
+   kubectl exec -it $NIC -n nginx-ingress -- /bin/ash
    ```
 
 2. Once inside a shell in the NGINX Ingress Controller pod, run the following commands to inspect the root NGINX configuration:
