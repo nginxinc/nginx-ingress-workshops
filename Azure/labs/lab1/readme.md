@@ -25,7 +25,7 @@ In this section, you will ...
    az aks get-credentials --resource-group $MY_RESOURCEGROUP --name $MY_AKS
    ```
    ```bash
-   ##Sample Output##
+   ###Sample Output###
    A different object named aks-shouvik already exists in your kubeconfig file.
    Overwrite? (y/n): y
    A different object named clusterUser_s.dutta_aks-shouvik already exists in your kubeconfig file.
@@ -101,7 +101,8 @@ In this section, you will ...
      - On lines #96-97, we have enabled the Dashboard and set the IP access controls to the Dashboard.
      - On line #106, we have enabled Prometheus to collect metrics from the NGINX Plus stats API.
      - On lines #16-19, we have enabled Prometheus related annotations.
-    (Check this two below lines with Chris)
+  
+      ***CHECK:***(Check this two below lines with Chris)
      - On line #65, ...?
      - On line #95, uncomment to make use of default TLS secret. ...?
 
@@ -112,7 +113,7 @@ In this section, you will ...
     kubectl apply -f lab1/nginx-plus-ingress.yaml
     ```
 
-## Check your Ingress Controller
+## Check your NGINX Plus Ingress Controller
 
 1. Verify the NGINX Plus Ingress controller is up and running correctly in the Kubernetes cluster:
 
@@ -121,7 +122,7 @@ In this section, you will ...
    ```
 
    ```bash
-   # Should look similar to this...
+   ###Sample Output###
    NAME                            READY   STATUS    RESTARTS   AGE
    nginx-ingress-5764ddfd78-ldqcs   1/1     Running   0          17s
    ```
@@ -142,13 +143,33 @@ In this section, you will ...
    ```
    **Note:** If this command doesn't show the name of the pod then run the previous command again.
 
-## Getting Access to NGINX Ingress Controller using LoadBalancer Service
+## Getting Access to NGINX Plus Ingress Controller using LoadBalancer Service
 
 In this section you will give the Ingress Controller a Public IP address from the Azure's IP Address Mgmt system. 
 
 1. Inspect the `lab1/loadbalancer.yaml` manifest. You can see that port `80` and `443` are being opened and we are requesting an external IP address. This will give the Ingress Controller a static private IP address from an IP address management system in the lab.
- 
-   ![loadbalancer.yaml](media/lab1_loadbalancer.png)
+   
+   ```yaml
+   apiVersion: v1
+   kind: Service
+   metadata:
+   name: nginx-ingress
+   namespace: nginx-ingress
+   spec:
+   externalTrafficPolicy: Local
+   type: LoadBalancer
+   ports:
+   - port: 80
+      targetPort: 80
+      protocol: TCP
+      name: http
+   - port: 443
+      targetPort: 443
+      protocol: TCP
+      name: https
+   selector:
+      app: nginx-ingress
+   ```
 
    **Note:** This WILL expose your Ingress Controller to the open Internet with `NO PROTECTION` other than basic TCP port filters. Doing this in production would require Security/Firewall Protections, which are not part of this lab exercise.
    
@@ -185,7 +206,7 @@ In this section you will give the Ingress Controller a Public IP address from th
 
    **NOTE:** Your `Cluster-IP` and `External-IP` address will be different based on your cluster. 
 
-## Verify access to the Ingress Controller using the External IP
+## Verify access to the NGINX Plus Ingress Controller using the External IP
 
 1. Store the External-IP into an environment variable by running below command.
    ```bash
@@ -231,6 +252,30 @@ vi /etc/hosts
 
 >Note that all 6 hostnames are mapped to the same Loadbalancer External-IP.  You will use the Ingress Controller to route the traffic correctly in the upcoming labs.  
 Your External-IP address will likely be different than the example.
+
+## Deploy the NGINX Plus Ingress Controller Dashboard (Optional)
+
+We will deploy a `Service` and a `VirtualServer` resource to provide access to the NGINX Plus Dashboard for live monitoring.  NGINX Ingress [`VirtualServer`](https://docs.nginx.com/nginx-ingress-controller/configuration/virtualserver-and-virtualserverroute-resources/) is a [Custom Resource Definition (CRD)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) used by NGINX to configure NGINX Server and Location blocks for NGINX configurations.
+
+
+1. In the `lab1` folder, apply the `dashboard-vs.yaml` file to deploy a `Service` and a `VirtualServer` resource to provide access to the NGINX Plus Dashboard for live monitoring:
+
+    ```bash
+    kubectl apply -f lab1/dashboard-vs.yaml
+    ```
+    ```bash
+    ###Sample output###
+    service/dashboard-svc created
+    virtualserver.k8s.nginx.org/dashboard-vs created
+    ```
+
+2. Now open Chrome web browser to view the NGINX Plus Dashboard, at http://dashboard.example.com/dashboard.html. 
+   
+   Do you see the NGINX Plus Dashboard? If so, your Ingress Controller pod is up and running and your dashboard is exposed outside of your cluster at http://dashboard.example.com/dashboard.html.
+
+   ![NPlus Dashboard](media/plus-dashboard.png)
+
+    > **_Recommended:_** Leave this Dashboard Window open for the rest of the Workshop, you will refer to it often during later exercises.
 
 ## (Optional Section): Take a look "under the hood" of NGINX Plus Ingress Controller
 
