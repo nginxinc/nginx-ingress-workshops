@@ -389,4 +389,4 @@ You can easily delete your AKS cluster using the Azure CLI
 
 -------------
 
-Navigate to ([Lab1](../lab1/readme.md) | [Main Menu](../LabGuide.md))
+Navigate to ([Lab1](../lab1/readme.md) | [Main Menu](../LabGuide.md#lab-outline))

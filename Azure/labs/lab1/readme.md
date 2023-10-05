@@ -68,7 +68,7 @@ Finally, you are going to use the NGINX Plus Dashboard to monitor both NGINX Plu
         ```
      1. Create an IngressClass resource. 
    
-         >**Note:** If you would like to set the NGINX Ingress Controller as the default one, uncomment the annotation `ingressclass.kubernetes.io/is-default-class` within the below file)
+         >**Note:** If you would like to set the NGINX Ingress Controller as the default one, uncomment the annotation `ingressclass.kubernetes.io/is-default-class` within the below file.
         ```bash
         kubectl apply -f common/ingress-class.yaml
         ```
@@ -334,4 +334,4 @@ The NGINX Ingress Controller is a pod running NGINX Plus under the hood, let's g
 
 -------------
 
-Navigate to ([Lab1](../lab1/readme.md) | [Main Menu](../LabGuide.md))
+Navigate to ([Lab2](../lab2/readme.md) | [Main Menu](../LabGuide.md#lab-outline))
