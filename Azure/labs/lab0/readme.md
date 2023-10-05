@@ -318,15 +318,15 @@ To do so create a `private-registry.nginx.com` directory under below paths based
 
 3. Once Docker Desktop has restarted, run below command to pull the NGINX Plus Ingress Controller image from F5 private container registry.
     ```bash
-    docker pull private-registry.nginx.com/nginx-ic/nginx-plus-ingress:3.2.1
+    docker pull private-registry.nginx.com/nginx-ic/nginx-plus-ingress:3.2.1-alpine-fips
     ```
-    **Note**: At the time of this writing 3.2.1 is the latest NGINX Plus Ingress version that is available. Please feel free to use the latest version of NGINX Plus Ingress Controller. Look into [references](#references) for latest Ingress images.
+    **Note**: At the time of this writing 3.2.1-alpine-fips is the latest NGINX Plus Ingress FIPS-enabled version that is available. Please feel free to use the latest version of NGINX Plus Ingress Controller. Look into [references](#references) for latest Ingress images.
 
 4. Set below variables to tag and push image to AWS ECR
     ```bash
     MY_ACR=acrshouvik
     MY_REPO=nginxinc/nginx-plus-ingress
-    MY_TAG=3.2.1
+    MY_TAG=3.2.1-alpine-fips
     MY_IMAGE_ID=$(docker images private-registry.nginx.com/nginx-ic/nginx-plus-ingress:$MY_TAG --format "{{.ID}}") 
     ```
     Check all variables have been set properly by running below command:
