@@ -4,7 +4,7 @@
 
 ## Introduction
 
-In this section, you will be installing NGINX Plus Ingress Controller in your AKS cluster using manifest files. You will be then checking and verifying the Ingress Controller is running.You will also configure the Azure services to provide a Public IP address, so that your Ingress Controller is accessible over the open Internet. `Warning, there are no security measures in place during this Workshop, do not do this for production workloads without proper Security protections`.
+In this section, you will be installing NGINX Plus Ingress Controller in your AKS cluster using manifest files. You will be then checking and verifying the Ingress Controller is running. You will also configure the Azure services to provide a Public IP address, so that your Ingress Controller is accessible over the open Internet. `Warning, there are no security measures in place during this Workshop, do not do this for production workloads without proper Security protections`.
 
 Finally, you are going to use the NGINX Plus Dashboard to monitor both NGINX Plus Ingress Controller as well as our backend applications. This is a great feature to allow you to watch and triage any potential issues with NGINX Plus Ingress controller as well as any issues with your backend applications.
 <br/>
@@ -16,7 +16,7 @@ Finally, you are going to use the NGINX Plus Dashboard to monitor both NGINX Plu
 - Test and verify access to the NGINX Plus Ingress Controller using the External IP address
 - Update local DNS
 - Deploy the NGINX Plus Ingress Controller Dashboard
-- (Optional Section): Take a look "under the hood" of NGINX Plus Ingress Controller
+- (Optional Section): Look "under the hood" of NGINX Plus Ingress Controller
 
 ## Install NGINX Plus Ingress Controller using Manifest files
 
