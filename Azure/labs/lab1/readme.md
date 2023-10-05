@@ -27,7 +27,7 @@ Finally, you are going to use the NGINX Plus Dashboard to monitor both NGINX Plu
 
    az aks start --resource-group $MY_RESOURCEGROUP --name $MY_AKS
    ```
-   **Note**: The FQDN for API server for AKS might change on restart of the cluster which would result in errors running `kubectl` commands from your workstation. To update the FQDN re-import the credentials again using below command. This command would prompt about overwriting old objects. Enter "y" to overwrite the existing objects.
+   >**Note**: The FQDN for API server for AKS might change on restart of the cluster which would result in errors running `kubectl` commands from your workstation. To update the FQDN re-import the credentials again using below command. This command would prompt about overwriting old objects. Enter "y" to overwrite the existing objects.
    ```bash
    az aks get-credentials --resource-group $MY_RESOURCEGROUP --name $MY_AKS
    ```
@@ -66,12 +66,14 @@ Finally, you are going to use the NGINX Plus Dashboard to monitor both NGINX Plu
         ```bash
         kubectl apply -f common/nginx-config.yaml
         ```
-     1. Create an IngressClass resource. (**Note:** If you would like to set the NGINX Ingress Controller as the default one, uncomment the annotation `ingressclass.kubernetes.io/is-default-class` within the below file)
+     1. Create an IngressClass resource. 
+   
+         >**Note:** If you would like to set the NGINX Ingress Controller as the default one, uncomment the annotation `ingressclass.kubernetes.io/is-default-class` within the below file)
         ```bash
         kubectl apply -f common/ingress-class.yaml
         ```
 
-1. Create Custom Resources
+2. Create Custom Resources
     1. Create custom resource definitions for VirtualServer and VirtualServerRoute, TransportServer and Policy resources:
         ```bash
         kubectl apply -f common/crds/k8s.nginx.org_virtualservers.yaml
@@ -80,11 +82,11 @@ Finally, you are going to use the NGINX Plus Dashboard to monitor both NGINX Plu
         kubectl apply -f common/crds/k8s.nginx.org_policies.yaml
         ```
    
-    1. Create a custom resource for GlobalConfiguration resource:
+    2. Create a custom resource for GlobalConfiguration resource:
         ```bash
         kubectl apply -f common/crds/k8s.nginx.org_globalconfigurations.yaml
         ```
-1. Deploy the Ingress Controller as a Deployment:
+3. Deploy the Ingress Controller as a Deployment:
 
    The sample deployment file(`nginx-plus-ingress.yaml`) can be found within `deployment` sub-directory within your present working directory.
 
@@ -103,7 +105,9 @@ Finally, you are going to use the NGINX Plus Dashboard to monitor both NGINX Plu
     ```
   
     Observe the `lab1/nginx-plus-ingress.yaml` looking at below details:
-     - On line #36, we have replaced the `nginx-plus-ingress:3.2.1` placeholder with a workshop image that we pushed in the private ACR registry.
+     - On line #36, we have replaced the `nginx-plus-ingress:3.2.1` placeholder with a workshop image that we pushed in the private ACR registry as instructed in lab0.
+  
+         >**Note:** Make sure you replace the image with the appropriate image that you pushed in your ACR registry.
      - On lines #50-51, we have added TCP port 9000 for the Plus Dashboard.
      - On lines #96-97, we have enabled the Dashboard and set the IP access controls to the Dashboard.
      - On line #106, we have enabled Prometheus to collect metrics from the NGINX Plus stats API.
@@ -134,11 +138,11 @@ Finally, you are going to use the NGINX Plus Dashboard to monitor both NGINX Plu
    nginx-ingress-5764ddfd78-ldqcs   1/1     Running   0          17s
    ```
 
-   **Note**: You must use the `kubectl` "`-n`", namespace switch, followed by namespace name, to see pods that are not in the default namespace.
+   >**Note**: You must use the `kubectl` "`-n`", namespace switch, followed by namespace name, to see pods that are not in the default namespace.
 
 2. Instead of remembering the unique pod name, `nginx-ingress-xxxxxx-yyyyy`, we can store the Ingress Controller pod name into the `$NIC` variable to be used throughout the lab.
 
-   **Note:** This variable is stored for the duration of the terminal session, and so if you close the terminal it will be lost. At any time you can refer back to this step to save the `$NIC` variable again.
+   >**Note:** This variable is stored for the duration of the terminal session, and so if you close the terminal it will be lost. At any time you can refer back to this step to save the `$NIC` variable again.
 
    ```bash
    export NIC=$(kubectl get pods -n nginx-ingress -o jsonpath='{.items[0].metadata.name}')
@@ -148,7 +152,7 @@ Finally, you are going to use the NGINX Plus Dashboard to monitor both NGINX Plu
    ```bash
    echo $NIC
    ```
-   **Note:** If this command doesn't show the name of the pod then run the previous command again.
+   >**Note:** If this command doesn't show the name of the pod then run the previous command again.
 
 ## Getting Access to NGINX Plus Ingress Controller using LoadBalancer Service
 
@@ -178,7 +182,7 @@ In this section you will give the Ingress Controller a Public IP address from th
       app: nginx-ingress
    ```
 
-   **Note:** This WILL expose your Ingress Controller to the open Internet with `NO PROTECTION` other than basic TCP port filters. Doing this in production would require Security/Firewall Protections, which are not part of this lab exercise.
+   >**Note:** This WILL expose your Ingress Controller to the open Internet with `NO PROTECTION` other than basic TCP port filters. Doing this in production would require Security/Firewall Protections, which are not part of this lab exercise.
    
 2. Apply the above manifest to deploy loadbalancer service:
    ```bash
@@ -257,7 +261,7 @@ vi /etc/hosts
 13.86.100.10 cafe.example.com bar.example.com dashboard.example.com grafana.example.com prometheus.example.com juiceshop.example.com
 ```
 
->Note that all 6 hostnames are mapped to the same Loadbalancer External-IP.  You will use the Ingress Controller to route the traffic correctly in the upcoming labs.  
+>**Note:** All 6 hostnames are mapped to the same Loadbalancer External-IP.  You will use the NGINX Plus Ingress Controller to route the traffic correctly in the upcoming labs.  
 Your External-IP address will likely be different than the example.
 
 ## Deploy the NGINX Plus Ingress Controller Dashboard

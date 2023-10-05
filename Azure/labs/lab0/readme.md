@@ -63,17 +63,18 @@ az --version
 ```
 
 1. Sign in with Azure CLI using your preferred method listed [here](https://learn.microsoft.com/en-us/cli/azure/authenticate-azure-cli).
-(Note: We made use of Sign in interactively method for this workshop)
+   
+   >**Note:** We made use of Sign in interactively method for this workshop
     ```bash
     az login
     ``` 
 
-2. Once you have logged in you can run below command to validate your tenent and subscription ID and name.
+1. Once you have logged in you can run below command to validate your tenent and subscription ID and name.
    ```bash
    az account show 
    ```
 
-3. Optional: If you have multiple subscriptions and would like to change the current subscription to another then run below command.
+2. Optional: If you have multiple subscriptions and would like to change the current subscription to another then run below command.
    ```bash
    # change the active subscription using the subscription name
    az account set --subcription "{subscription name}"
@@ -84,7 +85,7 @@ az --version
    az account set --subscription "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"  
    ```
 
-4. Create a new Azure resource group which would hold all the Azure resources that you would create for this workshop.
+3. Create a new Azure resource group which would hold all the Azure resources that you would create for this workshop.
    ```bash
    az group create --name s.dutta --location centralus
    ```
@@ -114,17 +115,16 @@ az --version
         --enable-addons monitoring \
         --generate-ssh-keys
    ```
-   **Note 1**: At the time of this writing, 1.27 is the latest kubernetes version that Azure AKS supports. 
+   >**Note**: 
+   >1. At the time of this writing, 1.27 is the latest kubernetes version that Azure AKS supports. 
+   >2. To make all the nodes have FIPS-enabled OS, you can uncomment `--enable-fips-image` flag within the `az aks create` command.
+   >3. To list all possible vm sizes that an AKS node can use, run below command      
+   >     ```bash
+   >     az vm list-sizes --location centralus --output table
+   >     ```
 
-   **Note 2**: To make all the nodes have FIPS-enabled OS, you can uncomment `--enable-fips-image` flag within the `az aks create` command.
-   
-   **Note 3**: To list all possible vm sizes that an AKS node can use, run below command
-   ```bash
-   az vm list-sizes --location centralus --output table
-   ```
 
-
-2. **Optional**: If kubectl ultility tool is not installed in your workstation then you can install `kubectl` locally using below command:
+2. **(Optional Step)**: If kubectl ultility tool is not installed in your workstation then you can install `kubectl` locally using below command:
    ```bash
    az aks install-cli
    ```
@@ -320,7 +320,7 @@ To do so create a `private-registry.nginx.com` directory under below paths based
     ```bash
     docker pull private-registry.nginx.com/nginx-ic/nginx-plus-ingress:3.2.1-alpine-fips
     ```
-    **Note**: At the time of this writing 3.2.1-alpine-fips is the latest NGINX Plus Ingress FIPS-enabled version that is available. Please feel free to use the latest version of NGINX Plus Ingress Controller. Look into [references](#references) for latest Ingress images.
+    >**Note**: At the time of this writing `3.2.1-alpine-fips` is the latest NGINX Plus Ingress FIPS-enabled version that is available. Please feel free to use the latest version of NGINX Plus Ingress Controller. Look into [references](#references) for latest Ingress images.
 
 4. Set below variables to tag and push image to AWS ECR
     ```bash
