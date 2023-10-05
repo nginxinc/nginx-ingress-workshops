@@ -28,17 +28,17 @@ Finally, you are going to use the NGINX Plus Dashboard to monitor both NGINX Plu
    az aks start --resource-group $MY_RESOURCEGROUP --name $MY_AKS
    ```
    >**Note**: The FQDN for API server for AKS might change on restart of the cluster which would result in errors running `kubectl` commands from your workstation. To update the FQDN re-import the credentials again using below command. This command would prompt about overwriting old objects. Enter "y" to overwrite the existing objects.
-   ```bash
-   az aks get-credentials --resource-group $MY_RESOURCEGROUP --name $MY_AKS
-   ```
-   ```bash
-   ###Sample Output###
-   A different object named aks-shouvik already exists in your kubeconfig file.
-   Overwrite? (y/n): y
-   A different object named clusterUser_s.dutta_aks-shouvik already exists in your kubeconfig file.
-   Overwrite? (y/n): y
-   Merged "aks-shouvik" as current context in /Users/shodutta/.kube/config
-   ```
+   >```bash
+   >az aks get-credentials --resource-group $MY_RESOURCEGROUP --name $MY_AKS
+   >```
+   >```bash
+   >###Sample Output###
+   >A different object named aks-shouvik already exists in your kubeconfig file.
+   >Overwrite? (y/n): y
+   >A different object named clusterUser_s.dutta_aks-shouvik already exists in your kubeconfig file.
+   >Overwrite? (y/n): y
+   >Merged "aks-shouvik" as current context in /Users/shodutta/.kube/config
+   >```
 
 1. Clone the Ingress Controller repo and navigate into the deployments folder to make it your working directory:
    ```bash
