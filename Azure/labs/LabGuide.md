@@ -59,8 +59,8 @@ An excellent Prerequisite for taking this Workshop is the NGINX Basics Workshop,
 #### Lab 1: Deploying NIC to AKS cluster
 - [Lab 1: Deploy NIC to AKS cluster](lab1/readme.md)
 
-#### Lab 2: Deploy Azure Demo Application to AKS cluster
-- [Lab 2: Deploy Azure Demo Application to AKS cluster](lab2/readme.md)
+#### Lab 2: Deploy Cafe Demo Application to AKS cluster
+- [Lab 2: Deploy Cafe Demo Application to AKS cluster](lab2/readme.md)
 
 #### Lab 3: Configuring NIC with AzureAD 
 - [Lab 3: Configuring NIC with AzureAD](lab3/readme.md)
