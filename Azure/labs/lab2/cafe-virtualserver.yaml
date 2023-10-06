@@ -16,6 +16,7 @@ spec:
     service: tea-svc
     port: 80
     slow-start: 20s
+    lb-method: least_time last_byte
     healthCheck:
       enable: true
       path: /tea
@@ -28,6 +29,8 @@ spec:
   - name: coffee
     service: coffee-svc
     port: 80
+    slow-start: 20s
+    lb-method: least_time last_byte
     healthCheck:
       enable: true
       path: /coffee

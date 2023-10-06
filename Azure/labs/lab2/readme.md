@@ -1,4 +1,4 @@
-# Lab 2: Deploy the NGINX Cafe Demo application, using manifests
+# Lab 2: Deploy the NGINX Cafe Demo application using manifests
 
 <br/>
 
@@ -30,32 +30,43 @@ The Cafe application that you will deploy looks like the following diagram below
     kubectl apply -f lab2/cafe.yaml
     kubectl apply -f lab2/cafe-virtualserver.yaml
     ```
-    
-    Output should be similar to:
     ```bash
-    secret cafe-secret created
-    deployment.apps coffee created
-    service coffee-svc created
-    deployment.apps tea created
-    service tea-svc created
+    ###Sample Output###
+    secret/cafe-secret created
+    deployment.apps/coffee created
+    service/coffee-svc created
+    deployment.apps/tea created
+    service/tea-svc created
+    virtualserver.k8s.nginx.org/cafe-vs created
     ```
 
-1. Check that all pods are running, you should see **three** Coffee and **three** Tea pods:
+2. Check that all pods are running, you should see **three** Coffee and **three** Tea pods:
 
     ```bash
     kubectl get pods
     ```
-    ![Get pods](media/lab2_get_pods.png)
+    ```bash
+    ###Sample Output###
+    NAME                     READY   STATUS    RESTARTS   AGE
+    coffee-869854dd6-dq8m2   1/1     Running   0          89s
+    coffee-869854dd6-fzc9n   1/1     Running   0          89s
+    coffee-869854dd6-jczc9   1/1     Running   0          89s
+    tea-f6df58c88-2mrdr      1/1     Running   0          89s
+    tea-f6df58c88-8ddq9      1/1     Running   0          89s
+    tea-f6df58c88-qbd8x      1/1     Running   0          89s
+    ```
 
-
-1. Check that the Cafe `VirtualServer` , **`cafe-vs`**, is running:
+3. Check that the Cafe `VirtualServer` , **`cafe-vs`**, is running:
 
     ```bash
     kubectl get virtualserver cafe-vs
     ```
-    ![get virtualserver](media/lab2_get_vs.png)
-
-    **Note:** The `STATE` should be `Valid`.  If it is not, then there is an issue with your yaml manifest file `(cafe-vs.yaml)`.  You could also use `kubectl describe vs cafe-vs` to get more information about the `VirtualServer` we just created.
+    ```bash
+    ###Sample Output###
+    NAME      STATE   HOST               IP    PORTS   AGE
+    cafe-vs   Valid   cafe.example.com                 3m
+    ```
+    >**Note:** The `STATE` should be `Valid`.  If it is not, then there is an issue with your yaml manifest file `(cafe-virtualserver.yaml)`.  You could also use `kubectl describe vs cafe-vs` to get more information about the `VirtualServer` we just created.
 
 <br/>
 
@@ -63,68 +74,72 @@ The Cafe application that you will deploy looks like the following diagram below
 
 1. In the `lab2` folder, inspect the `cafe.yaml` manifest file.  Find the following configuration details:
 
-  * **Question:** How many coffee and tea pods are we starting with?  
+     - **Question:** How many coffee and tea pods are we starting with?  
 
-    <details><summary>Click for Hints!</summary>
-      <br/>
-      <p>
-      <strong>Hint:</strong> Look for the number of replicas
-      </p>
-    </details>
-  * **Question:** What are the two `Service` names ?  
+        <details><summary>Click for Hints!</summary>
+          <br/>
+          <p>
+          <strong>Hint:</strong> Look for the number of replicas
+          </p>
+        </details>
 
-    <details><summary>Click for Hints!</summary>
-      <br/>
-      <p>
-      <strong>Hint:</strong>: Look for <code>kind: Service</code>
-      </p>
-    </details>
+     - **Question:** What are the two `Service` names?  
 
-  ![cafe.yaml](media/lab2_cafe_yaml.png)
+        <details><summary>Click for Hints!</summary>
+          <br/>
+          <p>
+          <strong>Hint:</strong>: Look for <code>kind: Service</code>
+          </p>
+        </details>
 
-
-1. Now inspect the `cafe-virtualserver.yaml` file.
-
-  * **Question:**  What is the hostname ?  
-
-    <details><summary>Click for Hints!</summary>
-      <br/>
-      <p>
-      <strong>Hint:</strong> Look for <code>host</code>
-      </p>
-    </details>
-  * **Question:**  Are we using SSL ? If so, which certificate ?  
-
-    <details><summary>Click for Hints!</summary>
-      <br/>
-      <p>
-      <strong>Hint:</strong> Look for <code>tls and secret</code>
-      </p>
-    </details>
-  * **Question:**  Are healthchecks enabled ? 
-
-    <details><summary>Click for Hints!</summary>
-      <br/>
-      <p>
-      <strong>Hint:</strong> Look for <code>healthCheck</code>
-      </p>
-    </details>
-  * **Question:** What URI paths are defined, routing to where ? 
-
-    <details><summary>Click for Hints!</summary>
-      <br/>
-      <p>
-      <strong>Hint:</strong> Look for <code>route</code>
-      </p>
-    </details><br/>
-
-  ![cafe-virtualserver.yaml1](media/lab2_cafe_vs_yaml1.png)
-  ![cafe-virtualserver.yaml2](media/lab2_cafe_vs_yaml2.png)
+      ![cafe.yaml](media/lab2_cafe_yaml.png)
 
 
-1. Now inspect the `cafe-secret.yaml` which is the TLS self-signed certificate we are using for this lab.
+2. Now inspect the `cafe-virtualserver.yaml` file.
 
-  ![cafe-secret.yaml](media/lab2_cafe_secret_yaml.png)
+     - **Question:**  What is the hostname?  
+
+        <details><summary>Click for Hints!</summary>
+          <br/>
+          <p>
+          <strong>Hint:</strong> Look for <code>host</code>
+          </p>
+        </details>
+     
+      - **Question:**  Are we using SSL? If so, which certificate?  
+
+        <details><summary>Click for Hints!</summary>
+          <br/>
+          <p>
+          <strong>Hint:</strong> Look for <code>tls and secret</code>
+          </p>
+        </details>
+       
+      - **Question:**  Are healthchecks enabled? 
+
+        <details><summary>Click for Hints!</summary>
+          <br/>
+          <p>
+          <strong>Hint:</strong> Look for <code>healthCheck</code>
+          </p>
+        </details>
+      
+      - **Question:** What URI paths are defined, routing to where ? 
+
+        <details><summary>Click for Hints!</summary>
+          <br/>
+          <p>
+          <strong>Hint:</strong> Look for <code>route</code>
+          </p>
+        </details>
+
+      ![cafe-virtualserver.yaml1](media/lab2_cafe_vs_yaml1.png)
+      ![cafe-virtualserver.yaml2](media/lab2_cafe_vs_yaml2.png)
+
+
+3. Now inspect the `cafe-secret.yaml` which is the TLS self-signed certificate we are using for this lab.
+
+    ![cafe-secret.yaml](media/lab2_cafe_secret_yaml.png)
 
 <br/>
 
@@ -156,7 +171,7 @@ The Cafe application that you will deploy looks like the following diagram below
 
 ### Dashboard
 
-What do you see in the NGINX Plus Dashboard? Is `cafe.example.com` in the `HTTPZones` tab? In `HTTP Upstreams` tab do you see **three** coffee and **three** tea pod IP addresses?
+What do you see in the NGINX Plus Dashboard? Is `cafe.example.com` in the `HTTP Zones` tab? In `HTTP Upstreams` tab do you see **three** coffee and **three** tea pod IP addresses?
 
 The `Server Zones` table contains the Virtual Servers statistics of the Ingress, the HTTP Upstreams are the actual Pods running in Kubernetes which are being load balanced.
 
@@ -206,11 +221,44 @@ The `Server Zones` table contains the Virtual Servers statistics of the Ingress,
     kubectl describe svc tea-svc
     ```
     The Service `Endpoints` should match the Server IPs in the dashboard:
-
-    ![describe coffee-svc](media/lab2_describe_coffee_svc.png) 
-    ![describetea-svc](media/lab2_describe_tea_svc.png)
-
-
+    ```bash
+    ###Sample Output
+    ~$ kubectl describe svc coffee-svc
+    Name:              coffee-svc
+    Namespace:         default
+    Labels:            <none>
+    Annotations:       <none>
+    Selector:          app=coffee
+    Type:              ClusterIP
+    IP Family Policy:  SingleStack
+    IP Families:       IPv4
+    IP:                None
+    IPs:               None
+    Port:              http  80/TCP
+    TargetPort:        80/TCP
+    Endpoints:         192.168.2.92:80,192.168.27.18:80,192.168.49.193:80
+    Session Affinity:  None
+    Events:            <none>
+    ```
+    ```bash
+    ###Sample Output###
+    ~$ kubectl describe svc tea-svc   
+    Name:              tea-svc
+    Namespace:         default
+    Labels:            <none>
+    Annotations:       <none>
+    Selector:          app=tea
+    Type:              ClusterIP
+    IP Family Policy:  SingleStack
+    IP Families:       IPv4
+    IP:                None
+    IPs:               None
+    Port:              http  80/TCP
+    TargetPort:        80/TCP
+    Endpoints:         192.168.9.236:80,192.168.24.186:80,192.168.37.136:80
+    Session Affinity:  None
+    Events:            <none>
+    ```
 <br/>
 
 ## Verify the root page redirect works correctly

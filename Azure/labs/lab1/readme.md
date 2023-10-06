@@ -220,10 +220,9 @@ In this section you will give the Ingress Controller a Public IP address from th
    ```bash
    export EIP=$(kubectl get svc nginx-ingress -n nginx-ingress -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
    ```
-2. Use the `LoadBalancer` External-IP address that we captured inside the variable `EIP` from the previous step to test your **nginx-ingress** service. Use `curl` command to test it.
+2. Use the `LoadBalancer` External-IP address that we captured inside the variable `EIP` from the previous step to test your **nginx-ingress** service. Use `curl` command to test access to Ingress through LoadBalancer.
 
    ```bash
-   #Test Access to Ingress through LoadBalancer:
    curl -I http://$EIP
    ```
    You should see the following output if the `LoadBalancer` Service is configured correctly for Ingress:
