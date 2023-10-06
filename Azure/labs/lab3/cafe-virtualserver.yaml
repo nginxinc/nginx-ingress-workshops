@@ -1,0 +1,22 @@
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: cafe
+spec:
+  host: cafe.example.com
+  upstreams:
+    - name: coffee
+      service: coffee-svc
+      port: 80
+    - name: tea
+      service: tea-svc
+      port: 80
+  routes:
+    - path: /tea
+      policies:
+      - name: oidc-policy
+      action:
+        pass: tea
+    - path: /coffee
+      action:
+        pass: coffee

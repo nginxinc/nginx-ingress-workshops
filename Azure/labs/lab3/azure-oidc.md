@@ -1,10 +1,21 @@
-# This document walks through how to configure NGINX Ingress controller with Azure AD for OIDC authentication.
+# Lab 00: Lab title
 
+<br/>
+
+## Introduction
+
+In this section, you will we are going to configure NGINX Ingress controller with Microsoft Azure Active directory to add authentication to a specific application. We will be adding a `policy` and `client-secret` to the cluster to know how to connect to Microsoft Azure Active Directory.
+<br/>
+
+## Learning Objectives
 
 What you will need from Microsoft Azure AD:
 
 - Azure account
 - Azure AD setup
+- Configure NGINX Ingress controller `policy` with Azure AD
+- Request access to `/tea` and verify the redirection and authentication page is presented.
+- Verify that after successfully logging into Azure AD, the redirect back to NGINX Ingress controller successfully routes you to `/tea`
 
 You will want to create a new `app registration` from within Azure Active Directory.
 
@@ -135,4 +146,20 @@ You can now test your Azure AD setup with NGINX Ingress controller.
 Open up your browser and head to `https://webapp.example.com`. 
 If everything has been configured correctly, you should see the browser address bar redirect to Azure AD for authentication logon prompt. Once you successfully provide your Microsoft Azure AD credentials, NGINX Ingress controller will validate the succesfull login and then allow your reques to the backend resource.
 
+**This completes the Lab.** 
+<br/>
 
+## References: 
+
+- [nginx](www.nginx.com)
+- [NGINX Ingress controller OIDC](https://docs.nginx.com/nginx-ingress-controller/configuration/policy-resource/#oidc)
+<br/>
+
+### Authors
+- Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
+- Shouvik Dutta - Solutions Architect - Community and Alliances @ F5, Inc.
+- Jason Williams - Principle Technical Product Management Engineer @ F5, Inc.
+
+-------------
+
+Navigate to ([Lab1](../lab1/readme.md) | [Main Menu](../LabGuide.md))
