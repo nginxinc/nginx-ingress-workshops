@@ -65,7 +65,7 @@ curl https://login.microsoftonline.com/<replace_with_your_client_id>/v2.0/.well-
 The last piece we need to configure in Azure AD is setting up the `redirect`.
 Go to your `app registration` and click on `authentication`.   
 Then click `add a platform` followed one of the applications.
-On the next scrren, you will `redirect URIs` and `Front-channel logout URL`. 
+On the next screen, you will `redirect URIs` and `Front-channel logout URL`. 
 
 
 For the `redirect URI`, you will want to fill in with the address of the NGINX Ingress controller instance, including the port number, with `/_codexch`.
@@ -161,4 +161,4 @@ If everything has been configured correctly, you should see the browser address 
 
 -------------
 
-Navigate to ([Lab4](../lab4/readme.md) | [Main Menu](../LabGuide.md))
+Navigate to ([Lab4](../lab4/readme.md) | [Main Menu](../LabGuide.md#lab-outline))
