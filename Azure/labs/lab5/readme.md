@@ -8,13 +8,18 @@ In this section, you will run the NGINX Plus Ingress Controller in FIPS mode, fo
 
 <br/>
 
+Azure  |  Kubernetes  |  NGINX Plus
+:-------------------------:|:-------------------------:|:-------------------------:
+![](../media/lab5_nginx-fips-azure.png)  |  ![](../media/kubernetes-icon.png)   |  ![](../media/nginx-plus-icon.png)
+
+<br/>
+
 ## Learning Objectives
 - Review the Nginx Ingress Controller image
 - Verify the NIC - FIPS image is running
-- Update the NIC logging variables to capture FIPS related traffic details
+- Update and Review the NIC logging variables to capture SSL/FIPS related fields
 - Verify the NIC is passing FIPS compliant traffic
 - Verify the NIC is not passing non-compliant traffic
-- Review the Nginx logs for FIPS related log variables
 
 <br/>
 
@@ -43,14 +48,22 @@ kubectl describe pod $NIC -n nginx-ingress
 Output should be similar to this, look for `alpine-fips` in the Image name:
 
 ```bash
+.
+.
 Containers:
   nginx-plus-ingress:
     Container ID:  docker://e57d091bac4b7914bb60513ccdbd5d93de37725cfcc4e42a0fdd04ebcc6d8010
     Image:         private-registry.nginx.com/nginx-ic/nginx-plus-ingress:3.2.0-alpine-fips    ## Look here
     Image ID:      docker-pullable://private-registry.nginx.com/nginx-ic/nginx-plus-ingress@sha256:d16d23a489f115915c3660fe0b012b6d350e395a316e497d1219fd9c354fb423
+    .
+    .
 ```
 
 Kube Exec to an Alpine Shell into the NIC Container:
+
+```bash
+  kubectl exec -it $NIC -n nginx-ingress -- /bin/ash
+```
 
 Check if the Alpine OS is running in FIPS mode:
 
@@ -65,15 +78,11 @@ crypto.fips_enabled = 1    # the Alpine OS is running in FIPS mode
 
 ```
 
-***If the value = 0, Alpine is not running in FIPS mode!**:
+>>***If the value = 0, Alpine is not running in FIPS mode!**
 
 ```bash
 crypto.fips_enabled = 0    # the Alpine OS is NOT running in FIPS mode
 
-```
-
-```bash
-kubectl exec -it $NIC -n nginx-ingress -- /bin/ash
 ```
 
 Review the Version of NGINX in the NIC image:
@@ -132,17 +141,11 @@ load_module modules/ngx_fips_check_module.so;                       ## FIPS chec
 
 ### Verify the NIC - FIPS image is running
 
-
-If is not running in FIPS mode, you will see a statement like this, when running "nginx -T" to the NIC pod:
+If is not running in FIPS mode, you will see a statement like this:
 
 ```bash
-2023/07/18 15:15:13 [notice] 239#239: OpenSSL FIPS Mode is not enabled
+2023/07/18 15:15:13 [notice] 239#239: OpenSSL FIPS Mode is not enabled    # Warning -  not in FIPS mode
 ```
-
-Set the $NIC variable
-
-Kubect Exec into the NIC container, and check the following:
-
 
 ### Verify the Version of OpenSSL, and FIPS mode is available
 
@@ -180,7 +183,9 @@ Providers:
 
 ```
 
-Verify SHA1 works as expected:
+>>**If the fips provider is missing, Openssl cannot provide FIPS mode!**
+
+OpenSSL Self Test - Verify SHA1 works as expected:
 
 ```bash
 ~ $ openssl sha1 /dev/null
@@ -193,7 +198,7 @@ SHA1(/dev/null)= da39a3ee5e6b4b0d3255bfef95601890afd80709
 
 ```
 
-Verify MD5 is not working (MD5 is not a permitted hash with FIPS):
+Verify MD5 is not working (as `MD5 is not a permitted hash with FIPS`):
 
 ```bash
 ~ $ openssl md5 /dev/null
@@ -208,18 +213,60 @@ Error setting digest
 
 ```
 
-***If the MD5 hash DOES work, NIC is not running in FIPS mode!**:
+>>**If the MD5 hash DOES work, OpenSSL is not running in FIPS mode!**
 
 ```bash
 ~ $ openssl md5 /dev/null
 MD5(/dev/null)= d41d8cd98f00b204e9800998ecf8427e
 ```
 
+<br/>
+
+### Update the NGINX Ingress logging format to see SSL/FIPS related fields
+
+NGINX has the ability to log all TLS related components, including client and server metadata for connections/sessions.  Let's add some of these important logging variables, so you can see what the requests/responses look like in the NGINX Access Log.
+
+Here is a list of the TLS variables you will add, and what they are:
+
+- $ssl_session_id     # returns the session identifier of an established SSL connection
+- $ssl_protocol       # returns the protocol of an established SSL connection
+- $ssl_cipher         # returns the name of the cipher used for an established connection
+
+Note:  There are many more variables, but we are only showing a few in this exercise.  There is a link to the complete list in the References section.
+
+To apply these new variables, we will add them to the existing NGINX Access Log format, using a ConfigMap.
+
+```bash
+
+kubectl apply -f lab5/nginx-fips-logging.yaml
+
+```
+
+```bash
+### Sample Output ###
 
 
-### Update the NIC logging format to recordf FIPS related traffic details
+
+```
+
+Send a couple requests to https://cafe.example.com/coffee, and review the Access Logs.
+
+```bash
+
+kubectl logs $NIC -n nginx-ingress --tail 10 --follow
+
+```
+
+```bash
+
+### Sample Output ###
 
 
+```
+
+Type Ctrl-C when you are finished looking at the log.
+
+>br/>
 
 ### Verify the NIC is passing FIPS compliant traffic
 
@@ -227,9 +274,6 @@ MD5(/dev/null)= d41d8cd98f00b204e9800998ecf8427e
 
 ### Verify the NIC is not passing non-compliant traffic
 
-
-
-### Review the Nginx logs for FIPS related log variables
 
 
 From Jumphost:
@@ -443,6 +487,8 @@ End Jumphost
 - [NGINX FIPS Status Check](https://docs.nginx.com/nginx/admin-guide/dynamic-modules/fips/)
 - [NGINX FIPS Check Module](https://github.com/ogarrett/nginx-fips-check-module)
 - [NIST FIPS 140-2 Security Requirements](https://csrc.nist.gov/pubs/fips/140-2/upd2/final)
+- [NGINX SSL variables](http://nginx.org/en/docs/http/ngx_http_ssl_module.html#var_ssl_cipher)
+
 
 
 <br/>
