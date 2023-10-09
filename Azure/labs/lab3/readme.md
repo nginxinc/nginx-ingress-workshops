@@ -30,12 +30,12 @@ Within the Azure AD portal and app registration screen, create your `client-secr
 
 ![Client secret!](./images/client-secret.JPG "Client secret")
 
-After you create your `client-secret`, make sure you copy the the `value` portion of the secret, and use that to create your Kubernetes secret
+After you create your `client-secret`, make sure you copy the the `Value` portion of the secret, and use that to create your Kubernetes secret
 
 
 ![Client secret value!](./images/secret-value.jpg "Secret value")
 
-Here is a sample NGINX Ingress controller OIDC secret for reference:
+Here is a sample NGINX Ingress controller `oidc-secret` manifest for reference:
 
 ```yaml
 apiVersion: v1
@@ -44,7 +44,7 @@ metadata:
   name: oidc-secret
 type: nginx.org/oidc
 data:
-  client-secret: <insert-secret-here>
+  client-secret: <insert-base64-encoded-secret-here>
 ```
 
 Ensure to replace `client-secret` with the value provided in the Azure AD portal.
