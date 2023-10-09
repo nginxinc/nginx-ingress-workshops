@@ -1,9 +1,9 @@
-# Install NGINX Plus Ingress Controller by pulling image from F5 Docker registry
+# Install NGINX Ingress Controller by pulling image from F5 Docker registry
 
-This doc needs to used as an alternative to Step 7 of [Install NGINX Plus Ingress Controller using Manifest files](readme.md#install-nginx-plus-ingress-controller-using-manifest-files) section in case `nginx-plus-ingress` image hasn't been pushed to your ACR registry and you would like to directly pull the image from F5's private Docker registry.
->**Note:** This doc only replaces Step 7 within [Install NGINX Plus Ingress Controller using Manifest files](readme.md#install-nginx-plus-ingress-controller-using-manifest-files) of the main readme doc. All the steps from 1-6 need to be performed before starting here.
+This doc needs to used as an alternative to Step 7 of [Install NGINX Ingress Controller using Manifest files](readme.md#install-nginx-ingress-controller-using-manifest-files) section in case `nginx-plus-ingress` image hasn't been pushed to your ACR registry and you would like to directly pull the image from F5's private Docker registry.
+>**Note:** This doc only replaces Step 7 within [Install NGINX Ingress Controller using Manifest files](readme.md#install-nginx-ingress-controller-using-manifest-files) of the main readme doc. All the steps from 1-6 need to be performed before starting here.
 
-1. To pull images from F5 Docker registry you would require a NGINX Plus Ingress Controller subscription JWT token (Please check with lab instructors if you donot have this). Copy your JWT token into an environment variable by running either of two below commands:
+1. To pull images from F5 Docker registry you would require a NGINX Ingress Controller subscription JWT token (Please check with lab instructors if you donot have this). Copy your JWT token into an environment variable by running either of two below commands:
    
    Replace `{JWT Token}` placeholder with your JWT Token.
    ```bash
@@ -46,9 +46,9 @@ This doc needs to used as an alternative to Step 7 of [Install NGINX Plus Ingres
      - On line #109, we have enabled OIDC. This is to add authentication to a specific application which is covered in lab3.
      - On line #97, uncomment to make use of default TLS secret.
 
-    Now deploy NGINX Plus Ingress Controller as a Deployment using the updated manifest file.
+    Now deploy NGINX Ingress Controller as a Deployment using the updated manifest file.
     ```bash
     kubectl apply -f lab1/jwt-nginx-plus-ingress.yaml
     ```
 
-Now you should be all set and can continue with the next section ([Check your NGINX Plus Ingress Controller](readme.md#check-your-nginx-plus-ingress-controller)) of the main readme doc.
+Now you should be all set and can continue with the next section ([Check your NGINX Ingress Controller](readme.md#check-your-nginx-ingress-controller)) of the main readme doc.
