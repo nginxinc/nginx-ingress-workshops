@@ -4,7 +4,7 @@
 
 ## Introduction
 
-In this section, you will we are going to configure NGINX Ingress controller with Microsoft Azure Active directory to add authentication to a specific application. We will be adding a `policy` and `client-secret` to the cluster to know how to connect to Microsoft Azure Active Directory.
+In this section, you will be configuring NGINX Ingress controller with Microsoft Azure Active directory to add authentication to a specific application. You will be adding a `policy` and `client-secret` to the cluster to know how to connect to Microsoft Azure Active Directory.
 <br/>
 
 ## Learning Objectives
