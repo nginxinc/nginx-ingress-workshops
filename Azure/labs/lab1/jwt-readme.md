@@ -41,8 +41,9 @@ This doc needs to used as an alternative to Step 7 of [Install NGINX Plus Ingres
      - On line #38, we have replaced the `nginx-plus-ingress:3.2.1` placeholder with an image that we pull directly from the private F5 docker registry(`private-registry.nginx.com/nginx-ic/nginx-plus-ingress:3.2.1-alpine-fips`) instead using image that we pushed in the private ACR registry as instructed in lab0.
      - On lines #52-53, we have added TCP port 9000 for the Plus Dashboard.
      - On lines #98-99, we have enabled the Dashboard and set the IP access controls to the Dashboard.
-     - On line #108, we have enabled Prometheus to collect metrics from the NGINX Plus stats API.
      - On lines #16-19, we have enabled Prometheus related annotations.
+     - On line #108, we have enabled Prometheus to collect metrics from the NGINX Plus stats API.
+     - On line #109, we have enabled OIDC. This is to add authentication to a specific application which is covered in lab3.
      - On line #97, uncomment to make use of default TLS secret.
 
     Now deploy NGINX Plus Ingress Controller as a Deployment using the updated manifest file.

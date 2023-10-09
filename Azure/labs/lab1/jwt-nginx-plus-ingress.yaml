@@ -106,6 +106,7 @@ spec:
           - -report-ingress-status
          #- -external-service=nginx-ingress
           - -enable-prometheus-metrics
+          - -enable-oidc
          #- -enable-service-insight
          #- -global-configuration=$(POD_NAMESPACE)/nginx-configuration
 #      initContainers:

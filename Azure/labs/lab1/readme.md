@@ -111,8 +111,9 @@ Finally, you are going to use the NGINX Plus Dashboard to monitor both NGINX Plu
          >**Note:** Make sure you replace the image with the appropriate image that you pushed in your ACR registry.
      - On lines #50-51, we have added TCP port 9000 for the Plus Dashboard.
      - On lines #96-97, we have enabled the Dashboard and set the IP access controls to the Dashboard.
-     - On line #106, we have enabled Prometheus to collect metrics from the NGINX Plus stats API.
      - On lines #16-19, we have enabled Prometheus related annotations.
+     - On line #106, we have enabled Prometheus to collect metrics from the NGINX Plus stats API.
+     - On line #107, we have enabled OIDC. This is to add authentication to a specific application which is covered in lab3.
      - On line #95, uncomment to make use of default TLS secret.
 
 
