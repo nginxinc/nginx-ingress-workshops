@@ -24,7 +24,7 @@ spec:
           code: 302
     - path: /tea
       policies:
-      - name: oidc-policy
+      - name: oidc-policy # This enables Azure AD authentication for /tea path
       action:
         pass: tea
     - path: /coffee
