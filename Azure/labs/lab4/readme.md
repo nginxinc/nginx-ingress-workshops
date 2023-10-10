@@ -203,30 +203,139 @@ Here is a brief description of what these different tools and application provid
     ```
     <br/>
 
-## Testing the NGINX Plus Prometheus "scraper" Port and Page
+## Prometheus and Grafana Testing
 
-<br/>
+For you and your team to access Prometheus and Grafana from outside the cluster, you will add these apps to your existing NGINX Ingress Controller. In your lab environment, you will use VirtualServer and VirtualServerRoute manifests, to take advantage of NGINX's ability to do cross-namespace routing. (Prometheus and Grafana are running in the "monitoring" namespace, remember?).  
 
-Verify that NGINX Plus NIC is enabled for exporting Prometheus statistics.  This requires 3 settings:
+1. Inspect the `prometheus-vs.yaml`, `grafana-vs.yaml` and `grafana-vsr.yaml` files in the lab4 folder.
 
-- Prometheus `Annotations` are enabled
-- Port `9113` is open
-- The Plus command-line argument `- -enable-prometheus-metrics` is enabled, to allow the collection of the NIC's statistics on that port.
+    Notice that you are routing requests to your Prometheus and Grafana applications that live in a different namespace (`monitoring` in this lab), which are specified in your `VirtualServer/VirtualServerRoute` configuration.
 
-**!Bonus!** - These settings have already been enabled for you in this lab, but they are `not` enabled by default.  
+2. Apply the VS manifests:
 
-To see these settings, inspect the `lab1/nginx-plus-ingress.yaml` file, lines 16-19, 46-47, and 106.
+    ```bash
+    kubectl apply -f lab4/prometheus-vs.yaml
+    kubectl apply -f lab4/grafana-secret.yaml
+    kubectl apply -f lab4/grafana-vs.yaml
+    kubectl apply -f lab4/grafana-vsr.yaml
+    ```
+    ```bash
+    ###Sample Output###
+    virtualserver.k8s.nginx.org/prometheus-vs created
+    secret/grafana-secret created
+    virtualserver.k8s.nginx.org/grafana-vs created
+    virtualserverroute.k8s.nginx.org/grafana-dashboard created
+    ```
+    <br/>
 
-Annotations | Port  | Plus Args
-:-------------------------:|:-------------------------:|:-------------------------:
-![NIC prometheus settings](media/prometheus_settings1.png) |![NIC prometheus settings](media/prometheus_settings2.png) |![NIC prometheus settings](media/prometheus_settings3.png)
+
+3. To test Prometheus access through NGINX Ingress, open Chrome and navigate to Prometheus (http://prometheus.example.com). You should see a webpage like below. Search for `nginx_ingress_nginxplus` in the query box to see a list of all the statistics that Prometheus is collecting for you: 
+   
+   ![Prometheus Statistics List](media/prometheus_statistics_list.png)
+
+    Select `nginx_ingress_nginxplus_http_requests_total` from the list, click on Graph, and then click the "Execute" Button.  This will provide a graph similar to this one:
+
+    ![Prometheus graph screenshot](media/prometheus_graph.png)
+
+    Take a few minutes to explore the many  different statistics, time windows, etc. Try another Prometheus query that interests you.
+
+4. To test Grafana access through NGINX Ingress, open Chrome and navigate to Grafana (https://grafana.example.com).You should see a Grafana login page like below.
+   
+    ![Grafana Login](media/ext_grafana_login.png)
+
+    Retrieve the Grafana admin login password, which was dynamically created by Helm during the installation:
+
+    ```bash
+    kubectl get secret --namespace monitoring nginx-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+    ```
+
+    After logging in, you should see the main Grafana Welcome page:
+
+    ![Grafana screenshot](media/ext_grafana_welcome.png)
+
+## Configure Grafana Data Sources
+
+1. Once logged in, click on `Data Sources` shortcut present on the Welcome page. This would navigate you to `Home > Connections > Data sources > Add data source` which we can also reach by using the left  `Toggle Button`. Add `Prometheus` as a data source.
+   
+    ![Data Sources](media/grafana_data_source.png)
+    ![Add Prometheus DS](media/grafana_add_prometheus.png)
+
+2. Once `Prometheus` is added as a data source, in the Prometheus `settings` tab, update the HTTP URL to `http://nginx-prometheus-server:80`.
+
+    ![Update Prometheus URL](media/grafana_prometheus_ds.png)
+
+    Scroll to the botton, and click "Save and Test", it should show a Green Checkmark status and then click the "Home" button to take you back to welcome page.
+
+## Import Grafana Custom Dashboards
+
+1. Now you should be ready to import the NGINX Dashboards for NIC from NGINX, Inc. Using the left `Toggle Button`, navigate to `Home > Dashboards`.
+Within the `Dashboard` section, expand the right `New` button and then click on `Import` to add a dashboard:
+
+    ![Grafana Import](media/grafana_imports.png)
+
+2. Next you will import the two Grafana dashboard JSON definition files present in the `lab4` folder.
+
+   - `NGINX-Basic.json` gives you basic metrics which come from NGINX Opensource.
+   - `NGINXPlusICDashboard.json` is provided by NGINX, Inc, giving you advanced Layer 4 thru 7 TCP/HTTP/HTTPS metrics which are only available from NGINX Plus.
+
+    Copy the entire json file and place it within the  `Import via panel json` textbox and click on `Load` button. In the subsequent screen click on `Import` button with default fields.
+
+    ![json load](media/grafana_json_load.png)
+
+    ![json load2](media/grafana_json_load2.png)
+    <br/>
+
+3. Once you have imported both Dashboards, it's time to check them out:
+
+    Navigate back to `Dashboard` section. Within this section, click on the `NGINX` dashboard.
+
+    ![grafana open NGINX dashboard](media/grafana_open_basic_dashboard.png)
+
+    This should open up the NGINX Basic Grafana Dashboard. You can expand the sub-sections or adjust the `time range` and `refresh` interval in the upper right corner as needed.  You can see this shows the up/down Status of the Ingress, and few Connections and Requests stats:
+
+    ![grafana nginx basic dashboard](media/grafana_nginx_basic.png)
+
+    **NOTE:** If you see a red bar with the message "**No Data**" in the top most pane as seen in below screenshot then click on edit, and change Value options Fields to "Numeric Fields" and click Apply.
+
+    ![no data issue](media/grafana_no_data.png)
+
+    ![no data fix](media/grafana_no_data_fix.png)
+    
+    <br/>
+
+1. Next, from the `Dashboards` section, select the `NGINX Plus Ingress Controller` Dashboard.
+
+    ![grafana open NIC dashboard](media/grafana_open_nic_dashboard.png)
+
+    This should open up the NGINX Plus Grafana Dashboard. You can expand the sub-sections or adjust the time range and refresh time as needed.
+
+    ![grafana NIC dashboard](media/grafana_nic_dashboard.png)
+
+    If the graphs are blank or do not show much data, try running a load test tool of your choice(You can use the code below to run [wrk](https://github.com/wg/wrk) load tool). Once load test has run for few minutes, you should start seeing some statistics being collected and graphed:
+
+    ```bash
+     # Make sure the bash variables are populated with the correct values
+    export EIP=$(kubectl get svc nginx-ingress -n nginx-ingress -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+
+    echo $EIP
+    ```
+    ```bash
+    docker run --rm williamyeh/wrk -t4 -c200 -d20m -H 'Host: cafe.example.com' --timeout 2s https://$EIP/coffee
+    ```
+    ```bash
+    ###Sample Output###
+    Running 20m test @ https://13.86.100.10/coffee
+    ```
+    <br/>
 
 **This completes the Lab.** 
 <br/>
 
 ## References: 
 
-- [nginx](www.nginx.com)
+- [VirtualServer and VirtualServerRoute](https://docs.nginx.com/nginx-ingress-controller/configuration/virtualserver-and-virtualserverroute-resources/)
+
+- [Grafana NGINX Plus IC Dashboard](https://github.com/nginxinc/kubernetes-ingress/tree/master/grafana)
 <br/>
 
 ### Authors
