@@ -284,7 +284,7 @@ I0720 17:41:00.321015       1 main.go:776] Pod label updated: nginx-ingress-756d
 
 ### Update the NGINX Ingress logging format to see SSL/FIPS related fields
 
-How do know if/what FIPS or non-FIPS traffic is being handled by NGINX?  What visibility is available for `audits and attestations?`  NGINX has the ability to log all TLS related components, including client/server requests/responses metadata for connections/sessions.  Let's add a few of these important logging variables, so you can see what the requests/responses look like in the `NGINX Access Log`.
+How do you know if/what FIPS or non-FIPS traffic is being handled by NGINX?  What visibility is available for `audits and attestations?`  NGINX has the ability to log all TLS related components, including client/server requests/responses metadata for connections/sessions.  Let's add a few of these important logging variables, so you can see what the requests/responses look like in the `NGINX Access Log`.
 
 Here is a list of the 3 TLS variables you will add, and what they are:
 
@@ -292,7 +292,7 @@ Here is a list of the 3 TLS variables you will add, and what they are:
 - $ssl_protocol : returns the protocol of an established SSL connection
 - $ssl_cipher : returns the name of the cipher used for an established connection
 
-**Note:**  There are many more variables available, but we are only showing a few in this exercise.  There is a link to the complete list in the `References` section at the end of this exercise.
+**Note:**  There are many more variables available, but we are only showing a few in this exercise.  There is a link to the complete list of variables in the `References` section at the end of this exercise.
 
 Inspect the `nginx-fips-logging.yaml` ConfigMap manifest.  This ConfigMap is use to configure additional NGINX settings.  The Access log format as 3 new additional logging fields added, for the $ssl variables.
 
