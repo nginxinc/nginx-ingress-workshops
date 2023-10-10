@@ -19,13 +19,26 @@ What you will need from Microsoft Azure AD:
 
 You will want to create a new `app registration` from within Azure Active Directory.
 
+Login into Microsoft Azure Portal and navigate to Azure Active Directory.    
+1. Click on `app registrations`.
+2. CLick the `+` button at the top for `New registration`
+3. Fill out the fields and name your application registration.
+4. You can ignore `redirect` URI for now. We will configure this later.
+
 ![App registration!](./images/app-reg.PNG "App registration")
 
 Take note of the `application (client) ID` as that will be required for setup.
 You will need to create a new `client credentials` for the secret that will be used with NIC and Azure AD.
 
-Creating "client secret"
-When you create a new app registration, you will also need to create a new `client-secret` that will be used by NGINX Ingress controller. This secret will be used to generate a Kubernetes Secret as part of the workdflow
+Creating `client secret`
+When you create a new app registration, you will also need to create a new `client-secret` that will be used by NGINX Ingress controller. This secret will be used to generate a Kubernetes Secret as part of the workdflow.
+To create your `client secret`, fro within the application we registered in the above, `click` into the application itself. Once within the application, on the right side you will see `client credentials`.
+When `client credentials` is open, click on the `+` button for `New client secret`.
+
+You will be asked to provide a description of the secret as well as an expiration. Feel in as you see fit.
+
+Once you have created the secert, you will see the secret below. The `value` column wil lbe the value you want to look for and copy. This is what will be used to create our Kubernetes secret for OIDC.
+
 Within the Azure AD portal and app registration screen, create your `client-secret`:
 
 ![Client secret!](./images/client-secret.JPG "Client secret")
@@ -35,7 +48,18 @@ After you create your `client-secret`, make sure you copy the the `Value` portio
 
 ![Client secret value!](./images/secret-value.jpg "Secret value")
 
-Here is a sample NGINX Ingress controller `oidc-secret` manifest for reference:
+With the secret value copied, we are going to create a kubernetes secret. 
+
+To create our secret, we are going to use the builtin in `base64` to encode our secret. This encoded secret will then be used in our .yaml secret file for OIDC. 
+
+```yaml
+echo -n '138cvj3kj43kjkjlkjflks' | base64
+MTM4Y3ZqM2tqNDNramtqbGtqZmxrcw==
+```
+
+Copy the value on the screen and paste it into your `.yaml` secret like the below.
+
+Here is a sample NGINX Ingress controller `oidc-secret` manifest for reference that you can paste your output from above into:
 
 ```yaml
 apiVersion: v1
@@ -44,10 +68,8 @@ metadata:
   name: oidc-secret
 type: nginx.org/oidc
 data:
-  client-secret: <insert-base64-encoded-secret-here>
+  client-secret: MTM4Y3ZqM2tqNDNramtqbGtqZmxrcw== 
 ```
-
-Ensure to replace `client-secret` with the value provided in the Azure AD portal.
 
 The `endpoints` tab will have the information that NGINX Ingress controller needs (authorization endpoint, token endpoint, .well-known/openid-configuration).
 
@@ -55,11 +77,10 @@ The `endpoints` tab will have the information that NGINX Ingress controller need
 
 You can `curl` the `.well-known/openid-configuration` endpoint to retrieve the `jwksURI` which we will need to configure NGINX Ingress controller.
 
-Below, we use `curl` to query the Azure AD endpoint information and pipe it to `jq` to parse the JSON output, making it easy to read.
-
+We are going to be using `OpenID Connect metadata document` to find our `.well-known/openid-configuration`
 
 ```shell
-curl https://login.microsoftonline.com/<replace_with_your_client_id>/v2.0/.well-known/openid-configuration | jq
+curl https://login.microsoftonline.com/<replace_with_your_tenant_id>/v2.0/.well-known/openid-configuration | jq
 ```
 
 The last piece we need to configure in Azure AD is setting up the `redirect`.
@@ -69,20 +90,51 @@ On the next screen, you will `redirect URIs` and `Front-channel logout URL`.
 
 
 For the `redirect URI`, you will want to fill in with the address of the NGINX Ingress controller instance, including the port number, with `/_codexch`.
-For example, if my NGINX Ingress controller is configured for OIDC to access `webapp.example.com`, you would populate the `redirect URI` with the following:
+For example, if my NGINX Ingress controller is configured for OIDC to access `cafe.example.com`, you would populate the `redirect URI` with the following:
 
 ![Redirect URI setup!](./images/redirect.JPG "Redirect configuration")
 
 For this example, my configuration setting would be:
 
 ```bash
-https://webapp.example.com:443/_codexch
+hhttps://cafe.example.com:443/_codexch
 ```
 
-NGINX Ingress controller setup.
-You will need to use our custom resource definitions. This includes our `virtualserver` and our `policy`.
-You will need to define a `resolver` so NGINX Ingress can resolve the IdP hostname
-Here is the `policy` for Azure AD:
+Make sur you are specifing `HTTPS` and port 443. This is required setting.
+
+Setting up NGINX Ingress controller
+
+You will need to use our custom resource definitions. This includes our `virtualserver` and our `policy`, both required to use OIDC authentication.
+
+You will need to define a `resolver` so NGINX Ingress can resolve the IdP hostname. This can be done using a `configmap`. Here is a sample configmap that can be used:
+
+```yaml
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: nginx-config
+  namespace: nginx-ingress
+data:
+  resolver-addresses: <kube-dns-ip>
+  resolver-valid: 5s
+```
+
+We will need to know our `kube-dns` service IP. This is required so NGINX Ingress controller can resolve Microsoft Azure AD correctly to complete the authentication process. NGINX by default caches DNS queries using the TTL value from the response. `resolver-valid` allows us to override that and define our own setting.
+
+To find your `kube-dns` service IP, you can run the following command:
+
+```shell
+╰─➤  kubectl get svc -A -owide
+NAMESPACE     NAME             TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                  AGE   SELECTOR
+default       kubernetes       ClusterIP   10.43.0.1       <none>        443/TCP                  10h   <none>
+kube-system   kube-dns         ClusterIP   10.43.0.10      <none>        53/UDP,53/TCP,9153/TCP   10h   k8s-app=kube-dns
+kube-system   metrics-server   ClusterIP   10.43.239.241   <none>        443/TCP                  10h   k8s-app=metrics-server
+```
+
+From the above, we can identify that our `kube-dns` service IP address is `10.43.0.10`
+
+Next, we need to define our OIDC policy for Azure AD:
+Here is our OIDC `policy` for Azure AD:
 
 ```yaml
 apiVersion: k8s.nginx.org/v1
@@ -100,29 +152,37 @@ spec:
     accessTokenEnable: true
 ```
 
+The above values will be replaced with the `endpoint` information we captured above, when we looked at the `well-known/openid-configuration` endpoint information. Replace with your specific values. 
+
 Now we apply the `policy` to our `virtualserver` resource:
 
 ```yaml
 apiVersion: k8s.nginx.org/v1
 kind: VirtualServer
 metadata:
-  name: webapp
+  name: cafe
 spec:
-  host: webapp.example.com
+  host: cafe.example.com
   tls:
     secret: tls-secret
     redirect:
       enable: true
   upstreams:
-    - name: webapp
-      service: webapp-svc
+    - name: coffee
+      service: coffee-svc
+      port: 80
+    - name: tea
+      service: tea-svc
       port: 80
   routes:
-    - path: /
+    - path: /tea
       policies:
       - name: oidc-policy
       action:
         pass: webapp
+    - path: /coffee
+      action:
+        pass: coffee
 ```
 
 You can verify the successufly setup of the `virtualserver` and `policy` by running the following commands:  
@@ -131,10 +191,11 @@ Retrieving status of `virtualserver`:
 ```bash
 ~$ kubectl get virtualserver
 NAME     STATE   HOST                 IP           PORTS      AGE
-webapp   Valid   webapp.example.com   172.18.0.2   [80,443]   10m
+cafe   Valid   cafe.example.com   172.18.0.2   [80,443]   10m
 ```
 To retrieve the status of the `policy`:
-```
+
+```shell
 ~$ kubectl get policy
 NAME          STATE   AGE
 oidc-policy   Valid   14m
@@ -143,7 +204,7 @@ oidc-policy   Valid   14m
 With the status of `virtualserver` and `policy` showing `valid` we conclude we have successuflly configured NGINX Ingress controller.
 
 You can now test your Azure AD setup with NGINX Ingress controller.   
-Open up your browser and head to `https://webapp.example.com`. 
+Open up your browser and head to `https://cafe.example.com`. 
 If everything has been configured correctly, you should see the browser address bar redirect to Azure AD for authentication logon prompt. Once you successfully provide your Microsoft Azure AD credentials, NGINX Ingress controller will validate the succesfull login and then allow your reques to the backend resource.
 
 **This completes the Lab.** 
