@@ -4,7 +4,9 @@
 
 ## Introduction
 
-In this section, you will run the NGINX Plus Ingress Controller in FIPS mode, for compliance with Federal Information Processing Systems 140-2 Level 1 requirements.  A FIPS compliant NGINX Ingress image will be used, configured, and tested to verify that the Nginx Plus Ingress Controller meets this requirement.  You will also verify that the Kubernetes nodes are also FIPS compliant.
+In this section, you will run the NGINX Plus Ingress Controller in FIPS mode, for compliance with Federal Information Processing Systems 140-2 Level 1 requirements.  A FIPS compliant NGINX Ingress image will be used, configured, and tested to verify that the Nginx Plus Ingress Controller meets this requirement.  You will also verify that the traffic been processed is also FIPS CIPHER compliant.
+
+FIPS compliant software is often a requirement for traffic being used in the US Government, Military, Financial, Insurance, and other industries and computer networking environments.  NGINX provides an Ingress Controller image that could be used as part of an ecosystem of FIPS compliant software.
 
 <br/>
 
@@ -18,15 +20,19 @@ Azure  |  Kubernetes  |  NGINX Plus
 
 - Review the NGINX Ingress Controller image details
 - Verity the NGINX Ingress Controller Alpine Linux OS is running in FIPS mode
-- Verify the NGINX Ingress FIPS check is working
-- Verify the NIC can process FIPS compliant requests
-- Verify the NIC is not processing non-FIPS compliant requests
-- Update and Review the NIC logging variables to capture SSL/FIPS related fields
-- Verify TLS Cipher processing
+- Verify the NGINX Ingress FIPS check module is working
+- Verify the NGINX Ingress can process FIPS compliant requests
+- Verify the NGINX Ingress is not processing non-FIPS compliant requests
+- Update and Review the NGINX logging variables to capture SSL/FIPS related fields
+- Verify proper TLS Cipher communications 
 
 <br/>
 
 ### Review the NGINX Ingress Controller image being used
+
+![](../media/nginx-ingress-icon.png)
+
+<br/>
 
 Set the $NIC environment variable:
 
@@ -59,9 +65,15 @@ Kube Exec to the Alpine Shell in the NIC Container:
   kubectl exec -it $NIC -n nginx-ingress -- /bin/ash
 ```
 
+<br/>
+
+![Alpine Linux OS](../media/alpine-icon.png)
+
+<br/>
+
 ### Check if the NGINX Ingress Controller Alpine Linux OS is running in FIPS mode:
 
-After logging into the Ingress Controller, check that Alpine OS.  The Kernel boot parameters should have `fips=1`.
+After logging into the Ingress Controller, check the Alpine OS.  The Kernel boot parameters should have `fips=1`.
 
 ```bash
 ~ $ cat /proc/cmdline
@@ -83,13 +95,21 @@ Check the Alpine Linux System Control parameter:
 crypto.fips_enabled = 1    # the Alpine OS is running in FIPS mode
 ```
 
->>**If the value = 0, Alpine is not running in FIPS mode!**
+If you see ...
 
 ```bash
 ### Sample Output ###
 crypto.fips_enabled = 0    # the Alpine OS is NOT running in FIPS mode !!
 
 ```
+
+>>**If the value = 0, Alpine is not running in FIPS mode!**  Are your Kubernetes Nodes Operating System running as FIPS enabled ?  If they are not, then the Ingress Controller cannot run as FIPS enabled.  If you are unsure, check your Nodes OS for FIPS compliance.  Also, you MUST be running the NGINX Alpine based image with FIPS added.
+
+<br/>
+
+![](../media/nginx-plus-icon.png)
+
+<br/>
 
 Also Review the Version of NGINX Plus in the NIC image:
 
@@ -121,29 +141,33 @@ daemon off;
 
 error_log  stderr notice;
 pid        /var/lib/nginx/nginx.pid;
-load_module modules/ngx_fips_check_module.so;   ### the FIPS checker module is being loaded into memory when NGINX starts
-.
-.
+load_module modules/ngx_fips_check_module.so;   ### the FIPS check module is being loaded into memory when NGINX starts
+...
 ```
 
 Check the entire NGINX configuration for FIPS related parameters. 
 
 ```bash
-~$ nginx -T |grep FIPS
+~$ nginx -T |grep fips
 ```
 
 ```bash
 ### Sample Output ###
 ~ $ nginx -T |grep fips
-nginx: [alert] could not open error log file: open() "/var/log/nginx/error.log" failed (13: Permission denied)
+...
 nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
-2023/08/15 18:45:11 [notice] 37#37: OpenSSL FIPS Mode is enabled    ## FIPS Mode is enabled
+2023/08/15 18:45:11 [notice] 37:37: OpenSSL FIPS Mode is enabled    ## FIPS Mode is enabled
 nginx: configuration file /etc/nginx/nginx.conf test is successful
-load_module modules/ngx_fips_check_module.so;                       ## FIPS checker module is load in memory
-
+load_module modules/ngx_fips_check_module.so;                       ## FIPS check module will be loaded
+...
 ```
+<br/>
 
-#### Optional - Verify the Version of OpenSSL, and FIPS mode is available
+![](../media/openssl_logo.png)
+
+<br/>
+
+#### Verify the Version of OpenSSL, and FIPS Provider is available
 
 Also Verify / Check the OpenSSL version is FIPS enabled:
 
@@ -177,7 +201,7 @@ Providers:
 
 ```
 
->>**If the fips Provider is missing, Openssl cannot provide FIPS mode!**
+>>**If the fips Provider is missing, OpenSSL cannot provide FIPS mode!**
 
 <br/>
 
@@ -217,13 +241,13 @@ Error setting digest
 MD5(/dev/null)= d41d8cd98f00b204e9800998ecf8427e
 ```
 
-Press Ctrl-C to exist the Alpine Shell.
+Press Ctrl-C to exit the Alpine Shell.
 
 <br/>
 
-### Verify the NGINX FIPS check module is working
+### Verify the NGINX FIPS check module
 
-Next, verify the NGINX FIPS check module is running.  The FIPS check module looks for a FIPS enabled OS and FIPS enabled OpenSSL when NGINX starts up.
+Next, verify the NGINX FIPS check module is running.  The FIPS check module looks for a `FIPS enabled OS and FIPS enabled OpenSSL` when NGINX starts.
 
 ```bash
 kubectl logs $NIC -n nginx-ingress
@@ -238,7 +262,7 @@ I0720 17:41:00.301183       1 main.go:380] Using nginx version: nginx/1.23.4 (ng
 I0720 17:41:00.321015       1 main.go:776] Pod label updated: nginx-ingress-756d7f6c9b-7mptn
 2023/07/20 17:41:00 [notice] 13#13: using the "epoll" event method
 ###
-2023/07/20 17:41:00 [notice] 13#13: OpenSSL FIPS Mode is enabled**  # From FIPS checker module #
+2023/07/20 17:41:00 [notice] 13:13: OpenSSL FIPS Mode is enabled**  # From FIPS check module #
 ###
 2023/07/20 17:41:00 [notice] 13#13: nginx/1.23.4 (nginx-plus-r29)
 2023/07/20 17:41:00 [notice] 13#13: built by gcc 12.2.1 20220924 (Alpine 12.2.1_git20220924-r10) 
@@ -253,24 +277,26 @@ I0720 17:41:00.321015       1 main.go:776] Pod label updated: nginx-ingress-756d
 
 ```bash
 ### Sample Output ###
-2023/07/18 15:15:13 [notice] 239#239: OpenSSL FIPS Mode is not enabled    # Warning -  not in FIPS mode
+2023/07/18 15:15:13 [notice] 239:239: OpenSSL FIPS Mode is not enabled    # Warning -  not in FIPS mode !
 ```
 
 <br/>
 
 ### Update the NGINX Ingress logging format to see SSL/FIPS related fields
 
-How do know what FIPS or non-FIPS traffic is being handled by NGINX?  What visibility is available for `audits and attestations?`  NGINX has the ability to log all TLS related components, including client and server metadata for connections/sessions.  Let's add a few of these important logging variables, so you can see what the requests/responses look like in the NGINX Access Log.
+How do know if/what FIPS or non-FIPS traffic is being handled by NGINX?  What visibility is available for `audits and attestations?`  NGINX has the ability to log all TLS related components, including client/server requests/responses metadata for connections/sessions.  Let's add a few of these important logging variables, so you can see what the requests/responses look like in the `NGINX Access Log`.
 
-Here is a list of the TLS variables you will add, and what they are:
+Here is a list of the 3 TLS variables you will add, and what they are:
 
-- $ssl_session_id     # returns the session identifier of an established SSL connection
-- $ssl_protocol       # returns the protocol of an established SSL connection
-- $ssl_cipher         # returns the name of the cipher used for an established connection
+- $ssl_session_id : returns the unique session identifier of an established SSL connection
+- $ssl_protocol : returns the protocol of an established SSL connection
+- $ssl_cipher : returns the name of the cipher used for an established connection
 
-Note:  There are many more variables, but we are only showing a few in this exercise.  There is a link to the complete list in the `References` section at the end of this exercise.
+**Note:**  There are many more variables available, but we are only showing a few in this exercise.  There is a link to the complete list in the `References` section at the end of this exercise.
 
-To apply these new variables, we will add them to the existing NGINX Access Log format, using a ConfigMap.
+Inspect the `nginx-fips-logging.yaml` ConfigMap manifest.  This ConfigMap is use to configure additional NGINX settings.  The Access log format as 3 new additional logging fields added, for the $ssl variables.
+
+To apply these new log variables, you will add them to the existing NGINX Access Log format, using the NIC's `nginx-config` ConfigMap.
 
 ```bash
 kubectl apply -f lab5/nginx-fips-logging.yaml
@@ -281,11 +307,13 @@ kubectl apply -f lab5/nginx-fips-logging.yaml
 configmap/nginx-config configured
 ```
 
-Send a couple requests to https://cafe.example.com/coffee, and review the Access Logs.
+Tail the Nginx Ingress Controller logs:
 
 ```bash
 kubectl logs $NIC -n nginx-ingress --tail 20 --follow
 ```
+
+Using curl or the browser, send a couple requests to https://cafe.example.com/coffee, and review the Access Logs.
 
 ```bash
 ### Sample Output ###
@@ -293,11 +321,19 @@ kubectl logs $NIC -n nginx-ingress --tail 20 --follow
 
 ```
 
+You can see, that NGINX is now populating the `$ssl_*` logging variables with data from your requests/responses.
+
 Type Ctrl-C when you are finished looking at the log.
 
 <br/>
 
 ### Test TLS ciphers with OpenSSL client 
+
+<br/>
+
+![](../media/tls-cipher-suite.png)
+
+<br/>
 
 This RC4 cipher is not allowed with FIPS, so it should fail:
 
@@ -312,10 +348,10 @@ Error with command: "-cipher RC4-MD5"
 
 ```
 
-This Camellia cipher is on the FIPS approved list, so it should be successful
+This Camellia cipher is on the FIPS approved list, so it should be successful:
 
 ```bash
-
+(echo "GET /" ; sleep 1) | openssl s_client -connect cafe.example.com:443 -cipher CAMELLIA256-SHA
 ```
 
 ```bash
@@ -395,6 +431,8 @@ closed
 (echo "GET /coffee"); (echo "HTTP/1.1"); (echo "Host:cafe.example.com") | openssl s_client -connect cafe.example.com:443 -cipher CAMELLIA256-SHA 
 ```
 
+You can try and verify additioinal FIPS ciphers with common scanning tools.
+
 <br/>
 
 **This completes the Lab.** 
@@ -411,14 +449,13 @@ closed
 - [NGINX FIPS Check Module](https://github.com/ogarrett/nginx-fips-check-module)
 - [NIST FIPS 140-2 Security Requirements](https://csrc.nist.gov/pubs/fips/140-2/upd2/final)
 - [NGINX SSL variables](http://nginx.org/en/docs/http/ngx_http_ssl_module.html#var_ssl_cipher)
-
+- [NGINX Variables](http://nginx.org/en/docs/varindex.html)
 
 <br/>
 
 ### Authors
 - Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
 - Shouvik Dutta - Solutions Architect - Community and Alliances @ F5, Inc.
-- Jason Williams - Principle Product Management Engineer @ F5, Inc.
 
 -------------
 
