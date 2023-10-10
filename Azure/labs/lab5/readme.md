@@ -431,7 +431,7 @@ closed
 (echo "GET /coffee"); (echo "HTTP/1.1"); (echo "Host:cafe.example.com") | openssl s_client -connect cafe.example.com:443 -cipher CAMELLIA256-SHA 
 ```
 
-You can try and verify additioinal FIPS ciphers with common scanning tools.
+You can try and verify additional FIPS ciphers with common scanning tools.
 
 <br/>
 
