@@ -16,14 +16,6 @@ In this section, you will be configuring NGINX Ingress controller with Microsoft
 - Configure Redirect URI in Azure AD
 - Setting up NGINX Ingress controller
 
-What you will need from Microsoft Azure AD:
-
-- Azure account
-- Azure AD setup
-- Configure NGINX Ingress controller `policy` with Azure AD
-- Request access to `/tea` and verify the redirection and authentication page is presented.
-- Verify that after successfully logging into Azure AD, the redirect back to NGINX Ingress controller successfully routes you to `/tea`
-
 ## Register an application with Azure AD
 
 To enable an application to use Azure AD for authentication, you will need to create a new `app registration` from within Azure Active Directory.
