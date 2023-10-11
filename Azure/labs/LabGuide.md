@@ -32,12 +32,12 @@ By the end of this Workshop, you will have a working, operational NGINX Plus Ing
 
 ### Prerequisites
 
-- Students:  Personal AWS account that can provision EKS clusters.
+- Students:  Personal Azure account that can provision AKS clusters.
 
 
 ### ** Prerequisite Knowledge **
 
-It is `highly recommended` for Students attending this Workshop to be familiar with NGINX and have some experience with Kubernetes administration, networking tools, and Load Balancing concepts.  Previous experience with VisualStudio Code is also helpful.
+It is `highly recommended` that Students attending this Workshop be familiar with NGINX and have some experience with Kubernetes administration, networking tools, and Load Balancing concepts.  Previous experience with VisualStudio Code is also helpful.
 
 </br>
 
@@ -47,7 +47,7 @@ VisualStudio Code  |  Kubernetes  |  NGINX Plus
 
 <br/>
 
-An excellent Prerequisite for taking this Workshop is the NGINX Basics Workshop, also available from F5 Inc., as it provides a fundamental basics of NGINX Plus, on which the NGINX Plus Ingress Controller is built.  Please contact your NGINX Event Marketing team for information on additional Workshops.
+An excellent Prerequisite for taking this Workshop is the NGINX Basics Workshop, also available from F5 Inc., as it provides the fundamental basics of NGINX Plus, on which the NGINX Plus Ingress Controller is built.  Please contact your NGINX Event Marketing team for information on additional Workshops.
 
 </br>
 
