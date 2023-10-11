@@ -122,7 +122,7 @@ nginx version: nginx/1.25.1 (nginx-plus-r30)
 built by gcc 12.2.1 20220924 (Alpine 12.2.1_git20220924-r10) 
 built with OpenSSL 3.1.1 30 May 2023 (running with OpenSSL 3.1.2 1 Aug 2023)
 TLS SNI support enabled
-configure arguments: --prefix=/etc/nginx --sbin-path=/usr/sbin/nginx --modules-path=/usr/lib/nginx/modules --conf-path=/etc/nginx/nginx.conf --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --pid-path=/var/run/nginx.pid --lock-path=/var/run/nginx.lock --http-client-body-temp-path=/var/cache/nginx/client_temp --http-proxy-temp-path=/var/cache/nginx/proxy_temp --http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp --http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp --http-scgi-temp-path=/var/cache/nginx/scgi_temp --with-perl_modules_path=/usr/lib/perl5/vendor_perl --user=nginx --group=nginx --with-compat --with-file-aio --with-threads --with-http_addition_module --with-http_auth_request_module --with-http_dav_module --with-http_flv_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_mp4_module --with-http_random_index_module --with-http_realip_module --with-http_secure_link_module --with-http_slice_module --with-http_ssl_module --with-http_stub_status_module --with-http_sub_module --with-http_v2_module --with-http_v3_module --with-mail --with-mail_ssl_module --with-stream --with-stream_realip_module --with-stream_ssl_module --with-stream_ssl_preread_module --build=nginx-plus-r30 --with-http_auth_jwt_module --with-http_f4f_module --with-http_hls_module --with-http_proxy_protocol_vendor_module --with-http_session_log_module --with-stream_mqtt_filter_module --with-stream_mqtt_preread_module --with-stream_proxy_protocol_vendor_module --with-cc-opt='-Os -Wformat -Werror=format-security -g' --with-ld-opt='-Wl,--as-needed,-O1,--sort-common -Wl,-z,pack-relative-relocs'
+...
 ```
 
 Verify the `NGINX FIPS check module` is configured to load when NGINX starts in the Container, check the nginx.conf file:
@@ -288,10 +288,10 @@ kubectl logs $NIC -n nginx-ingress --tail 20 --follow
 
 Using curl or the browser, send a couple requests to https://cafe.example.com/coffee, and review the Access Logs.
 
-```bash
+<code>
 ### Sample Output ###
 24.15.246.206 - - [11/Oct/2023:19:00:12 +0000] "GET /coffee HTTP/1.1" 200 674 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36" "-" rn="cafe-vs" "virtualserver" "default" svc="coffee-svc" "70e2dbafb5cc9522b0e2f6874e7a6f5c" rt=“0.003” ua=“10.244.1.4:80” sslid="50ab11d53adfe828bcc6281e4ec8d375a5bdde572b8d5b2cc2f7cbc50b72ce90" sslpr="TLSv1.3" sslci="TLS_AES_128_GCM_SHA256"
-```
+</code>
 
 You can see, that NGINX is now populating the `$ssl_*` logging variables with data from your requests/responses.
 
@@ -312,12 +312,10 @@ This RC4 cipher is not allowed with FIPS, so it should fail:
 ```bash
 (echo "GET /" ; sleep 1) | openssl s_client -connect cafe.example.com:443 -cipher RC4-MD5
 ```
-
 ```bash
 ### Sample Output ###
-Error with command: "-cipher RC4-MD5"
-140698019755328:error:1410D0B9:SSL routines:SSL_CTX_set_cipher_list:no cipher match:../ssl/ssl_lib.c:2564:
-
+Call to SSL_CONF_cmd(-cipher, RC4-MD5) failed
+809E285CF87F0000:error:0A0000B9:SSL routines:SSL_CTX_set_cipher_list:no cipher match:ssl/ssl_lib.c:2761:
 ```
 
 This Camellia cipher is on the FIPS approved list, so it should be successful:
@@ -328,51 +326,58 @@ This Camellia cipher is on the FIPS approved list, so it should be successful:
 
 ```bash
 ### Sample Output ###
-CONNECTED(00000003)
+CONNECTED(00000005)
 depth=0 C = US, ST = CA, O = Internet Widgits Pty Ltd, CN = cafe.example.com
-verify error:num=18:self signed certificate
+verify error:num=18:self-signed certificate
 verify return:1
 depth=0 C = US, ST = CA, O = Internet Widgits Pty Ltd, CN = cafe.example.com
+verify error:num=10:certificate has expired
+notAfter=Sep 11 16:15:35 2023 GMT
+verify return:1
+depth=0 C = US, ST = CA, O = Internet Widgits Pty Ltd, CN = cafe.example.com
+notAfter=Sep 11 16:15:35 2023 GMT
 verify return:1
 ---
 Certificate chain
  0 s:C = US, ST = CA, O = Internet Widgits Pty Ltd, CN = cafe.example.com
    i:C = US, ST = CA, O = Internet Widgits Pty Ltd, CN = "cafe.example.com  "
+   a:PKEY: rsaEncryption, 2048 (bit); sigalg: RSA-SHA256
+   v:NotBefore: Sep 12 16:15:35 2018 GMT; NotAfter: Sep 11 16:15:35 2023 GMT
 ---
 Server certificate
 -----BEGIN CERTIFICATE-----
+
 ...
+
 -----END CERTIFICATE-----
 subject=C = US, ST = CA, O = Internet Widgits Pty Ltd, CN = cafe.example.com
-
 issuer=C = US, ST = CA, O = Internet Widgits Pty Ltd, CN = "cafe.example.com  "
-
 ---
 No client certificate CA names sent
 Peer signing digest: SHA256
 Peer signature type: RSA-PSS
 Server Temp Key: X25519, 253 bits
 ---
-SSL handshake has read 1378 bytes and written 336 bytes
-Verification error: self signed certificate
+SSL handshake has read 1378 bytes and written 346 bytes
+Verification error: certificate has expired
 ---
-New, TLSv1.3, Cipher is CAMELLIA256-SHA
+New, TLSv1.3, Cipher is TLS_AES_256_GCM_SHA384
 Server public key is 2048 bit
-Secure Renegotiation IS NOT supported
+This TLS version forbids renegotiation.
 Compression: NONE
 Expansion: NONE
 No ALPN negotiated
 Early data was not sent
-Verify return code: 18 (self signed certificate)
+Verify return code: 10 (certificate has expired)
 ---
 ---
 Post-Handshake New Session Ticket arrived:
 SSL-Session:
     Protocol  : TLSv1.3
     Cipher    : TLS_AES_256_GCM_SHA384
-    Session-ID: 646820DB6EA3B1DD97A227E30D098F5B8CF719C6C133D9161839576953DED23F
+    Session-ID: 58741DC78B757CF82C1293686C3D1D3EA4420CFCEC60E9A517F52993B7227C92
     Session-ID-ctx: 
-    Resumption PSK: 50A3DC5CF130F7424755DB29A82A3EBE605C7BC8AD3FFDBDCAF02E045CA07DC705F0D18A766427CBF3FFABC02AF4809F
+    Resumption PSK: 6447D5EBEF9D0276E545DF1B0D0F92D09E5CDE81BDD947E5DD2DC1CE264CAC4BB32348DED495DE657A240D9BA68C125F
     PSK identity: None
     PSK identity hint: None
     SRP username: None
@@ -381,9 +386,32 @@ SSL-Session:
 
 ...
 
-    Start Time: 1692131417
+    Start Time: 1697051127
     Timeout   : 7200 (sec)
-    Verify return code: 18 (self signed certificate)
+    Verify return code: 10 (certificate has expired)
+    Extended master secret: no
+    Max Early Data: 0
+---
+read R BLOCK
+---
+Post-Handshake New Session Ticket arrived:
+SSL-Session:
+    Protocol  : TLSv1.3
+    Cipher    : TLS_AES_256_GCM_SHA384
+    Session-ID: EEEE75932819E73AFDFAFDD1356F5408062CF3AB7F38AAA00C81C9BA583A13B1
+    Session-ID-ctx: 
+    Resumption PSK: D87408681B7BDD76BAD869C0C93390A2578413C88957D144B9F81D9A54DA257BB4DA2B5331D5A2B009E89492C1C5A00A
+    PSK identity: None
+    PSK identity hint: None
+    SRP username: None
+    TLS session ticket lifetime hint: 300 (seconds)
+    TLS session ticket:
+
+...
+
+    Start Time: 1697051127
+    Timeout   : 7200 (sec)
+    Verify return code: 10 (certificate has expired)
     Extended master secret: no
     Max Early Data: 0
 ---
@@ -392,7 +420,7 @@ read R BLOCK
 <head><title>404 Not Found</title></head>
 <body>
 <center><h1>404 Not Found</h1></center>
-<hr><center>nginx/1.23.4</center>
+<hr><center>nginx/1.25.1</center>
 </body>
 </html>
 closed
@@ -403,7 +431,7 @@ closed
 (echo "GET /coffee"); (echo "HTTP/1.1"); (echo "Host:cafe.example.com") | openssl s_client -connect cafe.example.com:443 -cipher CAMELLIA256-SHA 
 ```
 
-You can try and verify additional FIPS ciphers with common scanning tools.
+You can try and verify additional FIPS ciphers with common scanning tools. To check the list of FIPS compliant ciphers check this [link](https://docs.nginx.com/nginx/fips-compliance-nginx-plus/#step-4-verify-compliance-with-fips-140-2).
 
 <br/>
 
