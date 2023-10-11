@@ -288,10 +288,10 @@ kubectl logs $NIC -n nginx-ingress --tail 20 --follow
 
 Using curl or the browser, send a couple requests to https://cafe.example.com/coffee, and review the Access Logs.
 
-<code>
+```bash
 ### Sample Output ###
-24.15.246.206 - - [11/Oct/2023:19:00:12 +0000] "GET /coffee HTTP/1.1" 200 674 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36" "-" rn="cafe-vs" "virtualserver" "default" svc="coffee-svc" "70e2dbafb5cc9522b0e2f6874e7a6f5c" rt=“0.003” ua=“10.244.1.4:80” sslid="50ab11d53adfe828bcc6281e4ec8d375a5bdde572b8d5b2cc2f7cbc50b72ce90" sslpr="TLSv1.3" sslci="TLS_AES_128_GCM_SHA256"
-</code>
+24.15.246.206 [11/Oct/2023:20:53:18 +0000] "GET /coffee HTTP/1.1" 200 675 rn="cafe-vs" "default" svc="coffee-svc" ua=“10.244.0.4:80” sslid="bbb6e4061033d4ad322faf32b53afb02ce32158d8a13a5d84abf7788c2bf3ed1" sslpr="TLSv1.3" sslci="TLS_AES_128_GCM_SHA256"
+```
 
 You can see, that NGINX is now populating the `$ssl_*` logging variables with data from your requests/responses.
 
