@@ -109,15 +109,15 @@ az --version
         --location $MY_LOCATION \
         --node-count 3 \
         --node-vm-size $AKS_NODE_VM \
-        # --enable-fips-image \ # Uncomment to make all nodes FIPS enabled
         --kubernetes-version $K8S_VERSION \
         --tags owner=$MY_NAME \
-        --enable-addons monitoring \
-        --generate-ssh-keys
+        --enable-addons monitoring \ 
+        --generate-ssh-keys \
+        --enable-fips-image
    ```
    >**Note**: 
    >1. At the time of this writing, 1.27 is the latest kubernetes version that Azure AKS supports. 
-   >2. To make all the nodes have FIPS-enabled OS, you can uncomment `--enable-fips-image` flag within the `az aks create` command.
+   >2. `--enable-fips-image` flag has been added to the `az aks create` command to make all the nodes have FIPS-enabled OS. This is needed for lab5.
    >3. To list all possible vm sizes that an AKS node can use, run below command      
    >     ```bash
    >     az vm list-sizes --location centralus --output table
