@@ -293,7 +293,7 @@ Using curl or the browser, send a couple requests to https://cafe.example.com/co
 24.15.246.206 [11/Oct/2023:20:53:18 +0000] "GET /coffee HTTP/1.1" 200 675 rn="cafe-vs" "default" svc="coffee-svc" ua=“10.244.0.4:80” sslid="bbb6e4061033d4ad322faf32b53afb02ce32158d8a13a5d84abf7788c2bf3ed1" sslpr="TLSv1.3" sslci="TLS_AES_128_GCM_SHA256"
 ```
 
-You can see, that NGINX is now populating the `$ssl_*` logging variables with data from your requests/responses.
+If you scroll to the right in the above textbox, you can see, that NGINX is now populating the `$ssl_*` logging variables with data from your requests/responses.
 
 Type Ctrl-C when you are finished looking at the log.
 
