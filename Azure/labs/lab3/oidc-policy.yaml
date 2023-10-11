@@ -5,9 +5,9 @@ metadata:
 spec:
   oidc:
     clientID: <change_to_your_client_id>
-    clientSecret: <replace_with_name_of_kubernetes_secret_created>
+    clientSecret: oidc-secret # Name of the kubernetes secret that you created 
     authEndpoint: <authEndpoint is collected from endpoints in Azure AD>
-    tokenEndpoint: <authEndpoint is collected from endpoints in Azure AD> 
-    jwksURI: <authEndpoint is collected from endpoints in Azure AD> 
+    tokenEndpoint: <Token Endpoint is collected from endpoints in Azure AD> 
+    jwksURI: <jwksURI Endpoint is collected from endpoints in Azure AD> 
     scope: openid+profile+email
     accessTokenEnable: true
