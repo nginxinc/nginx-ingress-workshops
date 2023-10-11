@@ -114,6 +114,7 @@ Finally, you are going to use the NGINX Plus Dashboard to monitor both NGINX Ing
      - On lines #16-19, we have enabled Prometheus related annotations.
      - On line #106, we have enabled Prometheus to collect metrics from the NGINX Plus stats API.
      - On line #107, we have enabled OIDC. This is to add authentication to a specific application which is covered in lab3.
+     - On line #65, we are changing `allowPrivilegeEscalation` from default value of `false` to `true`. This is needed to run few FIPS related test commands in lab5.
      - On line #95, uncomment to make use of default TLS secret.
 
 

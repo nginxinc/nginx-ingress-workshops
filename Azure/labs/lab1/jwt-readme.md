@@ -44,6 +44,7 @@ This doc needs to used as an alternative to Step 7 of [Install NGINX Ingress Con
      - On lines #16-19, we have enabled Prometheus related annotations.
      - On line #108, we have enabled Prometheus to collect metrics from the NGINX Plus stats API.
      - On line #109, we have enabled OIDC. This is to add authentication to a specific application which is covered in lab3.
+     - On line #67, we are changing `allowPrivilegeEscalation` from default value of `false` to `true`. This is needed to run few FIPS related test commands in lab5.
      - On line #97, uncomment to make use of default TLS secret.
 
     Now deploy NGINX Ingress Controller as a Deployment using the updated manifest file.
