@@ -4,7 +4,7 @@
 
 ## Introduction
 
-In this section, you will run the NGINX Plus Ingress Controller in FIPS mode, for compliance with Federal Information Processing Systems 140-2 Level 1 requirements.  A FIPS compliant NGINX Ingress image will be used, configured, and tested to verify that the Nginx Plus Ingress Controller meets this requirement.  You will also verify that the traffic been processed is also FIPS CIPHER compliant.
+In this section, you will run the NGINX Plus Ingress Controller in FIPS mode, for compliance with Federal Information Processing Systems 140-2 Level 1 requirements.  A FIPS compliant NGINX Ingress image will be used, configured, and tested to verify that the Nginx Plus Ingress Controller meets this requirement.  You will also verify that the traffic being processed is only using FIPS compliant ciphers.
 
 FIPS compliant software is often a requirement for traffic being used in the US Government, Military, Financial, Insurance, and other industries and computer networking environments.  NGINX provides an Ingress Controller image that could be used as part of an ecosystem of FIPS compliant software.
 
