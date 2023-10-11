@@ -239,7 +239,8 @@ For you and your team to access Prometheus and Grafana from outside the cluster,
 
     Take a few minutes to explore the many  different statistics, time windows, etc. Try another Prometheus query that interests you.
 
-4. To test Grafana access through NGINX Ingress, open Chrome and navigate to Grafana (https://grafana.example.com).You should see a Grafana login page like below.
+4. To test Grafana access through NGINX Ingress, open Chrome and navigate to Grafana (https://grafana.example.com). 
+5. You should see a Grafana login page like below.
    
     ![Grafana Login](media/ext_grafana_login.png)
 
