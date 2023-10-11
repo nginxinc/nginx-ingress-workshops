@@ -14,7 +14,7 @@
 
 <br/>
 
-This Workshop will introduce NGINX Plus Ingress Controller with hands-on practice through self-paced lab exercises.  You will learn how to deploy an **`NGINX Plus Ingress Controller`** on a AWS EKS cluster, configure basic and advanced NGINX Plus features, test it with demo applications, and monitor it in real time. 
+This Workshop will introduce NGINX Plus Ingress Controller with hands-on practice through self-paced lab exercises.  You will learn how to deploy an **`NGINX Plus Ingress Controller`** on an Azure AKS cluster, configure basic and advanced NGINX Plus features, test it with demo applications, and monitor it in real time. 
 
 <br/>
 
