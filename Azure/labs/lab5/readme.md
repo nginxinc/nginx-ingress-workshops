@@ -28,7 +28,7 @@ Azure  |  Kubernetes  |  NGINX Plus
 
 <br/>
 
-### Review the NGINX Ingress Controller image being used
+## Review the NGINX Ingress Controller image being used
 
 ![](../media/nginx-ingress-icon.png)
 
@@ -37,7 +37,7 @@ Azure  |  Kubernetes  |  NGINX Plus
 Set the $NIC environment variable:
 
 ```bash
-export NIC=$(kubectl get pods -n nginx-ingress -o jsonpath={.items[0].metadata.name})
+export NIC=$(kubectl get pods -n nginx-ingress -o jsonpath='{.items[0].metadata.name}')
 ```
 
 Describe the NGINX Ingress pod:
@@ -53,7 +53,7 @@ kubectl describe pod $NIC -n nginx-ingress
 Containers:
   nginx-plus-ingress:
     Container ID:  docker://e57d091bac4b7914bb60513ccdbd5d93de37725cfcc4e42a0fdd04ebcc6d8010
-    Image:         private-registry.nginx.com/nginx-ic/nginx-plus-ingress:3.2.0-alpine-fips    ## Look here
+    Image:         private-registry.nginx.com/nginx-ic/nginx-plus-ingress:3.2.1-alpine-fips    ## Look here
     Image ID:      docker-pullable://private-registry.nginx.com/nginx-ic/nginx-plus-ingress@sha256:d16d23a489f115915c3660fe0b012b6d350e395a316e497d1219fd9c354fb423
     .
     .
@@ -71,28 +71,28 @@ Kube Exec to the Alpine Shell in the NIC Container:
 
 <br/>
 
-### Check if the NGINX Ingress Controller Alpine Linux OS is running in FIPS mode:
+## Check if the NGINX Ingress Controller Alpine Linux OS is running in FIPS mode:
 
 After logging into the Ingress Controller, check the Alpine OS.  The Kernel boot parameters should have `fips=1`.
 
 ```bash
-~ $ cat /proc/cmdline
+cat /proc/cmdline
 ```
-
 ```bash
 ### Sample Output ###
-BOOT_IMAGE=/boot/vmlinuz-3.10.0-1127.el7.x86_64 fips=1 root=UUID=6cd50e51-cfc6-40b9-9ec5-f32fa2e4ff02 ro console=tty0 console=ttyS0,115200n8 crashkernel=auto net.ifnames=0 console=ttyS0 LANG=en_US.UTF-8
+BOOT_IMAGE=/boot/vmlinuz-5.4.0-1115-azure-fips root=PARTUUID=c1e71e77-08eb-480f-b49d-6919c188db0a ro console=tty1 console=ttyS0 earlyprintk=ttyS0 fips=1 panic=-1
 ```
 
 Check the Alpine Linux System Control parameter:
 
 ```bash
-~ $ sysctl -a |grep fips
+sysctl -a |grep fips
 ```
-
 ```bash
 ### Sample Output ###
 crypto.fips_enabled = 1    # the Alpine OS is running in FIPS mode
+kernel.osrelease = 5.4.0-1115-azure-fips
+kernel.version = #122+fips1-Ubuntu SMP Tue Aug 29 05:04:03 UTC 2023
 ```
 
 If you see ...
@@ -103,7 +103,7 @@ crypto.fips_enabled = 0    # the Alpine OS is NOT running in FIPS mode !!
 
 ```
 
->>**If the value = 0, Alpine is not running in FIPS mode!**  Are your Kubernetes Nodes Operating System running as FIPS enabled ?  If they are not, then the Ingress Controller cannot run as FIPS enabled.  If you are unsure, check your Nodes OS for FIPS compliance.  Also, you MUST be running the NGINX Alpine based image with FIPS added.
+>**Note:** If the value = 0, Alpine is **not running in FIPS mode!**  Are your Kubernetes Nodes Operating System running as FIPS enabled ?  If they are not, then the Ingress Controller cannot run as FIPS enabled.  If you are unsure, check your Nodes OS for FIPS compliance.  Also, you MUST be running the NGINX Alpine based image with FIPS added.
 
 <br/>
 
@@ -114,22 +114,21 @@ crypto.fips_enabled = 0    # the Alpine OS is NOT running in FIPS mode !!
 Also Review the Version of NGINX Plus in the NIC image:
 
 ```bash
-~ $ nginx -V
+nginx -V
 ```
-
 ```bash
 ### Sample Output ###
-nginx version: nginx/1.23.4 (nginx-plus-r29)
+nginx version: nginx/1.25.1 (nginx-plus-r30)
 built by gcc 12.2.1 20220924 (Alpine 12.2.1_git20220924-r10) 
-built with OpenSSL 3.1.1 30 May 2023
+built with OpenSSL 3.1.1 30 May 2023 (running with OpenSSL 3.1.2 1 Aug 2023)
 TLS SNI support enabled
-configure arguments: --prefix=/etc/nginx --sbin-path=/usr/sbin/nginx --modules-path=/usr/lib/nginx/modules --conf-path=/etc/nginx/nginx.conf --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --pid-path=/var/run/nginx.pid --lock-path=/var/run/nginx.lock --http-client-body-temp-path=/var/cache/nginx/client_temp --http-proxy-temp-path=/var/cache/nginx/proxy_temp --http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp --http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp --http-scgi-temp-path=/var/cache/nginx/scgi_temp --with-perl_modules_path=/usr/lib/perl5/vendor_perl --user=nginx --group=nginx --with-compat --with-file-aio --with-threads --with-http_addition_module --with-http_auth_request_module --with-http_dav_module --with-http_flv_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_mp4_module --with-http_random_index_module --with-http_realip_module --with-http_secure_link_module --with-http_slice_module --with-http_ssl_module --with-http_stub_status_module --with-http_sub_module --with-http_v2_module --with-mail --with-mail_ssl_module --with-stream --with-stream_realip_module --with-stream_ssl_module --with-stream_ssl_preread_module --build=nginx-plus-r29 --with-http_auth_jwt_module --with-http_f4f_module --with-http_hls_module --with-http_proxy_protocol_vendor_module --with-http_session_log_module --with-stream_mqtt_filter_module --with-stream_mqtt_preread_module --with-stream_proxy_protocol_vendor_module --with-cc-opt='-Os -Wformat -Werror=format-security -g' --with-ld-opt='-Wl,--as-needed,-O1,--sort-common -Wl,-z,pack-relative-relocs'
+configure arguments: --prefix=/etc/nginx --sbin-path=/usr/sbin/nginx --modules-path=/usr/lib/nginx/modules --conf-path=/etc/nginx/nginx.conf --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --pid-path=/var/run/nginx.pid --lock-path=/var/run/nginx.lock --http-client-body-temp-path=/var/cache/nginx/client_temp --http-proxy-temp-path=/var/cache/nginx/proxy_temp --http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp --http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp --http-scgi-temp-path=/var/cache/nginx/scgi_temp --with-perl_modules_path=/usr/lib/perl5/vendor_perl --user=nginx --group=nginx --with-compat --with-file-aio --with-threads --with-http_addition_module --with-http_auth_request_module --with-http_dav_module --with-http_flv_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_mp4_module --with-http_random_index_module --with-http_realip_module --with-http_secure_link_module --with-http_slice_module --with-http_ssl_module --with-http_stub_status_module --with-http_sub_module --with-http_v2_module --with-http_v3_module --with-mail --with-mail_ssl_module --with-stream --with-stream_realip_module --with-stream_ssl_module --with-stream_ssl_preread_module --build=nginx-plus-r30 --with-http_auth_jwt_module --with-http_f4f_module --with-http_hls_module --with-http_proxy_protocol_vendor_module --with-http_session_log_module --with-stream_mqtt_filter_module --with-stream_mqtt_preread_module --with-stream_proxy_protocol_vendor_module --with-cc-opt='-Os -Wformat -Werror=format-security -g' --with-ld-opt='-Wl,--as-needed,-O1,--sort-common -Wl,-z,pack-relative-relocs'
 ```
 
 Verify the `NGINX FIPS check module` is configured to load when NGINX starts in the Container, check the nginx.conf file:
 
 ```bash
-cd /etc/nginx $
+cd /etc/nginx
 more nginx.conf
 ```
 
@@ -148,7 +147,7 @@ load_module modules/ngx_fips_check_module.so;   ### the FIPS check module is bei
 Check the entire NGINX configuration for FIPS related parameters. 
 
 ```bash
-~$ nginx -T |grep fips
+nginx -T |grep fips
 ```
 
 ```bash
@@ -156,10 +155,9 @@ Check the entire NGINX configuration for FIPS related parameters.
 ~ $ nginx -T |grep fips
 ...
 nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
-2023/08/15 18:45:11 [notice] 37:37: OpenSSL FIPS Mode is enabled    ## FIPS Mode is enabled
+2023/10/11 17:46:22 [notice] 38#38: OpenSSL FIPS Mode is enabled        ## FIPS Mode is enabled
 nginx: configuration file /etc/nginx/nginx.conf test is successful
-load_module modules/ngx_fips_check_module.so;                       ## FIPS check module will be loaded
-...
+load_module modules/ngx_fips_check_module.so;        ## FIPS check module will be loaded
 ```
 <br/>
 
@@ -167,41 +165,37 @@ load_module modules/ngx_fips_check_module.so;                       ## FIPS chec
 
 <br/>
 
-#### Verify the Version of OpenSSL, and FIPS Provider is available
+## Verify the Version of OpenSSL, and FIPS Provider is available
 
 Also Verify / Check the OpenSSL version is FIPS enabled:
 
 ```bash
-~ $ openssl version
+openssl version
 ```
-
 ```bash
 ### Sample Output ###
-OpenSSL 3.1.1 30 May 2023 (Library: OpenSSL 3.1.1 30 May 2023)
-
+OpenSSL 3.1.2 1 Aug 2023 (Library: OpenSSL 3.1.2 1 Aug 2023)
 ```
 
 List the SSL providers:
 
 ```bash
-~ $ openssl list -providers
+openssl list -providers
 ```
-
 ```bash
 ### Sample Output ###
 Providers:
   base
     name: OpenSSL Base Provider
-    version: 3.1.1
+    version: 3.1.2
     status: active
   fips
     name: OpenSSL FIPS Provider
     version: 3.0.8
     status: active
-
 ```
 
->>**If the fips Provider is missing, OpenSSL cannot provide FIPS mode!**
+>**Note:** If the fips Provider is missing, OpenSSL **cannot provide FIPS mode!**
 
 <br/>
 
@@ -209,92 +203,71 @@ OpenSSL Self Tests
 
  - Verify SHA1 works as expected:
 
-```bash
-~ $ openssl sha1 /dev/null
-```
-
-```bash
-### Sample Output ###
-SHA1(/dev/null)= da39a3ee5e6b4b0d3255bfef95601890afd80709
-
-```
+    ```bash
+    openssl sha1 /dev/null
+    ```
+    ```bash
+    ### Sample Output ###
+    SHA1(/dev/null)= da39a3ee5e6b4b0d3255bfef95601890afd80709
+    ```
 
 - Verify MD5 is not working (as `MD5 is not a permitted hash by FIPS`):
 
-```bash
-~ $ openssl md5 /dev/null
-```
+    ```bash
+    openssl md5 /dev/null
+    ```
+    ```bash
+    ### Sample Output ###
+    Error setting digest
+    484BF51AC07F0000:error:0308010C:digital envelope routines:inner_evp_generic_fetch:unsupported:crypto/evp/evp_fetch.c:341:Global default library context, Algorithm (MD5 : 94), Properties ()
+    484BF51AC07F0000:error:03000086:digital envelope routines:evp_md_init_internal:initialization error:crypto/evp/digest.c:272:
+    ```
 
-```bash
-### Sample Output ###
-Error setting digest
-489B8712157F0000:error:0308010C:digital envelope routines:inner_evp_generic_fetch:unsupported:crypto/evp/evp_fetch.c:341:Global default library context, Algorithm (MD5 : 94), Properties ()
-489B8712157F0000:error:03000086:digital envelope routines:evp_md_init_internal:initialization error:crypto/evp/digest.c:272:
+    >**Note:** If the MD5 hash DOES work, OpenSSL is not running in FIPS mode!
+    >```bash
+    >### Sample Output ###
+    >~ $ openssl md5 /dev/null
+    >MD5(/dev/null)= d41d8cd98f00b204e9800998ecf8427e
+    >```
 
-```
-
->>**If the MD5 hash DOES work, OpenSSL is not running in FIPS mode !**
-
-```bash
-### Sample Output ###
-~ $ openssl md5 /dev/null
-MD5(/dev/null)= d41d8cd98f00b204e9800998ecf8427e
-```
-
-Press Ctrl-C to exit the Alpine Shell.
+Type `exit` to exit out of the Alpine Shell.
 
 <br/>
 
-### Verify the NGINX FIPS check module
+## Verify the NGINX FIPS check module
 
 Next, verify the NGINX FIPS check module is running.  The FIPS check module looks for a `FIPS enabled OS and FIPS enabled OpenSSL` when NGINX starts.
 
 ```bash
-kubectl logs $NIC -n nginx-ingress
+kubectl logs $NIC -n nginx-ingress | grep FIPS
 ```
 
 ```bash
 ### Sample Output ###
-NGINX Ingress Controller Version=3.2.0 Commit=6ce07ed730d105ae519379c66cb9a8ecf4c20d54 Date=2023-06-27T18:35:19Z DirtyState=false Arch=linux/amd64 Go=go1.20.5
-I0720 17:41:00.256915       1 flags.go:295] Starting with flags: ["-nginx-plus" "-nginx-configmaps=nginx-ingress/nginx-config" "-default-server-tls-secret=nginx-ingress/default-server-secret" "-nginx-status-port=9000" "-nginx-status-allow-cidrs=0.0.0.0/0" "-enable-snippets" "-report-ingress-status" "-enable-prometheus-metrics" "-enable-latency-metrics" "-enable-service-insight"]
-I0720 17:41:00.275511       1 main.go:234] Kubernetes version: 1.23.9
-I0720 17:41:00.301183       1 main.go:380] Using nginx version: nginx/1.23.4 (nginx-plus-r29)
-I0720 17:41:00.321015       1 main.go:776] Pod label updated: nginx-ingress-756d7f6c9b-7mptn
-2023/07/20 17:41:00 [notice] 13#13: using the "epoll" event method
-###
-2023/07/20 17:41:00 [notice] 13:13: OpenSSL FIPS Mode is enabled**  # From FIPS check module #
-###
-2023/07/20 17:41:00 [notice] 13#13: nginx/1.23.4 (nginx-plus-r29)
-2023/07/20 17:41:00 [notice] 13#13: built by gcc 12.2.1 20220924 (Alpine 12.2.1_git20220924-r10) 
-2023/07/20 17:41:00 [notice] 13#13: OS: Linux 3.10.0-1127.el7.x86_64
-2023/07/20 17:41:00 [notice] 13#13: getrlimit(RLIMIT_NOFILE): 1048576:1048576
-2023/07/20 17:41:00 [notice] 13#13: start worker processes
-2023/07/20 17:41:00 [notice] 13#13: start worker process 14
-2023/07/20 17:41:00 [notice] 13#13: start worker process 15
+2023/10/11 17:44:28 [notice] 13#13: OpenSSL FIPS Mode is enabled
 ```
 
->> **If is not running in FIPS mode, you will see a statement like this:**
-
-```bash
-### Sample Output ###
-2023/07/18 15:15:13 [notice] 239:239: OpenSSL FIPS Mode is not enabled    # Warning -  not in FIPS mode !
-```
+> **Note:** If NGINX Ingress Controller is not running in FIPS mode, you will see a statement like this:
+>```bash
+>### Sample Output ###
+>2023/10/10 15:15:13 [notice] 239:239: OpenSSL FIPS Mode is not enabled    # Warning -  not in FIPS mode !
+>```
 
 <br/>
 
-### Update the NGINX Ingress logging format to see SSL/FIPS related fields
+## Update the NGINX Ingress logging format to see SSL/FIPS related fields
 
 How do you know if/what FIPS or non-FIPS traffic is being handled by NGINX?  What visibility is available for `audits and attestations?`  NGINX has the ability to log all TLS related components, including client/server requests/responses metadata for connections/sessions.  Let's add a few of these important logging variables, so you can see what the requests/responses look like in the `NGINX Access Log`.
 
 Here is a list of the 3 TLS variables you will add, and what they are:
 
-- $ssl_session_id : returns the unique session identifier of an established SSL connection
-- $ssl_protocol : returns the protocol of an established SSL connection
-- $ssl_cipher : returns the name of the cipher used for an established connection
+- **$ssl_session_id** : returns the unique session identifier of an established SSL connection
+- **$ssl_protocol** : returns the protocol of an established SSL connection
+- **$ssl_cipher** : returns the name of the cipher used for an established connection
 
-**Note:**  There are many more variables available, but we are only showing a few in this exercise.  There is a link to the complete list of variables in the `References` section at the end of this exercise.
+>**Note:**  There are many more variables available, but we are only showing a few in this exercise.  There is a link to the complete list of variables in the [References](#references) section at the end of this exercise.
 
-Inspect the `nginx-fips-logging.yaml` ConfigMap manifest.  This ConfigMap is use to configure additional NGINX settings.  The Access log format as 3 new additional logging fields added, for the $ssl variables.
+Inspect the `lab5/nginx-fips-logging.yaml` ConfigMap manifest.  This ConfigMap is used to configure additional NGINX settings.  The Access log format has 3 new additional logging fields added, for the $ssl variables.
 
 To apply these new log variables, you will add them to the existing NGINX Access Log format, using the NIC's `nginx-config` ConfigMap.
 
@@ -317,8 +290,7 @@ Using curl or the browser, send a couple requests to https://cafe.example.com/co
 
 ```bash
 ### Sample Output ###
-10.1.1.9 - - [09/Oct/2023:22:02:05 +0000] "GET /coffee/default.css HTTP/1.1" 304 0 "https://cafe.example.com/coffee" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36" "-" rn="cafe-vs" "virtualserver" "default" svc="coffee-svc" "7c624bf5e9e2cef91731458f48aae79f" rt=“0.003” ua=“10.10.2.46:80” sslid="2bc63ff1e5ca25494d1cd99e62d2508e287a190a60497e4a9b4721fdb702285b" sslpr="TLSv1.2" sslci="ECDHE-RSA-AES128-GCM-SHA256"
-
+24.15.246.206 - - [11/Oct/2023:19:00:12 +0000] "GET /coffee HTTP/1.1" 200 674 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36" "-" rn="cafe-vs" "virtualserver" "default" svc="coffee-svc" "70e2dbafb5cc9522b0e2f6874e7a6f5c" rt=“0.003” ua=“10.244.1.4:80” sslid="50ab11d53adfe828bcc6281e4ec8d375a5bdde572b8d5b2cc2f7cbc50b72ce90" sslpr="TLSv1.3" sslci="TLS_AES_128_GCM_SHA256"
 ```
 
 You can see, that NGINX is now populating the `$ssl_*` logging variables with data from your requests/responses.
@@ -327,7 +299,7 @@ Type Ctrl-C when you are finished looking at the log.
 
 <br/>
 
-### Test TLS ciphers with OpenSSL client 
+## Test TLS ciphers with OpenSSL client 
 
 <br/>
 
