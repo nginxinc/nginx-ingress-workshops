@@ -157,7 +157,7 @@ Finally, you are going to use the NGINX Plus Dashboard to monitor both NGINX Ing
 
 In this section you will give the Ingress Controller a Public IP address from the Azure's IP Address Mgmt system. 
 
-1. Inspect the `lab1/loadbalancer.yaml` manifest. You can see that port `80` and `443` are being opened and we are requesting an external IP address. This will give the Ingress Controller a static private IP address from an IP address management system in the lab.
+1. Inspect the `lab1/loadbalancer.yaml` manifest. You can see that port `80` and `443` are being opened and we are requesting an external IP address. This will give the Ingress Controller a Public IP address from an IP address management system in Azure.
    
    ```yaml
    apiVersion: v1
