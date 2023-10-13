@@ -473,4 +473,4 @@ You can easily delete your AKS cluster using the Azure CLI
 
 -------------
 
-Navigate to [Main Menu](../readme.md)
+Navigate to [Main Menu](../README.md)

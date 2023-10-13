@@ -338,4 +338,4 @@ To do so create a `private-registry.nginx.com` directory under below paths based
 
 -------------
 
-Navigate to ([Lab1](../lab1/readme.md) | [Main Menu](../readme.md#lab-outline))
+Navigate to ([Lab1](../lab1/readme.md) | [Main Menu](../README.md#lab-outline))
