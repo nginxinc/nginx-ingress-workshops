@@ -33,7 +33,7 @@ spec:
 #      - name: nginx-log
 #        emptyDir: {}
       containers:
-      - image: acrshouvik.azurecr.io/nginxinc/nginx-plus-ingress:3.2.1-alpine-fips
+      - image: acrcakker.azurecr.io/nginxinc/nginx-plus-ingress:3.2.1-alpine-fips
         imagePullPolicy: IfNotPresent
         name: nginx-plus-ingress
         ports:
