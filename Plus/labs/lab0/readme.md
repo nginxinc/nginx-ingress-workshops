@@ -58,7 +58,7 @@ That wraps the pre-requisites.
 <br/>
 
 ### Authors
-- Dominic Lucia - Solutions Engineer - Channels
+- Dominic Lucia - Solutions Engineer - Channels @ F5, Inc.
 - Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
 - Shouvik Dutta - Solutions Architect - Community and Alliances @ F5, Inc.
 
