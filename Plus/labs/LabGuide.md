@@ -69,6 +69,9 @@ An excellent Prerequisite for taking this Workshop is the NGINX Basics Workshop,
 
 ## Lab Outline
 
+#### Lab 0: Workshop pre-work
+- [Lab 0: Workshop pre-work](lab0/readme.md)
+
 #### Lab 1: Lab Overview and Student access
 - [Lab 1: Workshop Lab Overview](lab1/readme.md)
 
