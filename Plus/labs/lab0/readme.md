@@ -29,8 +29,8 @@ If this is your first time using UDF, use your temporary password to login, and 
 ![Non F5](media/almostthere.png "I'm up here")
 
 ## Step 3: RDP to the Jumpbox
-   * username: `user`
-   * password: `user`
+   * username: `ubuntu`
+   * password: `Nginx123`
 
 THIS REQUIRES AN RDP CLIENT! If you have a Mac *and* haven't downloaded an RDP client before, here is the first-party version:
 
