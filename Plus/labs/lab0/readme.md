@@ -1,7 +1,7 @@
 # Workshop pre-work
 ## Prep for your upcoming F5/NGINX workshop! 
 
-If you're here that probably means you are currently in, or registered for, an upcoming NGINX workshop. By taking the time to run through this exercise you are helping us save time during the workshop- we appreciate it.
+If you're here that probably means you are currently in, or registered for, an upcoming NGINX workshop. By taking the time to run through this exercise you are helping us save time during the workshop and ensure that you meet the prerequisites to access the workshop. We appreciate you taking time to check your access.
 
 ## Step 0: If this is your first time in a Workshop
 Look for an email from **`courses@notify.udf.f5.com`**. This will have instructions on how you can login into UDF(F5 workshop environment).
