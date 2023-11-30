@@ -30,7 +30,7 @@ Look for an email from **`courses@notify.udf.f5.com`**. This will have instructi
 - If you already have an account but you can't remember your password, simply reset your password by clicking on `Forgot Password?` link.
 ![Non F5](media/udfloginreset.png "happens to the best of us")
 
-## Step 2: Get into the course
+## Step 2: Start the course
 
 - Once logged into UDF, click `Launch` (This will open a new tab.)
   ![Non F5](media/courselist.png "click launch")
@@ -55,12 +55,12 @@ THIS REQUIRES AN RDP CLIENT! If you have a Mac *and* haven't downloaded an RDP c
 - Make sure to select a small enough resolution to see the whole screen.
 ![Non F5](media/launchrdp.png "almost there")
 
-- Once you select the resolution, it should download an rdp file.
+- Once you select the resolution, your browser will download an rdp file. Open this file to connect to jumphost.
 
 - Accept the self-signed cert, and jumphost username and password will be `ubuntu` and `Nginx123`. <br/>(**NOTE:** This is *not* your UDF login username & password.)
 ![Non F5](media/useruser.png)
 
-### If you cant connect to the Jumphost, _remember to shut off your VPN_, or join a non-proxied network (sometimes a guest network in the office will work).
+### If you can't connect to the Jumphost, _remember to shut off your VPN_, or join a non-proxied network (sometimes a guest network in the office will work).
 
 ### For machines running Windows and attached to a domain, Windows will helpfully attempt to use your domain creds to log in, and you'll see:
 ![Non F5](media/domaincreds.png "everyone has credentials.com email accounts right?")
