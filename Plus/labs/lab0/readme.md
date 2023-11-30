@@ -4,28 +4,41 @@
 If you're here that probably means you are currently in, or registered for, an upcoming NGINX workshop. By taking the time to run through this exercise you are helping us save time during the workshop- we appreciate it.
 
 ## Step 0: If this is your first time in a Workshop
-Look for an email from **`noreply@registration.udf.f5.com`**. This will have your temporary password.
-![Ultra Super Important Invite email](media/megasuperimportantemail.png "Ultra Double Super Important Email, seriously")
-### If you cannot find your invite email ("Welcome to F5's Unified Demonstration Framework") STOP
+Look for an email from **`courses@notify.udf.f5.com`**. This will have instructions on how you can login into UDF(F5 workshop environment).
+![Ultra Super Important Invite email](media/megasuperimportantemail.png)
+### If you cannot find your invite email ("UDF Course Registration:NGINXperts Lab ...") STOP
   * These commonly get caught by spam filters. *Make sure to check your spam folder **and** your system's email Quarantine.*
   * If you still cannot find your invite email, you either have not been invited to a workshop or we have an incorrect email. Please get help from whoever sent you to this page.
 
 ## Step 1: Get yourself to UDF
-### Navigate to https://udf.f5.com/ and select ```Non-F5 Users```
-![Non F5](media/udfloginnonf5.png "clever alt text")
-If this is your first time using UDF, use your temporary password to login, and go through all the readings of the fine prints. NOTE: this will *not be the password to the Jumphost or other VMs in the class!* 
 
-### If you already have an account but you can't remember your password, simply reset it using your corporate email that you used to register for the workshop.
+- Navigate to https://udf.f5.com/ and select `Invited Users`
+    ![Non F5](media/udfloginnonf5.png)
+
+- If this is your first time using UDF, use the `Sign Up` link which would take your to F5 registration page. NOTE: this will *not be the password to the Jumphost or other VMs in the class!* 
+    ![Sign up](media/F5signup.png)
+
+- Once you have filled in your registration details, you should be receiving an `Account Activation` email as shown below
+  ![Account Activation Email](media/F5accountactivationemail.png)
+
+- When you click on the `Activate Account` button within the activation email, you would be redirected to setup 2 factor authentication as shown below. Select your preferred authentication method.
+  ![2factor Authentication prompt](media/2factorAuthentication.png)
+
+- Once you have set up 2 factor authentication successfully, you will see a `green` checkmark on your preferred method. Click on `Finish`.
+  ![2factor Confirmation](media/2factorConfirmation.png)
+
+- If you already have an account but you can't remember your password, simply reset your password by clicking on `Forgot Password?` link.
 ![Non F5](media/udfloginreset.png "happens to the best of us")
 
-## Step 2: Get into the test course
-### Click ```Launch``` (This will open a new tab.)
-![Non F5](media/courselist.png "click launch")
+## Step 2: Get into the course
 
-### And then ```Join```
-![Non F5](media/joinbutton.png "'Yes I'm sure'")
+- Once logged into UDF, click `Launch` (This will open a new tab.)
+  ![Non F5](media/courselist.png "click launch")
 
-### Click the ```DEPLOYMENT``` tab at the top
+- And then click on `Join`
+  ![Non F5](media/joinbutton.png "'Yes I'm sure'")
+
+- Click the `DEPLOYMENT` tab at the top
 ![Non F5](media/almostthere.png "I'm up here")
 
 ## Step 3: RDP to the Jumpbox
@@ -36,14 +49,16 @@ THIS REQUIRES AN RDP CLIENT! If you have a Mac *and* haven't downloaded an RDP c
 
 [Microsoft's RDP client on the Apple Apps Store](https://apps.apple.com/us/app/microsoft-remote-desktop/id1295203466?mt=12)
 
-### Now we just have to wait for the Jumpbox to finish booting. . .
+- Now we just have to wait for the Jumpbox to finish booting. . .
 ![Non F5](media/waitforboot.png "loading. . .")
 
-### Make sure to select a small enough resolution to see the whole screen.
+- Make sure to select a small enough resolution to see the whole screen.
 ![Non F5](media/launchrdp.png "almost there")
 
-### Accept the self-signed cert, and your username and password will be `user` and `user`. (This is *not* your email & UDF password.)
-![Non F5](media/useruser.png "rogerroger")
+- Once you select the resolution, it should download an rdp file.
+
+- Accept the self-signed cert, and jumphost username and password will be `ubuntu` and `Nginx123`. <br/>(**NOTE:** This is *not* your UDF login username & password.)
+![Non F5](media/useruser.png)
 
 ### If you cant connect to the Jumphost, _remember to shut off your VPN_, or join a non-proxied network (sometimes a guest network in the office will work).
 
