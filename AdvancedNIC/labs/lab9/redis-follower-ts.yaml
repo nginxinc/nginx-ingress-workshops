@@ -1,0 +1,18 @@
+apiVersion: k8s.nginx.org/v1alpha1
+kind: TransportServer
+metadata:
+  name: redis-follower-ts
+spec:
+  listener:
+    name: redis-follower-listener 
+    protocol: TCP
+  upstreams:
+  - name: redis-upstream
+    service: redis-follower
+    port: 6379
+    maxFails: 3
+    maxConns: 100
+    failTimeout: 10s
+    loadBalancingMethod: least_time last_byte
+  action:
+    pass: redis-upstream
