@@ -92,11 +92,11 @@ An excellent Prerequisite for taking this Workshop is the NGINX Basics Workshop,
 #### Lab 7: Deep Insight application monitoring
 - [Lab 7: Deep Insight with Ingress](lab7/readme.md)
 
-#### Lab 8: External DNS with Nginx Ingress
+#### Lab 8: External DNS with NGINX Ingress
 - [Lab 8: External DNS](lab8/readme.md)
 
-#### Lab 9: Placeholder
-- [Lab9: placeholder ](lab9/readme.md)
+#### Lab 9: Redis Caching with NGINX Ingress
+- [Lab9: Redis Caching ](lab9/readme.md)
 
 #### Lab 10: Placeholder
 - [Lab10: placeholder](lab10/readme.md)
@@ -106,7 +106,6 @@ An excellent Prerequisite for taking this Workshop is the NGINX Basics Workshop,
 ### Authors
 - Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
 - Shouvik Dutta - Technical Solutions Architect @ F5, Inc.
-- Jason Williams - Principle Product Management Engineer @ F5, Inc.
 
 <br/>
 

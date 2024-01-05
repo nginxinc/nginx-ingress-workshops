@@ -563,16 +563,20 @@ redis-leader-766465cd9c-b7lx4     2m           8Mi
 ```
 <br/>
 
+If you have more than one Kubernetes Worker Node, you could test them all, and see what kind of performance you get.
+
+<br/>
+
 **This completes this Lab.** 
 
 <br/>
 
 ## References: 
 
+- [Redis](https://redis.com/)
 - [NGINX Ingress Controller Global Configuration](https://docs.nginx.com/nginx-ingress-controller/configuration/global-configuration/globalconfiguration-resource/)
 - [NGINX Ingress Controller Tranport Server](https://docs.nginx.com/nginx-ingress-controller/configuration/transportserver-resource/)
-- [NGINX Ingress Controller new ](   )
-
+- [NGINX Ingress Controller Dashboard ](https://docs.nginx.com/nginx/admin-guide/monitoring/live-activity-monitoring/)
 
 <br/>
 
