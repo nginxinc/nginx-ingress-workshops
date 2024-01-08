@@ -38,6 +38,18 @@ The NGINX Ingress Controller is already running in this Workshop. You will be co
    - **`EXTERNAL-IP`**: This is your external IP address 
    - **`CLUSTER-IP`**: This is your Kubernetes internal IP address
 
+   ```bash
+   kubectl get deployments,services -n nginx-ingress
+
+   ###Sample output###
+   NAME                            READY   UP-TO-DATE   AVAILABLE   AGE
+   deployment.apps/nginx-ingress   1/1     1            1           25d
+
+   NAME                    TYPE           CLUSTER-IP      EXTERNAL-IP                                                                     PORT(S)                      AGE
+   service/nginx-ingress   LoadBalancer   10.105.153.177   10.1.1.100   80:31501/TCP,443:30287/TCP   25d
+
+   ```
+
    ![get deployments output](media/lab3_get_deployments.png)
 
    In the example above you see: 
