@@ -1,6 +1,6 @@
 # NIC LoadBalancer Service file, adding Redis
 # Add ports 6379 and 6380 for Redis
-# Chris Akker, Jan 2025 
+# Chris Akker, Jan 2024 
 #
 apiVersion: v1
 kind: Service
