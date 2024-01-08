@@ -20,8 +20,7 @@ You will learn how to configure an NGINX Plus Ingress Controller, deploy it on a
 
 These Hands-On Lab Exercises are designed to build upon each other, adding additional services and features as you progress through them, completing the labs in sequential order is required. 
 
-![Developer Seated](media/developer-seated.svg)
-<img src="media/developer-seated.svg" width=50% height=50%>
+<img src="media/developer-seated.svg" width=30% height=30%>
 
 By the end of this Workshop, you will have a working, operational NGINX Plus Ingress Controller, routing traffic to and from Kubernetes application pods and services, with the necessary skills to deploy and operate NIC for your own Modern Applications running in Kubernetes.  Thank You for taking the time to attend this NGINX Workshop!
 
