@@ -43,7 +43,7 @@ times](https://hub.docker.com/r/nginx/nginx-ingress) from DockerHub.
 
 <br/>
 
-![NGINX KIC](media/nginxredplus.png)
+![NGINX KIC](media/NGINX-Plus-logo.png))
 
 <br/>
 
