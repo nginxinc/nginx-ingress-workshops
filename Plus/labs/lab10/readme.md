@@ -18,7 +18,7 @@ Enable and test some NGINX Plus features to control how Ingress Controller handl
 
 <br/>
 
-![NGINX Plus](media/nginxredplus.png)
+![NGINX Plus](media/NGINX-Plus-logo.png)
 
 <br/>
 
@@ -28,19 +28,19 @@ NGINX Plus provides many options for active health checking of pods and services
 
     ![active health yaml](media/lab10_active_health_yaml.png)
 
-1. Remove the running JuiceShop Virtual Server from the previous lab:
+2. Remove the running JuiceShop Virtual Server from the previous lab:
 
     ```bash
     kubectl delete -f lab9/juiceshop-vs.yaml
     ```
 
-1. Try the new Virtual Server with incorrect healthchecks enabled:
+3. Try the new Virtual Server with incorrect healthchecks enabled:
 
     ```bash
     kubectl apply -f lab10/juice-health-bad-vs.yaml
     ```
 
-1. Check your Plus Dashboard, and then try refreshing your Juice Shop browser page.  What did you see and what happened to your JuiceShop application ?
+4. Check your Plus Dashboard, and then try refreshing your Juice Shop browser page.  What did you see and what happened to your JuiceShop application ?
 
     <details>
       <summary>Click for Hints!</summary>
@@ -54,7 +54,7 @@ NGINX Plus provides many options for active health checking of pods and services
 
     ![Bad Gateway](media/lab10_bad_gateway.png) 
 
-1. Quickly!! - checking further, look at the Ingress Controller logs, what do they show ?
+5. Quickly!! - checking further, look at the Ingress Controller logs, what do they show ?
 
     ```bash
     kubectl logs -n nginx-ingress $NIC --follow --tail=20
@@ -68,13 +68,13 @@ NGINX Plus provides many options for active health checking of pods and services
 
     Type Control+C to stop the log tail when you are finished.
 
-1. Inspect the fixed YAML manifest VS file, `juice-health-good-vs.yaml`, with the correct healthcheck port of 3000 on line #24. Now try that one:
+6. Inspect the fixed YAML manifest VS file, `juice-health-good-vs.yaml`, with the correct healthcheck port of 3000 on line #24. Now try that one:
 
     ```bash
     kubectl apply -f lab10/juice-health-good-vs.yaml
     ```
 
-1. Check your NIC Plus Dashboard again, with Health monitors now green, and your website is up and browser access is restored.  The connection errors in the Ingress log should have stopped as well.
+7. Check your NIC Plus Dashboard again, with Health monitors now green, and your website is up and browser access is restored.  The connection errors in the Ingress log should have stopped as well.
 
     ![Good Healthchecks](media/lab10_health_good.png) 
 
