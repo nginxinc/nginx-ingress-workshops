@@ -25,12 +25,14 @@ We will use a tool called [`wrk` ](https://github.com/wg/wrk) , runing in a dock
     ```bash
     docker run --rm williamyeh/wrk -t4 -c200 -d20m -H 'Host: cafe.example.com' --timeout 2s https://10.1.1.100/coffee
     ```
-
-    ![run wrk load generator](media/wrk-load-generation.png)
-
+    ```bash
+    ###Sample Output###
+    Running 20m test @ https://10.1.1.100/coffee
+    ```
+    
     This will run the `wrk` load tool for **20 minutes**, with **200 connections**.  You can run this command again if you need additional time.
 
-1. Observe your NGINX Plus Dashboard - http://dashboard.example.com/dashboard.html
+2. Observe your NGINX Plus Dashboard - http://dashboard.example.com/dashboard.html
 
     ![Dashboard](media/dashboard.png)
 
@@ -56,7 +58,10 @@ Coffee Break Time !! Let's scale the Coffee `Deployment`. In anticipation of a s
     ```bash
     kubectl scale deployment coffee --replicas=8
     ```
-    ![scale coffee](media/lab6_coffee_scale.png)
+    ```bash
+    ###Sample Output###
+    deployment.apps/coffee scaled
+    ```
 
     How long did it take Kubernetes to add the new pods?  
 
@@ -68,11 +73,11 @@ Coffee Break Time !! Let's scale the Coffee `Deployment`. In anticipation of a s
 
     ![Coffee scaled dashboard](media/lab6_coffee_scale_dashboard.png)
 
-1. Inspect the NGINX Plus Dashboard. Look at the far right column of the `HTTP Upstreams` view and you see `HTTP Header` and `Response times` values in milliseconds.  
+2. Inspect the NGINX Plus Dashboard. Look at the far right column of the `HTTP Upstreams` view and you see `HTTP Header` and `Response times` values in milliseconds.  
 
    NGINX Plus tracks the actual response time of the pods, when it receives the HTTP header, and when it receives the entire response body.  Wouldn't it be nice if you could actually send more requests to the pods responding the fastest?  With NGINX Plus, you can do just that.
 
-1. Let's configure NGINX Ingress Controller to use a NGINX Plus Load Balancing algorithm called `Least-Time Last-Byte`  so that the most responsive (faster) pods are prioritized for more HTTP Requests. Apply the following manifest:
+3. Let's configure NGINX Ingress Controller to use a NGINX Plus Load Balancing algorithm called `Least-Time Last-Byte`  so that the most responsive (faster) pods are prioritized for more HTTP Requests. Apply the following manifest:
 
     ```bash
     kubectl apply -f lab6/nginx-config-lastbyte.yaml
@@ -87,7 +92,7 @@ Coffee Break Time !! Let's scale the Coffee `Deployment`. In anticipation of a s
       </p>
     </details><br/>
 
-1. After changing the algorithm, now look at the Dashboard `HTTP Upstream` metrics, you should see the **faster** pods taking more requests than the slower pods. 
+4. After changing the algorithm, now look at the Dashboard `HTTP Upstream` metrics, you should see the **faster** pods taking more requests than the slower pods. 
 
     **Note:** Faster means lower `Response Time` in milliseconds.
    
@@ -99,7 +104,7 @@ Coffee Break Time !! Let's scale the Coffee `Deployment`. In anticipation of a s
 
     **NOTE**: the Response time differential must be `> 20ms` between the pods, for NGINX to consider some pods faster than others. 
 
-1. Boss says Coffee rush is now over, so scale back the number of coffee pods to **three**. Run the following `kubectl scale ` command:
+5. Boss says Coffee rush is now over, so scale back the number of coffee pods to **three**. Run the following `kubectl scale ` command:
 
     ```bash
     kubectl scale deployment coffee --replicas=3
