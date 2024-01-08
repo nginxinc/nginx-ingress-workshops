@@ -19,7 +19,11 @@ We will deploy a `Service` and a `VirtualServer` resource to provide access to t
     ```bash
     kubectl apply -f lab4/dashboard-vs.yaml
     ```
-    ![NGINX Plus Dashboard](media/lab4_apply_dashboard.png)
+    ```bash
+    ###Sample output###
+    service/dashboard-svc created
+    virtualserver.k8s.nginx.org/dashboard-vs created
+    ```
 
 ## Test access to the Dashboard
 
