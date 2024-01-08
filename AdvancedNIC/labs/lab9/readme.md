@@ -2,7 +2,7 @@
 
 ## Introduction
 
-In this lab, you will configure NIC to handle Redis Cache read and write requests, to and from a Redis Cluster running inside your Kubernetes cluster.
+In this lab, you will configure NIC to handle `Redis Cache` read and write requests, to and from a Redis Cluster running inside your Kubernetes cluster.
 
 Redis is a popular In-Memory caching solution, providing for very high speed, low latency reading and writing of Key:Value records in the memory of Redis servers.  There are many use cases for running Redis, and it works quite well in Kubernetes environments.  In this lab exercise you will deploy it and test it out using a basic Redis Cluster configuration of 1 Redis Leader and 2 Redis Followers.  You will use standard Redis Client and Benchmark tools for these tests.  You can find a link to more information on Redis in the References section.
 
@@ -557,15 +557,77 @@ kubectl top pod |grep redis
 ```
 
 ```bash
+#Output should be similar to:
 redis-follower-7dcc9bdc5b-5qnp8   230m         13Mi            
 redis-follower-7dcc9bdc5b-7zf8w   706m         12Mi            
 redis-leader-766465cd9c-b7lx4     2m           8Mi
 ```
 <br/>
 
-If you have more than one Kubernetes Worker Node, you could test them all, and see what kind of performance you get.
+If you have more than one Kubernetes Worker Node, you might like to test them all, and see what kind of performance you get.
 
 <br/>
+
+### Optional:  Import Redis sample User database
+
+If you would like to load a sample dataset into Redis, and test reading those records, use the following commands to load and test access:
+
+1. Import ~6,000 records into Redis, using the Leader NodePort:
+
+```bash
+redis-cli -h 10.1.1.8 -p 31126 < ./import_users.redis
+
+```
+
+```bash
+#Output should be similar to:
+(integer) 11
+...
+(integer) 11
+"5996 Users Created"
+
+```
+
+1. Test READ access to the data, using the `Leader` NodePort Service:
+
+```bash
+redis-cli -h 10.1.1.8 -p 31126 HMGET user:11 first_name last_name email city country
+```
+
+``` bash
+#Output should be similar to:
+1) "Helaine"
+2) "Willett"
+3) "hwilletta@artisteer.com"
+4) "Peoria"
+5) "United States"
+
+```
+
+1. Test READ access to the data, using the `Follower` NodePort Service:
+
+```bash
+redis-cli -h 10.1.1.8 -p 32401 HMGET user:11 first_name last_name email city country
+```
+
+``` bash
+#Output should be similar to:
+1) "Helaine"
+2) "Willett"
+3) "hwilletta@artisteer.com"
+4) "Peoria"
+5) "United States"
+
+```
+
+<br/>
+
+>NOTE:  Thanx to the Redis team for providing these Sample Datasets, which you can find on the Redis Developer GitHub.
+
+https://github.com/redis-developer/redis-datasets/tree/master
+
+<br/>
+
 
 **This completes this Lab.** 
 
@@ -574,6 +636,9 @@ If you have more than one Kubernetes Worker Node, you could test them all, and s
 ## References: 
 
 - [Redis](https://redis.com/)
+- [Redis Tools](https://redis.io/resources/tools/)
+- [Redis Benchmark](https://redis.io/docs/management/optimization/benchmarks/)
+- [Redis Sample User Database](https://github.com/redis-developer/redis-datasets/blob/master/user-database/README.md)
 - [NGINX Ingress Controller Global Configuration](https://docs.nginx.com/nginx-ingress-controller/configuration/global-configuration/globalconfiguration-resource/)
 - [NGINX Ingress Controller Tranport Server](https://docs.nginx.com/nginx-ingress-controller/configuration/transportserver-resource/)
 - [NGINX Ingress Controller Dashboard ](https://docs.nginx.com/nginx/admin-guide/monitoring/live-activity-monitoring/)
