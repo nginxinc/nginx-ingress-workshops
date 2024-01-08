@@ -28,7 +28,7 @@ By the end of this Workshop, you will have a working, operational NGINX Plus Ing
 
 ## About NGINX Plus Ingress Controller
 
-NGINX Plus Ingress Controller is an Enterprise-Ready resource for directing traffic to/from a Kubernetes Cluster.  NGINX runs all popular Kubernetes platforms, including Amazon EKS, Google GKE, Redhat Openshift, Azure AKS and many others.  It can also work with your on-premise Data Center based K8s clusters.  NGINX Plus Ingress Controller is built from the same source code you know and trust from NGINX Plus.  You can find the full Kubernetes support matrix and technical specifications for NGINX Ingress Controller on the http://www.nginx.com website.  
+NGINX Plus Ingress Controller is an Enterprise-Ready resource for directing traffic to/from a Kubernetes Cluster.  NGINX runs on all popular Kubernetes platforms, including Amazon EKS, Google GKE, Redhat Openshift, Azure AKS and many others.  It can also work with your on-premise Data Center based K8s clusters.  NGINX Plus Ingress Controller is built from the same source code you know and trust from NGINX Plus.  You can find the full Kubernetes support matrix and technical specifications for NGINX Ingress Controller on the http://www.nginx.com website.  
 
 <br/>
 

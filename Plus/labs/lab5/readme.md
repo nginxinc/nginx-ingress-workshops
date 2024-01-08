@@ -148,7 +148,7 @@ The Cafe application that you will deploy looks like the following diagram below
 
 1. Open two new Chrome web browser windows for side by side viewing.
      
-     -  Dashboard: http://dashboard.example.com/dashboard.html:
+     -  Dashboard: http://dashboard.example.com/dashboard.html
      -  And in two tabs, the Cafe Application components, Coffee
         (https://cafe.example.com/coffee) and  Tea
         (https://cafe.example.com/tea)
