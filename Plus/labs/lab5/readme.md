@@ -30,21 +30,42 @@ The Cafe application that you will deploy looks like the following diagram below
     kubectl apply -f lab5/cafe.yaml
     kubectl apply -f lab5/cafe-virtualserver.yaml
     ```
-    ![apply various components](media/lab5_components_apply.png)
+    ```bash
+    ###Sample output###
+    secret/cafe-secret created
+    deployment.apps/coffee created
+    service/coffee-svc created
+    deployment.apps/tea created
+    service/tea-svc created
+    virtualserver.k8s.nginx.org/cafe-vs created
+    ```
 
-1. Check that all pods are running, you should see **three** Coffee and **three** Tea pods:
+2. Check that all pods are running, you should see **three** Coffee and **three** Tea pods:
 
     ```bash
     kubectl get pods
     ```
-    ![Get pods](media/lab5_get_pods.png)
+    ```bash
+    ###Sample output###
+    NAME                      READY   STATUS    RESTARTS   AGE
+    coffee-56b7b9b46f-9ks7w   1/1     Running   0             28s
+    coffee-56b7b9b46f-mp9gs   1/1     Running   0             28s
+    coffee-56b7b9b46f-v7xxp   1/1     Running   0             28s
+    tea-568647dfc7-54r7k      1/1     Running   0             27s
+    tea-568647dfc7-9h75w      1/1     Running   0             27s
+    tea-568647dfc7-zqtzq      1/1     Running   0          27s
+    ```
 
-2. Check that the Cafe `VirtualServer` , **`cafe-vs`**, is running:
+3. Check that the Cafe `VirtualServer` , **`cafe-vs`**, is running:
 
     ```bash
     kubectl get virtualserver cafe-vs
     ```
-    ![get virtualserver](media/lab5_get_vs.png)
+    ```bash
+    ###Sample output###
+    NAME      STATE   HOST               IP    PORTS   AGE
+    cafe-vs   Valid   cafe.example.com                 4m6s
+    ```
 
     **Note:** The `STATE` should be `Valid`.  If it is not, then there is an issue with your yaml manifest file `(cafe-vs.yaml)`.  You could also use `kubectl describe vs cafe-vs` to get more information about the `VirtualServer` we just created.
 
@@ -198,17 +219,48 @@ The `Server Zones` table contains the Virtual Servers statistics of the Ingress,
     ```bash 
     kubectl describe svc coffee-svc
     ```
+    ```bash
+    ###Sample output###
+    Name:              coffee-svc
+    Namespace:         default
+    Labels:            <none>
+    Annotations:       <none>
+    Selector:          app=coffee
+    Type:              ClusterIP
+    IP Families:       <none>
+    IP:                None
+    IPs:               <none>
+    Port:              http  80/TCP
+    TargetPort:        80/TCP
+    Endpoints:         192.168.2.92:80,192.168.27.18:80,    192.168.49.193:80
+    Session Affinity:  None
+    Events:            <none>
+    ```
 
     Describe Tea Service:
 
     ```bash
     kubectl describe svc tea-svc
     ```
-    The Service `Endpoints` should match the Server IPs in the dashboard:
-
-    ![describe coffee-svc](media/lab5_describe_coffee_svc.png) 
-    ![describetea-svc](media/lab5_describe_tea_svc.png)
-
+    ```bash
+    ###Sample output###
+    Name:              tea-svc
+    Namespace:         default
+    Labels:            <none>
+    Annotations:       <none>
+    Selector:          app=tea
+    Type:              ClusterIP
+    IP Families:       <none>
+    IP:                None
+    IPs:               <none>
+    Port:              http  80/TCP
+    TargetPort:        80/TCP
+    Endpoints:         192.168.24.186:80,192.168.37.136:80,   192.168.9.236:80
+    Session Affinity:  None
+    Events:            <none>
+    ```
+    
+    As you can see above, the Service `Endpoints` attribute should match the Server IPs in the dashboard.
 
 <br/>
 
