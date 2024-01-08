@@ -32,7 +32,13 @@ Next, let's scale the number of Ingress Controllers pods from one to **three**. 
 
     You should see **three** NGINX Plus Ingress Controller pods running
 
-    ![get Ingress pods](media/lab7_get_ingress_pods.png)
+    ```bash
+    ###Sample Output###
+    NAME                             READY   STATUS       RESTARTS   AGE
+    nginx-ingress-55c78c65d7-9hwdf   1/1     Running      0          33s
+    nginx-ingress-55c78c65d7-kxrb5   1/1     Running      0          33s
+    nginx-ingress-55c78c65d7-q8kmp   1/1     Running   0          2d23h
+    ```
 
     **Questions:** 
      - What happened to your `WRK` loadtest traffic on the Dashboard ?
@@ -57,14 +63,20 @@ Next, let's scale the number of Ingress Controllers pods from one to **three**. 
    ```bash
    kubectl get pods -n nginx-ingress
    ```
-
-   ![scale Ingress to 4](media/lab7_ingress_scale4.png)
+   ```bash
+    ###Sample Output###
+    NAME                             READY   STATUS       RESTARTS   AGE
+    nginx-ingress-55c78c65d7-9hwdf   1/1     Running      0          5m
+    nginx-ingress-55c78c65d7-k47f7   1/1     Running      0          3s
+    nginx-ingress-55c78c65d7-kxrb5   1/1     Running      0          5m
+    nginx-ingress-55c78c65d7-q8kmp   1/1     Running   0          2d23h
+    ```
 
     What do you observe?
 
    **Food for thought** - With most Cloud providers, you could use AutoScaling to do this automatically!
 
-1. The Marketing push is over, so scale the Ingress Controllers back down to **one**. Run the following `kubectl scale` command:
+2. The Marketing push is over, so scale the Ingress Controllers back down to **one**. Run the following `kubectl scale` command:
 
     ```bash
     kubectl scale deployment -n nginx-ingress nginx-ingress --replicas=1
@@ -72,7 +84,14 @@ Next, let's scale the number of Ingress Controllers pods from one to **three**. 
     ```bash
     kubectl get pods -n nginx-ingress
     ```
-    ![scale Ingress to 1](media/lab7_ingress_scale1.png)
+    ```bash
+    ###Sample Output###
+    NAME                             READY   STATUS         RESTARTS   AGE
+    nginx-ingress-55c78c65d7-9hwdf   0/1     Terminating        0          6m
+    nginx-ingress-55c78c65d7-k47f7   0/1     Terminating        0          88s
+    nginx-ingress-55c78c65d7-kxrb5   0/1     Terminating        0          6m
+    nginx-ingress-55c78c65d7-q8kmp   1/1     Running   0          2d23h
+    ```
 
 ## Ingress Under the Hood
 
@@ -147,13 +166,16 @@ However, there are only **two** log variables with any useful data related to th
     ```bash
     kubectl apply -f lab7/nginx-config-enhanced-logging.yaml -n nginx-ingress
     ```
-    ![Apply Enhanced log](media/lab7_apply_enh_log.png)
+    ```bash
+    ###Sample Output###
+    configmap/nginx-config created
+    ```
 
-1. Let's generate new traffic by refreshing the `cafe.example.com/coffee` webpage in the Chrome web browser several times, to send some requests, to see the new **Enhanced** Access Logging format.
+2. Let's generate new traffic by refreshing the `cafe.example.com/coffee` webpage in the Chrome web browser several times, to send some requests, to see the new **Enhanced** Access Logging format.
 
     Now we are ready to inspect the the new logs: the Pod's HTTP Header and Response times have been added to the log format, in addition to the pod's actual Kubernetes name. The response time values in the log should be similar to what you observed in the Plus Dashboard.
 
-1. Take a look at the **Enhanced** NGINX Access log format using the `kubectl log` command:
+3. Take a look at the **Enhanced** NGINX Access log format using the `kubectl log` command:
 
     ```bash
     kubectl logs $NIC -n nginx-ingress --tail 10 --follow
@@ -161,7 +183,7 @@ However, there are only **two** log variables with any useful data related to th
 
     ![log tailing screenshot](media/access-log-enhanced.png)
 
-1. Type` Control-C` to stop the log  `tail` when finished.
+4. Type` Control-C` to stop the log  `tail` when finished.
 
    Hopefully, using this additional logging information will help pinpoint issues with various pods, and allow the Developers to improve the performance of their applications.
 
