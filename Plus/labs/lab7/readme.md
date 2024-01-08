@@ -37,7 +37,7 @@ Next, let's scale the number of Ingress Controllers pods from one to **three**. 
     NAME                             READY   STATUS       RESTARTS   AGE
     nginx-ingress-55c78c65d7-9hwdf   1/1     Running      0          33s
     nginx-ingress-55c78c65d7-kxrb5   1/1     Running      0          33s
-    nginx-ingress-55c78c65d7-q8kmp   1/1     Running   0          2d23h
+    nginx-ingress-55c78c65d7-q8kmp   1/1     Running      0          2d23h
     ```
 
     **Questions:** 
@@ -69,7 +69,7 @@ Next, let's scale the number of Ingress Controllers pods from one to **three**. 
     nginx-ingress-55c78c65d7-9hwdf   1/1     Running      0          5m
     nginx-ingress-55c78c65d7-k47f7   1/1     Running      0          3s
     nginx-ingress-55c78c65d7-kxrb5   1/1     Running      0          5m
-    nginx-ingress-55c78c65d7-q8kmp   1/1     Running   0          2d23h
+    nginx-ingress-55c78c65d7-q8kmp   1/1     Running      0          2d23h
     ```
 
     What do you observe?
@@ -90,7 +90,7 @@ Next, let's scale the number of Ingress Controllers pods from one to **three**. 
     nginx-ingress-55c78c65d7-9hwdf   0/1     Terminating        0          6m
     nginx-ingress-55c78c65d7-k47f7   0/1     Terminating        0          88s
     nginx-ingress-55c78c65d7-kxrb5   0/1     Terminating        0          6m
-    nginx-ingress-55c78c65d7-q8kmp   1/1     Running   0          2d23h
+    nginx-ingress-55c78c65d7-q8kmp   1/1     Running            0          2d23h
     ```
 
 ## Ingress Under the Hood
