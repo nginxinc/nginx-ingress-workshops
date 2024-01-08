@@ -45,7 +45,7 @@ The NGINX Ingress Controller is already running in this Workshop. You will be co
    NAME                            READY   UP-TO-DATE   AVAILABLE   AGE
    deployment.apps/nginx-ingress   1/1     1            1           25d
 
-   NAME                    TYPE           CLUSTER-IP      EXTERNAL-IP                                                                     PORT(S)                      AGE
+   NAME                    TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                      AGE
    service/nginx-ingress   LoadBalancer   10.105.153.177   10.1.1.100   80:31501/TCP,443:30287/TCP   25d
 
    ```
