@@ -86,7 +86,7 @@ If you see three Pods and two Services running, you are ready to continue.
 Using the default configuration, NGINX Ingress Controller is only open for HTTP and HTTPS traffic on ports 80 and 443.  You will need to modify the `nginx-ingress Deployment or Daemonset` to enable Layer4 TCP traffic, and open the appropriate TCP ports for Redis Client connections.  
 - You will configure NGINX Ingress to use custom TCP ports using a Custom Resource Definition (CRD).
 - The example shown here uses the standard Redis TCP ports.
-- You will also be using the NGINX Ingress Controller's `Transport Server`` Custom Resource Definition (CRD), for load balancing TCP traffic.  
+- You will also be using the NGINX Ingress Controller's `Transport Server` Custom Resource Definition (CRD), for load balancing TCP traffic.  
 - *It is important to note, that NIC will load balance new TCP connections from Redis Clients, it does not load balance Redis requests or transactions.*
 
 <br/>
@@ -227,7 +227,7 @@ Set the NIC bash variable.
 export NIC=$(kubectl get pods -n nginx-ingress -o jsonpath='{.items[0].metadata.name}')
 ```
 
-Connect to the bash console in the NIC pod with Kube Exec.
+Connect to the bash console of the NIC pod with Kube Exec.
 ```bash
 kubectl exec -it $NIC -n nginx-ingress -- /bin/bash
 
@@ -371,7 +371,7 @@ In the example above, the `Redis Leader and Follower Services` are now exposed o
 
 If you want to use a LoadBalancer Service, follow these steps:
 
-Alternative to the NodePort nginx-ingress Service, you could use a LoadBalancer nginx-ingress Service.  This example uses a static IP address from a lab environment, which you can modify to meet your needs.  If you are using a Cloud Provider, the External-IP is provided for you.
+Alternative to the NodePort nginx-ingress Service, you could use an nginx-ingress Loadbalancer Service.  This example uses a static IP address from a lab environment, which you can modify to meet your needs.  If you are using a Cloud Provider, the External-IP is provided for you.
 
 1. Inspect the `loadbalancer-redis.yaml` Manifest.  This new LoadBalancer Service definition ADDS the two new Redis ports to the nginx-ingress Service, and Kubernetes opens two new NodePorts.
 
@@ -509,11 +509,11 @@ nginx-ingress   ModePort   10.100.1.85   <none>        80:31013/TCP,443:32040/TC
 
 ```
 
-In the example above, the Redis Leader was assigned `31126/TCP`, and the Redis Follower was assigned `32401/TCP`.  Your port numbers will likely be different, as these are normally ephemeral and dynamically assiged.
+In the example above, the Redis Leader was assigned `31126/TCP`, and the Redis Follower was assigned `32401/TCP`.  Your port numbers will likely be different, as these are normally ephemeral and dynamically assigned.
 
 1. Optional:  Update your local DNS resolver `hosts` file, and add the IP address for `redis.example.com`.  Or you can use the actual IP address directly if you like, or update your DNS server as appropriate.
 
-1. Verify connection to `Redis Leader` is working, use the K8s NodeIP, and the Leader NodePort:
+1. Verify connection to `Redis Leader` is working, use the K8s NodeIP, and the `Leader` NodePort:
 
 ```bash
 redis-cli -h <KubernetesNodeIP> -p 31126 PING
@@ -549,7 +549,7 @@ redis-cli -h <KubernetesNodeIP> -p 31126 HELLO 2
 ```
 
 
-1. Verify connection to Redis Follower is working, use the K8s NodeIP, and the Follower NodePort:
+1. Verify connection to Redis Follower is working, use the K8s NodeIP, and the `Follower` NodePort:
 
 ```bash
 redis-cli -h <KubernetesNodeIP> -p 32401 PING
@@ -584,7 +584,7 @@ redis-cli -h <KubernetesNodeIP> -p 32401 HELLO 2
 
 ```
 
-If the PING and HELLO tests are successful for both the Leader and Follower Services, you are ready to go!  Let's try a few benchmark tests and see Redis in action.
+If the PING and HELLO tests are successful for both the Leader and Follower Services, you are ready to go!  Let's try a few benchmark tests and see Redis in action under load.
 
 <br/>
 
