@@ -4,19 +4,27 @@
 
 In this lab, you will configure NIC to handle `Redis Cache` read and write requests, to and from a Redis Cluster running inside your Kubernetes cluster.
 
-Redis is a popular In-Memory caching solution, providing very high speed, low latency reading and writing of Key:Value records in the memory of Redis servers.  There are many use cases for running Redis, and it works quite well in Kubernetes environments.  In this lab exercise you will deploy it and test it out using a basic Redis Cluster configuration of 1 Redis Leader and 2 Redis Followers.  You will use standard Redis Client and Benchmark tools for these tests.  You can find a link to more information on Redis in the References section.
+Redis is a popular In-Memory caching solution, providing very high speed, low latency reading and writing of Key:Value records using the memory of Redis servers.  There are many use cases for running Redis, and it works well in Kubernetes environments.  In this lab exercise you will deploy it and test it out using a basic Redis Cluster configuration of 1 Redis Leader and 2 Redis Followers.  You will use standard Redis Client and Benchmark tools for these tests.  You can find a link to more information on Redis in the References section.
 
 ## Learning Objectives 
 
 By the end of the lab you will be able to: 
- * Deploy Redis Leader pod and services
- * Deploy Redis Follower pod and service
- * Re-configure NIC to expose well-known Redis TCP ports
- * Install Redis Tools on the Ubuntu Jumphost
+ * Deploy Redis Leader pod and service
+ * Deploy Redis Follower pods and service
+ * Re-configure NGINX Ingress to expose well-known Redis TCP ports
+ * Install Redis Tools
  * Test Redis read/write functions using Redis tools
+ * Monitor NIC and Kubernetes pods during tests
  * Optional: Load sample data into Redis and query records
 
 <br/>
+
+NGINX | Redis | Benchmark
+:-------------------------:|:-------------------------:|:-------------------------:
+![](media/nginx-icon.png)  |![](media/redis-icon.png)  |![](media/benchmark-icon.png)
+
+<br/>
+
 
 ### 1. Deploy Redis Leader to the Kubernetes Cluster
 
@@ -75,13 +83,23 @@ If you see three Pods and two Services running, you are ready to continue.
 
 ### 3. Re-configure NGINX Ingress Controller for TCP ports and Redis traffic
 
-Using the default configuration, NGINX Ingress Controller is only open for HTTP and HTTPS traffic on ports 80 and 443.  You will need to modify the `nginx-ingress Deployment or Daemonset` to enable Layer4 TCP traffic, and open the appropriate TCP ports for Redis Client connections.  The example used here follows using the started Redis TCP ports.  You will also be using the NGINX Ingress Controller's `Transport Server Custom Resource Definition (CRD)`, which will enable and configure NGINX's Stream Context, for load-balancing TCP traffic.  It is important to note, that NIC will load balance new TCP connections from Redis Clients, it does not load balance Redis requests or transactions.
+Using the default configuration, NGINX Ingress Controller is only open for HTTP and HTTPS traffic on ports 80 and 443.  You will need to modify the `nginx-ingress Deployment or Daemonset` to enable Layer4 TCP traffic, and open the appropriate TCP ports for Redis Client connections.  
+- You will configure NGINX Ingress to use custom TCP ports using a Custom Resource Definition (CRD).
+- The example shown here uses the standard Redis TCP ports.
+- You will also be using the NGINX Ingress Controller's `Transport Server`` Custom Resource Definition (CRD), for load balancing TCP traffic.  
+- *It is important to note, that NIC will load balance new TCP connections from Redis Clients, it does not load balance Redis requests or transactions.*
 
 <br/>
 
-1. Inspect the `nginx-plus-ingress-redis.yaml` Manifest file.  Near the bottom, noticed that the `Global Configuration command line parameter` has been enabled by removing the comment character (it is disabled by default).  This will allow NGINX Ingress to bind and use additional TCP ports for incoming traffic.  NOTE:  The only open TCP ports on NGINX Ingress are 80 and 443 for web/tls traffic by default.  For Redis to be accessible outside the Kubernetes cluster, you need to add the standard Redis TCP port of 6379 for the Leader connections, and we also add TCP port 6380 for the Follower connections.  Of course, you can change these TCP port numbers to match your client requirements as needed.
+< need Redis client > NIC > Redis Service > Redis Pods diagram here >
 
-1. Delete the current nginx-ingress deployment (or daemon-set).  **NOTE:  Use Caution - this will delete the Ingress Controller pods and services and drop ALL traffic!**
+<br/>
+
+1. Inspect the `nginx-plus-ingress-redis.yaml` Manifest file.  Near the bottom, noticed that the `Global Configuration command-line parameter` has been enabled by removing the comment character (it is disabled by default).  This will allow NGINX Ingress to bind and use additional TCP ports for incoming traffic.  NOTE:  The only open TCP ports on NGINX Ingress are 80 and 443 for web/tls traffic by default.  For Redis to be accessible outside the Kubernetes cluster, you need to add the standard Redis TCP port of 6379 for the Leader connections, and we also add TCP port 6380 for the Follower connections.  Of course, you can change these TCP port numbers to match your client requirements as needed.
+
+1. Delete the current nginx-ingress deployment (or daemon-set).  
+
+>**NOTE:  Use Caution - this will delete the NGINX Ingress Controller and drop ALL traffic!**
 
 ```bash
 kubectl delete deployment nginx-ingress -n nginx-ingress
@@ -187,7 +205,7 @@ transportserver.k8s.nginx.org/redis-follower-ts created
 
 ```
 
-1. Verify both NIC Transport Servers have a `Valid` STATE:
+1. Verify both NIC Transport Servers have a `Valid` STATE.  If they show `InValid` STATE, you must fix your manifests before proceeding.
 
 ```bash
 kubectl get ts -A
@@ -202,7 +220,7 @@ default     redis-leader-ts     Valid   AddedOrUpdated   7s
 
 ```
 
-1. NIC Under the Hood...let's log into the NIC pod, and check the NGINX config, and verify that the Stream Server and Redis Upstream blocks have been created.
+1. NIC Under the Hood...let's log into the NIC pod, and check the NGINX config, and verify that the Stream Server block, listeners, and Redis Upstream blocks have been created.
 
 Set the NIC bash variable.
 ```bash
@@ -214,32 +232,45 @@ Connect to the bash console in the NIC pod with Kube Exec.
 kubectl exec -it $NIC -n nginx-ingress -- /bin/bash
 
 ```
+>nginx@nginx-ingress-5645d64dd8-sjjc7:$ 
 
-After you are connected to the NIC pod's bash shell, change to /etc/nginx folder and look around.  If you go to the /etc/nginx/stream-conf.d folder, you will see 2 nginx .conf files, one for Redis Leader, one for Redis Follower.
+After you are connected to the NIC pod's bash shell, change to /etc/nginx folder and look around.  If you explore the `/etc/nginx/stream-conf.d` folder, you will see 2 NGINX stream .conf files, one for Redis Leader, one for Redis Follower.
 
 ```bash
-nginx@nginx-ingress-5645d64dd8-sjjc7:/etc/nginx/stream-conf.d$ cat ts_default_redis-leader-ts.conf 
+cd /etc/nginx/stream-conf.d
+
+ls-l
 
 ```
 
 ```bash
+#Output should be similar to:
+total 8
+-rw-r--r-- 1 nginx nginx 568 Jan  9 17:34 ts_default_redis-follower-ts.conf
+-rw-r--r-- 1 nginx nginx 483 Jan  9 17:34 ts_default_redis-leader-ts.conf
 
-upstream ts_default_redis-leader-ts_redis-upstream {
+```
+
+```bash
+cat ts_default_redis-leader-ts.conf 
+
+```
+
+```bash
+#Output should be similar to:
+upstream ts_default_redis-leader-ts_redis-upstream {            # Redis Leader Upstream block
     zone ts_default_redis-leader-ts_redis-upstream 256k;
-    least_time last_byte;
-    server 10.10.1.152:6379 max_fails=3 fail_timeout=10s max_conns=100;
-    
+    least_time last_byte;                                       # Choose the fastest pod
+    server 10.10.1.152:6379 max_fails=3 fail_timeout=10s max_conns=100;    # Redis Leader Pod
 }
 
 server {
-    listen 6379;
+    listen 6379;             # Redis Leader Listener
     listen [::]:6379;
-    
     status_zone redis-leader-listener;
     proxy_pass ts_default_redis-leader-ts_redis-upstream;
     proxy_timeout 10m;
     proxy_connect_timeout 60s;
-   
 }
 
 ```
@@ -252,32 +283,31 @@ cat ts_default_redis-follower-ts.conf
 ```
 
 ```bash
-$ cat ts_default_redis-follower-ts.conf 
-
-upstream ts_default_redis-follower-ts_redis-upstream {
+#Output should be similar to:
+upstream ts_default_redis-follower-ts_redis-upstream {      # Redis Follower Upstream block
     zone ts_default_redis-follower-ts_redis-upstream 256k;
-    least_time last_byte;
-    server 10.10.2.144:6379 max_fails=3 fail_timeout=10s max_conns=100;
-    
-    server 10.10.1.155:6379 max_fails=3 fail_timeout=10s max_conns=100;
-    
+    least_time last_byte;                                   # Choose the fastest pod
+
+    server 10.10.2.144:6379 max_fails=3 fail_timeout=10s max_conns=100;   #Redis Follower Pods
+    server 10.10.1.155:6379 max_fails=3 fail_timeout=10s max_conns=100;  
 }
 
 server {
-    
-    listen 6380;
+    listen 6380;              # Redis Follower Listener
     listen [::]:6380;
     status_zone redis-follower-listener;
     proxy_pass ts_default_redis-follower-ts_redis-upstream;
     proxy_timeout 10m;
     proxy_connect_timeout 60s;
-
 }
-
 
 ```
 
-1. Expose the NGINX Ingress Transport Servers outside the cluster with *either* a `NodePort or LoadBalancer Service`.  Pick the one appropriate for your environemnt, do not use both!
+After you are finished looking around, type `exit` to Exit the bash shell to the NIC pod.
+
+<br/>
+
+1. Expose the NGINX Ingress Transport Servers outside the cluster with *either* a `NodePort or LoadBalancer Service`.  Pick the one appropriate for your environemnt, do not use both.
 
 If you want to use a NodePort Service, follow these steps:
 
@@ -347,7 +377,6 @@ Alternative to the NodePort nginx-ingress Service, you could use a LoadBalancer 
 
 ```yaml
 # NIC LoadBalancer Service file, adding Redis
-# externalIPs are set to Nginx LB Server
 # Add ports 6379 and 6380 for Redis
 # Chris Akker, Apr 2024 
 #
@@ -358,8 +387,6 @@ metadata:
   namespace: nginx-ingress
 spec:
   type: LoadBalancer
-  externalIPs:
-  - 10.1.1.4          #Nginx LB1 Server
   ports:
   - port: 80
     targetPort: 80
@@ -396,15 +423,15 @@ kubectl get svc -n nginx-ingress
 ```
 ```bash
 #Output should be similar to:
-NAME            TYPE           CLUSTER-IP    EXTERNAL-IP    PORT(S)                                                    AGE
-nginx-ingress   LoadBalancer   10.100.1.85   10.1.1.4       80:31013/TCP,443:32040/TCP,6379:31126/TCP,6380:32401/TCP   20s
+NAME            TYPE       CLUSTER-IP    EXTERNAL-IP   PORT(S)                                           AGE
+nginx-ingress   ModePort   10.100.1.85   <none>        80:31013/TCP,443:32040/TCP,6379:31126/TCP,6380:32401/TCP   20s
 
 ```
 
 In this example, Redis is now ready for traffic!
 
-- The Redis Leader is now accessible at <KubernetesNodeIP>:31126.
-- The Redis Follower is now accessiable at <KubernetesNodeIP>:32401.
+- The Redis Leader is now accessible at `KubernetesNodeIP`:31126.
+- The Redis Follower is now accessiable at `KubernetesNodeIP`:32401.
 
 <br/>
 
@@ -469,9 +496,24 @@ which redis-benchmark
 
 Let's use the Redis Tools installed, to verify we can connect to both the Redis Leader and Follower Services running inside Kubernetes.
 
+1. Verify the NodePort TCP Ports that were assigned by Kubernetes, from the nginx-ingress NodePort or Loadbalancer Service.  These are the two ports opened on every Kubernetes Node, you will use these port numbers for the following tests.
+
+```bash
+kubectl get svc -n nginx-ingress
+
+```
+```bash
+#Output should be similar to:
+NAME            TYPE       CLUSTER-IP    EXTERNAL-IP   PORT(S)                                           AGE
+nginx-ingress   ModePort   10.100.1.85   <none>        80:31013/TCP,443:32040/TCP,6379:31126/TCP,6380:32401/TCP   20s
+
+```
+
+In the example above, the Redis Leader was assigned `31126/TCP`, and the Redis Follower was assigned `32401/TCP`.  Your port numbers will likely be different, as these are normally ephemeral and dynamically assiged.
+
 1. Optional:  Update your local DNS resolver `hosts` file, and add the IP address for `redis.example.com`.  Or you can use the actual IP address directly if you like, or update your DNS server as appropriate.
 
-1. Verify connection to `Redis Leader` is working:
+1. Verify connection to `Redis Leader` is working, use the K8s NodeIP, and the Leader NodePort:
 
 ```bash
 redis-cli -h <KubernetesNodeIP> -p 31126 PING
@@ -507,7 +549,7 @@ redis-cli -h <KubernetesNodeIP> -p 31126 HELLO 2
 ```
 
 
-1. Verify connection to Redis Follower is working
+1. Verify connection to Redis Follower is working, use the K8s NodeIP, and the Follower NodePort:
 
 ```bash
 redis-cli -h <KubernetesNodeIP> -p 32401 PING
@@ -544,9 +586,11 @@ redis-cli -h <KubernetesNodeIP> -p 32401 HELLO 2
 
 If the PING and HELLO tests are successful for both the Leader and Follower Services, you are ready to go!  Let's try a few benchmark tests and see Redis in action.
 
+<br/>
+
 ### Redis Benchmark
 
-In these tests, we will use the Redis provided Benchmarking test tool, and see what kind of performance we can get from our Redis and Kubernetes clusters.   You will use the `NGINX Ingress Controller Dashboard`, so you can see the Redis upstreams, and the TCP metrics that Nginx is collecting.
+In these tests, we will use the Redis provided Benchmarking test tool, and see what kind of performance we can get from our Redis and Kubernetes clusters.   You will use the `NGINX Ingress Controller Dashboard`, so you can see the Redis server block, upstreams, and the TCP metrics that Nginx is collecting.
 
 1. Set the NIC pod bash varible:
 
@@ -568,16 +612,29 @@ Handling connection for 9000
 
 ```
 
-1. Open a browser, and go to http://localhost:9000/dashboard.html.  Click on the TCP/UDP Upstreams tab, to see your Redis pods.
+1. Open a browser, and go to http://localhost:9000/dashboard.html , click on the TCP/UDP Zones tab to see the Redis Transport Servers.  Then click on the TCP/UDP Upstreams tab, to see your Redis upstream pods.
 
-![NIC Redis Dashboaard ](media/lab9:nic-redis-upstreams.png)
+![NIC Redis Dashboaard ](media/lab9_nic-redis-upstreams.png)
 
-You will see one Upstream for the Redis Leader pod, and two Upstreams for the Redis Follower pods.
+Imporant Items to notice on the NIC Dashboard.
 
-Leave this window open, and watch the metrics as you run the following benchmark tests.
+- You will see one Upstream for the Redis Leader pod
+- Two Upstreams for the Redis Follower pods  
+- As Redis performance is highly dependant on network and cluster latency, pay attention to the `Response time` section of the Dashboard, so you can see how quickly your Redis cluster is responding.  
+- Consider adding these metrics to your statistics collection platform you have running for Kubernetes, they are exported by NGINX Ingress using `Prometheus`, which is covered in a different lab exercise.
+- The NAME of the Upstreams follow a standard naming format =
+- - `ts_default_redis-leader-ts_redis-upstream`
+- - ts for Transport Server
+- - default for the k8s namespace
+- - redis-leader-ts for the Leader Transport Server name
+- - redis-upstream for the upstream block name
+- - -  these names come from your k8s manifests, and are created and used in the NIC's .conf files, which you saw when when you kube exec logged into the NIC pod's bash shell earlier.
 
+<br/>
 
-1. Performance Test the Redis Leader.  (Adding the -q option for just a Summary).  Use 100 TCP Connections, and a 256 byte data size:
+>Leave this Dashboard browser window open, and watch the metrics as you run the following benchmark tests.
+
+1. Performance Test the Redis Leader.  (Adding the -q option for just a Summary Ouput).  In this example you are using 100 TCP Connections, and a 256 byte data size.  Adjust as needed to meet your own test requirements:
 
 ```bash
 redis-benchmark -h 10.1.1.8 -p 31126 -c 100 -d 256 -q
@@ -607,7 +664,15 @@ MSET (10 keys): 13706.14 requests per second
 
 ```
 
-If you have kube-metrics installed, use the `kubectl top pod` command to see the CPU/ram usage of the pods during the benchmark.
+<br/>
+
+In the following screenshot, you can see that each test within the benchmark opens 100 new TCP connections.
+
+![NIC Redis Benchmark1 ](media/lab9_redis-benchmark1.png)
+
+<br/>
+
+> Bonus!  If you have kube-metrics installed in your cluster, use the `kubectl top pod` command to see the CPU/ram usage of the pods during the benchmark.
 
 ```bash
 kubectl top pod |grep redis
@@ -620,7 +685,7 @@ redis-follower-7dcc9bdc5b-7zf8w   144m         37Mi
 redis-leader-766465cd9c-b7lx4     478m         60Mi 
 ```
 
-1. Performance Test the Redis Follower.  (Adding the -q option for just a Summary).  Use 100 TCP Connections, and a 256 byte data size:
+1. Performance Test the Redis Follower.  (Adding the -q option for just a Summary Output).  Again using 100 TCP Connections, and a 256 byte data size. Adjust as needed to meet your own test requirements:
 
 ```bash
 redis-benchmark -h 10.1.1.8 -p 32401 -c 100 -d 256 -q
@@ -664,7 +729,7 @@ redis-leader-766465cd9c-b7lx4     2m           8Mi
 ```
 <br/>
 
-If you have more than one Kubernetes Worker Node, you might like to test them all, and see what kind of performance you get.
+If you have more than one Kubernetes Worker Node, you might like to benchmark them all, and see what kind of performance they have, you might will be surprised at the variance.
 
 <br/>
 
