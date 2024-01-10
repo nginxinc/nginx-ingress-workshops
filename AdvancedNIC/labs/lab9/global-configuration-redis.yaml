@@ -1,0 +1,16 @@
+# NIC Global Config manifest for custom TCP ports for Redis
+# Chris Akker Jan 2024
+#
+apiVersion: k8s.nginx.org/v1alpha1
+kind: GlobalConfiguration 
+metadata:
+  name: nginx-configuration
+  namespace: nginx-ingress
+spec:
+  listeners:
+  - name: redis-leader-listener
+    port: 6379
+    protocol: TCP
+  - name: redis-follower-listener
+    port: 6380
+    protocol: TCP

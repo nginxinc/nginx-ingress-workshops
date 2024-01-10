@@ -1,0 +1,22 @@
+# NIC Plus TransportServer file
+# Add ports 6379 for Redis Leader
+# Chris Akker, Jan 2024
+#
+apiVersion: k8s.nginx.org/v1alpha1
+kind: TransportServer
+metadata:
+  name: redis-leader-ts
+spec:
+  listener:
+    name: redis-leader-listener 
+    protocol: TCP
+  upstreams:
+  - name: redis-upstream
+    service: redis-leader
+    port: 6379
+    maxFails: 3
+    maxConns: 100
+    failTimeout: 10s
+    loadBalancingMethod: least_time last_byte
+  action:
+    pass: redis-upstream
