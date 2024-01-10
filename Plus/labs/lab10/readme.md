@@ -28,19 +28,19 @@ NGINX Plus provides many options for active health checking of pods and services
 
     ![active health yaml](media/lab10_active_health_yaml.png)
 
-2. Remove the running JuiceShop Virtual Server from the previous lab:
+1. Remove the running JuiceShop Virtual Server from the previous lab:
 
     ```bash
     kubectl delete -f lab9/juiceshop-vs.yaml
     ```
 
-3. Try the new Virtual Server with incorrect healthchecks enabled:
+1. Try the new Virtual Server with incorrect healthchecks enabled:
 
     ```bash
     kubectl apply -f lab10/juice-health-bad-vs.yaml
     ```
 
-4. Check your Plus Dashboard, and then try refreshing your Juice Shop browser page.  What did you see and what happened to your JuiceShop application ?
+1. Check your Plus Dashboard, and then try refreshing your Juice Shop browser page.  What did you see and what happened to your JuiceShop application ?
 
     <details>
       <summary>Click for Hints!</summary>
@@ -54,7 +54,7 @@ NGINX Plus provides many options for active health checking of pods and services
 
     ![Bad Gateway](media/lab10_bad_gateway.png) 
 
-5. Quickly!! - checking further, look at the Ingress Controller logs, what do they show ?
+1. Quickly!! - checking further, look at the Ingress Controller logs, what do they show ?
 
     ```bash
     kubectl logs -n nginx-ingress $NIC --follow --tail=20
@@ -68,21 +68,17 @@ NGINX Plus provides many options for active health checking of pods and services
 
     Type Control+C to stop the log tail when you are finished.
 
-6. Inspect the fixed YAML manifest VS file, `juice-health-good-vs.yaml`, with the correct healthcheck port of 3000 on line #24. Now try that one:
+1. Inspect the fixed YAML manifest VS file, `juice-health-good-vs.yaml`, with the correct healthcheck port of 3000 on line #24. Now try that one:
 
     ```bash
     kubectl apply -f lab10/juice-health-good-vs.yaml
     ```
 
-7. Check your NIC Plus Dashboard again, with Health monitors now green, and your website is up and browser access is restored.  The connection errors in the Ingress log should have stopped as well.
+1. Check your NIC Plus Dashboard again, with Health monitors now green, and your website is up and browser access is restored.  The connection errors in the Ingress log should have stopped as well.
 
     ![Good Healthchecks](media/lab10_health_good.png) 
 
-<br/>
-
 ### Custom Error Pages
-
-<br/>
 
 ![custom error](media/lab10_custom_error.png)
 
@@ -235,9 +231,9 @@ Inspect the  `lab10/cafe-mtls.yaml`, lines 19, and 29-30.  Notice the change fro
     kubectl delete vs cafe-vs
     ```
 
-2. Check the Plus Dashboard, the Cafe HTTP Zone should now be gone.
+1. Check the Plus Dashboard, the Cafe HTTP Zone should now be gone.
 
-3. Start a fresh Cafe Demo, deploy the TLS enabled pods and services and Virtual Server manifests:
+1. Start a fresh Cafe Demo, deploy the TLS enabled pods and services and Virtual Server manifests:
 
     ```bash
     kubectl apply -f lab10/cafe-mtls.yaml
@@ -255,11 +251,11 @@ Inspect the  `lab10/cafe-mtls.yaml`, lines 19, and 29-30.  Notice the change fro
     </details><br/>
     
 
-4. Check the Plus Dashboard, and your new End-to-End TLS Cafe Application - ensure all 6 "mtls" coffee and tea pods are now in Up/Green status.
+1. Check the Plus Dashboard, and your new End-to-End TLS Cafe Application - ensure all 6 "mtls" coffee and tea pods are now in Up/Green status.
 
     ![MTLS Cafe Dashboard](media/lab10_mtls_dashboard.png)
 
-5. Using Chrome, check the access to coffee and tea as before:
+1. Using Chrome, check the access to coffee and tea as before:
 
     https://cafe.example.com/coffee
     
@@ -306,7 +302,7 @@ Having read the tea leaves you are highly confident in your new code. So you dec
     kubectl scale deployment tea-mtls --replicas=1
     ```
 
-2. Check the Plus Dashboard, there should only be one coffee and one tea upstream now.
+1. Check the Plus Dashboard, there should only be one coffee and one tea upstream now.
 
     ![Bluegreen Cafe upstreams](media/lab10_bluegreen_upstreams.png)
 
@@ -314,19 +310,19 @@ Having read the tea leaves you are highly confident in your new code. So you dec
 
     ![Bluegreen Splits](media/lab10_bluegreen_splits.png)
 
-3. Next, remove the existing VirtualServer for mTLS from the previous exercise:
+1. Next, remove the existing VirtualServer for mTLS from the previous exercise:
 
     ```bash
     kubectl delete -f lab10/cafe-mtls-vs.yaml
     ```
 
-4. Now configure the Cafe VirtualServer to send `80%` traffic to coffee-mtls, and `20%` traffic to tea-mtls:
+1. Now configure the Cafe VirtualServer to send `80%` traffic to coffee-mtls, and `20%` traffic to tea-mtls:
 
     ```bash
     kubectl apply -f lab10/cafe-bluegreen-vs.yaml
     ```
 
-5. Open a Chrome tab for https://cafe.example.com/coffee, and check the Auto Refresh box at the bottom of the page.
+1. Open a Chrome tab for https://cafe.example.com/coffee, and check the Auto Refresh box at the bottom of the page.
 
     ![Bluegreen Auto Refresh](media/lab10_bluegreen_refresh.png)
 
