@@ -27,23 +27,44 @@ You will launch a new application, called `Juice Shop`, representing a modern on
     ```bash
     kubectl create namespace juice
     ```
-    ![Namespace creation screenshot](media/lab9_namespace.png)
+
+    ```bash
+    ###Sample Output###
+    namespace/juice created
+    ```
 
     ```bash
     kubectl apply -f lab9/juiceshop.yaml
     kubectl apply -f lab9/juiceshop-vs.yaml
     ```
 
-    ![Component creation screenshot](media/lab9_component_create.png)
+    ```bash
+    ###Sample Output###
+    deployment.apps/juiceshop created
+    service/juiceshop-svc created
+    secret/juice-secret created
+    virtualserver.k8s.nginx.org/juiceshop-vs created
+    ```
 
 1. Show running Juice components:
 
     ```bash
     kubectl get pods,svc,vs -n juice -o wide
     ```
-    ![Component Get Screenshot](media/lab9_component_get.png)
+    
+    ```bash
+    ###Sample Output###
+    NAME                             READY   STATUS    RESTARTS   AGE    IP               NODE   NOMINATED NODE   READINESS GATES
+    pod/juiceshop-55bb4899cf-h4vpj   1/1     Running   0          2m2s   192.168.44.93    k8s3   <none>           <none>
+    pod/juiceshop-55bb4899cf-m9qg9   1/1     Running   0          2m2s   192.168.35.215   k8s2   <none>           <none>
+    pod/juiceshop-55bb4899cf-r866z   1/1     Running   0          2m2s   192.168.15.52    k8s3   <none>           <none>
 
-    <br/>
+    NAME                    TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE    SELECTOR
+    service/juiceshop-svc   ClusterIP   None         <none>        80/TCP    2m3s   app=juiceshop
+
+    NAME                                       STATE   HOST                    IP    EXTERNALHOSTNAME   PORTS   AGE
+    virtualserver.k8s.nginx.org/juiceshop-vs   Valid   juiceshop.example.com                                    2m1s
+    ```
 
 1. Test the new Juice Shop application and VS/VSR manifests.
 
@@ -60,8 +81,6 @@ You will launch a new application, called `Juice Shop`, representing a modern on
     ![NGINX Dashboard Upstreams](media/lab9_dashboard_upstreams.png)
 
 **This completes this Lab.**
-
-<br/>
 
 ## References:
 
