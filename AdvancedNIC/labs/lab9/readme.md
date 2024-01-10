@@ -81,6 +81,10 @@ If you see three Pods and two Services running, you are ready to continue.
 
 <br/>
 
+>NOTE:  Thanx and Credit to Google for providing the Guestbook Tutorial with Redis Leader and Follower configurations.
+
+<br/>
+
 ### 3. Re-configure NGINX Ingress Controller for TCP ports and Redis traffic
 
 Using the default configuration, NGINX Ingress Controller is only open for HTTP and HTTPS traffic on ports 80 and 443.  You will need to modify the `nginx-ingress Deployment or Daemonset` to enable Layer4 TCP traffic, and open the appropriate TCP ports for Redis Client connections.  
@@ -801,6 +805,7 @@ https://github.com/redis-developer/redis-datasets/tree/master
 ## References: 
 
 - [Redis](https://redis.com/)
+- [Google Guestbook Tutorial](https://cloud.google.com/kubernetes-engine/docs/tutorials/guestbook)
 - [Redis Tools](https://redis.io/resources/tools/)
 - [Redis Benchmark](https://redis.io/docs/management/optimization/benchmarks/)
 - [Redis Sample User Database](https://github.com/redis-developer/redis-datasets/blob/master/user-database/README.md)
