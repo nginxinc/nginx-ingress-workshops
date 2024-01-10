@@ -40,18 +40,18 @@ Next, let's scale the number of Ingress Controllers pods from one to **three**. 
     nginx-ingress-55c78c65d7-q8kmp   1/1     Running      0          2d23h
     ```
 
-    **Questions:** 
+    **Questions:**
      - What happened to your `WRK` loadtest traffic on the Dashboard ?
      - Did it drop by approximately 1/3rd.  Why?
 
     <details><summary>Click for Hints!</summary>
       <br/>
       <p>
-        <strong>Answer</strong>: there are now <strong>three Ingress Controllers</strong>, each taking 1/3rd of the traffic from the LoadBalancer Service, out in front of all 3 Ingress Controllers.  The incoming traffic to the first Ingress Controller is now equally shared with 2 new Ingress Controllers. <br/> 
+        <strong>Answer</strong>: there are now <strong>three Ingress Controllers</strong>, each taking 1/3rd of the traffic from the LoadBalancer Service, out in front of all 3 Ingress Controllers.  The incoming traffic to the first Ingress Controller is now equally shared with 2 new Ingress Controllers. <br/>
 
         Refer to the topology diagram of this lab's Multi-Ingress deployment:
       </p>
-      
+
       ![Multiple Ingress](media/lab7_multi_ingress.png)
     </details><br/>
 
@@ -60,9 +60,11 @@ Next, let's scale the number of Ingress Controllers pods from one to **three**. 
    ```
    kubectl scale deployment nginx-ingress -n nginx-ingress --replicas=4
    ```
+
    ```bash
    kubectl get pods -n nginx-ingress
    ```
+
    ```bash
     ###Sample Output###
     NAME                             READY   STATUS       RESTARTS   AGE
@@ -81,9 +83,11 @@ Next, let's scale the number of Ingress Controllers pods from one to **three**. 
     ```bash
     kubectl scale deployment -n nginx-ingress nginx-ingress --replicas=1
     ```
+
     ```bash
     kubectl get pods -n nginx-ingress
     ```
+
     ```bash
     ###Sample Output###
     NAME                             READY   STATUS         RESTARTS   AGE
@@ -108,10 +112,10 @@ Next, let's scale the number of Ingress Controllers pods from one to **three**. 
     **Inspect the output:** `nginx -T` prints out the entire NGINX configuration. Scroll up and down - do you see:
 
     - `server` block
-    - the `listen` ports 
+    - the `listen` ports
     - `café.example.com` Hostname
-    - `TLS` configurations 
-    - `upstream blocks` with Pod IPs 
+    - `TLS` configurations
+    - `upstream blocks` with Pod IPs
     - the `least_time` or `round-robin` load balancing method  
 
     This is all standard NGINX Plus under the hood, it should look very familiar.
@@ -128,8 +132,8 @@ log_format main $remote_addr - $remote_user [$time_local] $request $status $body
 
 However, there are only **two** log variables with any useful data related to the actual pods:
 
-  - HTTP status code (`$status`)
-  - Bytes Sent (`$body_bytes_sent`) 
+- HTTP status code (`$status`)
+- Bytes Sent (`$body_bytes_sent`)
 
 1. Use the `kubectl log` command, to view the default NGINX Plus Ingress Controller Access log format:
 
@@ -139,11 +143,11 @@ However, there are only **two** log variables with any useful data related to th
 
     ![Access logs](media/access-logs.png)
 
-    How do you even know *which `pod`* sent the response? To properly troubleshoot and identify the poor performance of a pod, you need much more information. 
+    How do you even know *which `pod`* sent the response? To properly troubleshoot and identify the poor performance of a pod, you need much more information.
 
 1. Type `Control-C` to stop the log `tail` when finished.
 
-1. Lets implement an **Enhanced** Access Log format, to collect extra NGINX Plus Request and Response and pod statistics, we can do this by adding new log variables specifc to NGINX Plus Ingress such as the Kubernetes pods' resource and traffic details. 
+1. Lets implement an **Enhanced** Access Log format, to collect extra NGINX Plus Request and Response and pod statistics, we can do this by adding new log variables specifc to NGINX Plus Ingress such as the Kubernetes pods' resource and traffic details.
 
     NGINX Plus has many variables that can be used for logging. In the code snippet below
     (`lab7/nginx-config-enhanced-logging.yaml`), you can see the new **Enhanced** Access Log format for the NGINX Plus Ingress Controller, as a `ConfigMap`:
@@ -166,16 +170,17 @@ However, there are only **two** log variables with any useful data related to th
     ```bash
     kubectl apply -f lab7/nginx-config-enhanced-logging.yaml -n nginx-ingress
     ```
+
     ```bash
     ###Sample Output###
     configmap/nginx-config created
     ```
 
-2. Let's generate new traffic by refreshing the `cafe.example.com/coffee` webpage in the Chrome web browser several times, to send some requests, to see the new **Enhanced** Access Logging format.
+1. Let's generate new traffic by refreshing the `cafe.example.com/coffee` webpage in the Chrome web browser several times, to send some requests, to see the new **Enhanced** Access Logging format.
 
     Now we are ready to inspect the the new logs: the Pod's HTTP Header and Response times have been added to the log format, in addition to the pod's actual Kubernetes name. The response time values in the log should be similar to what you observed in the Plus Dashboard.
 
-3. Take a look at the **Enhanced** NGINX Access log format using the `kubectl log` command:
+1. Take a look at the **Enhanced** NGINX Access log format using the `kubectl log` command:
 
     ```bash
     kubectl logs $NIC -n nginx-ingress --tail 10 --follow
@@ -183,23 +188,22 @@ However, there are only **two** log variables with any useful data related to th
 
     ![log tailing screenshot](media/access-log-enhanced.png)
 
-4. Type` Control-C` to stop the log  `tail` when finished.
+1. Type`Control-C` to stop the log  `tail` when finished.
 
    Hopefully, using this additional logging information will help pinpoint issues with various pods, and allow the Developers to improve the performance of their applications.
 
+**This completes this Lab.**
 
-**This completes this Lab.** 
-
-## References: 
+## References
 
 - [Summary of ConfigMap Keys - logging](http://docs.nginx.com/nginx-ingress-controller/configuration/global-configuration/configmap-resource/#logging)
 - [NGINX Variables](http://nginx.org/en/docs/varindex.html)
 
 ### Authors
+
 - Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
 - Shouvik Dutta - Solutions Architect - Community and Alliances @ F5, Inc.
 
 -------------
 
 Navigate to ([Lab8](../lab8/readme.md) | [Main Menu](../LabGuide.md))
-
