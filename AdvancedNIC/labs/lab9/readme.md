@@ -2,9 +2,11 @@
 
 ## Introduction
 
-In this lab, you will configure NIC to handle `Redis Cache` read and write requests, to and from a Redis Cluster running inside your Kubernetes cluster.
+In this lab, you will configure NIC to handle `Redis Cache` read and write connections, to and from a Redis Cluster running inside your Kubernetes cluster.
 
 Redis is a popular In-Memory caching solution, providing very high speed, low latency reading and writing of Key:Value records using the memory of Redis servers.  There are many use cases for running Redis, and it works well in Kubernetes environments.  In this lab exercise you will deploy it and test it out using a basic Redis Cluster configuration of 1 Redis Leader and 2 Redis Followers.  You will use standard Redis Client and Benchmark tools for these tests.  You can find a link to more information on Redis in the References section.
+
+>>**It is important to note, that NGINX Ingress will load balance new TCP connections from Redis Clients, it does not load balance Redis requests or transactions.**
 
 ## Learning Objectives 
 
@@ -91,7 +93,8 @@ Using the default configuration, NGINX Ingress Controller is only open for HTTP 
 - You will configure NGINX Ingress to enable custom TCP ports using the `Global Configuration` Custom Resource Definition (CRD).
 - The example shown here uses the standard Redis TCP ports.
 - You will also be using the NGINX Ingress Controller's `Transport Server` Custom Resource Definition (CRD), used for load balancing TCP traffic.  
-- *It is important to note, that NIC will load balance new TCP connections from Redis Clients, it does not load balance Redis requests or transactions.*
+
+>>*It is important to note, that NIC will load balance new TCP connections from Redis Clients, it does not load balance `Redis requests or transactions`.*
 
 <br/>
 
@@ -799,7 +802,7 @@ If you would like to load a sample dataset into Redis, and test reading those re
 
     ``` bash
     #Output should be similar to:
-    
+
     1) "Helaine"
     2) "Willett"
     3) "hwilletta@artisteer.com"
