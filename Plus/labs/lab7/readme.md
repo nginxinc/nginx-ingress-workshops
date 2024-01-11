@@ -32,20 +32,26 @@ Next, let's scale the number of Ingress Controllers pods from one to **three**. 
 
     You should see **three** NGINX Plus Ingress Controller pods running
 
-    ![get Ingress pods](media/lab7_get_ingress_pods.png)
+    ```bash
+    ###Sample Output###
+    NAME                             READY   STATUS       RESTARTS   AGE
+    nginx-ingress-55c78c65d7-9hwdf   1/1     Running      0          33s
+    nginx-ingress-55c78c65d7-kxrb5   1/1     Running      0          33s
+    nginx-ingress-55c78c65d7-q8kmp   1/1     Running      0          2d23h
+    ```
 
-    **Questions:** 
+    **Questions:**
      - What happened to your `WRK` loadtest traffic on the Dashboard ?
      - Did it drop by approximately 1/3rd.  Why?
 
     <details><summary>Click for Hints!</summary>
       <br/>
       <p>
-        <strong>Answer</strong>: there are now <strong>three Ingress Controllers</strong>, each taking 1/3rd of the traffic from the LoadBalancer Service, out in front of all 3 Ingress Controllers.  The incoming traffic to the first Ingress Controller is now equally shared with 2 new Ingress Controllers. <br/> 
+        <strong>Answer</strong>: there are now <strong>three Ingress Controllers</strong>, each taking 1/3rd of the traffic from the LoadBalancer Service, out in front of all 3 Ingress Controllers.  The incoming traffic to the first Ingress Controller is now equally shared with 2 new Ingress Controllers. <br/>
 
         Refer to the topology diagram of this lab's Multi-Ingress deployment:
       </p>
-      
+
       ![Multiple Ingress](media/lab7_multi_ingress.png)
     </details><br/>
 
@@ -54,25 +60,42 @@ Next, let's scale the number of Ingress Controllers pods from one to **three**. 
    ```
    kubectl scale deployment nginx-ingress -n nginx-ingress --replicas=4
    ```
+
    ```bash
    kubectl get pods -n nginx-ingress
    ```
 
-   ![scale Ingress to 4](media/lab7_ingress_scale4.png)
+   ```bash
+    ###Sample Output###
+    NAME                             READY   STATUS       RESTARTS   AGE
+    nginx-ingress-55c78c65d7-9hwdf   1/1     Running      0          5m
+    nginx-ingress-55c78c65d7-k47f7   1/1     Running      0          3s
+    nginx-ingress-55c78c65d7-kxrb5   1/1     Running      0          5m
+    nginx-ingress-55c78c65d7-q8kmp   1/1     Running      0          2d23h
+    ```
 
     What do you observe?
 
    **Food for thought** - With most Cloud providers, you could use AutoScaling to do this automatically!
 
-1. The Marketing push is over, so scale the Ingress Controllers back down to **one**. Run the following `kubectl scale` command:
+2. The Marketing push is over, so scale the Ingress Controllers back down to **one**. Run the following `kubectl scale` command:
 
     ```bash
     kubectl scale deployment -n nginx-ingress nginx-ingress --replicas=1
     ```
+
     ```bash
     kubectl get pods -n nginx-ingress
     ```
-    ![scale Ingress to 1](media/lab7_ingress_scale1.png)
+
+    ```bash
+    ###Sample Output###
+    NAME                             READY   STATUS         RESTARTS   AGE
+    nginx-ingress-55c78c65d7-9hwdf   0/1     Terminating        0          6m
+    nginx-ingress-55c78c65d7-k47f7   0/1     Terminating        0          88s
+    nginx-ingress-55c78c65d7-kxrb5   0/1     Terminating        0          6m
+    nginx-ingress-55c78c65d7-q8kmp   1/1     Running            0          2d23h
+    ```
 
 ## Ingress Under the Hood
 
@@ -89,10 +112,10 @@ Next, let's scale the number of Ingress Controllers pods from one to **three**. 
     **Inspect the output:** `nginx -T` prints out the entire NGINX configuration. Scroll up and down - do you see:
 
     - `server` block
-    - the `listen` ports 
+    - the `listen` ports
     - `café.example.com` Hostname
-    - `TLS` configurations 
-    - `upstream blocks` with Pod IPs 
+    - `TLS` configurations
+    - `upstream blocks` with Pod IPs
     - the `least_time` or `round-robin` load balancing method  
 
     This is all standard NGINX Plus under the hood, it should look very familiar.
@@ -109,8 +132,8 @@ log_format main $remote_addr - $remote_user [$time_local] $request $status $body
 
 However, there are only **two** log variables with any useful data related to the actual pods:
 
-  - HTTP status code (`$status`)
-  - Bytes Sent (`$body_bytes_sent`) 
+- HTTP status code (`$status`)
+- Bytes Sent (`$body_bytes_sent`)
 
 1. Use the `kubectl log` command, to view the default NGINX Plus Ingress Controller Access log format:
 
@@ -120,11 +143,11 @@ However, there are only **two** log variables with any useful data related to th
 
     ![Access logs](media/access-logs.png)
 
-    How do you even know *which `pod`* sent the response? To properly troubleshoot and identify the poor performance of a pod, you need much more information. 
+    How do you even know *which `pod`* sent the response? To properly troubleshoot and identify the poor performance of a pod, you need much more information.
 
 1. Type `Control-C` to stop the log `tail` when finished.
 
-1. Lets implement an **Enhanced** Access Log format, to collect extra NGINX Plus Request and Response and pod statistics, we can do this by adding new log variables specifc to NGINX Plus Ingress such as the Kubernetes pods' resource and traffic details. 
+1. Lets implement an **Enhanced** Access Log format, to collect extra NGINX Plus Request and Response and pod statistics, we can do this by adding new log variables specifc to NGINX Plus Ingress such as the Kubernetes pods' resource and traffic details.
 
     NGINX Plus has many variables that can be used for logging. In the code snippet below
     (`lab7/nginx-config-enhanced-logging.yaml`), you can see the new **Enhanced** Access Log format for the NGINX Plus Ingress Controller, as a `ConfigMap`:
@@ -147,7 +170,11 @@ However, there are only **two** log variables with any useful data related to th
     ```bash
     kubectl apply -f lab7/nginx-config-enhanced-logging.yaml -n nginx-ingress
     ```
-    ![Apply Enhanced log](media/lab7_apply_enh_log.png)
+
+    ```bash
+    ###Sample Output###
+    configmap/nginx-config created
+    ```
 
 1. Let's generate new traffic by refreshing the `cafe.example.com/coffee` webpage in the Chrome web browser several times, to send some requests, to see the new **Enhanced** Access Logging format.
 
@@ -161,23 +188,22 @@ However, there are only **two** log variables with any useful data related to th
 
     ![log tailing screenshot](media/access-log-enhanced.png)
 
-1. Type` Control-C` to stop the log  `tail` when finished.
+1. Type`Control-C` to stop the log  `tail` when finished.
 
    Hopefully, using this additional logging information will help pinpoint issues with various pods, and allow the Developers to improve the performance of their applications.
 
+**This completes this Lab.**
 
-**This completes this Lab.** 
-
-## References: 
+## References
 
 - [Summary of ConfigMap Keys - logging](http://docs.nginx.com/nginx-ingress-controller/configuration/global-configuration/configmap-resource/#logging)
 - [NGINX Variables](http://nginx.org/en/docs/varindex.html)
 
 ### Authors
+
 - Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
 - Shouvik Dutta - Solutions Architect - Community and Alliances @ F5, Inc.
 
 -------------
 
 Navigate to ([Lab8](../lab8/readme.md) | [Main Menu](../LabGuide.md))
-

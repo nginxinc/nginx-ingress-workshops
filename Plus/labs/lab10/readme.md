@@ -18,7 +18,7 @@ Enable and test some NGINX Plus features to control how Ingress Controller handl
 
 <br/>
 
-![NGINX Plus](media/nginxredplus.png)
+![NGINX Plus](media/NGINX-Plus-logo.png)
 
 <br/>
 
@@ -78,11 +78,7 @@ NGINX Plus provides many options for active health checking of pods and services
 
     ![Good Healthchecks](media/lab10_health_good.png) 
 
-<br/>
-
 ### Custom Error Pages
-
-<br/>
 
 ![custom error](media/lab10_custom_error.png)
 
@@ -235,9 +231,9 @@ Inspect the  `lab10/cafe-mtls.yaml`, lines 19, and 29-30.  Notice the change fro
     kubectl delete vs cafe-vs
     ```
 
-2. Check the Plus Dashboard, the Cafe HTTP Zone should now be gone.
+1. Check the Plus Dashboard, the Cafe HTTP Zone should now be gone.
 
-3. Start a fresh Cafe Demo, deploy the TLS enabled pods and services and Virtual Server manifests:
+1. Start a fresh Cafe Demo, deploy the TLS enabled pods and services and Virtual Server manifests:
 
     ```bash
     kubectl apply -f lab10/cafe-mtls.yaml
@@ -255,11 +251,11 @@ Inspect the  `lab10/cafe-mtls.yaml`, lines 19, and 29-30.  Notice the change fro
     </details><br/>
     
 
-4. Check the Plus Dashboard, and your new End-to-End TLS Cafe Application - ensure all 6 "mtls" coffee and tea pods are now in Up/Green status.
+1. Check the Plus Dashboard, and your new End-to-End TLS Cafe Application - ensure all 6 "mtls" coffee and tea pods are now in Up/Green status.
 
     ![MTLS Cafe Dashboard](media/lab10_mtls_dashboard.png)
 
-5. Using Chrome, check the access to coffee and tea as before:
+1. Using Chrome, check the access to coffee and tea as before:
 
     https://cafe.example.com/coffee
     
@@ -306,7 +302,7 @@ Having read the tea leaves you are highly confident in your new code. So you dec
     kubectl scale deployment tea-mtls --replicas=1
     ```
 
-2. Check the Plus Dashboard, there should only be one coffee and one tea upstream now.
+1. Check the Plus Dashboard, there should only be one coffee and one tea upstream now.
 
     ![Bluegreen Cafe upstreams](media/lab10_bluegreen_upstreams.png)
 
@@ -314,19 +310,19 @@ Having read the tea leaves you are highly confident in your new code. So you dec
 
     ![Bluegreen Splits](media/lab10_bluegreen_splits.png)
 
-3. Next, remove the existing VirtualServer for mTLS from the previous exercise:
+1. Next, remove the existing VirtualServer for mTLS from the previous exercise:
 
     ```bash
     kubectl delete -f lab10/cafe-mtls-vs.yaml
     ```
 
-4. Now configure the Cafe VirtualServer to send `80%` traffic to coffee-mtls, and `20%` traffic to tea-mtls:
+1. Now configure the Cafe VirtualServer to send `80%` traffic to coffee-mtls, and `20%` traffic to tea-mtls:
 
     ```bash
     kubectl apply -f lab10/cafe-bluegreen-vs.yaml
     ```
 
-5. Open a Chrome tab for https://cafe.example.com/coffee, and check the Auto Refresh box at the bottom of the page.
+1. Open a Chrome tab for https://cafe.example.com/coffee, and check the Auto Refresh box at the bottom of the page.
 
     ![Bluegreen Auto Refresh](media/lab10_bluegreen_refresh.png)
 

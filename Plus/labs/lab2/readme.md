@@ -18,7 +18,7 @@ The NGINX Ingress Controller is already running in this workshop. You will be ch
    ```
 
    ```bash
-   # Should look similar to this...
+   ###Sample output###
    NAME                            READY   STATUS    RESTARTS   AGE
    nginx-ingress-fd4b9f484-t5pb6   1/1     Running   1          12h
    ```

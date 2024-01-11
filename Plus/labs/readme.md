@@ -20,15 +20,15 @@ You will learn how to configure an NGINX Plus Ingress Controller, deploy it on a
 
 These Hands-On Lab Exercises are designed to build upon each other, adding additional services and features as you progress through them, completing the labs in sequential order is required. 
 
-![Developer Seated](media/developer-seated.svg)
+<img src="media/developer-seated.svg" width=25% height=25%>
 
 By the end of this Workshop, you will have a working, operational NGINX Plus Ingress Controller, routing traffic to and from Kubernetes application pods and services, with the necessary skills to deploy and operate NIC for your own Modern Applications running in Kubernetes.  Thank You for taking the time to attend this NGINX Workshop!
 
-![Robot](media/robot.svg)
+<img src="media/robot.svg" width=25% height=25%>
 
 ## About NGINX Plus Ingress Controller
 
-NGINX Plus Ingress Controller is an Enterprise-Ready resource for directing traffic to/from a Kubernetes Cluster.  NGINX runs all popular Kubernetes platforms, including Amazon EKS, Google GKE, Redhat Openshift, Azure AKS and many others.  It can also work with your on-premise Data Center based K8s clusters.  NGINX Plus Ingress Controller is built from the same source code you know and trust from NGINX Plus.  You can find the full Kubernetes support matrix and technical specifications for NGINX Ingress Controller on the http://www.nginx.com website.  
+NGINX Plus Ingress Controller is an Enterprise-Ready resource for directing traffic to/from a Kubernetes Cluster.  NGINX runs on all popular Kubernetes platforms, including Amazon EKS, Google GKE, Redhat Openshift, Azure AKS and many others.  It can also work with your on-premise Data Center based K8s clusters.  NGINX Plus Ingress Controller is built from the same source code you know and trust from NGINX Plus.  You can find the full Kubernetes support matrix and technical specifications for NGINX Ingress Controller on the http://www.nginx.com website.  
 
 <br/>
 
@@ -43,7 +43,7 @@ times](https://hub.docker.com/r/nginx/nginx-ingress) from DockerHub.
 
 <br/>
 
-![NGINX KIC](media/nginxredplus.png)
+![NGINX KIC](media/NGINX-Plus-logo.png)
 
 <br/>
 

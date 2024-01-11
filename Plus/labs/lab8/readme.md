@@ -1,25 +1,23 @@
-# Monitoring NGINX Plus Ingress with Prometheus and Grafana    
+# Monitoring NGINX Plus Ingress with Prometheus and Grafana
 
 ## Introduction
 
-This lab exercise is going to walk you through how to install and use several tools to monitor your NGINXPlus Ingress Controller in your Kubernetes cluster. 
+This lab exercise is going to walk you through how to install and use several tools to monitor your NGINXPlus Ingress Controller in your Kubernetes cluster.
 
-## Learning Objectives 
+## Learning Objectives
 
-By the end of the lab, you will be able to: 
+By the end of the lab, you will be able to:
 
 - Learn and Use Helm Charts
 - Deploy Prometheus using Helm
 - Deploy Grafana using Helm
 - Access these apps thru NGINX Ingress Controller
 
-<br/>
 
 Helm | Prometheus | Grafana
 :-------------------------:|:-------------------------:|:-------------------------:
-![](media/helm-icon.png)  |![](media/prometheus-icon.png)  |![](media/grafana-icon.png)
+![helm](media/helm-icon.png)  |![prometheus](media/prometheus-icon.png)  |![grafana](media/grafana-icon.png)
 
-<br/>
 
 Here is a brief description of what these different tools and application provide, and how you will use them.
 
@@ -29,7 +27,6 @@ Here is a brief description of what these different tools and application provid
 
 `Grafana` is a data visualization tool, which contains a time series database and graphical web presentation tools.  Grafana imports the Prometheus scraper page statistics into it's database, and allows you to create `Dashboards` of the statistics that are important to you.  There are a large number of pre-built dashboards provided by both Grafana and the k8s community, so there are many available to use. And of course, you can customize them as needed or build your own.
 
-<br/>
 
 ### Helm Installation
 
@@ -43,7 +40,11 @@ Here is a brief description of what these different tools and application provid
     # check your helm version (Needs to be v3 or higher)
     helm version --short
     ```
-    ![helm version](media/lab8_helm_version.png)
+
+    ```bash
+    ###Sample Output###
+    v3.7.0+geeac838
+    ```
 
     If Helm is not installed, run this command to install it:
 
@@ -52,14 +53,16 @@ Here is a brief description of what these different tools and application provid
     curl -sSL https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
     ```
 
-1. Create a new Kubernetes namespace called `monitoring`. You will use this namespace for Prometheus and Grafana components:
+2. Create a new Kubernetes namespace called `monitoring`. You will use this namespace for Prometheus and Grafana components:
 
     ```bash
     kubectl create namespace monitoring
     ```
-    ![monitoring namespace](media/lab8_new_namespace.png)
 
-    <br/>
+    ```bash
+    ###Sample Output###
+    namespace/monitoring created
+    ```
 
 ### Prometheus Installation
 
@@ -77,38 +80,122 @@ Here is a brief description of what these different tools and application provid
     helm repo update
     ```
 
-    ![Add Prometheus repo](media/lab8_add_prometheus_repo.png)
+    ```bash
+    ###Sample Output###
+    "prometheus-community" has been added to your repositories
+    "kube-state-metrics" has been added to your repositories
+    Hang tight while we grab the latest from your chart repositories...
+    ...Successfully got an update from the "kube-state-metrics" chart repository
+    ...Successfully got an update from the "prometheus-community" chart repository
+    Update Complete. ⎈Happy Helming!⎈
+    ```
 
-1. Once the repos have been added to Helm, the next step is to deploy a `release`. For this lab, you will create a release called `nginx-prometheus`.   
+2. Once the repos have been added to Helm, the next step is to deploy a `release`. For this lab, you will create a release called `nginx-prometheus`.
 
     ```bash
     helm install nginx-prometheus prometheus-community/prometheus --set server.persistentVolume.enabled=false,alertmanager.persistentVolume.enabled=false -n monitoring
     ```
-    ![install prometheus](media/lab8_install_prometheus.png)
 
-    <br/>
+    ```bash
+    ###Sample Output###
+    NAME: nginx-prometheus
+    LAST DEPLOYED: Fri Nov 16 15:19:51 2023
+    NAMESPACE: monitoring
+    STATUS: deployed
+    REVISION: 1
+    TEST SUITE: None
+    NOTES:
+    The Prometheus server can be accessed via port 80 on the following DNS name from within your cluster:
+    nginx-prometheus-server.monitoring.svc.cluster.local
+
+
+    Get the Prometheus server URL by running these commands in the same shell:
+    export POD_NAME=$(kubectl get pods --namespace monitoring -l "app=prometheus,component=server" -o jsonpath="{.items[0].metadata.name}")
+    kubectl --namespace monitoring port-forward $POD_NAME 9090
+    #################################################################################
+    ######   WARNING: Persistence is disabled!!! You will lose your data when   #####
+    ######            the Server pod is terminated.                             #####
+    #################################################################################
+
+
+    The Prometheus alertmanager can be accessed via port  on the following DNS name from within your cluster:
+    nginx-prometheus-%!s(<nil>).monitoring.svc.cluster.local
+
+
+    Get the Alertmanager URL by running these commands in the same shell:
+    export POD_NAME=$(kubectl get pods --namespace monitoring -l "app=prometheus,component=" -o jsonpath="{.items[0].metadata.name}")
+    kubectl --namespace monitoring port-forward $POD_NAME 9093
+    #################################################################################
+    ######   WARNING: Pod Security Policy has been disabled by default since    #####
+    ######            it deprecated after k8s 1.25+. use                        #####
+    ######            (index .Values "prometheus-node-exporter" "rbac"          #####
+    ###### .          "pspEnabled") with (index .Values                         #####
+    ######            "prometheus-node-exporter" "rbac" "pspAnnotations")       #####
+    ######            in case you still need it.                                #####
+    #################################################################################
+
+
+    The Prometheus PushGateway can be accessed via port 9091 on the following DNS name from within your cluster:
+    nginx-prometheus-prometheus-pushgateway.monitoring.svc.cluster.local
+
+
+    Get the PushGateway URL by running these commands in the same shell:
+    export POD_NAME=$(kubectl get pods --namespace monitoring -l "app=prometheus-pushgateway,component=pushgateway" -o jsonpath="{.items[0].metadata.name}")
+    kubectl --namespace monitoring port-forward $POD_NAME 9091
+
+    For more information on running Prometheus, visit:
+    https://prometheus.io/    
+    ```
 
 ### Grafana Installation
 
 ![Grafana](media/grafana-icon.png)
 
-<br/>
 
-1. Next step will be to setup and deploy Grafana into your cluster: 
+1. Next step will be to setup and deploy Grafana into your cluster:
 
     ```bash
     helm repo add grafana https://grafana.github.io/helm-charts
     ```
 
-    ![Add Grafana repo](media/lab8_add_grafana_repo.png)
+    ```bash
+    ###Sample Output###
+    "grafana" has been added to your repositories
+    ```
 
-1. The Grafana repo is added via Helm. Next you will install Grafana using the below command. For this lab, you will create a second release called `nginx-grafana`.  
+2. The Grafana repo is added via Helm. Next you will install Grafana using the below command. For this lab, you will create a second release called `nginx-grafana`.  
 
     ```bash
     helm install nginx-grafana grafana/grafana -n monitoring
     ```
 
-    ![install grafana](media/lab8_install_grafana.png)
+    ```bash
+    ###Sample Output###
+    NAME: nginx-grafana
+    LAST DEPLOYED: Fri Nov 16 15:26:14 2023
+    NAMESPACE: monitoring
+    STATUS: deployed
+    REVISION: 1
+    NOTES:
+    1. Get your 'admin' user password by running:
+
+    kubectl get secret --namespace monitoring nginx-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+
+
+    2. The Grafana server can be accessed via port 80 on the following DNS name from within your cluster:
+
+    nginx-grafana.monitoring.svc.cluster.local
+
+    Get the Grafana URL to visit by running these commands in the same shell:
+        export POD_NAME=$(kubectl get pods --namespace monitoring -l "app.kubernetes.io/name=grafana,app.kubernetes.io/instance=nginx-grafana" -o jsonpath="{.items[0].metadata.name}")
+        kubectl --namespace monitoring port-forward $POD_NAME 3000
+
+    3. Login with the password from step 1 and the username: admin
+    #################################################################################
+    ######   WARNING: Persistence is disabled!!! You will lose your data when   #####
+    ######            the Grafana pod is terminated.                            #####
+    #################################################################################
+    ```
 
     If you want to check the status of your helm installations, you can run this command which will show all helm deployments across the cluster"
 
@@ -116,9 +203,12 @@ Here is a brief description of what these different tools and application provid
     helm ls -A
     ```
 
-    ![plus prometheus settings screenshot](media/lab8_helm_ls.png)
-
-    <br/>
+    ```bash
+    ###Sample Output###
+    NAME                            NAMESPACE       REVISION        UPDATED                                 STATUS          CHART                                   APP VERSION
+    nginx-grafana                   monitoring      1               2023-11-16 15:26:14.554183 -0500 CDT    deployed        grafana-7.1.0                           10.2.3      
+    nginx-prometheus                monitoring      1               2023-11-16 15:19:51.936239 -0500 CDT    deployed        prometheus-25.8.2                       v2.48.1    
+    ```
 
 ### Testing the NGINX Plus Prometheus "scraper" Port and Page
 
@@ -138,14 +228,13 @@ Annotations | Port  | Plus Args
 :-------------------------:|:-------------------------:|:-------------------------:
 ![NIC prometheus settings](media/lab8_nic_prom_settings1.png) |![NIC prometheus settings](media/lab8_nic_prom_settings2.png) |![NIC prometheus settings](media/lab8_nic_prom_settings3.png)
 
-
 1. Now verify this is enabled and working, using k8s port-forward:
 
     ```bash
     kubectl port-forward -n nginx-ingress $NIC 9113:9113
     ```
 
-    Open Chrome, and navigate to http://localhost:9113/metrics.  You should see an HTML scraper page like this one:
+    Open Chrome, and navigate to <http://localhost:9113/metrics>.  You should see an HTML scraper page like this one:
 
     ![scraper page1](media/lab8_scraper_page1.png)
     ![scraper page2](media/lab8_scraper_page2.png)
@@ -183,7 +272,7 @@ Annotations | Port  | Plus Args
     kubectl port-forward $PROMETHEUS_SERVER 9090:9090 -n monitoring 
     ```
 
-    Using Chrome, navigate to http://localhost:9090.  You should see a webpage like this.  Search for `nginx_ingress_` in the query box to see a list of all the statistics that Prometheus is collecting for you:
+    Using Chrome, navigate to <http://localhost:9090>.  You should see a webpage like this.  Search for `nginx_ingress_` in the query box to see a list of all the statistics that Prometheus is collecting for you:
 
     ![Prometheus9090](media/lab8_localhost_9090.png)
 
@@ -231,7 +320,7 @@ Annotations | Port  | Plus Args
     kubectl -n monitoring port-forward $GRAFANA_SERVER 3000:3000  
     ```
 
-1. Using Chrome, navigate to http://localhost:3000 on your browser.
+1. Using Chrome, navigate to <http://localhost:3000> on your browser.
 
     You can login into Grafana using `admin` and the `password` retrieved above.
 
@@ -266,13 +355,15 @@ For you and your team to access Prometheus and Grafana from outside the cluster,
     kubectl apply -f lab8/grafana-vsr.yaml
     ```
 
-    ![VS/VSR execution screenshot](media/lab8_vs_vsr_creation.png)
+    ```bash
+    ###Sample Output###
+    virtualserver.k8s.nginx.org/prometheus-vs created
+    secret/grafana-secret created
+    virtualserver.k8s.nginx.org/grafana-vs created
+    virtualserverroute.k8s.nginx.org/grafana-dashboard created
+    ```
 
-    <br/>
-
-
-1. To test access through NGINX Ingress, open Chrome and navigate to Prometheus (http://prometheus.example.com) and Grafana (https://grafana.example.com) bookmarks. 
-
+1. To test access through NGINX Ingress, open Chrome and navigate to Prometheus (<http://prometheus.example.com>) and Grafana (<https://grafana.example.com>) bookmarks.
 
 Prometheus | Grafana
 :-------------------------:|:-------------------------:
@@ -280,11 +371,8 @@ Prometheus | Grafana
 
 Try another Prometheus query that interests you.
 
-<br/>
-
 You can login to Grafana using the same admin/password credentials that you used earlier.
 
-<br/>
 
 ### Configure Grafana Data Sources
 
@@ -325,7 +413,7 @@ You can login to Grafana using the same admin/password credentials that you used
 
     ![grafana open NGINX dashboard](media/lab8_grafana_open_basic_dashboard.png)
 
-    This should open up the NGINX 
+    This should open up the NGINX
     Basic Grafana Dashboard. You can expand the sub-sections or adjust the `time range` and `refresh` interval in the upper right corner as needed.  You can see this shows the up/down Status of the Ingress, and few Connections and Requests stats:
 
     ![grafana nginx basic dashboard](media/lab8_grafana_nginx_basic.png)
@@ -335,7 +423,7 @@ You can login to Grafana using the same admin/password credentials that you used
     ![no data issue](media/lab8_grafana_no_data.png)
 
     ![no data fix](media/lab8_grafana_no_data_fix.png)
-    
+
     <br/>
 
 3. Next, from the `General` section, select the `NGINX Plus Ingress Controller` Dashboard.
@@ -352,27 +440,26 @@ You can login to Grafana using the same admin/password credentials that you used
     docker run --rm williamyeh/wrk -t4 -c200 -d20m -H 'Host: cafe.example.com' --timeout 2s https://10.1.1.100/coffee
     ```
 
-    ![run wrk load generator](media/wrk-load-generation.png)
-
-    <br/>
+    ```bash
+    ###Sample Output###
+    Running 20m test @ https://10.1.1.100/coffee
+    ```
 
 **This completes this Lab.**
 
-<br/>
-
 -------
 
-## References:
+## References
 
 - [VirtualServer and VirtualServerRoute](https://docs.nginx.com/nginx-ingress-controller/configuration/virtualserver-and-virtualserverroute-resources/)
 
 - [Grafana NGINX Plus IC Dashboard](https://github.com/nginxinc/kubernetes-ingress/tree/master/grafana)
 
 ### Authors
+
 - Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
 - Shouvik Dutta - Solutions Architect - Community and Alliances @ F5, Inc.
 - Jason Williams - Principle Product Management Engineer @ F5, Inc.
-
 
 -------------
 
