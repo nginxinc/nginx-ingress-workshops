@@ -67,6 +67,7 @@ NGINX | Redis | Benchmark
 
    ```bash
    #Output should be similar to:
+
    pod/redis-follower-7dcc9bdc5b-5qnp8   1/1     Running   10 (160m ago)   20d
    pod/redis-follower-7dcc9bdc5b-7zf8w   1/1     Running   10 (157m ago)   20d
    pod/redis-leader-766465cd9c-b7lx4     1/1     Running   10 (160m ago)   20d
@@ -110,6 +111,12 @@ Using the default configuration, NGINX Ingress Controller is only open for HTTP 
    kubectl delete deployment nginx-ingress -n nginx-ingress
    ```
 
+   ```bash
+   #Output should be similar to:
+   
+   deployment.apps/nginx-ingress deleted
+   ```
+
 1. Apply the new `nginx-plus-ingress-redis.yaml` Manifest, with Global Configuration command line arguement enabled:
 
    ```bash
@@ -118,6 +125,7 @@ Using the default configuration, NGINX Ingress Controller is only open for HTTP 
   
    ```bash
    #Output should be similar to:
+
    deployment.apps/nginx-ingress created
    ```
 
@@ -130,6 +138,7 @@ Using the default configuration, NGINX Ingress Controller is only open for HTTP 
    ```
    ```bash
    #Output should be similar to:
+
    globalconfiguration.k8s.nginx.org/nginx-configuration created
    ```
 1. Verify the Global Configuration was accepted, there should be no errors under `Events`:
@@ -187,6 +196,7 @@ Events:        <none>
   ```
   ```bash
   #Output should be similar to:
+
   transportserver.k8s.nginx.org/redis-leader-ts created
   ```
 
@@ -199,6 +209,7 @@ Events:        <none>
     ```
     ```bash
     #Output should be similar to:
+
     transportserver.k8s.nginx.org/redis-follower-ts created
     ```
 
@@ -210,6 +221,7 @@ Events:        <none>
 
     ```bash
     #Output should be similar to:
+
     NAMESPACE   NAME                STATE   REASON           AGE
     default     redis-follower-ts   Valid   AddedOrUpdated   89s
     default     redis-leader-ts     Valid   AddedOrUpdated   7s
@@ -227,6 +239,7 @@ Events:        <none>
     kubectl exec -it $NIC -n nginx-ingress -- /bin/bash
     ```
     Prompt should look like:
+
     >nginx@nginx-ingress-5645d64dd8-sjjc7:$ 
 
 1. After you are connected to the NIC pod's bash shell, change to /etc/nginx folder and look around.  If you explore the `/etc/nginx/stream-conf.d` folder, you will see 2 NGINX `stream .conf files`, one for Redis Leader, one for Redis Follower.
@@ -239,6 +252,7 @@ Events:        <none>
 
     ```bash
     #Output should be similar to:
+
     total 8
     -rw-r--r-- 1 nginx nginx 568 Jan  9 17:34 ts_default_redis-follower-ts.conf
     -rw-r--r-- 1 nginx nginx 483 Jan  9 17:34 ts_default_redis-leader-ts.conf
@@ -250,6 +264,7 @@ Events:        <none>
 
     ```bash
     #Output should be similar to:
+
     upstream ts_default_redis-leader-ts_redis-upstream {            # Redis Leader Upstream block
         zone ts_default_redis-leader-ts_redis-upstream 256k;
         least_time last_byte;                                       # Choose the fastest pod
@@ -276,6 +291,7 @@ Events:        <none>
 
     ```bash
     #Output should be similar to:
+
     upstream ts_default_redis-follower-ts_redis-upstream {      # Redis Follower Upstream block
         zone ts_default_redis-follower-ts_redis-upstream 256k;
         least_time last_byte;                                   # Choose the fastest pod
@@ -351,6 +367,7 @@ Events:        <none>
 
     ```bash
     #Output should be similar to:
+
     NAME            TYPE       CLUSTER-IP    EXTERNAL-IP    PORT(S)                                                    AGE
     nginx-ingress   NodePort   10.100.1.85   <none>         80:31013/TCP,443:32040/TCP,6379:31126/TCP,6380:32401/TCP   16d
 
@@ -411,8 +428,9 @@ Events:        <none>
 
     ```bash
     #Output should be similar to:
+
     NAME            TYPE       CLUSTER-IP    EXTERNAL-IP   PORT(S)                                           AGE
-    nginx-ingress   ModePort   10.100.1.85   <none>        80:31013/TCP,443:32040/TCP,6379:31126/TCP,6380:32401/TCP   20s
+    nginx-ingress   ModePort   10.100.1.85   <PublicIP>        80:31013/TCP,443:32040/TCP,6379:31126/TCP,6380:32401/TCP   20s
 
     ```
 
@@ -439,6 +457,7 @@ Let's install some Redis Tools, so you can test and verify that Redis connection
 
     ```bash
     #Output should be similar to:
+
     Reading package lists... Done
     Building dependency tree       
     Reading state information... Done
@@ -469,6 +488,7 @@ Let's install some Redis Tools, so you can test and verify that Redis connection
 
     ```bash
     #Output should be similar to:
+
     /bin/redis-cli
     ```
 
@@ -478,6 +498,7 @@ Let's install some Redis Tools, so you can test and verify that Redis connection
 
     ```bash
     #Output should be similar to:
+
     /bin/redis-benchmark
     ```
 
@@ -495,6 +516,7 @@ Let's use the Redis Tools installed, to verify we can connect to both the `Redis
 
     ```bash
     #Output should be similar to:
+
     NAME            TYPE       CLUSTER-IP    EXTERNAL-IP   PORT(S)                                           AGE
     nginx-ingress   ModePort   10.100.1.85   <none>        80:31013/TCP,443:32040/TCP,6379:31126/TCP,6380:32401/TCP   20s
 
@@ -512,6 +534,7 @@ Let's use the Redis Tools installed, to verify we can connect to both the `Redis
 
     ```bash
     #Output should be similar to:
+
     PONG
 
     ```
@@ -521,6 +544,7 @@ Let's use the Redis Tools installed, to verify we can connect to both the `Redis
     ```
     ```bash
     #Output should be similar to:
+
     1) "server"
     2) "redis"
     3) "version"
@@ -547,6 +571,7 @@ Let's use the Redis Tools installed, to verify we can connect to both the `Redis
 
     ```bash
     #Output should be similar to:
+
     PONG
 
     ```
@@ -557,6 +582,7 @@ Let's use the Redis Tools installed, to verify we can connect to both the `Redis
 
     ```bash
     #Output should be similar to:
+
     1) "server"
     2) "redis"
     3) "version"
@@ -600,6 +626,7 @@ In these tests, we will use the Redis provided Benchmarking test tool, and see w
 
     ```bash
     #Output should be similar to:
+
     Forwarding from 127.0.0.1:9000 -> 9000
     Forwarding from [::1]:9000 -> 9000
     Handling connection for 9000
@@ -637,6 +664,7 @@ In these tests, we will use the Redis provided Benchmarking test tool, and see w
 
     ```bash
     #Output should be similar to:
+
     PING_INLINE: 20721.09 requests per second
     PING_BULK: 20108.59 requests per second
     SET: 21867.48 requests per second
@@ -670,6 +698,7 @@ In these tests, we will use the Redis provided Benchmarking test tool, and see w
 
     ```bash
     #Output should be similar to:
+
     redis-follower-7dcc9bdc5b-5qnp8   52m          62Mi            
     redis-follower-7dcc9bdc5b-7zf8w   144m         37Mi            
     redis-leader-766465cd9c-b7lx4     478m         60Mi 
@@ -683,6 +712,7 @@ In these tests, we will use the Redis provided Benchmarking test tool, and see w
 
     ```bash
     #Output should be similar to:
+
     PING_INLINE: 21454.62 requests per second
     PING_BULK: 20764.12 requests per second
     SET: 19704.43 requests per second
@@ -712,6 +742,7 @@ In these tests, we will use the Redis provided Benchmarking test tool, and see w
 
     ```bash
     #Output should be similar to:
+
     redis-follower-7dcc9bdc5b-5qnp8   230m         13Mi            
     redis-follower-7dcc9bdc5b-7zf8w   706m         12Mi            
     redis-leader-766465cd9c-b7lx4     2m           8Mi
@@ -735,6 +766,7 @@ If you would like to load a sample dataset into Redis, and test reading those re
 
     ```bash
     #Output should be similar to:
+
     (integer) 11
     ...
     (integer) 11
@@ -750,6 +782,7 @@ If you would like to load a sample dataset into Redis, and test reading those re
 
     ```bash
     #Output should be similar to:
+
     1) "Helaine"
     2) "Willett"
     3) "hwilletta@artisteer.com"
@@ -766,6 +799,7 @@ If you would like to load a sample dataset into Redis, and test reading those re
 
     ``` bash
     #Output should be similar to:
+    
     1) "Helaine"
     2) "Willett"
     3) "hwilletta@artisteer.com"
