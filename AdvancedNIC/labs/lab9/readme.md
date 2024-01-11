@@ -150,58 +150,58 @@ Using the default configuration, NGINX Ingress Controller is only open for HTTP 
    kubectl describe gc nginx-configuration -n nginx-ingress
    ```
 
-```yaml
-#Output should be similar to:
+    ```yaml
+    #Output should be similar to:
 
-Name:         nginx-configuration
-Namespace:    nginx-ingress
-Labels:       <none>
-Annotations:  <none>
-API Version:  k8s.nginx.org/v1alpha1
-Kind:         GlobalConfiguration
-Metadata:
-  Creation Timestamp:  2023-12-20T17:42:16Z
-  Generation:          1
-  Managed Fields:
+    Name:         nginx-configuration
+    Namespace:    nginx-ingress
+    Labels:       <none>
+    Annotations:  <none>
     API Version:  k8s.nginx.org/v1alpha1
-    Fields Type:  FieldsV1
-    fieldsV1:
-      f:metadata:
-        f:annotations:
-          .:
-          f:kubectl.kubernetes.io/last-applied-configuration:
-      f:spec:
-        .:
-        f:listeners:
-    Manager:         kubectl-client-side-apply
-    Operation:       Update
-    Time:            2023-12-20T17:42:16Z
-  Resource Version:  3434162
-  UID:               a04ace42-d88d-4ff7-9d67-851a8163e43b
-Spec:
-  Listeners:
-    Name:      redis-leader-listener
-    Port:      6379
-    Protocol:  TCP
-    Name:      redis-follower-listener
-    Port:      6380
-    Protocol:  TCP
-Events:        <none>
+    Kind:         GlobalConfiguration
+    Metadata:
+      Creation Timestamp:  2023-12-20T17:42:16Z
+      Generation:          1
+      Managed Fields:
+        API Version:  k8s.nginx.org/v1alpha1
+        Fields Type:  FieldsV1
+        fieldsV1:
+          f:metadata:
+            f:annotations:
+              .:
+              f:kubectl.kubernetes.io/last-applied-configuration:
+          f:spec:
+            .:
+            f:listeners:
+        Manager:         kubectl-client-side-apply
+        Operation:       Update
+        Time:            2023-12-20T17:42:16Z
+      Resource Version:  3434162
+      UID:               a04ace42-d88d-4ff7-9d67-851a8163e43b
+    Spec:
+      Listeners:
+        Name:      redis-leader-listener
+        Port:      6379
+        Protocol:  TCP
+        Name:      redis-follower-listener
+        Port:      6380
+        Protocol:  TCP
+    Events:        <none>
 
-```
+    ```
 
 1. Inspect the `redis-leader-ts.yaml` Manifest.  This is an NGINX Ingress `Transport Server` CRD, which defines TCP traffic handling for Redis Leader traffic on port 6379.  This creates a new `stream server block` in NIC.
 
 1. Apply the Redis Leader Transport Server manifest:
 
-  ```bash
-  kubectl apply -f lab9/redis-leader-ts.yaml
-  ```
-  ```bash
-  #Output should be similar to:
+    ```bash
+    kubectl apply -f lab9/redis-leader-ts.yaml
+    ```
+    ```bash
+    #Output should be similar to:
 
-  transportserver.k8s.nginx.org/redis-leader-ts created
-  ```
+    transportserver.k8s.nginx.org/redis-leader-ts created
+    ```
 
 1. Inspect the `redis-follower-ts.yaml` Manifest.  This is an NGINX Ingress `Transport Server` CRD, which defines TCP traffic handling for Redis Follower traffic on port 6379.  This also creates a new `stream server block` in NIC.
 
