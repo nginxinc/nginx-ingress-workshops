@@ -124,7 +124,7 @@ Using the default configuration, NGINX Ingress Controller is only open for HTTP 
    deployment.apps/nginx-ingress deleted
    ```
 
-1. Apply the new `nginx-plus-ingress-redis.yaml` Manifest, with Global Configuration command line arguement enabled:
+1. Apply the new `nginx-plus-ingress-redis.yaml` Manifest, with Global Configuration command line argument enabled:
 
    ```bash
    kubectl apply -f /lab9/nginx-plus-ingress-redis.yaml
@@ -384,7 +384,7 @@ Using the default configuration, NGINX Ingress Controller is only open for HTTP 
 
 1. If you want to use a `LoadBalancer Service`, follow these steps:
 
-    Alternative to the NodePort nginx-ingress Service, you could use an nginx-ingress Loadbalancer Service.  This example uses a static IP address from a lab environment, which you can modify to meet your needs.  If you are using a Cloud Provider, the External-IP is provided for you.
+    Alternative to the NodePort nginx-ingress Service, you could use an nginx-ingress Loadbalancer Service.  If you are using a Cloud Provider, the External-IP is provided for you.
 
 1. Inspect the `loadbalancer-redis.yaml` Manifest.  This new LoadBalancer Service definition ADDS the two new Redis ports to the nginx-ingress Service, and Kubernetes opens two new NodePorts.
 
@@ -437,7 +437,7 @@ Using the default configuration, NGINX Ingress Controller is only open for HTTP 
     #Output should be similar to:
 
     NAME            TYPE       CLUSTER-IP    EXTERNAL-IP   PORT(S)                                           AGE
-    nginx-ingress   ModePort   10.100.1.85   <PublicIP>        80:31013/TCP,443:32040/TCP,6379:31126/TCP,6380:32401/TCP   20s
+    nginx-ingress   ModePort   10.100.1.85   <PublicIP>    80:31013/TCP,443:32040/TCP,6379:31126/TCP,6380:32401/TCP   20s
 
     ```
 
