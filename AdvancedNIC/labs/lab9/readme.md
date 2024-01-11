@@ -104,11 +104,15 @@ Using the default configuration, NGINX Ingress Controller is only open for HTTP 
 
 <br/>
 
-1. Inspect the `nginx-plus-ingress-redis.yaml` Manifest file.  Near the bottom, noticed that the `Global Configuration command-line parameter` has been enabled by removing the comment character (it is disabled by default).  This will allow NGINX Ingress to bind and use additional TCP ports for incoming traffic.  NOTE:  The only open TCP ports on NGINX Ingress are 80 and 443 for web/tls traffic by default.  For Redis to be accessible outside the Kubernetes cluster, you need to add the standard Redis TCP port of 6379 for the Leader connections, and we also add TCP port 6380 for the Follower connections.  Of course, you can change these TCP port numbers to match your client requirements as needed.
+1. Inspect the `nginx-plus-ingress-redis.yaml` Manifest file.  Near the bottom, noticed that the `Global Configuration command-line parameter` has been enabled by removing the comment character (it is disabled by default).  This will allow NGINX Ingress to bind and use additional TCP ports for incoming traffic.  
+
+    **NOTE:**  The only open TCP ports on NGINX Ingress are 80 and 443 for web/tls traffic by default.  
+
+    For Redis to be accessible outside the Kubernetes cluster, you need to add the standard Redis TCP port of 6379 for the Leader connections, and we also add TCP port 6380 for the Follower connections.  Of course, you can change these TCP port numbers to match your client requirements as needed.
 
 1. Delete the current nginx-ingress Deployment (or Daemonset).  
 
-   >**NOTE:  Use Caution - this will delete the NGINX Ingress Controller and drop ALL traffic!**
+   >**WARNING:  Use Caution - this will delete the NGINX Ingress Controller and drop ALL traffic!**
 
    ```bash
    kubectl delete deployment nginx-ingress -n nginx-ingress
