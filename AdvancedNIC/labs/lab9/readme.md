@@ -25,59 +25,56 @@ NGINX | Redis | Benchmark
 
 <br/>
 
-
 ### 1. Deploy Redis Leader to the Kubernetes Cluster
 
 1. Inspect the `lab9/redis-leader.yaml` manifest.  You will see that we are using an example manifest from a Google tutorial configuration, which will deploy a single Redis Leader pod, and create the matching Redis Leader Service.
 
-Apply the Redis Leader manifest:
+   Apply the Redis Leader manifest:
 
-```bash
-kubectl apply -f lab9/redis-leader.yaml
-```
+   ```bash
+   kubectl apply -f lab9/redis-leader.yaml
+   ```
 
 2. Verify the Redis Leader pod and Service are up and running.
 
-```bash
-kubectl get pods,svc |grep redis
-```
+   ```bash
+   kubectl get pods,svc |grep redis
+   ```
 
-```bash
-#Output should be similar to:
+   ```bash
+   #Output should be similar to:
 
-pod/redis-leader-766465cd9c-b7lx4     1/1     Running   10 (160m ago)   20d
-service/redis-leader     ClusterIP   10.107.72.62   <none>        6379/TCP   20d
-
-```
+   pod/redis-leader-766465cd9c-b7lx4     1/1     Running   10 (160m ago)   20d
+   service/redis-leader     ClusterIP   10.107.72.62   <none>        6379/TCP   20d
+   ```
 <br/>
 
 ### 2. Deploy Redis Follower to the Kubernetes Cluster
 
 1. Inspect the `lab9/redis-follower.yaml` manifest.  You will see that we are using an example manifest from the same Google tutorial configuration, which will deploy two Redis Follower pods, and create the matching Redis Follower Service.
 
-Apply the Redis Follower manifest:
+   Apply the Redis Follower manifest:
 
-```bash
-kubectl apply -f lab9/redis-follower.yaml
-```
+   ```bash
+   kubectl apply -f lab9/redis-follower.yaml
+   ```
 
 2. Verify the Redis Follower pods and Service are up and running.
 
-```bash
-kubectl get pods,svc |grep redis
-```
+   ```bash
+   kubectl get pods,svc |grep redis
+   ```
 
-```bash
-#Output should be similar to:
-pod/redis-follower-7dcc9bdc5b-5qnp8   1/1     Running   10 (160m ago)   20d
-pod/redis-follower-7dcc9bdc5b-7zf8w   1/1     Running   10 (157m ago)   20d
-pod/redis-leader-766465cd9c-b7lx4     1/1     Running   10 (160m ago)   20d
-service/redis-follower   ClusterIP   10.99.7.133    <none>        6379/TCP   20d
-service/redis-leader     ClusterIP   10.107.72.62   <none>        6379/TCP   20d
+   ```bash
+   #Output should be similar to:
+   pod/redis-follower-7dcc9bdc5b-5qnp8   1/1     Running   10 (160m ago)   20d
+   pod/redis-follower-7dcc9bdc5b-7zf8w   1/1     Running   10 (157m ago)   20d
+   pod/redis-leader-766465cd9c-b7lx4     1/1     Running   10 (160m ago)   20d
+   service/redis-follower   ClusterIP   10.99.7.133    <none>        6379/TCP   20d
+   service/redis-leader     ClusterIP   10.107.72.62   <none>        6379/TCP   20d
+   ```
 
-```
-
-If you see three Pods and two Services running, you are ready to continue.
+   If you see three Pods and two Services running, you are ready to continue.
 
 <br/>
 
@@ -87,60 +84,58 @@ If you see three Pods and two Services running, you are ready to continue.
 
 ### 3. Re-configure NGINX Ingress Controller for TCP ports and Redis traffic
 
-Using the default configuration, NGINX Ingress Controller is only open for HTTP and HTTPS traffic on ports 80 and 443.  You will need to modify the `nginx-ingress Deployment or Daemonset` to enable Layer4 TCP traffic, and open the appropriate TCP ports for Redis Client connections.  
-- You will configure NGINX Ingress to use custom TCP ports using a Custom Resource Definition (CRD).
+Using the default configuration, NGINX Ingress Controller is only open for HTTP and HTTPS traffic on ports 80 and 443.  You will need to modify the `nginx-ingress Deployment or Daemonset` to enable Layer4 TCP traffic, and open the appropriate TCP ports for Redis Client Leader and Follower connections.  
+- You will configure NGINX Ingress to enable custom TCP ports using the `Global Configuration` Custom Resource Definition (CRD).
 - The example shown here uses the standard Redis TCP ports.
-- You will also be using the NGINX Ingress Controller's `Transport Server` Custom Resource Definition (CRD), for load balancing TCP traffic.  
+- You will also be using the NGINX Ingress Controller's `Transport Server` Custom Resource Definition (CRD), used for load balancing TCP traffic.  
 - *It is important to note, that NIC will load balance new TCP connections from Redis Clients, it does not load balance Redis requests or transactions.*
 
 <br/>
 
-< need Redis client > NIC > Redis Service > Redis Pods diagram here >
+*Redis cluster and network Overview**
+
+![](media/lab9_redis-diagram.png)
 
 <br/>
 
 1. Inspect the `nginx-plus-ingress-redis.yaml` Manifest file.  Near the bottom, noticed that the `Global Configuration command-line parameter` has been enabled by removing the comment character (it is disabled by default).  This will allow NGINX Ingress to bind and use additional TCP ports for incoming traffic.  NOTE:  The only open TCP ports on NGINX Ingress are 80 and 443 for web/tls traffic by default.  For Redis to be accessible outside the Kubernetes cluster, you need to add the standard Redis TCP port of 6379 for the Leader connections, and we also add TCP port 6380 for the Follower connections.  Of course, you can change these TCP port numbers to match your client requirements as needed.
 
-1. Delete the current nginx-ingress deployment (or daemon-set).  
+1. Delete the current nginx-ingress Deployment (or Daemonset).  
 
->**NOTE:  Use Caution - this will delete the NGINX Ingress Controller and drop ALL traffic!**
+   >**NOTE:  Use Caution - this will delete the NGINX Ingress Controller and drop ALL traffic!**
 
-```bash
-kubectl delete deployment nginx-ingress -n nginx-ingress
+   ```bash
+   kubectl delete deployment nginx-ingress -n nginx-ingress
+   ```
 
-```
+1. Apply the new `nginx-plus-ingress-redis.yaml` Manifest, with Global Configuration command line arguement enabled:
 
-1. Apply the new `nginx-plus-ingress-redis.yaml` Manifest, with Global Configuration enabled:
-
-```bash
-kubectl apply -f /lab9/nginx-plus-ingress-redis.yaml
-
-```
-```bash
-#Output should be similar to:
-deployment.apps/nginx-ingress created
-
-```
+   ```bash
+   kubectl apply -f /lab9/nginx-plus-ingress-redis.yaml
+   ```
+  
+   ```bash
+   #Output should be similar to:
+   deployment.apps/nginx-ingress created
+   ```
 
 1. Inspect the `lab9/global-configuration-redis.yaml` Manifest.  You will see that two TCP Ports are being opened, and labeled with `redis-leader-listener` and `redis-follower-listener` labels.  
 
 1. Enable the NIC Global Configuration, that opens TCP ports 6379 and 6380:
 
-```bash
-kubectl apply -f lab9/global-configuration-redis.yaml
+   ```bash
+   kubectl apply -f lab9/global-configuration-redis.yaml
+   ```
+   ```bash
+   #Output should be similar to:
+   globalconfiguration.k8s.nginx.org/nginx-configuration created
+   ```
+1. Verify the Global Configuration was accepted, there should be no errors under `Events`:
 
-```
-```bash
-#Output should be similar to:
-globalconfiguration.k8s.nginx.org/nginx-configuration created
+   ```bash
+   kubectl describe gc nginx-configuration -n nginx-ingress
+   ```
 
-```
-1. Verify the Global Configuration was accepted:
-
-```bash
-kubectl describe gc nginx-configuration -n nginx-ingress
-
-```
 ```yaml
 #Output should be similar to:
 
