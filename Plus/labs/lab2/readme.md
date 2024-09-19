@@ -4,7 +4,8 @@
 
 The NGINX Ingress Controller is already running in this workshop. You will be checking and verifying the Ingress Controller is running.
 
-## Learning Objectives 
+## Learning Objectives
+
 - Intro to NGINX Ingress Controller
 - Intro to Kubernetes environment, interacting with `kubectl` command
 - Access the NGINX Plus Dashboard
@@ -34,9 +35,11 @@ The NGINX Ingress Controller is already running in this workshop. You will be ch
    ```
 
    Verify the variable is set correctly.
+
    ```bash
    echo $NIC
    ```
+
    **Note:** If this command doesn't show the name of the pod then run the previous command again.
 
 ## Inspect the details of your Ingress Controller:
@@ -49,10 +52,10 @@ The NGINX Ingress Controller is already running in this workshop. You will be ch
 
    **Note:** The IP address and TCP ports that are open on the Ingress (they should match the `lab2/nginx-plus-ingress.yaml` file, around lines `24-34`). We have the following Ports:
 
-   * Port `80 and 443` for web/ssl traffic,
-   * Port `8081` for Readiness Probe, 
-   * Port `9000` for the Dashboard, and 
-   * Port `9113` for Prometheus (You will see this in a later Lab)
+   - Port `80 and 443` for web/ssl traffic,
+   - Port `8081` for Readiness Probe, 
+   - Port `9000` for the Dashboard, and 
+   - Port `9113` for Prometheus (You will see this in a later Lab)
 
    ![kubectl describe](media/kubectl_describe.png)
 
@@ -64,8 +67,8 @@ The NGINX Ingress Controller is already running in this workshop. You will be ch
    kubectl port-forward -n nginx-ingress $NIC 9000:9000
    ```
 
-1. Now open Chrome web browser to view the NGINX Plus Dashboard, at [http://localhost:9000/dashboard.html](http://localhost:9000/dashboard.html). 
-   
+1. Now open Chrome web browser to view the NGINX Plus Dashboard, at [http://localhost:9000/dashboard.html](http://localhost:9000/dashboard.html).
+
    Do you see the NGINX Plus Dashboard? If so, your Ingress Controller pod is up and running!
 
    ![NPlus Dashboard](media/lab2_NplusDashboard.png)
@@ -84,12 +87,11 @@ The NGINX Ingress Controller is already running in this workshop. You will be ch
 
    ![stop port-forward](media/port-forward-ctrl-c.png)
 
-
 ### Take a look "under the hood" of Ingress Controller
 
 The NGINX Ingress Controller is a pod running NGINX Plus under the hood, let's go check it out.
 
-1. Use the VScode Terminal to enter a shell in the NGINX Ingress Controller pod by running the [`kubectl exec`](https://kubernetes.io/docs/tasks/debug-application-cluster/get-shell-running-container/) command 
+1. Use the VScode Terminal to enter a shell in the NGINX Ingress Controller pod by running the [`kubectl exec`](https://kubernetes.io/docs/tasks/debug-application-cluster/get-shell-running-container/) command
 
    ```bash
    kubectl exec -it $NIC -n nginx-ingress -- /bin/bash
@@ -104,7 +106,7 @@ The NGINX Ingress Controller is a pod running NGINX Plus under the hood, let's g
 
    If you have worked with NGINX config files, it should look very similar!
 
-1. Type `q ` to quit viewing the `nginx.conf `
+1. Type `q` to quit viewing the `nginx.conf`
 
    ![q to quit more](media/more-command-q-quit.png)
 
@@ -120,6 +122,7 @@ The NGINX Ingress Controller is a pod running NGINX Plus under the hood, let's g
 - https://docs.nginx.com/nginx-ingress-controller/installation/installation-with-manifests/
 
 ### Authors
+
 - Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
 - Shouvik Dutta - Solutions Architect - Community and Alliances @ F5, Inc.
 
