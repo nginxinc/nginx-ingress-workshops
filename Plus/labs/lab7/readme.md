@@ -1,4 +1,4 @@
-## Lab 7: NGINX Ingress Controller High Availability and Enhanced Logging
+# Lab 7: NGINX Ingress Controller High Availability and Enhanced Logging
 
 ## Introduction
 
@@ -44,20 +44,20 @@ Next, let's scale the number of Ingress Controllers pods from one to **three**. 
      - What happened to your `WRK` loadtest traffic on the Dashboard ?
      - Did it drop by approximately 1/3rd.  Why?
 
-    <details><summary>Click for Hints!</summary>
-      <br/>
-      <p>
-        <strong>Answer</strong>: there are now <strong>three Ingress Controllers</strong>, each taking 1/3rd of the traffic from the LoadBalancer Service, out in front of all 3 Ingress Controllers.  The incoming traffic to the first Ingress Controller is now equally shared with 2 new Ingress Controllers. <br/>
+        <details><summary>Click for Hints!</summary>
+          <br/>
+          <p>
+            <strong>Answer</strong>: there are now <strong>three Ingress Controllers</strong>, each taking 1/3rd of the traffic from the LoadBalancer Service, out in front of all 3 Ingress Controllers.  The incoming traffic to the first Ingress Controller is now equally shared with 2 new Ingress Controllers. <br/>
 
-        Refer to the topology diagram of this lab's Multi-Ingress deployment:
-      </p>
+            Refer to the topology diagram of this lab's Multi-Ingress deployment:
+          </p>
 
-      ![Multiple Ingress](media/lab7_multi_ingress.png)
-    </details><br/>
+          ![Multiple Ingress](media/lab7_multi_ingress.png)
+        </details><br/>
 
 1. Now scale the number of NGINX Plus Ingress Controllers up to **four**, in anticipation of a surge of traffic from an overnight Digital Marketing campaign for *free coffee=free caffeine*. Run the following `kubectl scale` command:
 
-   ```
+   ```bash
    kubectl scale deployment nginx-ingress -n nginx-ingress --replicas=4
    ```
 
@@ -78,7 +78,7 @@ Next, let's scale the number of Ingress Controllers pods from one to **three**. 
 
    **Food for thought** - With most Cloud providers, you could use AutoScaling to do this automatically!
 
-2. The Marketing push is over, so scale the Ingress Controllers back down to **one**. Run the following `kubectl scale` command:
+1. The Marketing push is over, so scale the Ingress Controllers back down to **one**. Run the following `kubectl scale` command:
 
     ```bash
     kubectl scale deployment -n nginx-ingress nginx-ingress --replicas=1

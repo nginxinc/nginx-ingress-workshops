@@ -153,7 +153,7 @@ The Cafe application that you will deploy looks like the following diagram below
 
 1. Now inspect the `cafe-secret.yaml` which is the TLS self-signed certificate we are using for this lab.
 
-  ![cafe-secret.yaml](media/lab5_cafe_secret_yaml.png)
+    ![cafe-secret.yaml](media/lab5_cafe_secret_yaml.png)
 
 <br/>
 
