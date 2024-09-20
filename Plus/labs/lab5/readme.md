@@ -9,6 +9,7 @@ In this section, you will build the "Cafe" Ingress Demo, which represents a Coff
 <br/>
 
 ## Learning Objectives
+
 - Deploy the Cafe Demo app
 - Compare VirtualServer and Ingress manifests
 - Verify the URL path access to `/coffee` and `/tea` work correctly 
@@ -30,6 +31,7 @@ The Cafe application that you will deploy looks like the following diagram below
     kubectl apply -f lab5/cafe.yaml
     kubectl apply -f lab5/cafe-virtualserver.yaml
     ```
+
     ```bash
     ###Sample output###
     secret/cafe-secret created
@@ -45,6 +47,7 @@ The Cafe application that you will deploy looks like the following diagram below
     ```bash
     kubectl get pods
     ```
+
     ```bash
     ###Sample output###
     NAME                      READY   STATUS    RESTARTS   AGE
@@ -61,6 +64,7 @@ The Cafe application that you will deploy looks like the following diagram below
     ```bash
     kubectl get virtualserver cafe-vs
     ```
+
     ```bash
     ###Sample output###
     NAME      STATE   HOST               IP    PORTS   AGE
@@ -75,74 +79,79 @@ The Cafe application that you will deploy looks like the following diagram below
 
 1. In the `lab5` folder, inspect the `cafe.yaml` manifest file.  Find the following configuration details:
 
-  * **Question:** How many coffee and tea pods are we starting with?  
+    - **Question:** How many coffee and tea pods are we starting with?  
 
-    <details><summary>Click for Hints!</summary>
-      <br/>
-      <p>
-      <strong>Hint:</strong> Look for the number of replicas
-      </p>
-    </details>
-  * **Question:** What are the two `Service` names ?  
+      <details><summary>Click for Hints!</summary>
+        <br/>
+        <p>
+        <strong>Hint:</strong> Look for the number of replicas
+        </p>
+      </details>
+  
+    - **Question:** What are the two `Service` names ?  
 
-    <details><summary>Click for Hints!</summary>
-      <br/>
-      <p>
-      <strong>Hint:</strong>: Look for <code>kind: Service</code>
-      </p>
-    </details>
+      <details><summary>Click for Hints!</summary>
+        <br/>
+        <p>
+        <strong>Hint:</strong>: Look for <code>kind: Service</code>
+        </p>
+      </details>
 
-  ![cafe.yaml](media/lab5_cafe_yaml.png)
+    ![cafe.yaml](media/lab5_cafe_yaml.png)
 
 1. Now inspect the `cafe-virtualserver.yaml` file.
 
-  * **Question:**  What is the hostname ?  
+    - **Question:**  What is the hostname ?  
 
-    <details><summary>Click for Hints!</summary>
-      <br/>
-      <p>
-      <strong>Hint:</strong> Look for <code>host</code>
-      </p>
-    </details>
-  * **Question:**  Are we using SSL ? If so, which certificate ?  
+      <details><summary>Click for Hints!</summary>
+        <br/>
+        <p>
+        <strong>Hint:</strong> Look for <code>host</code>
+        </p>
+      </details>
 
-    <details><summary>Click for Hints!</summary>
-      <br/>
-      <p>
-      <strong>Hint:</strong> Look for <code>tls</code>
-      </p>
-    </details>
-  * **Question:**  Are healthchecks enabled ? 
+    - **Question:**  Are we using SSL ? If so, which certificate ?  
 
-    <details><summary>Click for Hints!</summary>
-      <br/>
-      <p>
-      <strong>Hint:</strong> Look for <code>healthCheck</code>
-      </p>
-    </details>
-  * **Question:** What URI paths are defined, routing to where ? 
+        <details><summary>Click for Hints!</summary>
+          <br/>
+          <p>
+          <strong>Hint:</strong> Look for <code>tls</code>
+          </p>
+        </details>
 
-    <details><summary>Click for Hints!</summary>
-      <br/>
-      <p>
-      <strong>Hint:</strong> Look for <code>route</code>
-      </p>
-    </details><br/>
+    - **Question:**  Are healthchecks enabled ? 
 
-  ![cafe-virtualserver.yaml1](media/lab5_cafe_vs_yaml1.png)
-  ![cafe-virtualserver.yaml2](media/lab5_cafe_vs_yaml2.png)
+        <details><summary>Click for Hints!</summary>
+          <br/>
+          <p>
+          <strong>Hint:</strong> Look for <code>healthCheck</code>
+          </p>
+        </details>
+
+    - **Question:** What URI paths are defined, routing to where ? 
+
+        <details><summary>Click for Hints!</summary>
+          <br/>
+          <p>
+          <strong>Hint:</strong> Look for <code>route</code>
+          </p>
+        </details>
+        <br/>
+
+    ![cafe-virtualserver.yaml1](media/lab5_cafe_vs_yaml1.png)
+    ![cafe-virtualserver.yaml2](media/lab5_cafe_vs_yaml2.png)
 
 1. Compare the `cafe-ingress.yaml` and `cafe-virtualserver.yaml` files.  How are they different?  Do you see, that the `virtualServer` definition has quite a few more options for controlling how traffic is routed to your Ingress and to your pods:
-   
+
    You can make use of VSCode built-in **compare** tool as seen below: `Select the two files and then right-click Compare Selected:<br/>
-    
+
     ![CompareTool](media/lab5_comparetool.png)
 
     Do you see how many more options there are in a `VirtualServer` type over a community `Ingress` type?
 
     ![ingress vs virtualserver](media/lab5_ingress_vs_VS.png)
 
-2. Now inspect the `cafe-secret.yaml` which is the TLS self-signed certificate we are using for this lab.
+1. Now inspect the `cafe-secret.yaml` which is the TLS self-signed certificate we are using for this lab.
 
   ![cafe-secret.yaml](media/lab5_cafe_secret_yaml.png)
 
@@ -153,14 +162,17 @@ The Cafe application that you will deploy looks like the following diagram below
 1. Access the application using `curl`. We'll use the `-k` option to turn off certificate verification of our self-signed certificate:
 
   To get coffee:
+
   ```bash
   curl -k -I https://cafe.example.com/coffee 
   ```
   
   If you prefer tea:
+
   ```bash
   curl -k -I https://cafe.example.com/tea 
   ```
+
 <br/>
 
 ## Monitor the NGINX Plus Dashboard
@@ -168,9 +180,9 @@ The Cafe application that you will deploy looks like the following diagram below
 <br/>
 
 1. Open two new Chrome web browser windows for side by side viewing.
-     
-     -  Dashboard: http://dashboard.example.com/dashboard.html
-     -  And in two tabs, the Cafe Application components, Coffee
+
+     - Dashboard: http://dashboard.example.com/dashboard.html
+     - And in two tabs, the Cafe Application components, Coffee
         (https://cafe.example.com/coffee) and  Tea
         (https://cafe.example.com/tea)
 
@@ -192,7 +204,7 @@ The `Server Zones` table contains the Virtual Servers statistics of the Ingress,
 ### Cafe App
 
 1. Using the second Chrome web browser window, open tabs for both: 
-    
+
     - Coffee - [https://cafe.example.com/coffee](https://cafe.example.com/coffee)
     - Tea - [https://cafe.example.com/tea](https://cafe.example.com/tea)  
 
@@ -216,9 +228,10 @@ The `Server Zones` table contains the Virtual Servers statistics of the Ingress,
 
     Describe Coffee Service:
 
-    ```bash 
+    ```bash
     kubectl describe svc coffee-svc
     ```
+
     ```bash
     ###Sample output###
     Name:              coffee-svc
@@ -242,6 +255,7 @@ The `Server Zones` table contains the Virtual Servers statistics of the Ingress,
     ```bash
     kubectl describe svc tea-svc
     ```
+
     ```bash
     ###Sample output###
     Name:              tea-svc
@@ -259,7 +273,7 @@ The `Server Zones` table contains the Virtual Servers statistics of the Ingress,
     Session Affinity:  None
     Events:            <none>
     ```
-    
+
     As you can see above, the Service `Endpoints` attribute should match the Server IPs in the dashboard.
 
 <br/>
@@ -272,7 +286,7 @@ What happens if you try just plain  http://cafe.example.com? It should redirect 
 
     ![Open Chrome developer tools](media/chrome_inspect.png)
 
-1. Inspect the HTTP Headers: Open the `Network` Tab > view `Headers`. 
+1. Inspect the HTTP Headers: Open the `Network` Tab > view `Headers`.
 
     ![Redirect](media/lab5_redirect.png)
 
@@ -284,21 +298,21 @@ What happens if you try just plain  http://cafe.example.com? It should redirect 
     <br/>
     <p>
     <strong>Hint:</strong> Check your <code>cafe-virtualserver.yaml</code> file.<br/>
-    <strong>Answer:</strong> Welcome to NGINX Plus NIC Workshop!!<br/>   
+    <strong>Answer:</strong> Welcome to NGINX Plus NIC Workshop!!<br/>
     </p>
     </details><br/>
 
-    ![milk endpoint](media/lab5_milk.png) 
+    ![milk endpoint](media/lab5_milk.png)
 
 <br/>
 
 *Now, let's throw some traffic at your Cafe Ingress!*
 
-**This completes this Lab.** 
+**This completes this Lab.*
 
 <br/>
 
-## References: 
+## References:
 
 - [NGINX Ingress Controller Complete
   Example](https://github.com/nginxinc/kubernetes-ingress/tree/master/examples/complete-example)
@@ -306,10 +320,10 @@ What happens if you try just plain  http://cafe.example.com? It should redirect 
 <br/>
 
 ### Authors
+
 - Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
 - Shouvik Dutta - Solutions Architect - Community and Alliances @ F5, Inc.
 
 -------------
 
 Navigate to ([Lab6](../lab6/readme.md) | [Main Menu](../LabGuide.md))
-
