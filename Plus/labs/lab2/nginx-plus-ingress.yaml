@@ -12,6 +12,7 @@ spec:
     metadata:
       labels:
         app: nginx-ingress
+        app.kubernetes.io/name: nginx-ingress
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/port: "9113"
@@ -21,6 +22,9 @@ spec:
       imagePullSecrets:
       - name: regcred
       automountServiceAccountToken: true
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
       containers:
       - image: private-registry.nginx.com/nginx-ic/nginx-plus-ingress:3.6.2
         imagePullPolicy: IfNotPresent
@@ -51,7 +55,7 @@ spec:
          #  cpu: "1"
          #  memory: "1Gi"
         securityContext:
-          allowPrivilegeEscalation: true
+          allowPrivilegeEscalation: false
           runAsUser: 101 #nginx
           runAsNonRoot: true
           capabilities:

@@ -168,12 +168,12 @@ However, there are only **two** log variables with any useful data related to th
 1. Apply the **Enhanced** Access Log format (`lab7/nginx-config-enhanced-logging.yaml`) manifest using the `kubectl apply` command:
 
     ```bash
-    kubectl apply -f lab7/nginx-config-enhanced-logging.yaml -n nginx-ingress
+    kubectl apply -f lab7/nginx-config-enhanced-logging.yaml
     ```
 
     ```bash
     ###Sample Output###
-    configmap/nginx-config created
+    configmap/nginx-config configured
     ```
 
 1. Let's generate new traffic by refreshing the `cafe.example.com/coffee` webpage in the Chrome web browser several times, to send some requests, to see the new **Enhanced** Access Logging format.
