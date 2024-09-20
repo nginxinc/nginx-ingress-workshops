@@ -194,7 +194,7 @@ However, there are only **two** log variables with any useful data related to th
 
 **This completes this Lab.**
 
-## References
+## References:
 
 - [Summary of ConfigMap Keys - logging](http://docs.nginx.com/nginx-ingress-controller/configuration/global-configuration/configmap-resource/#logging)
 - [NGINX Variables](http://nginx.org/en/docs/varindex.html)

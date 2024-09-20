@@ -13,11 +13,9 @@ By the end of the lab, you will be able to:
 - Deploy Grafana using Helm
 - Access these apps thru NGINX Ingress Controller
 
-
 Helm | Prometheus | Grafana
 :-------------------------:|:-------------------------:|:-------------------------:
 ![helm](media/helm-icon.png)  |![prometheus](media/prometheus-icon.png)  |![grafana](media/grafana-icon.png)
-
 
 Here is a brief description of what these different tools and application provide, and how you will use them.
 
@@ -26,7 +24,6 @@ Here is a brief description of what these different tools and application provid
 `Prometheus` is a software package that can watch and collect statistics from many different k8s pods and services.  It then provides those statistics in a simple html/text format, often referred to as the "scraper page", meaning that it scrapes the statistics and presents them as a simple text-based web page.
 
 `Grafana` is a data visualization tool, which contains a time series database and graphical web presentation tools.  Grafana imports the Prometheus scraper page statistics into it's database, and allows you to create `Dashboards` of the statistics that are important to you.  There are a large number of pre-built dashboards provided by both Grafana and the k8s community, so there are many available to use. And of course, you can customize them as needed or build your own.
-
 
 ### Helm Installation
 
@@ -151,7 +148,6 @@ Here is a brief description of what these different tools and application provid
 
 ![Grafana](media/grafana-icon.png)
 
-
 1. Next step will be to setup and deploy Grafana into your cluster:
 
     ```bash
@@ -245,7 +241,7 @@ Annotations | Port  | Plus Args
 
     > It is important to point out, that the scraper page contains `all` of the NGINX Plus statistics that you see on the Dashboard, and a few extras.
 
-    >> **This rich set of metrics will provide a great data source for the monitoring and graphing of NGINX Plus NIC.**
+    > **This rich set of metrics will provide a great data source for the monitoring and graphing of NGINX Plus NIC.**
 
     <br/>
 
@@ -373,7 +369,6 @@ Try another Prometheus query that interests you.
 
 You can login to Grafana using the same admin/password credentials that you used earlier.
 
-
 ### Configure Grafana Data Sources
 
 1. Once logged in, from the left panel you need to click on `Configuration -> Data sources` and add `Prometheus` as a data source.
@@ -403,7 +398,7 @@ You can login to Grafana using the same admin/password credentials that you used
 
     <br/>
 
-2. Once you have imported both Dashboards, it's time to check them out:
+1. Once you have imported both Dashboards, it's time to check them out:
 
     From the Grafana homepage, navigate to the `General` section as shown:
 
@@ -426,7 +421,7 @@ You can login to Grafana using the same admin/password credentials that you used
 
     <br/>
 
-3. Next, from the `General` section, select the `NGINX Plus Ingress Controller` Dashboard.
+1. Next, from the `General` section, select the `NGINX Plus Ingress Controller` Dashboard.
 
     ![grafana open NIC dashboard](media/lab8_grafana_open_nic_dashboard.png)
 
@@ -447,9 +442,7 @@ You can login to Grafana using the same admin/password credentials that you used
 
 **This completes this Lab.**
 
--------
-
-## References
+## References:
 
 - [VirtualServer and VirtualServerRoute](https://docs.nginx.com/nginx-ingress-controller/configuration/virtualserver-and-virtualserverroute-resources/)
 
