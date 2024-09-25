@@ -162,7 +162,7 @@ Here is a brief description of what these different tools and application provid
 2. The Grafana repo is added via Helm. Next you will install Grafana using the below command. For this lab, you will create a second release called `nginx-grafana`.  
 
     ```bash
-    helm install nginx-grafana grafana/grafana --version 6.21.0 -n monitoring
+    helm install nginx-grafana grafana/grafana --version 8.5.1 -n monitoring
     ```
 
     ```bash
