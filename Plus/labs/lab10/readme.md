@@ -173,11 +173,11 @@ Inspect `lab10/juice-cache-vs.yaml` file, lines 7-9.  Notice you are using an `h
 
     During refreshes, you should see some Cache "MISS" and "HIT" and "EXPIRED" log entries, it should be the last field of each log entry in the access log, as shown below.  (This `Cache Status logging variable` was added when you enabled Enhanced Logging in a previous exercise).
 
-    ![Cache Miss](media/lab10_log_cache_miss.png)
+    ![Cache Miss](media/lab10_cache_miss.png)
 
-    ![Cache Hits](media/lab10_log_cache_hit.png)
+    ![Cache Hits](media/lab10_cache_hit.png)
 
-    ![Cache Expired](media/lab10_log_cache_expired.png)
+    ![Cache Expired](media/lab10_cache_expired.png)
 
     Type Control+C to stop the log tail when you are finished.
 
