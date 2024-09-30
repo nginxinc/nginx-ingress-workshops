@@ -72,17 +72,13 @@ Here is a brief description of what these different tools and application provid
     ```bash
     helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 
-    helm repo add kube-state-metrics https://kubernetes.github.io/kube-state-metrics
-
     helm repo update
     ```
 
     ```bash
     ###Sample Output###
     "prometheus-community" has been added to your repositories
-    "kube-state-metrics" has been added to your repositories
     Hang tight while we grab the latest from your chart repositories...
-    ...Successfully got an update from the "kube-state-metrics" chart repository
     ...Successfully got an update from the "prometheus-community" chart repository
     Update Complete. ⎈Happy Helming!⎈
     ```
@@ -201,9 +197,9 @@ Here is a brief description of what these different tools and application provid
 
     ```bash
     ###Sample Output###
-    NAME                            NAMESPACE       REVISION        UPDATED                                 STATUS          CHART                                   APP VERSION
-    nginx-grafana                   monitoring      1               2023-11-16 15:26:14.554183 -0500 CDT    deployed        grafana-7.1.0                           10.2.3      
-    nginx-prometheus                monitoring      1               2023-11-16 15:19:51.936239 -0500 CDT    deployed        prometheus-25.8.2                       v2.48.1    
+    NAME                    NAMESPACE       REVISION        UPDATED                                 STATUS          CHART                   APP VERSION
+    nginx-grafana           monitoring      1               2024-09-30 17:06:19.000108912 +0000 UTC deployed        grafana-8.5.1           11.2.0     
+    nginx-prometheus        monitoring      1               2024-09-30 17:05:28.25213012 +0000 UTC  deployed        prometheus-25.27.0      v2.54.1      
     ```
 
 ### Testing the NGINX Plus Prometheus "scraper" Port and Page
@@ -371,7 +367,7 @@ You can login to Grafana using the same admin/password credentials that you used
 
 ### Configure Grafana Data Sources
 
-1. Once logged in, from the left panel you need to click on `Configuration -> Data sources` and add `Prometheus` as a data source.
+1. Once logged in, from the left panel you need to click on `Connections -> Data sources` and add `Prometheus` as a data source.
 
     ![Add Prometheus DS](media/lab8_grafana_add_prometheus.png)
 
@@ -383,7 +379,7 @@ You can login to Grafana using the same admin/password credentials that you used
 
 ### Import Grafana Custom Dashboards
 
-1. Now you should be ready to import the NGINX Dashboards for NIC from NGINX, Inc. From the left panel click on `Import` to add the dashboard:
+1. Now you should be ready to import the NGINX Dashboards for NIC from NGINX, Inc. From the left panel click on `Dashboards` to open the dashboard window. From the right drop-down list select `Import`:
 
     ![Grafana Import](media/lab8_grafana_imports.png)
 
@@ -392,21 +388,23 @@ You can login to Grafana using the same admin/password credentials that you used
    - `NGINX-Basic.json` gives you basic metrics which come from NGINX Opensource.
    - `NGINXPlusICDashboard.json` is provided by NGINX, Inc, giving you advanced Layer 4 thru 7 TCP/HTTP/HTTPS metrics which are only available from NGINX Plus.
 
-    Copy the entire json file and place it within the  `Import via panel json` textbox and click on `Load` button.
+    Copy the entire json file and place it within the  `Import via dashboard JSON model` textbox and click on `Load` button.
 
     ![json load](media/lab8_grafana_json_load.png)
+
+    In the next section, select your Prometheus data source by clicking within the `prometheus` box. Once data source has been selected click on `Import` to import the dashboard.
+
+    ![Select Prometheus DS](media/lab8_grafana_prometheus_ds_select.png)
 
     <br/>
 
 1. Once you have imported both Dashboards, it's time to check them out:
 
-    From the Grafana homepage, navigate to the `General` section as shown:
+    From the Grafana homepage, use the left panel and click on `Dashboards` to open the dashboard window. You should see both the imported dashboards showing in this window.
 
-    ![grafana general](media/lab8_grafana_general.png)
+    ![grafana Dashboard Home](media/lab8_grafana_dashboard_home.png)
 
-    In the `General` section, click on the `NGINX` dashboard.
-
-    ![grafana open NGINX dashboard](media/lab8_grafana_open_basic_dashboard.png)
+    Click on the `NGINX` dashboard.
 
     This should open up the NGINX
     Basic Grafana Dashboard. You can expand the sub-sections or adjust the `time range` and `refresh` interval in the upper right corner as needed.  You can see this shows the up/down Status of the Ingress, and few Connections and Requests stats:
@@ -421,7 +419,7 @@ You can login to Grafana using the same admin/password credentials that you used
 
     <br/>
 
-1. Next, from the `General` section, select the `NGINX Plus Ingress Controller` Dashboard.
+1. Next, go back to the `Dashboard` window and this time select the `NGINX Plus Ingress Controller` Dashboard.
 
     ![grafana open NIC dashboard](media/lab8_grafana_open_nic_dashboard.png)
 
