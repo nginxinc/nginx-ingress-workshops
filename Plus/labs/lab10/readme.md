@@ -284,7 +284,6 @@ Inspect the  `lab10/cafe-mtls.yaml`, lines 19, and 29-30.  Notice the change fro
         No, it should not.  NGINX Ingress will use the pod's IP:Port definition for the traffic. However, don't forget - the pods themselves must be configured to listen on port 443, and have an SSL certificate/key installed.  (We have provided this for you in this lab - but this is an item that must be addressed by the App team). 
       </p>
     </details><br/>
-    
 
 1. Check the Plus Dashboard, and your new End-to-End TLS Cafe Application - ensure all 6 "mtls" coffee and tea pods are now in Up/Green status.
 
@@ -293,7 +292,7 @@ Inspect the  `lab10/cafe-mtls.yaml`, lines 19, and 29-30.  Notice the change fro
 1. Using Chrome, check the access to coffee and tea as before:
 
     https://cafe.example.com/coffee
-    
+
     https://cafe.example.com/tea
 
     Do you see the pod `Server Name` now shows coffee-mtls-pod-name and tea-mtls-pod-name ?
@@ -343,7 +342,16 @@ Having read the tea leaves you are highly confident in your new code. So you dec
 
     Inspect the `lab10/cafe-bluegreen-vs.yaml` file, and note the `split and weight` directives on lines 49-56.
 
-    ![Bluegreen Splits](media/lab10_bluegreen_splits.png)
+    ```yaml
+    - path: /coffee
+      splits:
+      - weight: 80
+        action:
+          pass: coffee-mtls
+      - weight: 20
+        action:
+          pass: tea-mtls
+    ```
 
 1. Next, remove the existing VirtualServer for mTLS from the previous exercise:
 
@@ -383,21 +391,19 @@ Having read the tea leaves you are highly confident in your new code. So you dec
 
     https://docs.nginx.com/nginx-ingress-controller/configuration/global-configuration/configmap-resource/
 
-    https://www.nginx.com/blog/nginx-caching-guide/
+    https://blog.nginx.org/blog/nginx-caching-guide
 
 - Blue/Green A/B Testing:
 
     https://github.com/nginxinc/kubernetes-ingress/tree/master/examples-of-custom-resources/traffic-splitting
 
-    https://www.nginx.com/blog/performing-a-b-testing-nginx-plus/
-
-    https://www.nginx.com/blog/dynamic-a-b-testing-with-nginx-plus/
+    https://www.f5.com/company/blog/nginx/performing-a-b-testing-nginx-plus
 
 <br/>
 
 ## Workshop Wrap-Up
 
-You have completed all the lab exercises in the workshop.  Do a final visual check on your Plus Dashboard, and check your Grafana dashboards, what do you see?  These tools should show where you finished with statistics and graphs that match your last few lab exercises. 
+You have completed all the lab exercises in the workshop.  Do a final visual check on your Plus Dashboard, and check your Grafana dashboards, what do you see?  These tools should show where you finished with statistics and graphs that match your last few lab exercises.
 
 During the Workshop, you learned the following NGINX, Ingress, and Kubernetes topics and completed the following lab exercises:
 
