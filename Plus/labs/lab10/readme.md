@@ -24,9 +24,21 @@ Enable and test some NGINX Plus features to control how Ingress Controller handl
 
 NGINX Plus provides many options for active health checking of pods and services.  You will enable some checks for URI paths, and set the interval and counts that meet the needs of the application.  A Community Ingress manifest has some limitations in defining a healthcheck. With an NGINX VirtualServer manifest, additional options can be configured for production workloads. 
 
-1. Inspect `lab10/juice-health-bad-vs.yaml` file, lines 17-25 for the healthchecks.  You will notice we have entered a incorrect TCP port for the healthcheck of the backend pods.  What do you think will happen if you do not check the correct TCP port?
+1. Inspect `lab10/juice-health-bad-vs.yaml` file, lines 17-27 for the healthchecks.  You will notice we have entered a incorrect TCP port for the healthcheck of the backend pods.  What do you think will happen if you do not check the correct TCP port?
 
-    ![active health yaml](media/lab10_active_health_yaml.png)
+    ```yaml
+        healthCheck:
+          enable: true
+          path: /
+          interval: 5s
+          jitter: 3s
+          fails: 3
+          passes: 2
+          port: 300  #Invalid Port
+          connect-timeout: 15s
+          read-timeout: 5s
+          statusMatch: "200"
+      ```
 
 1. Remove the running JuiceShop Virtual Server from the previous lab:
 
@@ -64,7 +76,7 @@ NGINX Plus provides many options for active health checking of pods and services
 
     The Ingress Logs should show `[error] 97 ... 111: Connection refused` messages for the healthchecks on port 300 (but remember, the JuiceShop pods are running on port 3000!).
 
-    ![NGINX Error Logs](media/lab10_error_log.png) 
+    ![NGINX Error Logs](media/lab10_error_log.png)
 
     Type Control+C to stop the log tail when you are finished.
 
@@ -76,20 +88,36 @@ NGINX Plus provides many options for active health checking of pods and services
 
 1. Check your NIC Plus Dashboard again, with Health monitors now green, and your website is up and browser access is restored.  The connection errors in the Ingress log should have stopped as well.
 
-    ![Good Healthchecks](media/lab10_health_good.png) 
+    ![Good Healthchecks](media/lab10_health_good.png)
 
 ### Custom Error Pages
 
 ![custom error](media/lab10_custom_error.png)
 
-The Director of Customer Support has asked if you can stop the ugly HTTP 502 error messages from going back to the customers, as the developers say they are too busy to fix it. While you can't actually stop them, you can hide the 502 errors and send the customers an alternative page. 
+The Director of Customer Support has asked if you can stop the ugly HTTP 502 error messages from going back to the customers, as the developers say they are too busy to fix it. While you can't actually stop them, you can hide the 502 errors and send the customers an alternative page.
 
 So you will enable a `Sorry page` that gives customers a more friendly `Please try again later` message, with a Customer Support phone number to call if they need help.
 
 NGINX Plus provides many options for intercepting HTTP response errors and providing user-friendly error pages from web applications.  In this example, you will enable a simple error response page.
 
-1. Inspect `lab10/juice-sorrypage.yaml` file, lines 30-40.  
-    ![custom error](media/lab10_custom_error_yaml.png)
+1. Inspect `lab10/juice-sorrypage.yaml` file, lines 27-40.
+
+    ```yaml
+    routes:
+      - path: /
+        action:
+          pass: juiceshop
+        errorPages:
+        - codes: [502]
+          return:
+            code: 200
+            type: application/json
+            body: |
+              {\"We apologize for the inconvenience.  Please try again in a few minutes, or call 1-888-JUICESHOP.\"}
+            headers:
+            - name: X-Debug-Original-Status
+              value: ${upstream_status}
+    ```
 
     Now apply the customer friendly error page manifest:
 
@@ -152,18 +180,18 @@ Inspect `lab10/juice-cache-vs.yaml` file, lines 7-9.  Notice you are using an `h
     ![Cache Expired](media/lab10_log_cache_expired.png)
 
     Type Control+C to stop the log tail when you are finished.
-    
+
 1. Now, open a new Tab in Chrome, enable Developer Tools, and make sure you disable Chrome's internal browser cache, and select the `Network` tab at the top in Chrome Tools.  Click the JuiceShop Favorite.
 
     Look for the `X-Cache-Status` Response Header and value (that Ingress is adding).  It should look like this:
 
     ![Chrome Headers](media/lab10_chrome_headers.png)
 
-1. **Deep Dive** - As an example, if you click on the first image in the Name list, `apple_juice.jpg`, you should see an HTTP Response Header X-Cache-Status = MISS.  If you refresh a couple times, and check again, it should now show X-Cache-Status = HIT.  If you wait more than 30 seconds, and refresh again, it should show X-Cache-Status = EXPIRED. 
+1. **Deep Dive** - As an example, if you click on the first image in the Name list, `apple_juice.jpg`, you should see an HTTP Response Header X-Cache-Status = MISS.  If you refresh a couple times, and check again, it should now show X-Cache-Status = HIT.  If you wait more than 30 seconds, and refresh again, it should show X-Cache-Status = EXPIRED.
 
     **Explanation:**  the first request will be a cache MISS, because NGINX does not have a copy of this object in the Cache, and it must be served from the Upstream origin pod.  After the first request, it will be a Cache HIT because NGINX is caching it and served it from its Cache.  After the age timer expires, you will see EXPIRED.
 
-    This is because the NGINX `proxy_cache_valid` directive is set to 30 seconds, on line #32 of the manifest YAML file.
+    This is because the NGINX `proxy_cache_valid` directive is set to 30 seconds, on line #34 of the manifest YAML file.
 
     ![Cache Miss](media/lab10_chrome_cache_miss.png)
 
@@ -181,19 +209,26 @@ Inspect `lab10/juice-cache-vs.yaml` file, lines 7-9.  Notice you are using an `h
 
     ![Cache Header Missing](media/lab10_chrome_cache_header_missing.png)
 
+    <details>
+        <summary>Click for Hints!</summary>
+        <br/>
+        <p>
+            <strong>Answer: </strong>  NGINX is not caching any HTTP objects with the ".jpeg" extension! Confirm this by looking at the YAML file, line #31.  This line is a regular expression (regex) that tells NGINX to look at the end of the URL, and match only on these object type extensions.  "JPEG is not included" in this regex. Are there other JPEG objects, for which Caching should be enabled?
+        </p>
 
-<details>
-    <summary>Click for Hints!</summary>
-    <br/>
-    <p>
-        <strong>Answer: </strong>  NGINX is not caching any HTTP objects with the ".jpeg" extension! Confirm this by looking at the YAML file, line #31.  This line is a regular expression (regex) that tells NGINX to look at the end of the URL, and match only on these object type extensions.  "JPEG is not included" in this regex. Are there other JPEG objects, for which Caching should be enabled?
-    </p>
+    ```yaml
+    - path: ~*\\.css|js|jpg|png
+       location-snippets: |
+         proxy_cache juiceshop;
+         proxy_cache_valid 200 30s;
+         proxy_cache_methods GET;
+         proxy_ignore_headers Cache-Control;   
+    ```
 
-</details>
+    </details>
 
 <br/>
 
-![JPEG Missing](media/lab10_jpeg_missing.png)
 
 Inspect the very bottom right corner of Chrome Developer Tools...what is the difference in Page Load times, when there are NGINX Cache Hits, vs Cache Misses (refresh the page 5 or 6 times, then wait more than 30 seconds and refresh again)?  You should see the Page Load time much faster with Cache Hits, of course.  How fast could you get your page load time?
 
@@ -345,7 +380,7 @@ Having read the tea leaves you are highly confident in your new code. So you dec
 - Error Pages:  https://docs.nginx.com/nginx-ingress-controller/configuration/virtualserver-and-virtualserverroute-resources/#errorpage
 
 - Caching:  
-    
+
     https://docs.nginx.com/nginx-ingress-controller/configuration/global-configuration/configmap-resource/
 
     https://www.nginx.com/blog/nginx-caching-guide/
