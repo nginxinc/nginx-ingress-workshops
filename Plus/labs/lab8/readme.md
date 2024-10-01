@@ -13,11 +13,9 @@ By the end of the lab, you will be able to:
 - Deploy Grafana using Helm
 - Access these apps thru NGINX Ingress Controller
 
-
 Helm | Prometheus | Grafana
 :-------------------------:|:-------------------------:|:-------------------------:
 ![helm](media/helm-icon.png)  |![prometheus](media/prometheus-icon.png)  |![grafana](media/grafana-icon.png)
-
 
 Here is a brief description of what these different tools and application provide, and how you will use them.
 
@@ -26,7 +24,6 @@ Here is a brief description of what these different tools and application provid
 `Prometheus` is a software package that can watch and collect statistics from many different k8s pods and services.  It then provides those statistics in a simple html/text format, often referred to as the "scraper page", meaning that it scrapes the statistics and presents them as a simple text-based web page.
 
 `Grafana` is a data visualization tool, which contains a time series database and graphical web presentation tools.  Grafana imports the Prometheus scraper page statistics into it's database, and allows you to create `Dashboards` of the statistics that are important to you.  There are a large number of pre-built dashboards provided by both Grafana and the k8s community, so there are many available to use. And of course, you can customize them as needed or build your own.
-
 
 ### Helm Installation
 
@@ -75,17 +72,13 @@ Here is a brief description of what these different tools and application provid
     ```bash
     helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 
-    helm repo add kube-state-metrics https://kubernetes.github.io/kube-state-metrics
-
     helm repo update
     ```
 
     ```bash
     ###Sample Output###
     "prometheus-community" has been added to your repositories
-    "kube-state-metrics" has been added to your repositories
     Hang tight while we grab the latest from your chart repositories...
-    ...Successfully got an update from the "kube-state-metrics" chart repository
     ...Successfully got an update from the "prometheus-community" chart repository
     Update Complete. ⎈Happy Helming!⎈
     ```
@@ -151,7 +144,6 @@ Here is a brief description of what these different tools and application provid
 
 ![Grafana](media/grafana-icon.png)
 
-
 1. Next step will be to setup and deploy Grafana into your cluster:
 
     ```bash
@@ -166,7 +158,7 @@ Here is a brief description of what these different tools and application provid
 2. The Grafana repo is added via Helm. Next you will install Grafana using the below command. For this lab, you will create a second release called `nginx-grafana`.  
 
     ```bash
-    helm install nginx-grafana grafana/grafana --version 6.21.0 -n monitoring
+    helm install nginx-grafana grafana/grafana --version 8.5.1 -n monitoring
     ```
 
     ```bash
@@ -205,9 +197,9 @@ Here is a brief description of what these different tools and application provid
 
     ```bash
     ###Sample Output###
-    NAME                            NAMESPACE       REVISION        UPDATED                                 STATUS          CHART                                   APP VERSION
-    nginx-grafana                   monitoring      1               2023-11-16 15:26:14.554183 -0500 CDT    deployed        grafana-7.1.0                           10.2.3      
-    nginx-prometheus                monitoring      1               2023-11-16 15:19:51.936239 -0500 CDT    deployed        prometheus-25.8.2                       v2.48.1    
+    NAME                    NAMESPACE       REVISION        UPDATED                                 STATUS          CHART                   APP VERSION
+    nginx-grafana           monitoring      1               2024-09-30 17:06:19.000108912 +0000 UTC deployed        grafana-8.5.1           11.2.0     
+    nginx-prometheus        monitoring      1               2024-09-30 17:05:28.25213012 +0000 UTC  deployed        prometheus-25.27.0      v2.54.1      
     ```
 
 ### Testing the NGINX Plus Prometheus "scraper" Port and Page
@@ -245,7 +237,7 @@ Annotations | Port  | Plus Args
 
     > It is important to point out, that the scraper page contains `all` of the NGINX Plus statistics that you see on the Dashboard, and a few extras.
 
-    >> **This rich set of metrics will provide a great data source for the monitoring and graphing of NGINX Plus NIC.**
+    > **This rich set of metrics will provide a great data source for the monitoring and graphing of NGINX Plus NIC.**
 
     <br/>
 
@@ -373,10 +365,9 @@ Try another Prometheus query that interests you.
 
 You can login to Grafana using the same admin/password credentials that you used earlier.
 
-
 ### Configure Grafana Data Sources
 
-1. Once logged in, from the left panel you need to click on `Configuration -> Data sources` and add `Prometheus` as a data source.
+1. Once logged in, from the left panel you need to click on `Connections -> Data sources` and add `Prometheus` as a data source.
 
     ![Add Prometheus DS](media/lab8_grafana_add_prometheus.png)
 
@@ -388,7 +379,7 @@ You can login to Grafana using the same admin/password credentials that you used
 
 ### Import Grafana Custom Dashboards
 
-1. Now you should be ready to import the NGINX Dashboards for NIC from NGINX, Inc. From the left panel click on `Import` to add the dashboard:
+1. Now you should be ready to import the NGINX Dashboards for NIC from NGINX, Inc. From the left panel click on `Dashboards` to open the dashboard window. From the right drop-down list select `Import`:
 
     ![Grafana Import](media/lab8_grafana_imports.png)
 
@@ -397,21 +388,23 @@ You can login to Grafana using the same admin/password credentials that you used
    - `NGINX-Basic.json` gives you basic metrics which come from NGINX Opensource.
    - `NGINXPlusICDashboard.json` is provided by NGINX, Inc, giving you advanced Layer 4 thru 7 TCP/HTTP/HTTPS metrics which are only available from NGINX Plus.
 
-    Copy the entire json file and place it within the  `Import via panel json` textbox and click on `Load` button.
+    Copy the entire json file and place it within the  `Import via dashboard JSON model` textbox and click on `Load` button.
 
     ![json load](media/lab8_grafana_json_load.png)
 
+    In the next section, select your Prometheus data source by clicking within the `prometheus` box. Once data source has been selected click on `Import` to import the dashboard.
+
+    ![Select Prometheus DS](media/lab8_grafana_prometheus_ds_select.png)
+
     <br/>
 
-2. Once you have imported both Dashboards, it's time to check them out:
+1. Once you have imported both Dashboards, it's time to check them out:
 
-    From the Grafana homepage, navigate to the `General` section as shown:
+    From the Grafana homepage, use the left panel and click on `Dashboards` to open the dashboard window. You should see both the imported dashboards showing in this window.
 
-    ![grafana general](media/lab8_grafana_general.png)
+    ![grafana Dashboard Home](media/lab8_grafana_dashboard_home.png)
 
-    In the `General` section, click on the `NGINX` dashboard.
-
-    ![grafana open NGINX dashboard](media/lab8_grafana_open_basic_dashboard.png)
+    Click on the `NGINX` dashboard.
 
     This should open up the NGINX
     Basic Grafana Dashboard. You can expand the sub-sections or adjust the `time range` and `refresh` interval in the upper right corner as needed.  You can see this shows the up/down Status of the Ingress, and few Connections and Requests stats:
@@ -426,7 +419,7 @@ You can login to Grafana using the same admin/password credentials that you used
 
     <br/>
 
-3. Next, from the `General` section, select the `NGINX Plus Ingress Controller` Dashboard.
+1. Next, go back to the `Dashboard` window and this time select the `NGINX Plus Ingress Controller` Dashboard.
 
     ![grafana open NIC dashboard](media/lab8_grafana_open_nic_dashboard.png)
 
@@ -447,9 +440,7 @@ You can login to Grafana using the same admin/password credentials that you used
 
 **This completes this Lab.**
 
--------
-
-## References
+## References:
 
 - [VirtualServer and VirtualServerRoute](https://docs.nginx.com/nginx-ingress-controller/configuration/virtualserver-and-virtualserverroute-resources/)
 

@@ -12,6 +12,7 @@ spec:
     metadata:
       labels:
         app: nginx-ingress
+        app.kubernetes.io/name: nginx-ingress
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/port: "9113"
@@ -21,8 +22,20 @@ spec:
       imagePullSecrets:
       - name: regcred
       automountServiceAccountToken: true
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+#      volumes:
+#      - name: nginx-etc
+#        emptyDir: {}
+#      - name: nginx-cache
+#        emptyDir: {}
+#      - name: nginx-lib
+#        emptyDir: {}
+#      - name: nginx-log
+#        emptyDir: {}
       containers:
-      - image: private-registry.nginx.com/nginx-ic/nginx-plus-ingress:3.0.1
+      - image: private-registry.nginx.com/nginx-ic/nginx-plus-ingress:3.7.0
         imagePullPolicy: IfNotPresent
         name: nginx-plus-ingress
         ports:
@@ -51,7 +64,8 @@ spec:
          #  cpu: "1"
          #  memory: "1Gi"
         securityContext:
-          allowPrivilegeEscalation: true
+          allowPrivilegeEscalation: false
+#          readOnlyRootFilesystem: true
           runAsUser: 101 #nginx
           runAsNonRoot: true
           capabilities:
@@ -59,6 +73,15 @@ spec:
             - ALL
             add:
             - NET_BIND_SERVICE
+#        volumeMounts:
+#        - mountPath: /etc/nginx
+#          name: nginx-etc
+#        - mountPath: /var/cache/nginx
+#          name: nginx-cache
+#        - mountPath: /var/lib/nginx
+#          name: nginx-lib
+#        - mountPath: /var/log/nginx
+#          name: nginx-log
         env:
         - name: POD_NAMESPACE
           valueFrom:
@@ -75,15 +98,30 @@ spec:
           - -nginx-status-port=9000
           - -nginx-status-allow-cidrs=0.0.0.0/0
           - -enable-snippets
-         #- -include-year
+          - -report-ingress-status
+          - -external-service=nginx-ingress
          #- -enable-cert-manager
          #- -enable-external-dns
          #- -enable-app-protect
          #- -enable-app-protect-dos
          #- -v=3 # Enables extensive logging. Useful for troubleshooting.
-          - -report-ingress-status
-         #- -external-service=nginx-ingress
           - -enable-prometheus-metrics
           - -enable-latency-metrics
           - -enable-service-insight
          #- -global-configuration=$(POD_NAMESPACE)/nginx-configuration
+#      initContainers:
+#      - image: nginx/nginx-ingress:3.7.0
+#        imagePullPolicy: IfNotPresent
+#        name: init-nginx-ingress
+#        command: ['cp', '-vdR', '/etc/nginx/.', '/mnt/etc']
+#        securityContext:
+#          allowPrivilegeEscalation: false
+#          readOnlyRootFilesystem: true
+#          runAsUser: 101 #nginx
+#          runAsNonRoot: true
+#          capabilities:
+#            drop:
+#            - ALL
+#        volumeMounts:
+#        - mountPath: /mnt/etc
+#          name: nginx-etc

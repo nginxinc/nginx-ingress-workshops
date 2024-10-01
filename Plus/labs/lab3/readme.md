@@ -6,7 +6,7 @@ The NGINX Ingress Controller is already running in this Workshop. You will be co
 
 **Note:** Your Kubernetes cluster is running on a private lab network. We will be using a private IP for external access. In a public cloud environment, the `LoadBalancer` Service from a Cloud Provider would provide you with a routable public IP address.
 
-## Learning Objectives 
+## Learning Objectives
 
 - Test and verify the `LoadBalancer` Service
 - Test and verify access to the Ingress Controller using the external IP address.
@@ -16,7 +16,7 @@ The NGINX Ingress Controller is already running in this Workshop. You will be co
 1. Review this Workshop's network architecture diagram below. There are 3 important pieces of information needed for these exercises:
 
    - `LoadBalancer` Service
-   - An External IP address 
+   - An External IP address
    - The Kubernetes Cluster IP subnet, used to assign IPs to Pods, including the Ingress Controller
 
    ![Workshop Network Architecture](media/lab3_architecture.png)
@@ -32,10 +32,10 @@ The NGINX Ingress Controller is already running in this Workshop. You will be co
    ```bash
    kubectl get deployments,services -n nginx-ingress
    ```
-   
+
    You will see the two IP addresses for the Ingress Controller. Both of these IPs must exist for the `LoadBalancer` service to work correctly:
 
-   - **`EXTERNAL-IP`**: This is your external IP address 
+   - **`EXTERNAL-IP`**: This is your external IP address
    - **`CLUSTER-IP`**: This is your Kubernetes internal IP address
    <br/>
 
@@ -59,7 +59,7 @@ The NGINX Ingress Controller is already running in this Workshop. You will be co
 
    **NOTE:** 
 
-   - Your `Cluster-IP` address may be different based on your cluster. 
+   - Your `Cluster-IP` address and `NodePort` may be different based on your cluster.
    - Since this is a lab environment and not a public cloud environment, the `External-IP` address is contained within the lab and has no public access.
 
 ## Verify access to the Ingress Controller using the External IP
@@ -91,17 +91,17 @@ The NGINX Ingress Controller is already running in this Workshop. You will be co
    </p>
    </details>
 
-
 **This completes this Lab.**
 
+## References:
 
-## References:  
 - [NGINX NIC LoadBalancer for cloud
   providers](https://docs.nginx.com/nginx-ingress-controller/installation/installation-with-manifests/#get-access-to-the-ingress-controller)
 - [Kubernetes LoadBalancer Service
   Type](https://kubernetes.io/docs/concepts/services-networking/service/#loadbalancer)
 
 ### Authors
+
 - Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
 - Shouvik Dutta - Solutions Architect - Community and Alliances @ F5, Inc.
 

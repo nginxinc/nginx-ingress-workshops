@@ -1,4 +1,4 @@
-## Lab 6: HTTP Load Testing and Cafe Scaling
+# Lab 6: HTTP Load Testing and Cafe Scaling
 
 ## Introduction
 
@@ -14,7 +14,7 @@ In this lab, you will send some HTTP traffic to your Ingress Controller and Cafe
 
 ## HTTP Traffic Generation
 
-We will use a tool called [`wrk` ](https://github.com/wg/wrk) , runing in a docker container, to generate traffic to our Ingress.
+We will use a tool called [`wrk`](https://github.com/wg/wrk) , runing in a docker container, to generate traffic to our Ingress.
 
 1. Open a Terminal from the Ubuntu Desktop
 
@@ -25,14 +25,15 @@ We will use a tool called [`wrk` ](https://github.com/wg/wrk) , runing in a dock
     ```bash
     docker run --rm williamyeh/wrk -t4 -c200 -d20m -H 'Host: cafe.example.com' --timeout 2s https://10.1.1.100/coffee
     ```
+
     ```bash
     ###Sample Output###
     Running 20m test @ https://10.1.1.100/coffee
     ```
-    
+
     This will run the `wrk` load tool for **20 minutes**, with **200 connections**.  You can run this command again if you need additional time.
 
-2. Observe your NGINX Plus Dashboard - http://dashboard.example.com/dashboard.html
+1. Observe your NGINX Plus Dashboard - http://dashboard.example.com/dashboard.html
 
     ![Dashboard](media/dashboard.png)
 
@@ -58,6 +59,7 @@ Coffee Break Time !! Let's scale the Coffee `Deployment`. In anticipation of a s
     ```bash
     kubectl scale deployment coffee --replicas=8
     ```
+
     ```bash
     ###Sample Output###
     deployment.apps/coffee scaled
@@ -84,45 +86,45 @@ Coffee Break Time !! Let's scale the Coffee `Deployment`. In anticipation of a s
     ```
 
     - **Question:** Why are some pods faster or slower than others?
-    <details>
-      <summary>Click for Hints!</summary>
-      <br/>
-      <p>
-        <strong>Answer:</strong>  In case you didn't find it, <code>HTTP Response Time</code> is on the far right column of the Dashboard in <code>HTTP Upstreams</code>.</br></br> Some pods are slower than others, because there are other workloads running in the cluster, and you don't control where and when those other workloads are deployed, or how many resources they will consume among the pods.</br></br>This means not all pods are equal, leading to an imbalance of Response Times. <br/></br>Some users will connect to a fast pod, some will get stuck with a slow pod.
-      </p>
-    </details><br/>
+      <details>
+        <summary>Click for Hints!</summary>
+        <br/>
+        <p>
+          <strong>Answer:</strong>  In case you didn't find it, <code>HTTP Response Time</code> is on the far right column of the Dashboard in <code>HTTP Upstreams</code>.</br></br> Some pods are slower than others, because there are other workloads running in the cluster, and you don't control where and when those other workloads are deployed, or how many resources they will consume among the pods.</br></br>This means not all pods are equal, leading to an imbalance of Response Times. <br/></br>Some users will connect to a fast pod, some will get stuck with a slow pod.
+        </p>
+      </details><br/>
 
-4. After changing the algorithm, now look at the Dashboard `HTTP Upstream` metrics, you should see the **faster** pods taking more requests than the slower pods. 
+4. After changing the algorithm, now look at the Dashboard `HTTP Upstream` metrics, you should see the **faster** pods taking more requests than the slower pods.
 
     **Note:** Faster means lower `Response Time` in milliseconds.
-   
+  
    This is an important NGINX Plus feature. NGINX tracks each `pod`'s response time, and distributes more traffic to faster pods in the cluster.  
 
-    In today's Modern Application production workloads, it is important to send customers' requests to the most reliable and performant `pod` (server).  NGINX Plus's `LeastTime - LastByte` Load Balancing algorithm allows you to handle more total requests, and, it adjusts automatically as pod performance and conditions in the Kubernetes cluster change minute by minute. 
-    
-    > **This yields a better customer experience, essential for today's modern digital experience workloads.** 
+    In today's Modern Application production workloads, it is important to send customers' requests to the most reliable and performant `pod` (server).  NGINX Plus's `LeastTime - LastByte` Load Balancing algorithm allows you to handle more total requests, and, it adjusts automatically as pod performance and conditions in the Kubernetes cluster change minute by minute.
 
-    **NOTE**: the Response time differential must be `> 20ms` between the pods, for NGINX to consider some pods faster than others. 
+    > **This yields a better customer experience, essential for today's modern digital experience workloads.**
 
-5. Boss says Coffee rush is now over, so scale back the number of coffee pods to **three**. Run the following `kubectl scale ` command:
+    **NOTE**: the Response time differential must be `> 20ms` between the pods, for NGINX to consider some pods faster than others.
+
+5. Boss says Coffee rush is now over, so scale back the number of coffee pods to **three**. Run the following `kubectl scale` command:
 
     ```bash
     kubectl scale deployment coffee --replicas=3
     ```
 
-    Did you notice any errors in the NGINX Plus Dashboard while Kubernetes scaled up/down the pods? 
+    Did you notice any errors in the NGINX Plus Dashboard while Kubernetes scaled up/down the pods?
 
     ![Http Zones](media/lab6_http_zones.png)
 
-    When scaling down, NGINX will complete workloads before Kubernetes terminates a running `pod`, after all the responses in flight have finished processing on that` pod`, so there should not be any errors. When scaling up, NGINX also healthchecks new pods before sending any requests to them, to make sure they are ready to take requests.
+    When scaling down, NGINX will complete workloads before Kubernetes terminates a running `pod`, after all the responses in flight have finished processing on that `pod`, so there should not be any errors. When scaling up, NGINX also healthchecks new pods before sending any requests to them, to make sure they are ready to take requests.
 
-    Did you notice any errors when you asked NGINX to change its load balancing algorithm from round-robin to `Least-time Last-byte`? There should not have been any errors. The Dynamic Configuration Reload feature allows existing connections to finish their work, while allowing new connections to use the new configuration. 
-    
+    Did you notice any errors when you asked NGINX to change its load balancing algorithm from round-robin to `Least-time Last-byte`? There should not have been any errors. The Dynamic Configuration Reload feature allows existing connections to finish their work, while allowing new connections to use the new configuration.
+
     > This results in **no dropped connections during configuration changes.**
 
 <br>
 
-### Optional Lab Exercise 1: 
+### Optional Lab Exercise 1:
 
 Try the same scale up, then scale down commands for the Cafe **Tea** `Deployment`. Does NGINX also send more traffic to the faster Tea pods? Set the tea pods back to **three** replicas when you are finished.
 
@@ -134,7 +136,7 @@ Try the same scale up, then scale down commands for the Cafe **Tea** `Deployment
     docker run --rm williamyeh/wrk -t4 -c200 -d15m -H 'Host: cafe.example.com' --timeout 2s https://10.1.1.100/tea
     ```
 
-### Optional Lab Exercise 2: 
+### Optional Lab Exercise 2:
 
 1. You can change the load balancing algorithm back to round-robin if you like, and check out the differences. Apply the following manifest to make that change:
 
@@ -146,7 +148,7 @@ Try the same scale up, then scale down commands for the Cafe **Tea** `Deployment
 
 ## Host Based Routing
 
-**New business opportunity**: The boss got a business loan to open the Cafe as a Bar in the evening for beer and wine tasting! So you need to add Beer and Wine applications, and expose these using the NGINX Ingress Controller. 
+**New business opportunity**: The boss got a business loan to open the Cafe as a Bar in the evening for beer and wine tasting! So you need to add Beer and Wine applications, and expose these using the NGINX Ingress Controller.
 
 **Hurry up - it's almost Happy Hour!**
 
@@ -154,24 +156,25 @@ See the topological view of the new **beer** and **wine** applications
 
 ![Bar Diagram](media/lab6_bar_diagram.png)
 
-1. In the `lab6` folder, inspect the `bar.yaml` and `bar-virtualserver.yaml` manifest files. You will see that we are adding the required ` Deployment` and `Service`, and exposing them with `VirtualServer`, using a new hostname, `bar.example.com.`
+1. In the `lab6` folder, inspect the `bar.yaml` and `bar-virtualserver.yaml` manifest files. You will see that we are adding the required `Deployment` and `Service`, and exposing them with `VirtualServer`, using a new hostname, `bar.example.com.`
 
     ![Bar vs screenshot](media/lab6_bar_vs.png)
 
-1. Create the **beer** and **wine** ` Deployment` and `Service`, by applying the provided manifests. 
-   
+1. Create the **beer** and **wine** `Deployment` and `Service`, by applying the provided manifests.
+
     ```bash
     kubectl apply -f lab6/bar.yaml
     ```
 
 1. Create a new `VirtualServer` listening on the hostname, **`bar.example.com`**, with `/beer` and `/wine` URI paths to the new application deployments, by applying the `bar-virtualserver.yaml` file:
+
    ```bash
    kubectl apply -f lab6/bar-virtualserver.yaml
    ```
 
 1. Open two new Chrome web browser windows and browse to
    https://bar.example.com/beer and https://bar.example.com/wine.  
-   
+
    **Note:** You can once again safely proceed to this insecure site.
 
    Do the new `beer` and `wine` applications load as expected?
@@ -192,11 +195,11 @@ See the topological view of the new **beer** and **wine** applications
 
     You can see how easy it is to add new `Deployment` and `Service`, and then configure NGINX Plus Ingress Controller to create a new HTTP Host route, URI paths and route traffic to these new services and have access to these applications immediately. The NGINX Plus `VirtualServer` CRD's allow you to easily add new hosts and services.
 
-    This ability of self-service Host and Path based HTTP routing makes it easy to add and deploy new services, and NGINX Plus Ingress routes the traffic correctly **(and BTW - you didn't have to submit even one Ticket to IT and WAIT !!)**. 
-    
+    This ability of self-service Host and Path based HTTP routing makes it easy to add and deploy new services, and NGINX Plus Ingress routes the traffic correctly **(and BTW - you didn't have to submit even one Ticket to IT and WAIT !!)**.
+
     As you can see, this enables application/development teams to rapidly build, deploy, and expose new digital services for the business, without waiting for lengthy deployment/approval processes.
 
-**Bonus:** `Sneaky Pete!`  There was one additional `Happy Hour Drink Special` cocktail added by the boss's daughter.  Did you find it? 
+**Bonus:** `Sneaky Pete!`  There was one additional `Happy Hour Drink Special` cocktail added by the boss's daughter.  Did you find it?
 
   <details>
     <summary>Click for Answer!</summary>
@@ -210,7 +213,8 @@ You should also notice that Cafe is still running as before, adding the Bar serv
 
 **This completes this Lab.**
 
-## References: 
+## References:
+
 - [Least_time Algorithm](http://nginx.org/en/docs/http/ngx_http_upstream_module.html#least_time)
 - [Random Algorithm](http://nginx.org/en/docs/http/ngx_http_upstream_module.html#random)
 - [Dyanamic Reconfiguration with NGINX
@@ -218,6 +222,7 @@ You should also notice that Cafe is still running as before, adding the Bar serv
 - [Wrk Tool](https://github.com/wg/wrk)
 
 ### Authors
+
 - Chris Akker - Solutions Architect - Community and Alliances @ F5, Inc.
 - Shouvik Dutta - Solutions Architect - Community and Alliances @ F5, Inc.
 
