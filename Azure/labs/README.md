@@ -1,4 +1,4 @@
-![NGINX NIC](media/nicworkshop-banner.png)
+![NGINX NIC](/media/nginx-ingress-workshop-banner.png)
 
 <br/>
 

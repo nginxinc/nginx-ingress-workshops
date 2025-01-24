@@ -1,4 +1,4 @@
-![NGINX Ingress Workshop](media/nicworkshop-banner.png)
+![NGINX Ingress Workshop](/media/nginx-ingress-workshop-banner.png)
 
 <br/>
 

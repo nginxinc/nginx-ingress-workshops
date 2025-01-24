@@ -1,8 +1,5 @@
-![NGINX Ingress Workshop](media/nicworkshop-banner.png)
+![NGINX Ingress Workshop](media/nginx-ingress-workshop-banner.png)
 
-<br>
-
-## github.com/nginxinc/nginx_ingress_workshops
 <br>
 
 # Welcome to the Workshops for NGINX Ingress Controller!
@@ -95,7 +92,7 @@ The F5/NGINX hosted UDF lab environments are pre-built with all the components n
 
 <br>
 
-![Robot](media/robot.svg)
+<img src="media/robot.svg" width=25% height=25%>
 
 <br>
 

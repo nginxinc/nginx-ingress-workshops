@@ -1,4 +1,4 @@
-![Nginx Ingress Workshop](/media/nicworkshop-banner.png)
+![Nginx Ingress Workshop](/media/nginx-ingress-workshop-banner.png)
 
 # Starter K8s Dev Environment
 The purpose of this exercise is to offer a simple and easily accessible way to set up basic dev tools and a local Kubernetes cluster to allow a beginner
