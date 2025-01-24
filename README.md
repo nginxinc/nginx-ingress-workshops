@@ -1,3 +1,7 @@
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![Community Support](https://badgen.net/badge/support/community/cyan?icon=awesome)](https://github.com/nginxinc//nginx-ingress-workshops/blob/main/SUPPORT.md)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](https://github.com/nginxinc//nginx-ingress-workshops/blob/main/CODE_OF_CONDUCT.md)
+
 ![NGINX Ingress Workshop](media/nginx-ingress-workshop-banner.png)
 
 <br>
