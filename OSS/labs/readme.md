@@ -1,4 +1,4 @@
-![NGINX NIC Workshop](media/nicossworkshop-banner.png)
+![NGINX NIC Workshop](/media/nginx-ingress-workshop-banner.png)
 
 # NGINX Ingress Controller Workshop
 

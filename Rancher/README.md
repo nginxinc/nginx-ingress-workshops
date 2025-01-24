@@ -1,4 +1,4 @@
-![Nginx Ingress Workshop](/media/nicworkshop-banner.png)
+![Nginx Ingress Workshop](/media/nginx-ingress-workshop-banner.png)
 
 # NGINX & Rancher Environments
 This area of the repo is dedicated to technologies from our alliance partner Rancher Labs. Several environments have been created to support learning and experimentation with Both NGINX Inc. and Rancher technologies. The goal is to cast a wide net for folks who have a desire to learn using these two industry leaders and the technologies made available to the open source communities.
