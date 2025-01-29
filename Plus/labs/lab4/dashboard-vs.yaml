@@ -18,6 +18,8 @@ metadata:
   name: dashboard-vs
   namespace: nginx-ingress
 spec:
+  server-snippets: |
+    access_log off;
   host: dashboard.example.com
   upstreams:
   - name: dashboard
