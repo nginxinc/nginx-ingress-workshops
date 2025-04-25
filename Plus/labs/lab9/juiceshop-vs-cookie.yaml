@@ -20,7 +20,7 @@ spec:
       expires: 1m
       domain: .example.com
       httpOnly: false
-      secure: true
+      # secure: true
       samesite: strict
     slow-start: 5s
     healthCheck:
