@@ -63,7 +63,7 @@ VisualStudio Code  |  Kubernetes  |  NGINX Plus
 
 <br/>
 
-An excellent Prerequisite for taking this Workshop is the NGINX Basics Workshop, also available from F5 Inc., as it provides a fundamental basics of NGINX Plus, on which the NGINX Plus Ingress Controller is built.  Please contact your NGINX Event Marketing team for information on additional Workshops.
+An excellent Prerequisite for taking this Workshop is the NGINX Basics Workshop, also available from F5 Inc., as it provides a fundamental basics of NGINX Plus, on which the NGINX Plus Ingress Controller is built.  Please contact your NGINXperts Workshop team for information on additional Workshops.
 
 </br>
 
@@ -93,7 +93,7 @@ An excellent Prerequisite for taking this Workshop is the NGINX Basics Workshop,
 #### Lab 7: Scaling up/down the Cafe Application
 - [Lab 7: Scaling Cafe Ingress](lab7/readme.md)
 
-#### Lab 8: Monitoring KIC with Prometheus and Grafana
+#### Lab 8: Monitoring NIC with Prometheus and Grafana
 - [Lab 8: Prometheus and Grafana](lab8/readme.md)
 
 #### Lab 9: Retail App using Virtual Server / VSRoute
