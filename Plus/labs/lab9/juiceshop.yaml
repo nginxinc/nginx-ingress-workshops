@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: juiceshop
-        image: bkimminich/juice-shop
+        image: bkimminich/juice-shop:v17.3.0
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3000
