@@ -43,7 +43,7 @@ NGINX Plus provides many options for active health checking of pods and services
 1. Remove the running JuiceShop Virtual Server from the previous lab:
 
     ```bash
-    kubectl delete -f lab9/juiceshop-vs.yaml
+    kubectl delete -f lab9/juiceshop-vs-cookie.yaml
     ```
 
 1. Try the new Virtual Server with incorrect healthchecks enabled:
